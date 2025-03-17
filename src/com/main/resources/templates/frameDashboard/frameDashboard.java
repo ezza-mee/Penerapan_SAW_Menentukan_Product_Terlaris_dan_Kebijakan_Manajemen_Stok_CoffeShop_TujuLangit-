@@ -18,6 +18,7 @@ public class frameDashboard extends JFrame {
         setSize(1366, 768);
         setLocationRelativeTo(null);
         setUndecorated(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panelFrame.setBackground(color.LIGHTGRAY);
         panelFrame.setBounds(0, 0, 1366, 768);
@@ -39,11 +40,6 @@ public class frameDashboard extends JFrame {
                 setLocation(newX, newY);
             }
         });
-    }
-
-    public frameDashboard(String title) {
-        this();
-
     }
 
 }
