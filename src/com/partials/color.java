@@ -9,5 +9,5 @@ public class color {
     public static final Color WHITE = new Color(255, 255, 255);
     public static final Color RED = new Color(216, 64, 64);
     public static final Color LIGHTGREEN = new Color(233, 239, 236);
-    public static final Color LIGHTGRAY = new Color(172, 184, 179);
+    public static final Color LIGHTGRAY = new Color(218, 218, 218);
 }
