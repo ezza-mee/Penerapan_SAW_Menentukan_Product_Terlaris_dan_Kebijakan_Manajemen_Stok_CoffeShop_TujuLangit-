@@ -13,7 +13,7 @@ public class panelSidebar extends JPanel {
         setSize(240, 768);
         setLayout(null);
 
-        panelSidebar.setBackground(color.GREEN);
+        panelSidebar.setBackground(color.DARKGREEN);
         panelSidebar.setBounds(0, 0, 240, 768);
         panelSidebar.setLayout(null);
 
