@@ -1,5 +1,7 @@
 package com.partials;
 
-public class label {
+import javax.swing.JLabel;
+
+public class label extends JLabel{
     
 }
