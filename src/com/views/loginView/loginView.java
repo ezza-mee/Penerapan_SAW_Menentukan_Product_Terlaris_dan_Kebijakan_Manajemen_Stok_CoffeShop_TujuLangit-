@@ -1,11 +1,11 @@
 package com.views.loginView;
 
 import com.main.resources.templates.frameLogin.frameLogin;
-import com.main.resources.templates.panelContentApp.panelContent;
+import com.main.resources.templates.panelContentApp.panelLogin;
 
 public class loginView extends frameLogin {
 
-    public panelContent contentPanel = new panelContent();
+    public panelLogin panelLogin = new panelLogin();
 
     public loginView() {
         super();
@@ -14,15 +14,9 @@ public class loginView extends frameLogin {
 
     public void initsFrameLogin() {
 
-        contentPanel.add(contentPanel);
+        panelFrame.add(panelLogin);
 
         setVisible(true);
     }
 
-
-    public void configContent() {
-        contentPanel.setBounds(0,0,1126, 756);
-
-    }
-    
 }

@@ -13,8 +13,8 @@ public class panelLogin extends JPanel {
         setSize(1100, 700);
         setLayout(null);
 
-        loginPanel.setBackground(color.WHITE);
-        loginPanel.setBounds(0, 0, 1126, 70);
+        loginPanel.setBackground(color.GREEN);
+        loginPanel.setBounds(0, 0, 1126, 700);
         loginPanel.setLayout(null);
 
         add(loginPanel);
