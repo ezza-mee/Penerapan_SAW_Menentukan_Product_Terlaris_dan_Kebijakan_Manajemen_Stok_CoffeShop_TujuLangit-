@@ -2,6 +2,7 @@ package com.main;
 
 import com.main.resources.templates.frameDashboard.frameDashboard;
 import com.main.resources.templates.frameLogin.frameLogin;
+import com.main.resources.templates.framePopUp.framePopUp;
 import com.views.dasboardAdminView.dashboardAdminView;
 import com.views.dasboardStaffView.dashboardStaffView;
 
@@ -16,7 +17,10 @@ public class App {
         // dashboardAdminView testFrame = new dashboardAdminView();
         // testFrame.setVisible(true);
 
-        dashboardStaffView testFrame = new dashboardStaffView();
+        // dashboardStaffView testFrame = new dashboardStaffView();
+        // testFrame.setVisible(true);
+
+        framePopUp testFrame = new framePopUp();
         testFrame.setVisible(true);
 
     }
