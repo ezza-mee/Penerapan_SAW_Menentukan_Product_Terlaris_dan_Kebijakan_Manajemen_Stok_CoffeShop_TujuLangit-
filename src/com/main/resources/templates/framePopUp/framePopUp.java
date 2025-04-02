@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 import com.partials.*;
 
-public class framePopUp extends JFrame {
+public abstract class framePopUp extends JFrame {
 
     public int mouseX, mouseY;
 
