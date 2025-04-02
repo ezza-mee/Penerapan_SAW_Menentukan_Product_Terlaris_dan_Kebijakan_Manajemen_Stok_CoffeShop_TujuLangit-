@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 import com.partials.*;
 
-public class frameDashboard extends JFrame {
+public abstract class frameDashboard extends JFrame {
 
     private int mouseX, mouseY;
 

@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 import com.partials.*;
 
-public class frameLogin extends JFrame {
+public abstract class frameLogin extends JFrame {
 
     private int mouseX, mouseY;
 
