@@ -44,7 +44,7 @@ public class fontSize {
     public static final Font FONT_SIZE_37;
     public static final Font FONT_SIZE_38;
     public static final Font FONT_SIZE_39;
-    public static final Font FONT_SIZE_40;
+    public static final Font FONT_SIZE_80;
 
     static {
         FONT_SIZE_1 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 1);
@@ -86,7 +86,7 @@ public class fontSize {
         FONT_SIZE_37 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 37);
         FONT_SIZE_38 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 38);
         FONT_SIZE_39 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 39);
-        FONT_SIZE_40 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 40);
+        FONT_SIZE_80 = loadFont("src/com/main/resources/fonts/Poppins-Black.ttf", Font.PLAIN, 80);
     }
 
     private static Font loadFont(String path, int style, float size) {

@@ -1,10 +1,11 @@
 package com.views.loginView;
 
-import com.main.resources.templates.frameLogin.frameLogin;
+import com.main.resources.templates.frameApps.frameApps;
+import com.model.viewLoginApp;
 
-public class loginView extends frameLogin {
+public class loginView extends frameApps {
 
-
+    private viewLoginApp componentLoginApp = new viewLoginApp();
 
     public loginView() {
         super();
@@ -13,7 +14,7 @@ public class loginView extends frameLogin {
 
     public void initsFrameLogin() {
 
-
+        panelFrame.add(componentLoginApp);
 
         setVisible(true);
     }
