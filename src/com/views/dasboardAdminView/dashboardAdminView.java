@@ -1,9 +1,9 @@
 package com.views.dasboardAdminView;
 
-import com.main.resources.templates.frameDashboard.frameDashboard;
+import com.main.resources.templates.frameApps.frameApps;
 import com.main.resources.templates.panelContentApp.*;
 
-public class dashboardAdminView extends frameDashboard {
+public class dashboardAdminView extends frameApps {
 
     public panelContent contentPanel = new panelContent();
     public panelHeader headerPanel = new panelHeader();

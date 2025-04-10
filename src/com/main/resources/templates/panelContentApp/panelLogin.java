@@ -10,11 +10,11 @@ public abstract class panelLogin extends JPanel {
 
     public panelLogin() {
         super();
-        setSize(1100, 700);
+        setSize(1080, 720);
         setLayout(null);
 
-        panelLogin.setBackground(color.GREEN);
-        panelLogin.setBounds(0, 0, 1126, 700);
+        panelLogin.setBackground(color.WHITE);
+        panelLogin.setBounds(0, 0, 1080, 720);
         panelLogin.setLayout(null);
 
         add(panelLogin);

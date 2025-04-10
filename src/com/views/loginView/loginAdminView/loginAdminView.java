@@ -2,24 +2,19 @@ package com.views.loginView.loginAdminView;
 
 import com.main.resources.templates.panelContentApp.panelLogin;
 import com.model.viewLoginApp;
-import com.partials.*;
 
 public class loginAdminView extends panelLogin {
 
-    private viewLoginApp panelContent;
+    private viewLoginApp contentPanel;
 
-    private panelRounded panelRounded = new panelRounded(100, 100, 100, 100, 100, 100);
-
-    public loginAdminView(viewLoginApp panelContent) {
+    public loginAdminView(viewLoginApp contentPanel) {
         super();
-        this.panelContent = panelContent;
+        this.contentPanel = contentPanel;
         initsComponentLoginAdminView();
     }
-    
-    public void initsComponentLoginAdminView(){
 
-        panelLogin.add(panelRounded);
-
+    public void initsComponentLoginAdminView() {
+        // Tambahkan komponen login admin di sini
         setVisible(true);
     }
 }

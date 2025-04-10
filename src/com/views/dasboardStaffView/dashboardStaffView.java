@@ -1,10 +1,9 @@
 package com.views.dasboardStaffView;
 
-import com.main.resources.templates.frameDashboard.frameDashboard;
-
+import com.main.resources.templates.frameApps.frameApps;
 import com.main.resources.templates.panelContentApp.*;;
 
-public class dashboardStaffView extends frameDashboard {
+public class dashboardStaffView extends frameApps {
 
     public panelHeader headerPanel = new panelHeader();
     public panelSidebar sidebarPanel = new panelSidebar();

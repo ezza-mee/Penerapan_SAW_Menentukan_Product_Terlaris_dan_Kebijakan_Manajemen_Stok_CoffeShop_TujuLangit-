@@ -13,7 +13,6 @@ public class panelRounded extends JPanel {
                 this.leftRadius = leftRadius;
                 this.rightRadius = rightRadius;
                 setBounds(x, y, width, height);
-                setBackground(color.WHITE);
                 setOpaque(false);
                 setLayout(null);
         }
