@@ -126,6 +126,7 @@ public class loadingScreen extends panelLogin {
 
                 if (done) {
                     timer.stop();
+                    contentPanel.showLoginAdminView();
                 }
 
             }
