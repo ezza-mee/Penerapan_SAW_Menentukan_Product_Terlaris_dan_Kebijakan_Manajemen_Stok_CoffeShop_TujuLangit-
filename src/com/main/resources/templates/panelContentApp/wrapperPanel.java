@@ -1,30 +1,23 @@
 package com.main.resources.templates.panelContentApp;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-
 import javax.swing.JPanel;
 
 import com.partials.color;
 
 public class wrapperPanel extends JPanel {
 
-    public JPanel wrapperPanel;
+    public JPanel wrapperPanel = new JPanel();
 
     public wrapperPanel() {
-        setBackground(color.RED);
+        super();
         setSize(1080, 720);
         setLayout(null);
 
-        setLayout(new BorderLayout());
-        wrapperPanel = new JPanel(new CardLayout());
-        add(wrapperPanel, BorderLayout.CENTER);
-
+        wrapperPanel.setBounds(0, 0, 1080, 720);
+        wrapperPanel.setLayout(null);
         wrapperPanel.setBackground(color.RED);
-    }
 
-    public JPanel getWrapperPanel() {
-        return wrapperPanel;
+        add(wrapperPanel);
     }
 
 }

@@ -1,33 +1,28 @@
 package com.views;
 
-import java.awt.CardLayout;
-
-import com.layout.loginView.loadingScreen.loadingScreen;
-import com.layout.loginView.loginAdminView.loginAdminView;
+import com.components.loginView.loadingScreen.loadingScreen;
+import com.components.loginView.loginAdminView.loginAdminView;
 import com.main.resources.templates.panelContentApp.wrapperPanel;
 
 public class viewLoginApp extends wrapperPanel {
 
-    private loadingScreen componentLoadingScreenView = new loadingScreen();
     private loginAdminView componentLoginAdminView = new loginAdminView();
-
-    private CardLayout cardLayout;
+    private loadingScreen componentLoadingScreenView;
 
     public viewLoginApp() {
         super();
+        componentLoadingScreenView = new loadingScreen(this);
+
         initsConfigLayoutScreen();
     }
 
     public void initsConfigLayoutScreen() {
-        cardLayout = (CardLayout) getWrapperPanel().getLayout();
 
-        getWrapperPanel().add(componentLoadingScreenView, "loading");
-        getWrapperPanel().add(componentLoginAdminView, "login");
-
-        showLoadingScreenView();
+        wrapperPanel.add(componentLoadingScreenView);
     }
 
-    public void showLoadingScreenView() {
-        cardLayout.show(getWrapperPanel(), "loading");
+    public void showLoginAdminView() {
+        wrapperPanel.add(componentLoginAdminView);
     }
+
 }
