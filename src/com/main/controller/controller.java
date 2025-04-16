@@ -1,6 +1,6 @@
 package com.main.controller;
 
-import com.layout.loginView.loginView;
+import com.components.loginView.loginView;
 
 public class controller {
 

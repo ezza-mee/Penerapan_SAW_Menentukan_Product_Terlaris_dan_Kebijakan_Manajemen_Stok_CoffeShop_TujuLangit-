@@ -6,18 +6,19 @@ import com.partials.color;
 
 public abstract class loginPanel extends JPanel {
 
-    public JPanel panelLogin = new JPanel();
+    public JPanel loginPanel = new JPanel();
 
     public loginPanel() {
         super();
         setSize(1080, 720);
+        setOpaque(false);
         setLayout(null);
 
-        panelLogin.setBackground(color.WHITE);
-        panelLogin.setBounds(0, 0, 1080, 720);
-        panelLogin.setLayout(null);
+        loginPanel.setBackground(color.GREEN);
+        loginPanel.setBounds(0, 0, 1080, 720);
+        loginPanel.setLayout(null);
 
-        add(panelLogin);
+        add(loginPanel);
     }
 
 }
