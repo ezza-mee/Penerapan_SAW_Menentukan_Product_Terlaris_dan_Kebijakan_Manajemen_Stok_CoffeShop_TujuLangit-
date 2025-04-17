@@ -1,28 +1,28 @@
 package com.views;
 
-import com.components.loginView.loadingScreen.loadingScreen;
-import com.components.loginView.loginAdminView.loginAdminView;
+import com.components.login.loadingScreen.loadingScreen;
+import com.components.login.loginAdmin.loginAdmin;
 import com.main.resources.templates.panelContentApp.wrapperPanel;
 
 public class viewLoginApp extends wrapperPanel {
 
-    private loginAdminView componentLoginAdminView = new loginAdminView();
+    private loginAdmin componentLoginAdminView = new loginAdmin();
     private loadingScreen componentLoadingScreenView;
 
     public viewLoginApp() {
         super();
         componentLoadingScreenView = new loadingScreen(this);
 
-        initsConfigLayoutScreen();
+        showLoginAdminView();
     }
 
     public void initsConfigLayoutScreen() {
 
-        wrapperPanel.add(componentLoadingScreenView);
     }
 
     public void showLoginAdminView() {
         wrapperPanel.add(componentLoginAdminView);
+        setVisible(true);
     }
 
 }
