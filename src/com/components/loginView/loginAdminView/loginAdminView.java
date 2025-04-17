@@ -9,8 +9,10 @@ import com.views.viewLoginApp;
 public class loginAdminView extends loginPanel {
 
     private panelRounded containerPanel;
-
-    private textLabel testText = new textLabel("Test Text", 0, 0, 1080, 720);
+    private panelRounded cardPanel;
+    private panelRounded shapeOne;
+    private panelRounded shapeTwo;
+    private panelRounded shapeThree;
 
     public loginAdminView() {
         super();
@@ -22,6 +24,7 @@ public class loginAdminView extends loginPanel {
     public void initsComponentLoginAdminView() {
 
         containerPanel = new panelRounded(0, 0, 1080, 720, 0, 0);
+        cardPanel = new panelRounded(0, 0, 500, 500, 0, 0);
 
         loginPanel.add(containerPanel);
 
