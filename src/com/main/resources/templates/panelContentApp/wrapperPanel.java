@@ -10,12 +10,12 @@ public class wrapperPanel extends JPanel {
 
     public wrapperPanel() {
         super();
+        setOpaque(false);
         setSize(1080, 720);
         setLayout(null);
 
         wrapperPanel.setBounds(0, 0, 1080, 720);
         wrapperPanel.setLayout(null);
-        wrapperPanel.setBackground(color.RED);
 
         add(wrapperPanel);
     }

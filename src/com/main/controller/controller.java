@@ -1,10 +1,10 @@
 package com.main.controller;
 
-import com.components.loginView.loginView;
+import com.components.login.parentLogin;
 
 public class controller {
 
-    private static loginView frameLogin = new loginView();
+    private static parentLogin frameLogin = new parentLogin();
 
     public static void showLogin() {
         frameLogin.initsFrameLogin();
