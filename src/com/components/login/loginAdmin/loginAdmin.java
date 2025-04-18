@@ -25,7 +25,7 @@ public class loginAdmin extends containerPanel {
     private textLabel emptyPasswordLabel;
 
     private textField usernameField;
-    private textField passwordField;
+    private passwordField passwordField;
 
     private button buttonLogin;
 
@@ -47,7 +47,7 @@ public class loginAdmin extends containerPanel {
         passwordLabel = new textLabel("Password", 120, 230, 200, 40);
 
         usernameField = new textField(80, 170, 300, 10);
-        passwordField = new textField(80, 270, 300, 10);
+        passwordField = new passwordField(80, 270, 300, 10);
 
         buttonLogin = new button("Login", 85, 360, 300, 40, 15);
 
