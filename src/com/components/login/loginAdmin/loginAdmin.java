@@ -45,6 +45,8 @@ public class loginAdmin extends containerPanel {
         headerLabel = new textLabel("Sign In", 0, 10, 450, 60);
         usernameLabel = new textLabel("Username", 120, 130, 200, 40);
         passwordLabel = new textLabel("Password", 120, 230, 200, 40);
+        incorrectUsernameLabel = new textLabel("Username is Incorret!", 80, 210, 300, 10);
+        incorrectPasswordLabel = new textLabel("Password is Incorret!", 80, 310, 300, 10);
 
         usernameField = new textField(80, 170, 300, 10);
         passwordField = new passwordField(80, 270, 300, 10);
@@ -60,6 +62,8 @@ public class loginAdmin extends containerPanel {
         cardPanel.add(lineShape);
         cardPanel.add(usernameLabel);
         cardPanel.add(passwordLabel);
+        cardPanel.add(incorrectUsernameLabel);
+        cardPanel.add(incorrectPasswordLabel);
         cardPanel.add(usernameField);
         cardPanel.add(passwordField);
         cardPanel.add(buttonLogin);
@@ -82,12 +86,16 @@ public class loginAdmin extends containerPanel {
         headerLabel.setForeground(color.BLACK);
         usernameLabel.setForeground(color.BLACK);
         passwordLabel.setForeground(color.BLACK);
+        incorrectUsernameLabel.setForeground(color.RED);
+        incorrectPasswordLabel.setForeground(color.RED);
     }
 
     private void setFontComponent() {
         headerLabel.setFont(fontSize.FONT_SIZE_30);
         usernameLabel.setFont(fontSize.FONT_SIZE_16);
         passwordLabel.setFont(fontSize.FONT_SIZE_16);
+        incorrectUsernameLabel.setFont(fontSize.FONT_SIZE_10);
+        incorrectPasswordLabel.setFont(fontSize.FONT_SIZE_10);
 
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
     }
