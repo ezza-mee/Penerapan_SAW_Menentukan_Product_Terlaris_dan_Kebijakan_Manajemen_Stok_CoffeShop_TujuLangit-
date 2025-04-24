@@ -29,6 +29,8 @@ public class loginAdmin extends containerPanel {
 
     private button buttonLogin;
 
+    private linkLabel labelLink;
+
     public loginAdmin() {
         super();
         initsComponentLoginAdminView();
@@ -36,7 +38,7 @@ public class loginAdmin extends containerPanel {
 
     public void initsComponentLoginAdminView() {
         wrapperPanel = new panelRounded(0, 0, 1080, 720, 0, 0);
-        cardPanel = new panelRounded(100, 120, 450, 500, 0, 0);
+        cardPanel = new panelRounded(90, 120, 450, 500, 0, 0);
         shapeOne = new panelRounded(700, -40, 380, 800, 400, 0);
         shapeTwo = new panelRounded(630, -40, 450, 800, 400, 0);
         shapeThree = new panelRounded(550, -40, 600, 800, 400, 0);
@@ -47,6 +49,7 @@ public class loginAdmin extends containerPanel {
         passwordLabel = new textLabel("Password", 120, 230, 200, 40);
         incorrectUsernameLabel = new textLabel("Username is Incorret!", 80, 210, 300, 10);
         incorrectPasswordLabel = new textLabel("Password is Incorret!", 80, 310, 300, 10);
+        labelLink = new linkLabel("Login Staff", 198, 440, 80);
 
         usernameField = new textField(80, 170, 300, 10);
         passwordField = new passwordField(80, 270, 300, 10);
@@ -67,6 +70,7 @@ public class loginAdmin extends containerPanel {
         cardPanel.add(usernameField);
         cardPanel.add(passwordField);
         cardPanel.add(buttonLogin);
+        cardPanel.add(labelLink);
 
         containerPanel.add(wrapperPanel);
 
@@ -77,11 +81,12 @@ public class loginAdmin extends containerPanel {
     }
 
     private void setColorComponenet() {
-        cardPanel.setBackground(color.DARKGREEN);
+        cardPanel.setOpaque(false);
         shapeOne.setBackground(color.DARKGREEN);
         shapeTwo.setBackground(color.GREEN);
         shapeThree.setBackground(color.GREENLIGHT);
-        containerPanel.setBackground(Color.GREEN);
+        containerPanel.setBackground(color.GREEN);
+        lineShape.setBackground(color.DARKGREEN);
 
         headerLabel.setForeground(color.BLACK);
         usernameLabel.setForeground(color.BLACK);
