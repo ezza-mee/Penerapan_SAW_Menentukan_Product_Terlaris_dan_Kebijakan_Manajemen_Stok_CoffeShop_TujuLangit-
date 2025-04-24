@@ -16,20 +16,19 @@ public class button extends JButton {
     private imageIcon icon;
 
     public button(String text, int x, int y, int width, int height, int radius) {
-        super(text); 
+        super(text);
         this.radius = radius;
 
         setFont(fontSize.FONT_SIZE_16);
         setBounds(x, y, width, height);
-        setBackground(color.GREEN);
+        setBackground(color.DARKGREEN);
         setForeground(color.WHITE);
         setBorder(new EmptyBorder(10, 20, 10, 20));
         setFocusPainted(false);
-        setContentAreaFilled(false); 
-        setOpaque(false); 
+        setContentAreaFilled(false);
 
         originalBackground = getBackground();
-        hoverBackground = color.GREEN.darker();
+        hoverBackground = color.GREEN;
         pressedBackground = color.GREENLIGHT.darker().darker();
 
         addMouseListener(new MouseAdapter() {
@@ -77,7 +76,7 @@ public class button extends JButton {
             int iconX = 10;
             int iconY = (getHeight() - icon.getHeight()) / 2;
             g2.drawImage(((ImageIcon) icon.getIcon()).getImage(), iconX, iconY, this);
-            setIconTextGap(icon.getWidth() + 10); 
+            setIconTextGap(icon.getWidth() + 10);
             setHorizontalTextPosition(SwingConstants.RIGHT);
         }
 
