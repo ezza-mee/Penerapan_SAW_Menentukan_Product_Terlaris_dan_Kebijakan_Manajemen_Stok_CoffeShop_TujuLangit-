@@ -17,7 +17,7 @@ public class viewLoginApp extends wrapperPanel {
     }
 
     public void initsConfigLayoutScreen() {
-
+        
     }
 
     public void showLoginAdminView() {
