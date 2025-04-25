@@ -7,6 +7,8 @@ public class URLImage {
             25);
     public imageIcon showPasswordIcon = new imageIcon("src/com/main/resources/images/showPassword(green).png", 0, 0, 25,
             25);
+    public imageIcon exitAppsIcon = new imageIcon("src/com/main/resources/images/exit(green).png", 0, 0, 30, 30);
+    public imageIcon iconExitApps = new imageIcon("src/com/main/resources/images/iconExit(red).png", 0, 0, 40, 40);
 
     public imageIcon getUsernameIcon() {
         return usernameIcon;
@@ -20,7 +22,15 @@ public class URLImage {
         return hidePasswordIcon;
     }
 
-    public imageIcon getShowPasswordIcon(){
+    public imageIcon getShowPasswordIcon() {
         return showPasswordIcon;
+    }
+
+    public imageIcon getExitIcon() {
+        return exitAppsIcon;
+    }
+
+    public imageIcon getIconExit() {
+        return iconExitApps;
     }
 }

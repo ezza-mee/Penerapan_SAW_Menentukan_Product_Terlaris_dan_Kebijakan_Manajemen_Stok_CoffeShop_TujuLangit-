@@ -15,14 +15,14 @@ public abstract class framePopUp extends JFrame {
 
     public framePopUp() {
         super();
-        setSize(300, 180);
+        setSize(300, 200);
         setLayout(null);
         setUndecorated(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         popUpPanel.setBackground(color.LIGHTGRAY);
-        popUpPanel.setBounds(0,0,150, 300);
+        popUpPanel.setBounds(0, 0, 300, 200);
         popUpPanel.setLayout(null);
 
         add(popUpPanel);

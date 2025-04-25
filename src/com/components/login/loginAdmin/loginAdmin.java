@@ -1,6 +1,5 @@
 package com.components.login.loginAdmin;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -128,13 +127,12 @@ public class loginAdmin extends containerPanel {
     private void handelShowIconPassword() {
         final boolean[] isPasswordVisible = { false };
 
-        // Tambahkan dua ikon, tapi satu disembunyikan
         cardPanel.add(imageIcon.getHidePasswordIcon());
         cardPanel.add(imageIcon.getShowPasswordIcon());
 
         imageIcon.getHidePasswordIcon().setBounds(345, 273, 25, 25);
         imageIcon.getShowPasswordIcon().setBounds(345, 273, 25, 25);
-        imageIcon.getShowPasswordIcon().setVisible(false); // default disembunyikan
+        imageIcon.getShowPasswordIcon().setVisible(false); 
 
         imageIcon.getHidePasswordIcon().addMouseListener(new MouseAdapter() {
             @Override
@@ -170,5 +168,7 @@ public class loginAdmin extends containerPanel {
             }
         });
     }
+
+    
 
 }
