@@ -1,6 +1,5 @@
 package com.main;
 
-import com.components.popUp.popUpExit.parentPopUpExit;
 import com.main.controller.controller;
 
 public class App {
@@ -8,10 +7,10 @@ public class App {
         // frameDashboard testFrame = new frameDashboard();
         // testFrame.setVisible(true);
 
-        parentPopUpExit testPopUp = new parentPopUpExit();
-        testPopUp.setVisible(true);
+        // parentPopUpExit testPopUp = new parentPopUpExit();
+        // testPopUp.setVisible(true);
 
-        // controller.showLogin();
+        controller.showLogin();
 
     }
 }

@@ -7,7 +7,7 @@ public class URLImage {
             25);
     public imageIcon showPasswordIcon = new imageIcon("src/com/main/resources/images/showPassword(green).png", 0, 0, 25,
             25);
-    public imageIcon exitAppsIcon = new imageIcon("src/com/main/resources/images/exit(green).png", 0, 0, 30, 30);
+    public imageIcon exitAppsIcon = new imageIcon("src/com/main/resources/images/exit(white).png", 0, 0, 30, 30);
     public imageIcon iconExitApps = new imageIcon("src/com/main/resources/images/iconExit(red).png", 0, 0, 40, 40);
 
     public imageIcon getUsernameIcon() {

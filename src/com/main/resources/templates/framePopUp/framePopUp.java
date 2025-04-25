@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 
 import com.partials.*;
 
@@ -20,8 +21,9 @@ public abstract class framePopUp extends JFrame {
         setUndecorated(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setShape(new RoundRectangle2D.Double(0,0,300, 200, 20, 20));
 
-        popUpPanel.setBackground(color.LIGHTGRAY);
+        popUpPanel.setBackground(color.LIGHTGREY);
         popUpPanel.setBounds(0, 0, 300, 200);
         popUpPanel.setLayout(null);
 

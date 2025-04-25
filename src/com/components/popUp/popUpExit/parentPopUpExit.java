@@ -1,11 +1,11 @@
 package com.components.popUp.popUpExit;
 
 import com.main.resources.templates.framePopUp.framePopUp;
-import com.partials.*;
+
 
 public class parentPopUpExit extends framePopUp {
 
-   private popUpExit componentPopUpExit = new popUpExit();
+   private popUpExit componentPopUpExit = new popUpExit(this);
 
     public parentPopUpExit() {
         super();
@@ -13,10 +13,7 @@ public class parentPopUpExit extends framePopUp {
     }
 
     private void initsPopUpExit() {
-
         popUpPanel.add(componentPopUpExit);
-
-        setVisible(true);
     }
 
 }

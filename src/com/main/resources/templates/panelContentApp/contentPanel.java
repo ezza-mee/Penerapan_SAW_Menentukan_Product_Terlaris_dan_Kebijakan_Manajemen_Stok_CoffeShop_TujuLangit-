@@ -13,7 +13,7 @@ public class contentPanel extends JPanel {
         setSize(1126, 698);
         setLayout(null);
 
-        panelContent.setBackground(color.LIGHTGRAY);
+        panelContent.setBackground(color.LIGHTGREY);
         panelContent.setBounds(0, 0, 1126, 698);
         panelContent.setLayout(null);
 

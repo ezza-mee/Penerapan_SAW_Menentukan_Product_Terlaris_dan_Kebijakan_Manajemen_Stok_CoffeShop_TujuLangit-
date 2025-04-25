@@ -1,5 +1,8 @@
 package com.components.popUp.popUpExit;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JLabel;
 
 import com.main.resources.templates.panelContentApp.popUpPanel;
@@ -15,14 +18,19 @@ public class popUpExit extends popUpPanel {
 
     private URLImage imageIcon = new URLImage();
 
-    public popUpExit() {
+    private parentPopUpExit parentPopUpExit;
+
+    public popUpExit(parentPopUpExit parentPopUpExit) {
         super();
+        this.parentPopUpExit = parentPopUpExit;
         initsComponentPopUpExit();
     }
 
     private void initsComponentPopUpExit() {
         setPositionComponent();
         setFontComponent();
+        setColorComponent();
+        handelExitApps();
 
         popUpPanel.add(exitAppLabel);
         popUpPanel.add(confirmLabel);
@@ -36,7 +44,7 @@ public class popUpExit extends popUpPanel {
     }
 
     private void setPositionComponent() {
-        exitAppLabel = new textLabel("Exit Apps", 0, 35, 300, 100);
+        exitAppLabel = new textLabel("<html><body><h2><b>Exit Apps</b></h2></body></html>", 0, 35, 300, 100);
         confirmLabel = new textLabel(
                 "<html><body style='text-align: center;'>Are your sure you want to exit the application?</body></html>",
                 0, 70, 300, 100);
@@ -47,7 +55,17 @@ public class popUpExit extends popUpPanel {
     }
 
     private void setColorComponent() {
+        buttonCancel.setOriginalBackground(color.LIGHTGREY);
+        buttonCancel.setHoverBackground(color.DARKGREY);
+        buttonCancel.setPressedBackground(color.LIGHTGREY);
+        buttonCancel.setBackground(color.LIGHTGREY);
 
+        buttonExit.setOriginalBackground(color.RED);
+        buttonExit.setHoverBackground(color.DARKRED);
+        buttonExit.setPressedBackground(color.RED);
+        buttonExit.setBackground(color.RED);
+
+        buttonCancel.setForeground(color.BLACK);
     }
 
     private void setFontComponent() {
@@ -57,5 +75,27 @@ public class popUpExit extends popUpPanel {
         exitAppLabel.setHorizontalAlignment(JLabel.CENTER);
 
     }
+
+    public void handelExitApps(){
+        buttonExit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+            }
+        });
+
+        buttonCancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                parentPopUpExit.dispose();
+            }
+        });
+
+    }
+    
+    // private void hidePopUpExit() {
+    //     parentPopUpExit parentPopUpExit = new parentPopUpExit();
+    //     parentPopUpExit.dispose();
+    // }
 
 }
