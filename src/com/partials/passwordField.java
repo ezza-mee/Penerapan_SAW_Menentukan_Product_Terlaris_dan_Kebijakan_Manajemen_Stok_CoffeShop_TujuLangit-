@@ -11,7 +11,8 @@ public class passwordField extends JPasswordField {
         super();
         this.radius = radius;
         setBounds(x, y, width, 30);
-        setFont(fontSize.FONT_SIZE_12);
+        setFont(fontSize.FONT_SIZE_14);
+        setEchoChar('•');
         setForeground(color.BLACK);
         setOpaque(false);
         setBorder(new EmptyBorder(5, 10, 5, 10));
