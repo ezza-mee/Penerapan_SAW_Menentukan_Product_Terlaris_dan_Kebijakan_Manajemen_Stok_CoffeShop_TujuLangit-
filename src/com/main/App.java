@@ -7,6 +7,9 @@ public class App {
         // frameDashboard testFrame = new frameDashboard();
         // testFrame.setVisible(true);
 
+        // parentPopUpExit testPopUp = new parentPopUpExit();
+        // testPopUp.setVisible(true);
+
         controller.showLogin();
 
     }

@@ -1,12 +1,15 @@
 package com.components.login.loginAdmin;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 
+import com.components.login.parentLogin;
+import com.components.popUp.popUpExit.parentPopUpExit;
+import com.components.popUp.popUpExit.popUpExit;
+import com.main.resources.templates.frameApps.frameApps;
 import com.main.resources.templates.panelContentApp.containerPanel;
 import com.partials.*;
 
@@ -36,6 +39,8 @@ public class loginAdmin extends containerPanel {
 
     private URLImage imageIcon = new URLImage();
 
+    private parentPopUpExit parentPopUpExit = new parentPopUpExit();
+
     public loginAdmin() {
         super();
         initsComponentLoginAdminView();
@@ -46,6 +51,9 @@ public class loginAdmin extends containerPanel {
         setColorComponenet();
         setFontComponent();
         handelShowIconPassword();
+        handelExitApps();
+
+        containerPanel.add(imageIcon.getExitIcon());
 
         cardPanel.add(imageIcon.getUsernameIcon());
         cardPanel.add(imageIcon.getPasswordIcon());
@@ -97,6 +105,7 @@ public class loginAdmin extends containerPanel {
         imageIcon.getPasswordIcon().setBounds(85, 235, 25, 25);
         imageIcon.getShowPasswordIcon().setBounds(345, 273, 25, 25);
         imageIcon.getHidePasswordIcon().setBounds(345, 273, 25, 25);
+        imageIcon.getExitIcon().setBounds(1005, 30, 40, 40);
 
     }
 
@@ -128,19 +137,18 @@ public class loginAdmin extends containerPanel {
     private void handelShowIconPassword() {
         final boolean[] isPasswordVisible = { false };
 
-        // Tambahkan dua ikon, tapi satu disembunyikan
         cardPanel.add(imageIcon.getHidePasswordIcon());
         cardPanel.add(imageIcon.getShowPasswordIcon());
 
         imageIcon.getHidePasswordIcon().setBounds(345, 273, 25, 25);
         imageIcon.getShowPasswordIcon().setBounds(345, 273, 25, 25);
-        imageIcon.getShowPasswordIcon().setVisible(false); // default disembunyikan
+        imageIcon.getShowPasswordIcon().setVisible(false);
 
         imageIcon.getHidePasswordIcon().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 isPasswordVisible[0] = true;
-                passwordField.setEchoChar((char) 0); 
+                passwordField.setEchoChar((char) 0);
                 passwordField.setFont(fontSize.FONT_SIZE_12);
 
                 imageIcon.getHidePasswordIcon().setVisible(false);
@@ -169,6 +177,23 @@ public class loginAdmin extends containerPanel {
                 imageIcon.getShowPasswordIcon().setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
+    }
+
+    private void handelExitApps() {
+        imageIcon.getExitIcon().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showPopUpExit();
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                imageIcon.getExitIcon().setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+        });
+    }
+
+    private void showPopUpExit() {
+        parentPopUpExit.setVisible(true);
     }
 
 }
