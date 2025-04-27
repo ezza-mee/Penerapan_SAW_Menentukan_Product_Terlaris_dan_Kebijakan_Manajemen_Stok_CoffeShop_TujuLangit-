@@ -10,12 +10,12 @@ public abstract class containerPanel extends JPanel {
 
     public containerPanel() {
         super();
-        setSize(1080, 720);
+        setSize(1366, 768);
         setOpaque(false);
         setLayout(null);
 
         containerPanel.setBackground(color.GREEN);
-        containerPanel.setBounds(0, 0, 1080, 720);
+        containerPanel.setBounds(0, 0, 1366, 768);
         containerPanel.setLayout(null);
 
         add(containerPanel);

@@ -1,15 +1,14 @@
 package com.main.controller;
 
-import com.components.login.parentLogin;
+import com.views.parentApps;
 
 public class controller {
 
-    private static parentLogin frameLogin = new parentLogin();
+    private static parentApps frameLogin = new parentApps();
 
     public static void showLogin() {
         frameLogin.initsFrameLogin();
         frameLogin.setVisible(true);
     }
-
 
 }
