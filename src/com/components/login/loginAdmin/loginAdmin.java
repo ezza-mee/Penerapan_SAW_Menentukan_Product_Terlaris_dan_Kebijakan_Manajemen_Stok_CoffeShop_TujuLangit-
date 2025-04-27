@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import com.components.popUp.popUpExit.parentPopUpExit;
 import com.main.resources.templates.panelContentApp.containerPanel;
 import com.partials.*;
+import com.views.parentApps;
 import com.views.viewLoginApp;
 
 public class loginAdmin extends containerPanel {
@@ -39,10 +40,22 @@ public class loginAdmin extends containerPanel {
 
     private viewLoginApp parentPanel;
 
-    public loginAdmin(viewLoginApp parentPanel) {
+    private parentApps parentApps;
+
+    public loginAdmin(viewLoginApp parentPanel, parentApps parentApps) {
         super();
         this.parentPanel = parentPanel;
+        this.parentApps = parentApps;
         initsComponentLoginAdminView();
+    }
+
+    private void refreshContent() {
+        try {
+            cardPanel.revalidate();
+            cardPanel.repaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initsComponentLoginAdminView() {
@@ -94,8 +107,8 @@ public class loginAdmin extends containerPanel {
         headerLabel = new textLabel("Sign In", 0, 10, 450, 60);
         usernameLabel = new textLabel("Username", 120, 130, 200, 40);
         passwordLabel = new textLabel("Password", 120, 230, 200, 40);
-        warningUsernameLabel = new textLabel("Username is Incorret!", 80, 210, 300, 10);
-        warningPasswordLabel = new textLabel("Password is Incorret!", 80, 310, 300, 10);
+        warningUsernameLabel = new textLabel("Username is Empty!", 80, 210, 300, 10);
+        warningPasswordLabel = new textLabel("Password is Empty!", 80, 310, 300, 10);
         labelLink = new linkLabel("Login Staff", 198, 440, 80);
 
         usernameField = new textField(80, 170, 300, 10);
@@ -209,21 +222,53 @@ public class loginAdmin extends containerPanel {
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                String userName = usernameField.getText();
-                String password = String.valueOf(passwordField.getPassword());
+                String userName = usernameField.getText().trim();
+                String password = String.valueOf(passwordField.getPassword()).trim();
 
-                if (usernameField.getText().equalsIgnoreCase("")
-                        || String.valueOf(passwordField.getPassword()).equalsIgnoreCase("")) {
-                    if (usernameField.getText().equals("")) {
+                try {
+                    cardPanel.remove(warningUsernameLabel);
+                    cardPanel.remove(warningPasswordLabel);
+
+                    boolean isEmpty = false;
+
+                    if (userName.isEmpty()) {
                         cardPanel.add(warningUsernameLabel);
+                        isEmpty = true;
                     }
-                    if (String.valueOf(passwordField.getPassword()).equalsIgnoreCase("")) {
+                    if (password.isEmpty()) {
+                        cardPanel.add(warningPasswordLabel);
+                        isEmpty = true;
+                    }
 
+                    if (!isEmpty) {
+                        cardPanel.remove(warningUsernameLabel);
+                        cardPanel.remove(warningPasswordLabel);
+                        if (userName.equals("admin") && password.equals("admin")) {
+                            cardPanel.remove(warningUsernameLabel);
+                            cardPanel.remove(warningPasswordLabel);
+                            usernameField.setText(null);
+                            passwordField.setText(null);
+                            parentPanel.showDashboardAdmin();
+                        } else {
+                            if (!userName.equals("admin")) {
+                                warningUsernameLabel.setText("Username is Incorect");
+                                cardPanel.add(warningUsernameLabel);
+                            }
+                            if (!password.equals("admin")) {
+                                warningPasswordLabel.setText("Password is Incorect");
+                                cardPanel.add(warningPasswordLabel);
+                            }
+                        }
                     }
+
+                    refreshContent();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
         });
+
     }
 
     public textField getUsenameField() {

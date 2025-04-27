@@ -1,9 +1,8 @@
 package com.components.dasboardAdmin;
 
-import com.main.resources.templates.frameApps.frameApps;
 import com.main.resources.templates.panelContentApp.*;
 
-public class dashboardAdminView extends frameApps {
+public class dashboardAdminView extends containerPanel {
 
     public contentPanel contentPanel = new contentPanel();
     public headerPanel headerPanel = new headerPanel();
@@ -17,9 +16,9 @@ public class dashboardAdminView extends frameApps {
     public void initsDashboardAdmin() {
         configPanel();
 
-        panelFrame.add(contentPanel);
-        panelFrame.add(headerPanel);
-        panelFrame.add(sidebarPanel);
+        containerPanel.add(contentPanel);
+        containerPanel.add(headerPanel);
+        containerPanel.add(sidebarPanel);
 
         setVisible(true);
     }

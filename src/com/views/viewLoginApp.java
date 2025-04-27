@@ -1,17 +1,23 @@
 package com.views;
 
-import com.components.login.loadingScreen.loadingScreen;
+import com.components.dasboardAdmin.dashboardAdminView;
 import com.components.login.loginAdmin.loginAdmin;
 import com.components.login.loginStaff.loginStaff;
 import com.main.resources.templates.panelContentApp.wrapperPanel;
 
 public class viewLoginApp extends wrapperPanel {
 
-    private loginAdmin componentLoginAdminView = new loginAdmin(this);
+    private loginAdmin componentLoginAdminView;
     private loginStaff componentLoginStaffView = new loginStaff(this);
 
-    public viewLoginApp() {
+    private dashboardAdminView componentDashboardAdminView = new dashboardAdminView();
+
+    private parentApps parentApps;
+
+    public viewLoginApp(parentApps parentApps) {
         super();
+        this.parentApps = parentApps;
+        componentLoginAdminView = new loginAdmin(this, parentApps);
         showLoginAdminView();
     }
 
@@ -23,11 +29,6 @@ public class viewLoginApp extends wrapperPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void initsConfigLayoutScreen() {
-        showLoginAdminView();
-        setVisible(true);
     }
 
     public void showLoginAdminView() {
@@ -44,6 +45,18 @@ public class viewLoginApp extends wrapperPanel {
         refreshContent();
 
         wrapperPanel.add(componentLoginStaffView);
+        wrapperPanel.revalidate();
+        wrapperPanel.repaint();
+
+        setVisible(true);
+    }
+
+    public void showDashboardAdmin() {
+        refreshContent();
+
+        parentApps.showDashboardAdmin();
+
+        wrapperPanel.add(componentDashboardAdminView);
         wrapperPanel.revalidate();
         wrapperPanel.repaint();
 
