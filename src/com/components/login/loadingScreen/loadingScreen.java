@@ -6,26 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.partials.textLabel;
-import com.views.viewLoginApp;
 import com.components.login.loadingScreen.componentLoadingScreen.shapeLoadingScreen;
 import com.components.login.loadingScreen.componentLoadingScreen.textLoadingScreen;
-import com.components.login.loginAdmin.loginAdmin;
 import com.main.resources.templates.panelContentApp.screenPanel;
 
 public class loadingScreen extends screenPanel {
     private shapeLoadingScreen shapeLoading;
     private textLoadingScreen textLoading;
-    private viewLoginApp parent;
 
-    private loginAdmin loginAdmin = new loginAdmin();
 
     private final Point tujuLangitTarget = new Point(0, 300);
     private final Point forestparkTarget = new Point(0, 370);
 
-    public loadingScreen(viewLoginApp parent) {
+    public loadingScreen() {
         super();
-        this.parent = parent;
-        setLayout(null);
+
         initsComponentLoadingScreen();
     }
 
@@ -91,7 +86,6 @@ public class loadingScreen extends screenPanel {
                             ((Timer) ev.getSource()).stop();
                             slideOutText();
                             slideOutShapes();
-                           
                         }
                     });
                     delayTimer.setRepeats(false);
