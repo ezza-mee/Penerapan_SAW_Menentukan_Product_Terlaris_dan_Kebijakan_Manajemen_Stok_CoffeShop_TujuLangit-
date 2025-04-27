@@ -6,12 +6,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 
-import com.components.login.parentLogin;
 import com.components.popUp.popUpExit.parentPopUpExit;
-import com.components.popUp.popUpExit.popUpExit;
-import com.main.resources.templates.frameApps.frameApps;
 import com.main.resources.templates.panelContentApp.containerPanel;
 import com.partials.*;
+import com.views.viewLoginApp;
 
 public class loginAdmin extends containerPanel {
 
@@ -25,10 +23,8 @@ public class loginAdmin extends containerPanel {
     private textLabel headerLabel;
     private textLabel usernameLabel;
     private textLabel passwordLabel;
-    private textLabel incorrectUsernameLabel;
-    private textLabel incorrectPasswordLabel;
-    private textLabel emptyUsernameLabel;
-    private textLabel emptyPasswordLabel;
+    private textLabel warningUsernameLabel;
+    private textLabel warningPasswordLabel;
 
     private textField usernameField;
     private passwordField passwordField;
@@ -41,8 +37,11 @@ public class loginAdmin extends containerPanel {
 
     private parentPopUpExit parentPopUpExit = new parentPopUpExit();
 
-    public loginAdmin() {
+    private viewLoginApp parentPanel;
+
+    public loginAdmin(viewLoginApp parentPanel) {
         super();
+        this.parentPanel = parentPanel;
         initsComponentLoginAdminView();
     }
 
@@ -52,8 +51,13 @@ public class loginAdmin extends containerPanel {
         setFontComponent();
         handelShowIconPassword();
         handelExitApps();
+        handelLoginAdmin();
+        handelShowLoginStaff();
 
         containerPanel.add(imageIcon.getExitIcon());
+        containerPanel.add(imageIcon.getImageCoffeOne());
+        containerPanel.add(imageIcon.getImageCoffeTwo());
+        containerPanel.add(imageIcon.getImageCoffeApp());
 
         cardPanel.add(imageIcon.getUsernameIcon());
         cardPanel.add(imageIcon.getPasswordIcon());
@@ -69,8 +73,6 @@ public class loginAdmin extends containerPanel {
         cardPanel.add(lineShape);
         cardPanel.add(usernameLabel);
         cardPanel.add(passwordLabel);
-        cardPanel.add(incorrectUsernameLabel);
-        cardPanel.add(incorrectPasswordLabel);
         cardPanel.add(usernameField);
         cardPanel.add(passwordField);
         cardPanel.add(buttonLogin);
@@ -92,8 +94,8 @@ public class loginAdmin extends containerPanel {
         headerLabel = new textLabel("Sign In", 0, 10, 450, 60);
         usernameLabel = new textLabel("Username", 120, 130, 200, 40);
         passwordLabel = new textLabel("Password", 120, 230, 200, 40);
-        incorrectUsernameLabel = new textLabel("Username is Incorret!", 80, 210, 300, 10);
-        incorrectPasswordLabel = new textLabel("Password is Incorret!", 80, 310, 300, 10);
+        warningUsernameLabel = new textLabel("Username is Incorret!", 80, 210, 300, 10);
+        warningPasswordLabel = new textLabel("Password is Incorret!", 80, 310, 300, 10);
         labelLink = new linkLabel("Login Staff", 198, 440, 80);
 
         usernameField = new textField(80, 170, 300, 10);
@@ -106,7 +108,9 @@ public class loginAdmin extends containerPanel {
         imageIcon.getShowPasswordIcon().setBounds(345, 273, 25, 25);
         imageIcon.getHidePasswordIcon().setBounds(345, 273, 25, 25);
         imageIcon.getExitIcon().setBounds(1005, 30, 40, 40);
-
+        imageIcon.getImageCoffeApp().setBounds(700, 190, 300, 300);
+        imageIcon.getImageCoffeOne().setBounds(730, 380, 80, 80);
+        imageIcon.getImageCoffeTwo().setBounds(900, 350, 80, 80);
     }
 
     private void setColorComponenet() {
@@ -120,16 +124,16 @@ public class loginAdmin extends containerPanel {
         headerLabel.setForeground(color.BLACK);
         usernameLabel.setForeground(color.BLACK);
         passwordLabel.setForeground(color.BLACK);
-        incorrectUsernameLabel.setForeground(color.RED);
-        incorrectPasswordLabel.setForeground(color.RED);
+        warningUsernameLabel.setForeground(color.RED);
+        warningPasswordLabel.setForeground(color.RED);
     }
 
     private void setFontComponent() {
         headerLabel.setFont(fontSize.FONT_SIZE_30);
         usernameLabel.setFont(fontSize.FONT_SIZE_16);
         passwordLabel.setFont(fontSize.FONT_SIZE_16);
-        incorrectUsernameLabel.setFont(fontSize.FONT_SIZE_10);
-        incorrectPasswordLabel.setFont(fontSize.FONT_SIZE_10);
+        warningUsernameLabel.setFont(fontSize.FONT_SIZE_10);
+        warningPasswordLabel.setFont(fontSize.FONT_SIZE_10);
 
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
     }
@@ -183,7 +187,7 @@ public class loginAdmin extends containerPanel {
         imageIcon.getExitIcon().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showPopUpExit();
+                parentPopUpExit.setVisible(true);
             }
 
             public void mouseEntered(MouseEvent e) {
@@ -192,8 +196,42 @@ public class loginAdmin extends containerPanel {
         });
     }
 
-    private void showPopUpExit() {
-        parentPopUpExit.setVisible(true);
+    private void handelShowLoginStaff() {
+        labelLink.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                parentPanel.showLoginStaffView();
+            }
+        });
+    }
+
+    private void handelLoginAdmin() {
+        buttonLogin.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                String userName = usernameField.getText();
+                String password = String.valueOf(passwordField.getPassword());
+
+                if (usernameField.getText().equalsIgnoreCase("")
+                        || String.valueOf(passwordField.getPassword()).equalsIgnoreCase("")) {
+                    if (usernameField.getText().equals("")) {
+                        cardPanel.add(warningUsernameLabel);
+                    }
+                    if (String.valueOf(passwordField.getPassword()).equalsIgnoreCase("")) {
+
+                    }
+                }
+
+            }
+        });
+    }
+
+    public textField getUsenameField() {
+        return usernameField;
+    }
+
+    public passwordField getPasswordField() {
+        return passwordField;
     }
 
 }

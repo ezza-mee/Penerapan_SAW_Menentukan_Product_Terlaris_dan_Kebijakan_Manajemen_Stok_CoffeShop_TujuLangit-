@@ -2,6 +2,7 @@ package com.partials;
 
 import javax.swing.JTextField;
 import java.awt.*;
+
 import javax.swing.border.EmptyBorder;
 
 public class textField extends JTextField {

@@ -9,6 +9,9 @@ public class URLImage {
             25);
     public imageIcon exitAppsIcon = new imageIcon("src/com/main/resources/images/exit(white).png", 0, 0, 30, 30);
     public imageIcon iconExitApps = new imageIcon("src/com/main/resources/images/iconExit(red).png", 0, 0, 40, 40);
+    public imageIcon imageCoffeApp = new imageIcon("src/com/main/resources/images/latte-art.png", 0, 0, 300, 300);
+    public imageIcon imageCoffeOne = new imageIcon("src/com/main/resources/images/coffee-beans.png", 0, 0, 80, 80);
+    public imageIcon imageCoffeTwo = new imageIcon("src/com/main/resources/images/coffe.png", 0, 0, 80, 80);
 
     public imageIcon getUsernameIcon() {
         return usernameIcon;
@@ -32,5 +35,17 @@ public class URLImage {
 
     public imageIcon getIconExit() {
         return iconExitApps;
+    }
+
+    public imageIcon getImageCoffeApp() {
+        return imageCoffeApp;
+    }
+
+    public imageIcon getImageCoffeOne() {
+        return imageCoffeOne;
+    }
+
+    public imageIcon getImageCoffeTwo() {
+        return imageCoffeTwo;
     }
 }

@@ -88,6 +88,7 @@ public class popUpExit extends popUpPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 parentPopUpExit.dispose();
+                parentPopUpExit.setLocationRelativeTo(null);
             }
         });
 
