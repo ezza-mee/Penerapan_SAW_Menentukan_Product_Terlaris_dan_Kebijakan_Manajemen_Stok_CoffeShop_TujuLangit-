@@ -13,6 +13,12 @@ public class URLImage {
     public imageIcon imageCoffeOne = new imageIcon("src/com/main/resources/images/coffee-beans.png", 0, 0, 80, 80);
     public imageIcon imageCoffeTwo = new imageIcon("src/com/main/resources/images/coffe.png", 0, 0, 80, 80);
 
+    public imageIcon iconHomeHover = new imageIcon("src/com/main/resources/images/home(green).png", 0, 0, 40, 40);
+    public imageIcon iconHomeDefault = new imageIcon("src/com/main/resources/images/home(white).png", 0, 0, 40, 40);
+
+    public imageIcon iconProductHover = new imageIcon("src/com/main/resources/images/product(green).png", 0, 0, 40, 40);
+    public imageIcon iconProductDefault = new imageIcon("src/com/main/resources/images/product(white).png", 0, 0, 40, 40);
+
     public imageIcon getUsernameIcon() {
         return usernameIcon;
     }
@@ -48,4 +54,21 @@ public class URLImage {
     public imageIcon getImageCoffeTwo() {
         return imageCoffeTwo;
     }
+
+    public imageIcon getIconHomeGreen() {
+        return iconHomeHover;
+    }
+
+    public imageIcon getIconHomeWhite() {
+        return iconHomeDefault;
+    }
+
+    public imageIcon getIconProductGreen() {
+        return iconProductHover;
+    }
+
+    public imageIcon getIconProductWhite() {
+        return iconProductDefault;
+    }
 }
+
