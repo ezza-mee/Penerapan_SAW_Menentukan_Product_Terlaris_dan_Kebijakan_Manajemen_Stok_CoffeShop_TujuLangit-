@@ -1,4 +1,4 @@
-package com.main.services;
+package com.main.models;
 
 public class koneksiDatabase {
     

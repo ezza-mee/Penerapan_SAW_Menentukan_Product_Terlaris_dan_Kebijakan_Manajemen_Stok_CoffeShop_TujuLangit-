@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
+import com.main.views.mainFrame;
 
 public class popUpExit extends popUpPanel {
 
@@ -18,19 +19,19 @@ public class popUpExit extends popUpPanel {
 
     private URLImage imageIcon = new URLImage();
 
-    private parentPopUpExit parentPopUpExit;
+    private mainFrame parentFrame;
 
-    public popUpExit(parentPopUpExit parentPopUpExit) {
+    public popUpExit(mainFrame parentFrame) {
         super();
-        this.parentPopUpExit = parentPopUpExit;
-        initsComponentPopUpExit();
+        this.parentFrame = parentFrame;
+        initComponent();
     }
 
-    private void initsComponentPopUpExit() {
+    private void initComponent() {
         setPositionComponent();
         setFontComponent();
         setColorComponent();
-        handelExitApps();
+        handleExitApps();
 
         add(exitAppLabel);
         add(confirmLabel);
@@ -76,7 +77,7 @@ public class popUpExit extends popUpPanel {
 
     }
 
-    public void handelExitApps() {
+    public void handleExitApps() {
         buttonExit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -87,8 +88,7 @@ public class popUpExit extends popUpPanel {
         buttonCancel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentPopUpExit.dispose();
-                parentPopUpExit.setLocationRelativeTo(null);
+                parentFrame.hideGlassPanel();
             }
         });
 
