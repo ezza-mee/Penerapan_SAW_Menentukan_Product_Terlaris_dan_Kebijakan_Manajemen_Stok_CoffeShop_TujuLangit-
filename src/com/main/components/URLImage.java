@@ -13,11 +13,29 @@ public class URLImage {
     public imageIcon imageCoffeOne = new imageIcon("src/com/main/resources/images/coffee-beans.png", 0, 0, 80, 80);
     public imageIcon imageCoffeTwo = new imageIcon("src/com/main/resources/images/coffe.png", 0, 0, 80, 80);
 
-    public imageIcon iconHomeHover = new imageIcon("src/com/main/resources/images/home(green).png", 0, 0, 40, 40);
-    public imageIcon iconHomeDefault = new imageIcon("src/com/main/resources/images/home(white).png", 0, 0, 40, 40);
+    public imageIcon iconHomeHover = new imageIcon("src/com/main/resources/images/home(green).png", 0, 0, 25, 25);
+    public imageIcon iconHomeDefault = new imageIcon("src/com/main/resources/images/home(white).png", 0, 0, 25, 25);
 
-    public imageIcon iconProductHover = new imageIcon("src/com/main/resources/images/product(green).png", 0, 0, 40, 40);
-    public imageIcon iconProductDefault = new imageIcon("src/com/main/resources/images/product(white).png", 0, 0, 40, 40);
+    public imageIcon iconProductHover = new imageIcon("src/com/main/resources/images/product(green).png", 0, 0, 25, 25);
+    public imageIcon iconProductDefault = new imageIcon("src/com/main/resources/images/product(white).png", 0, 0, 25,
+            25);
+
+    public imageIcon iconSupplierHover = new imageIcon("src/com/main/resources/images/supplier(green).png", 0, 0, 25,
+            25);
+    public imageIcon iconSupplierDefault = new imageIcon("src/com/main/resources/images/supplier(white).png", 0, 0, 25,
+            25);
+
+    public imageIcon iconStaffHover = new imageIcon("src/com/main/resources/images/staff(green).png", 0, 0, 25,
+            25);
+    public imageIcon iconStaffDefault = new imageIcon("src/com/main/resources/images/staff(white).png", 0, 0, 25,
+            25);
+
+    public imageIcon iconTransactionHover = new imageIcon("src/com/main/resources/images/transaction(green).png", 0, 0,
+            25,
+            25);
+    public imageIcon iconTransactionDefault = new imageIcon("src/com/main/resources/images/transaction(white).png", 0,
+            0, 25,
+            25);
 
     public imageIcon getUsernameIcon() {
         return usernameIcon;
@@ -70,5 +88,28 @@ public class URLImage {
     public imageIcon getIconProductWhite() {
         return iconProductDefault;
     }
-}
 
+    public imageIcon getIconSupplierGreen() {
+        return iconSupplierHover;
+    }
+
+    public imageIcon getIconSupplierWhite() {
+        return iconSupplierDefault;
+    }
+
+    public imageIcon getIconStaffGreen() {
+        return iconStaffHover;
+    }
+
+    public imageIcon getIconStaffWhite() {
+        return iconStaffDefault;
+    }
+
+    public imageIcon getIconTransactionGreen() {
+        return iconTransactionHover;
+    }
+
+    public imageIcon getIconTransactionWhite() {
+        return iconTransactionDefault;
+    }
+}

@@ -1,6 +1,7 @@
 package com.main.layouts.dasboardAdmin;
 
 import javax.swing.JLabel;
+import java.awt.Font;
 
 import com.main.components.*;
 import com.main.components.panelApps.navigationPanel;
@@ -28,8 +29,32 @@ public class navBar extends navigationPanel {
     private navigation navProduct = new navigation(
             iconNavigation.getIconProductWhite(),
             iconNavigation.getIconProductGreen(),
-            "Data Product",
+            "Product",
             150 + 50
+
+    );
+
+    private navigation navSupplier = new navigation(
+            iconNavigation.getIconSupplierWhite(),
+            iconNavigation.getIconSupplierGreen(),
+            "Supplier",
+            150 + 50 + 50
+
+    );
+
+    private navigation navTransaction = new navigation(
+            iconNavigation.getIconTransactionWhite(),
+            iconNavigation.getIconTransactionGreen(),
+            "Transaction",
+            150 + 50 + 50 + 50
+
+    );
+
+    private navigation navStaff = new navigation(
+            iconNavigation.getIconStaffWhite(),
+            iconNavigation.getIconStaffGreen(),
+            "Staff",
+            150 + 50 + 50 + 50 + 50
 
     );
 
@@ -41,6 +66,18 @@ public class navBar extends navigationPanel {
         navProduct.setForeground(color.WHITE);
         navProduct.setBackground(color.DARKGREEN);
         navProduct.setNavigationInAktif();
+
+        navSupplier.setForeground(color.WHITE);
+        navSupplier.setBackground(color.DARKGREEN);
+        navSupplier.setNavigationInAktif();
+
+        navTransaction.setForeground(color.WHITE);
+        navTransaction.setBackground(color.DARKGREEN);
+        navTransaction.setNavigationInAktif();
+
+        navStaff.setForeground(color.WHITE);
+        navStaff.setBackground(color.DARKGREEN);
+        navStaff.setNavigationInAktif();
 
     }
 
@@ -54,6 +91,9 @@ public class navBar extends navigationPanel {
         add(brandLabel);
         add(navHome);
         add(navProduct);
+        add(navSupplier);
+        add(navTransaction);
+        add(navStaff);
     }
 
     private void setColor() {
@@ -61,7 +101,8 @@ public class navBar extends navigationPanel {
     }
 
     private void setFont() {
-        brandLabel.setFont(fontSize.FONT_SIZE_16);
+        Font boldFont = fontSize.FONT_SIZE_16.deriveFont(Font.BOLD, 18f);
+        brandLabel.setFont(boldFont);
         brandLabel.setHorizontalAlignment(JLabel.CENTER);
     }
 
@@ -81,6 +122,27 @@ public class navBar extends navigationPanel {
             }
         });
 
+        navSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showSupplierView();
+            }
+        });
+
+        navTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showTransactionView();
+            }
+        });
+
+        navStaff.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showStaffView();
+            }
+        });
+
     }
 
     public void showHomeView() {
@@ -90,7 +152,7 @@ public class navBar extends navigationPanel {
         navHome.setBackground(color.WHITE);
         navHome.setNavigationAktif();
 
-        contentView.showHomeDashboard();
+        contentView.showDashboardHome();
 
         setVisible(true);
     }
@@ -102,7 +164,43 @@ public class navBar extends navigationPanel {
         navProduct.setBackground(color.WHITE);
         navProduct.setNavigationAktif();
 
-        contentView.showHomeProduct();
+        contentView.showDashboardProduct();
+
+        setVisible(true);
+    }
+
+    public void showSupplierView() {
+        resetNavigation();
+
+        navSupplier.setForeground(color.DARKGREEN);
+        navSupplier.setBackground(color.WHITE);
+        navSupplier.setNavigationAktif();
+
+        contentView.showDashboardSupplier();
+
+        setVisible(true);
+    }
+
+    public void showTransactionView() {
+        resetNavigation();
+
+        navTransaction.setForeground(color.DARKGREEN);
+        navTransaction.setBackground(color.WHITE);
+        navTransaction.setNavigationAktif();
+
+        contentView.showDashboardTransaction();
+
+        setVisible(true);
+    }
+
+    public void showStaffView() {
+        resetNavigation();
+
+        navStaff.setForeground(color.DARKGREEN);
+        navStaff.setBackground(color.WHITE);
+        navStaff.setNavigationAktif();
+
+        contentView.showDashboardStaff();
 
         setVisible(true);
     }

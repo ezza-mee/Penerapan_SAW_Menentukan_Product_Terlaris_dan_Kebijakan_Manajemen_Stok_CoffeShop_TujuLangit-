@@ -1,6 +1,5 @@
 package com.main.views;
 
-import com.main.components.color;
 import com.main.components.panelApps.wrapperPanel;
 
 public class mainContent extends wrapperPanel {
@@ -35,9 +34,14 @@ public class mainContent extends wrapperPanel {
     public void showDashboardAdmin() {
         refreshContent();
         setSize(1366, 768);
-        dashboardAdminView.showHomeDashboard();
+        dashboardAdminView.showDashboardHome();
         add(dashboardAdminView);
         setVisible(true);
+    }
+
+    // get mainFrame for add glass panel
+    public mainFrame getMainFrame() {
+        return mainFrame;
     }
 
 }

@@ -5,6 +5,9 @@ import com.main.components.panelApps.containerPanel;
 import com.main.layouts.dasboardAdmin.dashboardHome;
 import com.main.layouts.dasboardAdmin.parentDashboard;
 import com.main.layouts.dasboardAdmin.product.dashboardProduct;
+import com.main.layouts.dasboardAdmin.staff.dashboardStaff;
+import com.main.layouts.dasboardAdmin.supplier.dashboardSupplier;
+import com.main.layouts.dasboardAdmin.transaction.dashboardTransaction;
 
 public class dashboardAdminView extends containerPanel {
 
@@ -16,18 +19,33 @@ public class dashboardAdminView extends containerPanel {
         setBackground(color.GREEN);
         parentDashboard = new parentDashboard(this);
         add(parentDashboard);
-        
+
         parentDashboard.getNavbar().showHomeView();
     }
 
-    public void showHomeDashboard() {
+    public void showDashboardHome() {
         dashboardHome home = new dashboardHome();
         parentDashboard.setContent(home);
     }
 
-    public void showHomeProduct() {
+    public void showDashboardProduct() {
         dashboardProduct dashboardProduct = new dashboardProduct();
         parentDashboard.setContent(dashboardProduct);
+    }
+
+    public void showDashboardSupplier() {
+        dashboardSupplier dashboardSupplier = new dashboardSupplier();
+        parentDashboard.setContent(dashboardSupplier);
+    }
+
+    public void showDashboardTransaction() {
+        dashboardTransaction dashboardTransaction = new dashboardTransaction();
+        parentDashboard.setContent(dashboardTransaction);
+    }
+
+    public void showDashboardStaff() {
+        dashboardStaff dashboardStaff = new dashboardStaff();
+        parentDashboard.setContent(dashboardStaff);
     }
 
 }

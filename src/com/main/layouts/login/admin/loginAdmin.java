@@ -8,12 +8,14 @@ import javax.swing.JLabel;
 
 import com.main.components.*;
 import com.main.components.panelApps.containerPanel;
-import com.main.layouts.popUp.popUpExit.parentPopUpExit;
+import com.main.layouts.popUp.popUpExit.popUpExit;
 import com.main.views.loginView;
+import com.main.views.mainFrame;
 
 public class loginAdmin extends containerPanel {
 
     private loginView parentView;
+    private mainFrame parentFrame;
 
     private panelRounded wrapperPanel;
     private panelRounded cardPanel;
@@ -37,12 +39,12 @@ public class loginAdmin extends containerPanel {
 
     private URLImage imageIcon = new URLImage();
 
-    private parentPopUpExit popUpExit = new parentPopUpExit();
-
-    public loginAdmin(loginView parentView) {
+    public loginAdmin(loginView parentView, mainFrame parentFrame) {
         super();
         this.parentView = parentView;
-        initsComponentLoginAdminView();
+        this.parentFrame = parentFrame;
+
+        initsComponent();
     }
 
     private void refreshContent() {
@@ -54,12 +56,12 @@ public class loginAdmin extends containerPanel {
         }
     }
 
-    private void initsComponentLoginAdminView() {
+    private void initsComponent() {
         setLocationComponent();
         setColorComponenet();
         setFontComponent();
         handelShowIconPassword();
-        handelExitApps();
+        handleExitApps();
         handelLoginAdmin();
         handelShowLoginStaff();
 
@@ -106,7 +108,9 @@ public class loginAdmin extends containerPanel {
         labelLink = new linkLabel("Login Staff", 198, 440, 80);
 
         usernameField = new textField(80, 170, 300, 10);
+        usernameField.setPlaceholder("Enter your Username");
         passwordField = new passwordField(80, 270, 300, 10);
+        passwordField.setPlaceholder("Enter your Password");
 
         buttonLogin = new button("Login", 85, 360, 300, 40, 15);
 
@@ -177,7 +181,7 @@ public class loginAdmin extends containerPanel {
             public void mouseClicked(MouseEvent e) {
                 isPasswordVisible[0] = false;
                 passwordField.setEchoChar('•');
-                passwordField.setFont(fontSize.FONT_SIZE_16);
+                passwordField.setFont(fontSize.FONT_SIZE_13);
 
                 imageIcon.getShowPasswordIcon().setVisible(false);
                 imageIcon.getHidePasswordIcon().setVisible(true);
@@ -190,15 +194,16 @@ public class loginAdmin extends containerPanel {
         });
     }
 
-    private void handelExitApps() {
+    private void handleExitApps() {
         imageIcon.getExitIcon().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                popUpExit.setVisible(true);
+                parentFrame.showGlassPanel(new popUpExit(parentFrame));
             }
 
+            @Override
             public void mouseEntered(MouseEvent e) {
-                imageIcon.getExitIcon().setCursor(new Cursor(Cursor.HAND_CURSOR));
+                imageIcon.getExitIcon().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         });
     }

@@ -10,7 +10,7 @@ public abstract class containerPanel extends JPanel {
         super();
         setSize(1080, 720);
         setLayout(null);
-        setBackground(color.RED);
+        setBackground(color.DARKGREY);
     }
 
 }
