@@ -1,4 +1,4 @@
-package com.main.layouts.popUp.popUpExit;
+package com.main.layouts.popUp;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,15 +11,16 @@ import com.main.views.mainFrame;
 
 public class popUpExit extends popUpPanel {
 
+    private mainFrame parentFrame;
+
     private textLabel confirmLabel;
     private textLabel exitAppLabel;
 
     private button buttonCancel;
     private button buttonExit;
 
-    private URLImage imageIcon = new URLImage();
-
-    private mainFrame parentFrame;
+    private appIcons appIcons = new appIcons();
+    private imageIcon exitIcon = appIcons.getExitIconRed(40, 40);
 
     public popUpExit(mainFrame parentFrame) {
         super();
@@ -28,23 +29,22 @@ public class popUpExit extends popUpPanel {
     }
 
     private void initComponent() {
-        setPositionComponent();
-        setFontComponent();
-        setColorComponent();
+        setPosition();
+        setFont();
+        setColor();
         handleExitApps();
 
+        add(exitIcon);
         add(exitAppLabel);
         add(confirmLabel);
 
         add(buttonCancel);
         add(buttonExit);
 
-        add(imageIcon.getIconExit());
-
         setVisible(true);
     }
 
-    private void setPositionComponent() {
+    private void setPosition() {
         exitAppLabel = new textLabel("<html><body><h2><b>Exit Apps</b></h2></body></html>", 0, 35, 300, 100);
         confirmLabel = new textLabel(
                 "<html><body style='text-align: center;'>Are your sure you want to exit the application?</body></html>",
@@ -52,10 +52,10 @@ public class popUpExit extends popUpPanel {
         buttonCancel = new button("Cancel", 40, 150, 100, 30, 10);
         buttonExit = new button("Exit", 160, 150, 100, 30, 10);
 
-        imageIcon.getIconExit().setBounds(130, 30, 40, 40);
+        exitIcon.setBounds(130, 30, 40, 40);
     }
 
-    private void setColorComponent() {
+    private void setColor() {
         buttonCancel.setOriginalBackground(color.LIGHTGREY);
         buttonCancel.setHoverBackground(color.DARKGREY);
         buttonCancel.setPressedBackground(color.LIGHTGREY);
@@ -69,7 +69,7 @@ public class popUpExit extends popUpPanel {
         buttonCancel.setForeground(color.BLACK);
     }
 
-    private void setFontComponent() {
+    private void setFont() {
         exitAppLabel.setFont(fontSize.FONT_SIZE_16);
         confirmLabel.setFont(fontSize.FONT_SIZE_13);
 
