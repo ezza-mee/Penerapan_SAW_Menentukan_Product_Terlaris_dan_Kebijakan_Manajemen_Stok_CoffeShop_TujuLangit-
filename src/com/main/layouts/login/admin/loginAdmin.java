@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 
 import com.main.components.*;
 import com.main.components.panelApps.containerPanel;
-import com.main.layouts.popUp.popUpExit.popUpExit;
+import com.main.layouts.popUp.popUpExit;
 import com.main.views.loginView;
 import com.main.views.mainFrame;
 
@@ -37,7 +37,17 @@ public class loginAdmin extends containerPanel {
 
     private linkLabel labelLink;
 
-    private URLImage imageIcon = new URLImage();
+    private appIcons appIcons = new appIcons();
+
+    private imageIcon exitIcon = appIcons.getExitIconWhite(30, 30);
+    private imageIcon imageCoffeOne = appIcons.getCoffeOneIcon(80, 80);
+    private imageIcon imageCoffeTwo = appIcons.getCoffeTwoIcon(80, 80);
+    private imageIcon imageCoffeApp = appIcons.getCoffeAppIcon(300, 300);
+
+    private imageIcon usernameIcon = appIcons.getUsernameIcon(25, 25);
+    private imageIcon passwordIcon = appIcons.getPasswordIcon(25, 25);
+    private imageIcon showPasswordIcon = appIcons.getShowPasswordIcon(25, 25);
+    private imageIcon hidePasswordIcon = appIcons.getHidePasswordIcon(25, 25);
 
     public loginAdmin(loginView parentView, mainFrame parentFrame) {
         super();
@@ -57,24 +67,24 @@ public class loginAdmin extends containerPanel {
     }
 
     private void initsComponent() {
-        setLocationComponent();
-        setColorComponenet();
-        setFontComponent();
+        setPostion();
+        setColor();
+        setFont();
         handelShowIconPassword();
         handleExitApps();
         handelLoginAdmin();
         handelShowLoginStaff();
 
-        add(imageIcon.getExitIcon());
-        add(imageIcon.getImageCoffeOne());
-        add(imageIcon.getImageCoffeTwo());
-        add(imageIcon.getImageCoffeApp());
+        add(exitIcon);
+        add(imageCoffeOne);
+        add(imageCoffeTwo);
+        add(imageCoffeApp);
         add(wrapperPanel);
 
-        cardPanel.add(imageIcon.getUsernameIcon());
-        cardPanel.add(imageIcon.getPasswordIcon());
-        cardPanel.add(imageIcon.getShowPasswordIcon());
-        cardPanel.add(imageIcon.getHidePasswordIcon());
+        cardPanel.add(usernameIcon);
+        cardPanel.add(passwordIcon);
+        cardPanel.add(showPasswordIcon);
+        cardPanel.add(hidePasswordIcon);
 
         wrapperPanel.add(cardPanel);
         wrapperPanel.add(shapeOne);
@@ -92,7 +102,7 @@ public class loginAdmin extends containerPanel {
 
     }
 
-    private void setLocationComponent() {
+    private void setPostion() {
         wrapperPanel = new panelRounded(0, 0, 1080, 720, 0, 0);
         cardPanel = new panelRounded(90, 120, 450, 500, 0, 0);
         shapeOne = new panelRounded(700, -40, 380, 800, 400, 0);
@@ -114,17 +124,17 @@ public class loginAdmin extends containerPanel {
 
         buttonLogin = new button("Login", 85, 360, 300, 40, 15);
 
-        imageIcon.getUsernameIcon().setBounds(85, 135, 25, 25);
-        imageIcon.getPasswordIcon().setBounds(85, 235, 25, 25);
-        imageIcon.getShowPasswordIcon().setBounds(345, 273, 25, 25);
-        imageIcon.getHidePasswordIcon().setBounds(345, 273, 25, 25);
-        imageIcon.getExitIcon().setBounds(1005, 30, 40, 40);
-        imageIcon.getImageCoffeApp().setBounds(700, 190, 300, 300);
-        imageIcon.getImageCoffeOne().setBounds(730, 380, 80, 80);
-        imageIcon.getImageCoffeTwo().setBounds(900, 350, 80, 80);
+        exitIcon.setBounds(1005, 30, 30, 30);
+        usernameIcon.setBounds(85, 135, 25, 25);
+        passwordIcon.setBounds(85, 235, 25, 25);
+        showPasswordIcon.setBounds(350, 273, 60, 60);
+        hidePasswordIcon.setBounds(350, 273, 60, 60);
+        imageCoffeApp.setBounds(700, 190, 300, 300);
+        imageCoffeOne.setBounds(730, 380, 80, 80);
+        imageCoffeTwo.setBounds(900, 350, 80, 80);
     }
 
-    private void setColorComponenet() {
+    private void setColor() {
         cardPanel.setOpaque(false);
         shapeOne.setBackground(color.DARKGREEN);
         shapeTwo.setBackground(color.GREEN);
@@ -139,7 +149,7 @@ public class loginAdmin extends containerPanel {
         warningPasswordLabel.setForeground(color.RED);
     }
 
-    private void setFontComponent() {
+    private void setFont() {
         headerLabel.setFont(fontSize.FONT_SIZE_30);
         usernameLabel.setFont(fontSize.FONT_SIZE_16);
         passwordLabel.setFont(fontSize.FONT_SIZE_16);
@@ -152,50 +162,50 @@ public class loginAdmin extends containerPanel {
     private void handelShowIconPassword() {
         final boolean[] isPasswordVisible = { false };
 
-        cardPanel.add(imageIcon.getHidePasswordIcon());
-        cardPanel.add(imageIcon.getShowPasswordIcon());
+        cardPanel.add(hidePasswordIcon);
+        cardPanel.add(showPasswordIcon);
 
-        imageIcon.getHidePasswordIcon().setBounds(345, 273, 25, 25);
-        imageIcon.getShowPasswordIcon().setBounds(345, 273, 25, 25);
-        imageIcon.getShowPasswordIcon().setVisible(false);
+        hidePasswordIcon.setBounds(345, 273, 25, 25);
+        showPasswordIcon.setBounds(345, 273, 25, 25);
+        showPasswordIcon.setVisible(false);
 
-        imageIcon.getHidePasswordIcon().addMouseListener(new MouseAdapter() {
+        hidePasswordIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 isPasswordVisible[0] = true;
                 passwordField.setEchoChar((char) 0);
-                passwordField.setFont(fontSize.FONT_SIZE_12);
+                passwordField.setFont(fontSize.FONT_SIZE_13);
 
-                imageIcon.getHidePasswordIcon().setVisible(false);
-                imageIcon.getShowPasswordIcon().setVisible(true);
+                hidePasswordIcon.setVisible(false);
+                showPasswordIcon.setVisible(true);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                imageIcon.getHidePasswordIcon().setCursor(new Cursor(Cursor.HAND_CURSOR));
+                hidePasswordIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
 
-        imageIcon.getShowPasswordIcon().addMouseListener(new MouseAdapter() {
+        showPasswordIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 isPasswordVisible[0] = false;
                 passwordField.setEchoChar('•');
                 passwordField.setFont(fontSize.FONT_SIZE_13);
 
-                imageIcon.getShowPasswordIcon().setVisible(false);
-                imageIcon.getHidePasswordIcon().setVisible(true);
+                showPasswordIcon.setVisible(false);
+                hidePasswordIcon.setVisible(true);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                imageIcon.getShowPasswordIcon().setCursor(new Cursor(Cursor.HAND_CURSOR));
+                showPasswordIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
     }
 
     private void handleExitApps() {
-        imageIcon.getExitIcon().addMouseListener(new MouseAdapter() {
+        exitIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 parentFrame.showGlassPanel(new popUpExit(parentFrame));
@@ -203,7 +213,7 @@ public class loginAdmin extends containerPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                imageIcon.getExitIcon().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                exitIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         });
     }

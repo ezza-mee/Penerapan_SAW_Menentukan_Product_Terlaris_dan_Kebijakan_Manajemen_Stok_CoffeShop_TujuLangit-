@@ -11,7 +11,7 @@ public class navBar extends navigationPanel {
 
     private dashboardAdminView contentView;
 
-    private URLImage iconNavigation = new URLImage();
+    private appIcons appIcons = new appIcons();
 
     private textLabel brandLabel = new textLabel(
             "<html><body><div><b>TujuLangit</b></div> Forestpark</body></html>", 0, 0, 240, 100
@@ -19,40 +19,40 @@ public class navBar extends navigationPanel {
     );
 
     private navigation navHome = new navigation(
-            iconNavigation.getIconHomeWhite(),
-            iconNavigation.getIconHomeGreen(),
+            appIcons.getHomeIconDefault(30, 30),
+            appIcons.getHomeIconHover(30, 30),
             "Home",
             150
 
     );
 
     private navigation navProduct = new navigation(
-            iconNavigation.getIconProductWhite(),
-            iconNavigation.getIconProductGreen(),
+            appIcons.getProductIconDefault(30, 30),
+            appIcons.getProductIconHover(30, 30),
             "Product",
             150 + 50
 
     );
 
     private navigation navSupplier = new navigation(
-            iconNavigation.getIconSupplierWhite(),
-            iconNavigation.getIconSupplierGreen(),
+            appIcons.getSupplierIconDefault(30, 30),
+            appIcons.getSupplierIconHover(30, 30),
             "Supplier",
             150 + 50 + 50
 
     );
 
     private navigation navTransaction = new navigation(
-            iconNavigation.getIconTransactionWhite(),
-            iconNavigation.getIconTransactionGreen(),
+            appIcons.getTransactionIconDefault(30, 30),
+            appIcons.getTransactionIconHover(30, 30),
             "Transaction",
             150 + 50 + 50 + 50
 
     );
 
     private navigation navStaff = new navigation(
-            iconNavigation.getIconStaffWhite(),
-            iconNavigation.getIconStaffGreen(),
+            appIcons.getStaffIconDefault(30, 30),
+            appIcons.getStaffIconHover(30, 30),
             "Staff",
             150 + 50 + 50 + 50 + 50
 

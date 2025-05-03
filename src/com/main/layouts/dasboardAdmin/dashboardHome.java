@@ -12,6 +12,8 @@ public class dashboardHome extends contentPanel {
     private panelRounded panelTransaction;
     private panelRounded panelDiagramTransaction;
 
+    private appIcons imageIcon = new appIcons();
+
     public dashboardHome() {
         super();
         initContent();
@@ -21,6 +23,7 @@ public class dashboardHome extends contentPanel {
     public void initContent() {
         setPosition();
         setColor();
+
 
         add(panelProduct);
         add(panelStaff);
@@ -37,6 +40,8 @@ public class dashboardHome extends contentPanel {
         panelSupplier = new panelRounded(580, 40, 230, 150, 10, 10);
         panelTransaction = new panelRounded(850, 40, 230, 150, 10, 10);
         panelDiagramTransaction = new panelRounded(40, 230, 1040, 400, 10, 10);
+
+        
     }
 
     private void setColor() {

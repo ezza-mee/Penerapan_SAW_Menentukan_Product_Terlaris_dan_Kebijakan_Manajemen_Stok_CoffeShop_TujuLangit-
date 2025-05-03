@@ -48,7 +48,7 @@ public class navigation extends JPanel {
         setBounds(0, y, 240, 50);
         setBackground(color.DARKGREEN);
 
-        iconLabel = new imageIcon(defaultIcon.getIcon(), 50, 5, 40, 40);
+        iconLabel = new imageIcon(defaultIcon.getIcon(), 40, 40);
         iconLabel.setBounds(50, 5, 40, 40);
 
         label = new JLabel(text);
