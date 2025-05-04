@@ -7,6 +7,6 @@ public class App {
         // frameDashboard testFrame = new frameDashboard();
         // testFrame.setVisible(true);
 
-        appsController.showLogin();
+        appsController.showDashboardAdmin();
     }
 }

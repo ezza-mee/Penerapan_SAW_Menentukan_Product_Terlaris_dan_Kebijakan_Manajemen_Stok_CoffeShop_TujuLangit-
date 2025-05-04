@@ -4,6 +4,7 @@ import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.layouts.dasboardAdmin.dashboardHome;
 import com.main.layouts.dasboardAdmin.parentDashboard;
+import com.main.layouts.dasboardAdmin.dashboardReport.dashboardReport;
 import com.main.layouts.dasboardAdmin.product.dashboardProduct;
 import com.main.layouts.dasboardAdmin.staff.dashboardStaff;
 import com.main.layouts.dasboardAdmin.supplier.dashboardSupplier;
@@ -46,6 +47,11 @@ public class dashboardAdminView extends containerPanel {
     public void showDashboardStaff() {
         dashboardStaff dashboardStaff = new dashboardStaff();
         parentDashboard.setContent(dashboardStaff);
+    }
+
+    public void showDashboardReport() {
+        dashboardReport dashboardReport = new dashboardReport();
+        parentDashboard.setContent(dashboardReport);
     }
 
 }

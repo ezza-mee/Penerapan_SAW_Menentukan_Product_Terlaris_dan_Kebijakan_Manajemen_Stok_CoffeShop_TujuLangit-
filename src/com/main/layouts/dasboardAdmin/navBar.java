@@ -58,6 +58,22 @@ public class navBar extends navigationPanel {
 
     );
 
+    private navigation navReport = new navigation(
+            appIcons.getReportIconDefault(30, 30),
+            appIcons.getReportIconHover(30, 30),
+            "Report",
+            150 + 50 + 50 + 50 + 50 + 50
+
+    );
+
+    private navigation navLogout = new navigation(
+            appIcons.getLogoutIconDefault(30, 30),
+            appIcons.getLogoutIconHover(30, 30),
+            "Logout",
+            150 + 50 + 50 + 50 + 50 + 50 + 50
+
+    );
+
     private void resetNavigation() {
         navHome.setForeground(color.WHITE);
         navHome.setBackground(color.DARKGREEN);
@@ -79,6 +95,14 @@ public class navBar extends navigationPanel {
         navStaff.setBackground(color.DARKGREEN);
         navStaff.setNavigationInAktif();
 
+        navReport.setForeground(color.WHITE);
+        navReport.setBackground(color.DARKGREEN);
+        navReport.setNavigationInAktif();
+
+        navLogout.setForeground(color.WHITE);
+        navLogout.setBackground(color.DARKGREEN);
+        navLogout.setNavigationInAktif();
+
     }
 
     public navBar(dashboardAdminView contentView) {
@@ -94,6 +118,8 @@ public class navBar extends navigationPanel {
         add(navSupplier);
         add(navTransaction);
         add(navStaff);
+        add(navReport);
+        add(navLogout);
     }
 
     private void setColor() {
@@ -140,6 +166,20 @@ public class navBar extends navigationPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
                 showStaffView();
+            }
+        });
+
+        navReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showReportView();
+            }
+        });
+
+        navLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showLogoutView();
             }
         });
 
@@ -201,6 +241,28 @@ public class navBar extends navigationPanel {
         navStaff.setNavigationAktif();
 
         contentView.showDashboardStaff();
+
+        setVisible(true);
+    }
+
+    public void showReportView() {
+        resetNavigation();
+
+        navReport.setForeground(color.DARKGREEN);
+        navReport.setBackground(color.WHITE);
+        navReport.setNavigationAktif();
+
+        contentView.showDashboardReport();
+
+        setVisible(true);
+    }
+
+    public void showLogoutView() {
+        resetNavigation();
+
+        navReport.setForeground(color.DARKGREEN);
+        navReport.setBackground(color.WHITE);
+        navReport.setNavigationAktif();
 
         setVisible(true);
     }

@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import com.main.components.*;
 import com.main.components.panelApps.containerPanel;
 import com.main.layouts.popUp.popUpExit;
+import com.main.services.authLogin;
 import com.main.views.loginView;
 import com.main.views.mainFrame;
 
@@ -35,7 +36,7 @@ public class loginAdmin extends containerPanel {
 
     private button buttonLogin;
 
-    private linkLabel labelLink;
+    // private linkLabel labelLink;
 
     private appIcons appIcons = new appIcons();
 
@@ -73,7 +74,7 @@ public class loginAdmin extends containerPanel {
         handelShowIconPassword();
         handleExitApps();
         handelLoginAdmin();
-        handelShowLoginStaff();
+        // handelShowLoginStaff();
 
         add(exitIcon);
         add(imageCoffeOne);
@@ -98,7 +99,7 @@ public class loginAdmin extends containerPanel {
         cardPanel.add(usernameField);
         cardPanel.add(passwordField);
         cardPanel.add(buttonLogin);
-        cardPanel.add(labelLink);
+        // cardPanel.add(labelLink);
 
     }
 
@@ -115,7 +116,7 @@ public class loginAdmin extends containerPanel {
         passwordLabel = new textLabel("Password", 120, 230, 200, 40);
         warningUsernameLabel = new textLabel("Username is Empty!", 80, 210, 300, 10);
         warningPasswordLabel = new textLabel("Password is Empty!", 80, 310, 300, 10);
-        labelLink = new linkLabel("Login Staff", 198, 440, 80);
+        // labelLink = new linkLabel("Login Staff", 198, 440, 80);
 
         usernameField = new textField(80, 170, 300, 10);
         usernameField.setPlaceholder("Enter your Username");
@@ -218,14 +219,14 @@ public class loginAdmin extends containerPanel {
         });
     }
 
-    private void handelShowLoginStaff() {
-        labelLink.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+    // private void handelShowLoginStaff() {
+    //     labelLink.addMouseListener(new MouseAdapter() {
+    //         @Override
+    //         public void mouseClicked(MouseEvent e) {
 
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
 
     private void handelLoginAdmin() {
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -234,50 +235,51 @@ public class loginAdmin extends containerPanel {
                 String userName = usernameField.getText().trim();
                 String password = String.valueOf(passwordField.getPassword()).trim();
 
-                try {
-                    cardPanel.remove(warningUsernameLabel);
-                    cardPanel.remove(warningPasswordLabel);
+                authLogin authService = new authLogin();
+                String result = authService.validateLogin(userName, password);
 
-                    boolean isEmpty = false;
+                cardPanel.remove(warningUsernameLabel);
+                cardPanel.remove(warningPasswordLabel);
 
-                    if (userName.isEmpty()) {
+                switch (result) {
+                    case "USERNAME_PASSWORD_EMPTY":
                         cardPanel.add(warningUsernameLabel);
-                        isEmpty = true;
-                    }
-                    if (password.isEmpty()) {
+                        warningUsernameLabel.setText("Username required");
                         cardPanel.add(warningPasswordLabel);
-                        isEmpty = true;
-                    }
-
-                    if (!isEmpty) {
-                        cardPanel.remove(warningUsernameLabel);
-                        cardPanel.remove(warningPasswordLabel);
-                        if (userName.equals("admin") && password.equals("admin")) {
-                            cardPanel.remove(warningUsernameLabel);
-                            cardPanel.remove(warningPasswordLabel);
-                            usernameField.setText(null);
-                            passwordField.setText(null);
-                            parentView.loginSuccess();
-                        } else {
-                            if (!userName.equals("admin")) {
-                                warningUsernameLabel.setText("Username is Incorect");
-                                cardPanel.add(warningUsernameLabel);
-                            }
-                            if (!password.equals("admin")) {
-                                warningPasswordLabel.setText("Password is Incorect");
-                                cardPanel.add(warningPasswordLabel);
-                            }
-                        }
-                    }
-
-                    refreshContent();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        warningPasswordLabel.setText("Password required");
+                        break;
+                    case "USERNAME_EMPTY":
+                        cardPanel.add(warningUsernameLabel);
+                        warningUsernameLabel.setText("Username required");
+                        break;
+                    case "PASSWORD_EMPTY":
+                        cardPanel.add(warningPasswordLabel);
+                        warningPasswordLabel.setText("Password required");
+                        break;
+                    case "USERNAME_PASSWORD_WRONG":
+                        cardPanel.add(warningUsernameLabel);
+                        warningUsernameLabel.setText("Username is incorrect");
+                        cardPanel.add(warningPasswordLabel);
+                        warningPasswordLabel.setText("Password is incorrect");
+                        break;
+                    case "USERNAME_WRONG":
+                        cardPanel.add(warningUsernameLabel);
+                        warningUsernameLabel.setText("Username is incorrect");
+                        break;
+                    case "PASSWORD_WRONG":
+                        cardPanel.add(warningPasswordLabel);
+                        warningPasswordLabel.setText("Password is incorrect");
+                        break;
+                    case "SUCCESS":
+                        usernameField.setText(null);
+                        passwordField.setText(null);
+                        parentView.loginSuccess();
+                        break;
                 }
 
+                refreshContent();
             }
         });
-
     }
 
 }

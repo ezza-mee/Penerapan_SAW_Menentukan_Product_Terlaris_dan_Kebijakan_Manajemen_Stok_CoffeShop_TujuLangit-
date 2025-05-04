@@ -27,7 +27,7 @@ public class appIcons {
     }
 
     public imageIcon getExitIconWhite(int width, int height) {
-        return loadIcon("src/com/main/resources/images/exit(white).png", width, height);
+        return loadIcon("src/com/main/resources/images/logout(white).png", width, height);
     }
 
     public imageIcon getCoffeAppIcon(int width, int height) {
@@ -80,5 +80,21 @@ public class appIcons {
 
     public imageIcon getTransactionIconDefault(int width, int height) {
         return loadIcon("src/com/main/resources/images/transaction(white).png", width, height);
+    }
+
+    public imageIcon getReportIconHover(int width, int height) {
+        return loadIcon("src/com/main/resources/images/report(green).png", width, height);
+    }
+
+    public imageIcon getReportIconDefault(int width, int height) {
+        return loadIcon("src/com/main/resources/images/report(white).png", width, height);
+    }
+
+    public imageIcon getLogoutIconHover(int width, int height) {
+        return loadIcon("src/com/main/resources/images/logout(green).png", width, height);
+    }
+
+    public imageIcon getLogoutIconDefault(int width, int height) {
+        return loadIcon("src/com/main/resources/images/logout(white).png", width, height);
     }
 }
