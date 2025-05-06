@@ -86,7 +86,7 @@ public class fontSize {
         FONT_SIZE_37 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 37);
         FONT_SIZE_38 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 38);
         FONT_SIZE_39 = loadFont("src/com/main/resources/fonts/Poppins-SemiBold.ttf", Font.PLAIN, 39);
-        FONT_SIZE_80 = loadFont("src/com/main/resources/fonts/Poppins-Black.ttf", Font.PLAIN, 80);
+        FONT_SIZE_80 = loadFont("src/com/main/resources/fonts/Poppins-Black.ttf", Font.BOLD, 80);
     }
 
     private static Font loadFont(String path, int style, float size) {
@@ -95,7 +95,6 @@ public class fontSize {
             return font.deriveFont(style, size);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
-            // Jika terjadi kesalahan saat memuat font, fallback ke font default
             return new Font("Serif", style, (int) size);
         }
     }

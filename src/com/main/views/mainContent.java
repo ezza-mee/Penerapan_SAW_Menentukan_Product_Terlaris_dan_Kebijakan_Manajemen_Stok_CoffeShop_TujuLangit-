@@ -1,18 +1,21 @@
 package com.main.views;
 
 import com.main.components.panelApps.wrapperPanel;
+import com.main.layouts.dasboardAdmin.parentDashboardView;
 
 public class mainContent extends wrapperPanel {
 
     private mainFrame mainFrame;
     private loginView loginView;
     private dashboardAdminView dashboardAdminView;
+    private parentDashboardView parentDashboard;
 
     public mainContent(mainFrame mainFrame) {
         super();
         this.mainFrame = mainFrame;
         loginView = new loginView(this);
-        dashboardAdminView = new dashboardAdminView();
+        dashboardAdminView = new dashboardAdminView(this.mainFrame);
+        parentDashboard = new parentDashboardView(dashboardAdminView);
     }
 
     private void refreshContent() {
@@ -35,6 +38,8 @@ public class mainContent extends wrapperPanel {
         refreshContent();
         setSize(1366, 768);
         dashboardAdminView.showDashboardHome();
+        dashboardAdminView.resetLastContent();
+        parentDashboard.getNavbar().showHomeView();
         add(dashboardAdminView);
         setVisible(true);
     }
