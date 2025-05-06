@@ -97,4 +97,8 @@ public class appIcons {
     public imageIcon getLogoutIconDefault(int width, int height) {
         return loadIcon("src/com/main/resources/images/logout(white).png", width, height);
     }
+
+    public imageIcon getLogoutIconRed(int width, int height) {
+        return loadIcon("src/com/main/resources/images/logout(red).png", width, height);
+    }
 }

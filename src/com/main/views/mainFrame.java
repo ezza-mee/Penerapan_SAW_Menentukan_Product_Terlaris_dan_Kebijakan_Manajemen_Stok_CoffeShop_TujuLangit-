@@ -60,4 +60,11 @@ public class mainFrame extends frameApps {
         });
     }
 
+    public void closeGlassPanel() {
+        glass.setVisible(false);
+        remove(glass);
+        revalidate();
+        repaint();
+    }
+
 }

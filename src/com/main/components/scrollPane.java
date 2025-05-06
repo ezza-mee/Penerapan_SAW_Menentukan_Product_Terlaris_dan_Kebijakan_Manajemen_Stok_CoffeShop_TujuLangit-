@@ -8,11 +8,10 @@ public class scrollPane extends JScrollPane {
 
     public scrollPane(Component view, int x, int y, int width, int height) {
         super(view);
-
         setBounds(x, y, width, height);
         setOpaque(false);
         getViewport().setBackground(color.DARKGREY);
-        setBorder(new EmptyBorder(10, 10, 10, 10));
+        setBorder(new EmptyBorder(5, 10, 5, 10));
         setDoubleBuffered(true);
         getVerticalScrollBar().setUnitIncrement(10);
 
@@ -61,10 +60,11 @@ public class scrollPane extends JScrollPane {
         @Override
         protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
             Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED); 
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
             g2.setColor(thumbColor);
             g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height, 10, 10);
             g2.dispose();
         }
+
     }
 }

@@ -7,53 +7,54 @@ import javax.swing.JLabel;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
+import com.main.views.dashboardAdminView;
 import com.main.views.mainFrame;
 
-public class popUpExit extends popUpPanel {
-
+public class popUpLogout extends popUpPanel {
     private mainFrame parentFrame;
+    private dashboardAdminView dashboardAdminView;
 
-    private textLabel exitLabel;
     private textLabel confrimLabel;
-    
+    private textLabel logoutLabel;
 
     private button buttonCancel;
-    private button buttonExit;
+    private button buttonLogout;
 
     private appIcons appIcons = new appIcons();
-    private imageIcon exitIcon = appIcons.getExitIconRed(40, 40);
+    private imageIcon logoutIcon = appIcons.getLogoutIconRed(40, 40);
 
-    public popUpExit(mainFrame parentFrame) {
+    public popUpLogout(mainFrame parentFrame) {
         super();
         this.parentFrame = parentFrame;
+        dashboardAdminView = new dashboardAdminView(parentFrame);
         initComponent();
     }
 
     private void initComponent() {
         setPosition();
-        setFont();
         setColor();
-        handleExitApps();
+        setFont();
+        handleLogoutApps();
 
-        add(exitIcon);
-        add(exitLabel);
+        add(logoutIcon);
+        add(logoutLabel);
         add(confrimLabel);
 
         add(buttonCancel);
-        add(buttonExit);
+        add(buttonLogout);
 
         setVisible(true);
     }
 
     private void setPosition() {
-        exitLabel = new textLabel("<html><body><h2><b>Exit Apps</b></h2></body></html>", 0, 35, 300, 100);
+        logoutLabel = new textLabel("<html><body><h2><b>Logout Apps</b></h2></body></html>", 0, 35, 300, 100);
         confrimLabel = new textLabel(
-                "<html><body style='text-align: center;'>Are your sure you want to exit the application?</body></html>",
+                "<html><body style='text-align: center;'>Are your sure you want to Logout the application?</body></html>",
                 0, 70, 300, 100);
         buttonCancel = new button("Cancel", 40, 150, 100, 30, 10);
-        buttonExit = new button("Exit", 160, 150, 100, 30, 10);
+        buttonLogout = new button("Logout", 160, 150, 100, 30, 10);
 
-        exitIcon.setBounds(130, 30, 40, 40);
+        logoutIcon.setBounds(130, 30, 40, 40);
     }
 
     private void setColor() {
@@ -62,27 +63,29 @@ public class popUpExit extends popUpPanel {
         buttonCancel.setPressedBackground(color.LIGHTGREY);
         buttonCancel.setBackground(color.LIGHTGREY);
 
-        buttonExit.setOriginalBackground(color.RED);
-        buttonExit.setHoverBackground(color.DARKRED);
-        buttonExit.setPressedBackground(color.RED);
-        buttonExit.setBackground(color.RED);
+        buttonLogout.setOriginalBackground(color.RED);
+        buttonLogout.setHoverBackground(color.DARKRED);
+        buttonLogout.setPressedBackground(color.RED);
+        buttonLogout.setBackground(color.RED);
 
         buttonCancel.setForeground(color.BLACK);
     }
 
     private void setFont() {
-        exitLabel.setFont(fontSize.FONT_SIZE_16);
+        logoutLabel.setFont(fontSize.FONT_SIZE_16);
         confrimLabel.setFont(fontSize.FONT_SIZE_13);
 
-        exitLabel.setHorizontalAlignment(JLabel.CENTER);
+        logoutLabel.setHorizontalAlignment(JLabel.CENTER);
 
     }
 
-    private void handleExitApps() {
-        buttonExit.addMouseListener(new MouseAdapter() {
+    private void handleLogoutApps() {
+        buttonLogout.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.exit(0);
+                parentFrame.showLoginApp();
+                parentFrame.closeGlassPanel();
+                dashboardAdminView.resetLastContent();
             }
         });
 
