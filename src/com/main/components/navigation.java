@@ -52,7 +52,7 @@ public class navigation extends JPanel {
         iconLabel.setBounds(50, 5, 40, 40);
 
         label = new JLabel(text);
-        label.setFont(fontSize.FONT_SIZE_14);
+        label.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 14f));
         label.setVerticalAlignment(JLabel.CENTER);
         label.setBounds(110, 0, 240, 50);
 

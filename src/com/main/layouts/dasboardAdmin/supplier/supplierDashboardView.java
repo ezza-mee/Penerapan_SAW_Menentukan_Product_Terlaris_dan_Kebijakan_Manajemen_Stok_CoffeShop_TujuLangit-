@@ -33,7 +33,7 @@ public class supplierDashboardView extends contentPanel {
     }
 
     private void setPosition() {
-        headerLabel = new textLabel("Data Supplier", 40, 0, 200, 80);
+        headerLabel = new textLabel("Data Supplier", 40, 0, 300, 80);
         headerContent = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentSupplier = new panelRounded(40, 220, 1050, 410, 10, 10);
 
@@ -48,7 +48,7 @@ public class supplierDashboardView extends contentPanel {
     }
 
     private void setFont() {
-        headerLabel.setFont(fontSize.FONT_SIZE_25);
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
 
     }
 

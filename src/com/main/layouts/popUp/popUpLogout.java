@@ -72,8 +72,8 @@ public class popUpLogout extends popUpPanel {
     }
 
     private void setFont() {
-        logoutLabel.setFont(fontSize.FONT_SIZE_16);
-        confrimLabel.setFont(fontSize.FONT_SIZE_13);
+        logoutLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
+        confrimLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
 
         logoutLabel.setHorizontalAlignment(JLabel.CENTER);
 

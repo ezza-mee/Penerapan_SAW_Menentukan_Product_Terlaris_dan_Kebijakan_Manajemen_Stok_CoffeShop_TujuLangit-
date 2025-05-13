@@ -129,8 +129,7 @@ public class navigationDashboardView extends navigationPanel {
     }
 
     private void setFont() {
-        Font boldFont = fontSize.FONT_SIZE_16.deriveFont(Font.BOLD, 18f);
-        brandLabel.setFont(boldFont);
+        brandLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BLACK, 20f));
         brandLabel.setHorizontalAlignment(JLabel.CENTER);
     }
 

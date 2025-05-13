@@ -91,10 +91,10 @@ public class homeDashboardView extends contentPanel {
     }
 
     private void setFont() {
-        labelProduct.setFont(fontSize.FONT_SIZE_20);
-        labelSupplier.setFont(fontSize.FONT_SIZE_20);
-        labelStaff.setFont(fontSize.FONT_SIZE_20);
-        labelTransaction.setFont(fontSize.FONT_SIZE_20);
+        labelProduct.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
+        labelSupplier.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
+        labelStaff.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
+        labelTransaction.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
 
         labelProduct.setHorizontalAlignment(JLabel.CENTER);
         labelSupplier.setHorizontalAlignment(JLabel.CENTER);

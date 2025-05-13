@@ -35,7 +35,7 @@ public class headerDashboardView extends headerPanel {
     }
 
     private void setFont() {
-        welcomeLabel.setFont(fontSize.FONT_SIZE_20);
+        welcomeLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
     }
 
 }
