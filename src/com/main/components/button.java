@@ -19,7 +19,7 @@ public class button extends JButton {
         super(text);
         this.radius = radius;
 
-        setFont(fontSize.FONT_SIZE_16);
+        setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
         setBounds(x, y, width, height);
         setBackground(color.DARKGREEN);
         setForeground(color.WHITE);

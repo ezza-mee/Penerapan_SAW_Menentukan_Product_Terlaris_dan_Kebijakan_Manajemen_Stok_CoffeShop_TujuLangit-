@@ -16,7 +16,7 @@ public class textArea extends JTextArea {
         this.radius = radius;
         setOpaque(false);
         setBounds(x, y, width, height);
-        setFont(fontSize.FONT_SIZE_12);
+        setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 12f));
         setForeground(color.BLACK);
         setLineWrap(true);
         setWrapStyleWord(true);

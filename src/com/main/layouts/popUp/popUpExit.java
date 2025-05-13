@@ -71,8 +71,8 @@ public class popUpExit extends popUpPanel {
     }
 
     private void setFont() {
-        exitLabel.setFont(fontSize.FONT_SIZE_16);
-        confrimLabel.setFont(fontSize.FONT_SIZE_13);
+        exitLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
+        confrimLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
 
         exitLabel.setHorizontalAlignment(JLabel.CENTER);
 

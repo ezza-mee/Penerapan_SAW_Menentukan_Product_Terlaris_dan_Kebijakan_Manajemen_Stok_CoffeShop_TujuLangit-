@@ -64,7 +64,7 @@ public class parentDashboardView extends containerPanel {
     }
 
     private void setFont() {
-        copyRight.setFont(fontSize.FONT_SIZE_12);
+        copyRight.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         copyRight.setHorizontalAlignment(JLabel.CENTER);
     }
 

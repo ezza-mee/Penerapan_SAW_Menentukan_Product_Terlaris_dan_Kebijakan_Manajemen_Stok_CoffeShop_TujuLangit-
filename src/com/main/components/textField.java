@@ -13,11 +13,11 @@ public class textField extends JTextField {
         super();
         this.radius = radius;
         setBounds(x, y, width, 30);
-        setFont(fontSize.FONT_SIZE_12);
+        setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 12f));
         setForeground(color.BLACK);
         setOpaque(false);
         setBorder(new EmptyBorder(5, 10, 5, 10));
-        setFocusable(false); 
+        setFocusable(false);
 
         addMouseListener(new MouseAdapter() {
             @Override

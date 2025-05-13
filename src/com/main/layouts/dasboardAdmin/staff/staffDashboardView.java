@@ -2,7 +2,7 @@ package com.main.layouts.dasboardAdmin.staff;
 
 import com.main.components.button;
 import com.main.components.color;
-import com.main.components.fontSize;
+import com.main.components.fontStyle;
 import com.main.components.panelRounded;
 import com.main.components.textLabel;
 import com.main.components.panelApps.contentPanel;
@@ -57,7 +57,7 @@ public class staffDashboardView extends contentPanel {
     }
 
     private void setFont() {
-        headerLabel.setFont(fontSize.FONT_SIZE_25);
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
     }
 
     private void handelButton() {

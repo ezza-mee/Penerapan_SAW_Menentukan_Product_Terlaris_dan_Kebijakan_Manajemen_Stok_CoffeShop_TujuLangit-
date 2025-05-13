@@ -39,7 +39,7 @@ public class linkLabel extends JPanel {
         setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREEN));
 
         label = new JLabel(text);
-        label.setFont(fontSize.FONT_SIZE_14);
+        setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 14f));
         label.setForeground(color.DARKGREEN);
         label.setBounds(0, 0, width, height);
 

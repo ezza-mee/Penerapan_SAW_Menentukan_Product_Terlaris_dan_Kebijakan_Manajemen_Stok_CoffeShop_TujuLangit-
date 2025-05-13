@@ -151,11 +151,11 @@ public class loginAdmin extends containerPanel {
     }
 
     private void setFont() {
-        headerLabel.setFont(fontSize.FONT_SIZE_30);
-        usernameLabel.setFont(fontSize.FONT_SIZE_16);
-        passwordLabel.setFont(fontSize.FONT_SIZE_16);
-        warningUsernameLabel.setFont(fontSize.FONT_SIZE_10);
-        warningPasswordLabel.setFont(fontSize.FONT_SIZE_10);
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
+        usernameLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
+        passwordLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
+        warningUsernameLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
+        warningPasswordLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
 
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
     }
@@ -175,7 +175,7 @@ public class loginAdmin extends containerPanel {
             public void mouseClicked(MouseEvent e) {
                 isPasswordVisible[0] = true;
                 passwordField.setEchoChar((char) 0);
-                passwordField.setFont(fontSize.FONT_SIZE_13);
+                passwordField.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
 
                 hidePasswordIcon.setVisible(false);
                 showPasswordIcon.setVisible(true);
@@ -192,7 +192,7 @@ public class loginAdmin extends containerPanel {
             public void mouseClicked(MouseEvent e) {
                 isPasswordVisible[0] = false;
                 passwordField.setEchoChar('•');
-                passwordField.setFont(fontSize.FONT_SIZE_13);
+                passwordField.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
 
                 showPasswordIcon.setVisible(false);
                 hidePasswordIcon.setVisible(true);
@@ -220,12 +220,12 @@ public class loginAdmin extends containerPanel {
     }
 
     // private void handelShowLoginStaff() {
-    //     labelLink.addMouseListener(new MouseAdapter() {
-    //         @Override
-    //         public void mouseClicked(MouseEvent e) {
+    // labelLink.addMouseListener(new MouseAdapter() {
+    // @Override
+    // public void mouseClicked(MouseEvent e) {
 
-    //         }
-    //     });
+    // }
+    // });
     // }
 
     private void handelLoginAdmin() {

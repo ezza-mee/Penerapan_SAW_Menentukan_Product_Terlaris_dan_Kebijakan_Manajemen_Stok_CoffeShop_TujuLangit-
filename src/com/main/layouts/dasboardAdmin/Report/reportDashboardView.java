@@ -37,7 +37,7 @@ public class reportDashboardView extends contentPanel {
     }
 
     private void setFont() {
-        headerLabel.setFont(fontSize.FONT_SIZE_25);
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
 
     }
 }
