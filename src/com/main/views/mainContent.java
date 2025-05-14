@@ -1,7 +1,7 @@
 package com.main.views;
 
 import com.main.components.panelApps.wrapperPanel;
-import com.main.layouts.dasboardAdmin.parentDashboardView;
+import com.main.layouts.dashboardAdmin.parentDashboardView;
 
 public class mainContent extends wrapperPanel {
 
@@ -37,9 +37,9 @@ public class mainContent extends wrapperPanel {
     public void showDashboardAdmin() {
         refreshContent();
         setSize(1366, 768);
-        dashboardAdminView.showDashboardHome();
+        dashboardAdminView.showFormProduct();
         dashboardAdminView.resetLastContent();
-        parentDashboard.getNavbar().showHomeView();
+        parentDashboard.getNavbar().showProductView();
         add(dashboardAdminView);
         setVisible(true);
     }
