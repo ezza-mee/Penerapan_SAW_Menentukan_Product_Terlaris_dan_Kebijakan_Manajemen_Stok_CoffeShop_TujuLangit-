@@ -33,6 +33,13 @@ public abstract class frameApps extends JFrame {
                 setLocation(newX, newY);
             }
         });
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                requestFocusInWindow();
+            }
+        });
     }
 
 }
