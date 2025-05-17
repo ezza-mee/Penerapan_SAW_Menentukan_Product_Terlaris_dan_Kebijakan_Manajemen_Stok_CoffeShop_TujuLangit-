@@ -30,7 +30,7 @@ public class dashboardAdminView extends containerPanel {
         add(parentDashboard);
 
         // parentDashboard.getNavbar().showHomeView();
-        parentDashboard.getNavbar().showProductView();
+        parentDashboard.getNavbar().showStaffView();
     }
 
     public void showDashboardHome() {
@@ -97,7 +97,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void resetLastContent() {
-        parentDashboard.getNavbar().showProductView();
+        parentDashboard.getNavbar().showStaffView();
         lastContent = null;
     }
 

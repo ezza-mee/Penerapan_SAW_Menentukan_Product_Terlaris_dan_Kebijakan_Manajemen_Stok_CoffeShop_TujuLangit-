@@ -76,7 +76,6 @@ public class popUpLogout extends popUpPanel {
         confrimLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
 
         logoutLabel.setHorizontalAlignment(JLabel.CENTER);
-
     }
 
     private void handleLogoutApps() {
@@ -95,7 +94,5 @@ public class popUpLogout extends popUpPanel {
                 parentFrame.hideGlassPanel();
             }
         });
-
     }
-
 }

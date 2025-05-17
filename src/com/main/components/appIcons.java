@@ -101,4 +101,12 @@ public class appIcons {
     public imageIcon getLogoutIconRed(int width, int height) {
         return loadIcon("src/com/main/resources/images/logout(red).png", width, height);
     }
+
+    public imageIcon getSuccessIconGreen(int width, int height) {
+        return loadIcon("src/com/main/resources/images/success(green).png", width, height);
+    }
+
+    public imageIcon getFailedIconRed(int width, int height) {
+        return loadIcon("src/com/main/resources/images/failed(red).png", width, height);
+    }
 }
