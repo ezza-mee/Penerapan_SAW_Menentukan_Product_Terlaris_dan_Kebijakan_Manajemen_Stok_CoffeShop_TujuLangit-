@@ -21,7 +21,7 @@ public class popUpExit extends popUpPanel {
     private button buttonExit;
 
     private appIcons appIcons = new appIcons();
-    private imageIcon exitIcon = appIcons.getExitIconRed(40, 40);
+    private imageIcon exitIcon = appIcons.getLogoutIconRed(40, 40);
 
     public popUpExit(mainFrame parentFrame) {
         super();

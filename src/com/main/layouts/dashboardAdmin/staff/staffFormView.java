@@ -99,7 +99,10 @@ public class staffFormView extends contentPanel {
         genderField = new comboBox<>(genderItems, 180, 385, 300, 30, 10);
         genderField.setPlaceholder("Select your Gender");
 
-        String[] jobdeskItems = { null, "Male", "Famale" };
+        String[] jobdeskItems = { null, "Barista", "Cashier", "Waiter", "Chef", "Assistant Chef",
+                "Supplier", "Admin", "Manager", "Housekeeping",
+                "Receptionist", "Courier", "Supervisor", "Technician",
+                "Quality Control", "Customer Service" };
         jobdeskField = new comboBox<>(jobdeskItems, 580, 85, 300, 30, 10);
         jobdeskField.setPlaceholder("Select your Jobdesk");
 
