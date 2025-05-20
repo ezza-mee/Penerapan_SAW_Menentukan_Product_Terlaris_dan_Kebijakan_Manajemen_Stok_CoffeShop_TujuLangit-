@@ -16,7 +16,7 @@ public class popUpFailed extends popUpPanel {
     private imageIcon failedIcon = appIcons.getFailedIconRed(60, 60);
     private textLabel headerLabel, messageLabel;
 
-    private button buttonConfirm;
+    private buttonCustom buttonConfirm;
 
     public popUpFailed() {
         super();
@@ -47,7 +47,7 @@ public class popUpFailed extends popUpPanel {
         headerLabel = new textLabel("Failed", 0, 110, 600, 80);
         messageLabel = new textLabel("Data Failed to Save", 0, 135, 600, 80);
 
-        buttonConfirm = new button("OK", 0, 200, 200, 40, 10);
+        buttonConfirm = new buttonCustom("OK", 0, 200, 200, 40, 10);
 
     }
 
@@ -63,6 +63,12 @@ public class popUpFailed extends popUpPanel {
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    public void setNotificationMessage(String message) {
+        messageLabel.setText(message);
+        messageLabel.revalidate();
+        messageLabel.repaint();
     }
 
 }

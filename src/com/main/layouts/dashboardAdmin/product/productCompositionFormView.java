@@ -24,7 +24,7 @@ public class productCompositionFormView extends contentPanel {
 
     private comboBox<String> unitIngredientField;
 
-    private button buttonBack, buttonReset, buttonAdd, buttonSave;
+    private buttonCustom buttonBack, buttonReset, buttonAdd, buttonSave;
 
     private scrollPane scrollPane;
 
@@ -90,10 +90,10 @@ public class productCompositionFormView extends contentPanel {
         unitIngredientField = new comboBox<>(unitItems, 100, 290, 400, 30, 10);
         unitIngredientField.setPlaceholder("Select Unit Ingredient");
 
-        buttonSave = new button("Save", 25, 470, 350, 40, 10);
-        buttonBack = new button("Back", 50, 470, 100, 40, 10);
-        buttonReset = new button("Reset", 310, 470, 100, 40, 10);
-        buttonAdd = new button("Add", 440, 470, 100, 40, 10);
+        buttonSave = new buttonCustom("Save", 25, 470, 350, 40, 10);
+        buttonBack = new buttonCustom("Back", 50, 470, 100, 40, 10);
+        buttonReset = new buttonCustom("Reset", 310, 470, 100, 40, 10);
+        buttonAdd = new buttonCustom("Add", 440, 470, 100, 40, 10);
 
     }
 
@@ -126,7 +126,7 @@ public class productCompositionFormView extends contentPanel {
                 cardPanel.setBackground(color.WHITE);
                 cardPanel.setLayout(null);
 
-                button buttonDelete = new button("Delete", 220, 40, 100, 30, 10);
+                buttonCustom buttonDelete = new buttonCustom("Delete", 220, 40, 100, 30, 10);
                 cardPanel.add(buttonDelete);
 
                 Component padding = Box.createRigidArea(new Dimension(0, 20));

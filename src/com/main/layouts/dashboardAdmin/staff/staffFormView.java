@@ -1,8 +1,12 @@
 package com.main.layouts.dashboardAdmin.staff;
 
+import javax.swing.JOptionPane;
+
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.views.dashboardAdminView;
+
+import com.main.services.authInsertDataStaff;
 
 public class staffFormView extends contentPanel {
 
@@ -25,7 +29,9 @@ public class staffFormView extends contentPanel {
     private comboBox<String> genderField;
     private comboBox<String> jobdeskField;
 
-    private button buttonBack, buttonReset, buttonSave;
+    private buttonCustom buttonBack, buttonReset, buttonSave;
+
+    private authInsertDataStaff insertStaff = new authInsertDataStaff();
 
     public staffFormView(dashboardAdminView parentView) {
         super();
@@ -46,13 +52,6 @@ public class staffFormView extends contentPanel {
         contentPanel.add(addressLabel);
         contentPanel.add(jobdeskLabel);
         contentPanel.add(genderLabel);
-
-        contentPanel.add(nameEmptyLabel);
-        contentPanel.add(emailEmptyLabel);
-        contentPanel.add(phoneEmptyLabel);
-        contentPanel.add(addressEmptyLabel);
-        contentPanel.add(jobdeskEmptyLabel);
-        contentPanel.add(genderEmptyLabel);
 
         contentPanel.add(nameField);
         contentPanel.add(emailField);
@@ -88,12 +87,12 @@ public class staffFormView extends contentPanel {
         phoneEmptyLabel = new textLabel("Phone is Empty", 180, 290, 200, 80);
         genderEmptyLabel = new textLabel("Gender is Empty", 180, 390, 200, 80);
         jobdeskEmptyLabel = new textLabel("Jobdesk is Empty", 580, 90, 200, 80);
-        addressEmptyLabel = new textLabel("Address is Empty", 580, 370, 200, 80);
+        addressEmptyLabel = new textLabel("Address is Empty", 580, 375, 200, 80);
 
         nameField = new textField(180, 85, 300, 10);
         emailField = new textField(180, 185, 300, 10);
         phoneField = new textField(180, 285, 300, 10);
-        addresField = new textArea(580, 185, 320, 220, 10);
+        addresField = new textArea(580, 190, 320, 220, 10);
 
         String[] genderItems = { null, "Male", "Famale" };
         genderField = new comboBox<>(genderItems, 180, 385, 300, 30, 10);
@@ -103,7 +102,7 @@ public class staffFormView extends contentPanel {
                 "Supplier", "Admin", "Manager", "Housekeeping",
                 "Receptionist", "Courier", "Supervisor", "Technician",
                 "Quality Control", "Customer Service" };
-        jobdeskField = new comboBox<>(jobdeskItems, 580, 85, 300, 30, 10);
+        jobdeskField = new comboBox<>(jobdeskItems, 580, 90, 300, 30, 10);
         jobdeskField.setPlaceholder("Select your Jobdesk");
 
         nameField.setPlaceholder("Enter your name");
@@ -111,11 +110,11 @@ public class staffFormView extends contentPanel {
         phoneField.setPlaceholder("Enter your phone number");
         addresField.setPlaceholder("Enter your address");
 
-        scrollAddres = new scrollPane(addresField, 570, 180, 320, 220);
+        scrollAddres = new scrollPane(addresField, 580, 180, 320, 220);
 
-        buttonBack = new button("Back", 180, 470, 100, 40, 10);
-        buttonReset = new button("Reset", 640, 470, 100, 40, 10);
-        buttonSave = new button("Save", 780, 470, 100, 40, 10);
+        buttonBack = new buttonCustom("Back", 180, 470, 100, 40, 10);
+        buttonReset = new buttonCustom("Reset", 640, 470, 100, 40, 10);
+        buttonSave = new buttonCustom("Save", 780, 470, 100, 40, 10);
 
     }
 
@@ -167,6 +166,74 @@ public class staffFormView extends contentPanel {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 parentView.showDashboardStaff();
+            }
+        });
+
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                String name = nameField.getText().trim();
+                String email = emailField.getText().trim();
+                String phoneNumber = phoneField.getText().trim();
+                String gender = (String) genderField.getSelectedItem();
+                String jobdesk = (String) jobdeskField.getSelectedItem();
+                String address = addresField.getText().trim();
+
+                contentPanel.remove(nameEmptyLabel);
+                contentPanel.remove(emailEmptyLabel);
+                contentPanel.remove(phoneEmptyLabel);
+                contentPanel.remove(genderEmptyLabel);
+                contentPanel.remove(jobdeskEmptyLabel);
+                contentPanel.remove(addressEmptyLabel);
+
+                String validation = insertStaff.validateStaffInput(name, email, phoneNumber, gender, jobdesk, address);
+
+                switch (validation) {
+                    case "ALL_FIELDS_EMPTY":
+                        contentPanel.add(nameEmptyLabel);
+                        contentPanel.add(emailEmptyLabel);
+                        contentPanel.add(phoneEmptyLabel);
+                        contentPanel.add(genderEmptyLabel);
+                        contentPanel.add(jobdeskEmptyLabel);
+                        contentPanel.add(addressEmptyLabel);
+                        break;
+                    case "NAME_EMPTY":
+                        contentPanel.add(nameEmptyLabel);
+                        break;
+                    case "EMAIL_EMPTY":
+                        contentPanel.add(emailEmptyLabel);
+                        break;
+                    case "PHONE_EMPTY":
+                        contentPanel.add(phoneEmptyLabel);
+                        break;
+                    case "GENDER_EMPTY":
+                        contentPanel.add(genderEmptyLabel);
+                        break;
+                    case "JOBDESK_EMPTY":
+                        contentPanel.add(jobdeskEmptyLabel);
+                        break;
+                    case "ADDRESS_EMPTY":
+                        contentPanel.add(addressEmptyLabel);
+                        break;
+                    case "VALID":
+                        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
+                            parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, jobdesk);
+                        } else {
+                            boolean insertDataStaff = authInsertDataStaff.insertDataStaff(name, email, phoneNumber,
+                                    gender, jobdesk, address);
+                            if (insertDataStaff) {
+                                parentView.showSuccessPopUpInsertStaff("Data Staff Successfully Saved");
+                                parentView.showDashboardStaff();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Insert Data Staff Failed", "Failed",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        break;
+                }
+
+                contentPanel.revalidate();
+                contentPanel.repaint();
             }
         });
     }

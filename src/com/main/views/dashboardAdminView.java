@@ -13,7 +13,9 @@ import com.main.layouts.dashboardAdmin.staff.staffDashboardView;
 import com.main.layouts.dashboardAdmin.staff.staffFormView;
 import com.main.layouts.dashboardAdmin.supplier.supplierDashboardView;
 import com.main.layouts.dashboardAdmin.transaction.transactionDashboardView;
+import com.main.layouts.popUp.popUpFormInputAccountStaff;
 import com.main.layouts.popUp.popUpLogout;
+import com.main.layouts.popUp.popUpSuccess;
 
 public class dashboardAdminView extends containerPanel {
 
@@ -73,6 +75,26 @@ public class dashboardAdminView extends containerPanel {
         staffFormView formStaff = new staffFormView(this);
         lastContent = formStaff;
         parentDashboard.setContent(formStaff);
+    }
+
+    public void showFormAccountStaff(
+            String name,
+            String email,
+            String phone,
+            String gender,
+            String jobdesk,
+            String address) {
+
+        parentDashboard.setContent(restoreLastContent());
+        parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
+                parentFrame, this, name, email, phone, gender, jobdesk, address));
+    }
+
+    public void showSuccessPopUpInsertStaff(String message) {
+        popUpSuccess popUp = new popUpSuccess(parentFrame);
+        popUp.setNotificationMessage(message);
+        parentDashboard.setContent(restoreLastContent());
+        parentFrame.showGlassPanel(popUp);
     }
 
     public void showFormProduct() {

@@ -24,7 +24,7 @@ public class productFormView extends contentPanel {
 
     private comboBox<String> categoryProductField;
 
-    private button buttonBack, buttonReset, buttonSave;
+    private buttonCustom buttonBack, buttonReset, buttonSave;
 
     private scrollPane scrollDescription;
 
@@ -102,9 +102,9 @@ public class productFormView extends contentPanel {
         categoryProductField = new comboBox<>(catergoryItems, 180, 285, 300, 30, 10);
         categoryProductField.setPlaceholder("Select Category Product");
 
-        buttonBack = new button("Back", 180, 470, 100, 40, 10);
-        buttonReset = new button("Reset", 640, 470, 100, 40, 10);
-        buttonSave = new button("Save", 780, 470, 100, 40, 10);
+        buttonBack = new buttonCustom("Back", 180, 470, 100, 40, 10);
+        buttonReset = new buttonCustom("Reset", 640, 470, 100, 40, 10);
+        buttonSave = new buttonCustom("Save", 780, 470, 100, 40, 10);
 
         scrollDescription = new scrollPane(descriptionProductField, 570, 180, 320, 220);
     }
