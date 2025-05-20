@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 
-public class buttonInputImage extends button {
+public class buttonInputImage extends buttonCustom {
     private int radius;
     private Color originalBackground;
     private Color hoverBackground;
@@ -31,7 +31,6 @@ public class buttonInputImage extends button {
         setFocusPainted(false);
         setContentAreaFilled(false);
 
-        // Set colors
         originalBackground = color.DARKGREEN;
         hoverBackground = color.GREEN;
         pressedBackground = color.GREENLIGHT;
@@ -39,7 +38,6 @@ public class buttonInputImage extends button {
         setBackground(originalBackground);
         setForeground(color.WHITE);
 
-        // Mouse effect
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -66,7 +64,6 @@ public class buttonInputImage extends button {
             }
         });
 
-        // Action
         addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openImageChooser();

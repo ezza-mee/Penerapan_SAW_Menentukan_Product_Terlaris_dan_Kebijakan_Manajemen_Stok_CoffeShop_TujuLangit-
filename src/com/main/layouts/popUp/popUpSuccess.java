@@ -9,17 +9,21 @@ import javax.swing.BoxLayout;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
+import com.main.views.mainFrame;
 
 public class popUpSuccess extends popUpPanel {
+
+    private mainFrame parentFrame;
 
     private appIcons appIcons = new appIcons();
     private imageIcon successIcon = appIcons.getSuccessIconGreen(60, 60);
     private textLabel headerLabel, messageLabel;
 
-    private button buttonConfirm;
+    private buttonCustom buttonConfirm;
 
-    public popUpSuccess() {
+    public popUpSuccess(mainFrame parentFrame) {
         super();
+        this.parentFrame = parentFrame;
         setSize(550, 240);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
@@ -30,6 +34,7 @@ public class popUpSuccess extends popUpPanel {
         setPosition();
         setColor();
         setFont();
+        handleButton();
 
         add(successIcon);
         add(Box.createRigidArea(new Dimension(0, 5)));
@@ -47,7 +52,7 @@ public class popUpSuccess extends popUpPanel {
         headerLabel = new textLabel("Success", 0, 110, 600, 80);
         messageLabel = new textLabel("Data Successfully Saved", 0, 135, 600, 80);
 
-        buttonConfirm = new button("OK", 0, 200, 200, 40, 10);
+        buttonConfirm = new buttonCustom("OK", 0, 200, 200, 40, 10);
 
     }
 
@@ -65,4 +70,18 @@ public class popUpSuccess extends popUpPanel {
         buttonConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
+    private void handleButton() {
+        buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                parentFrame.hideGlassPanel();
+            }
+        });
+    }
+
+    public void setNotificationMessage(String message) {
+        messageLabel.setText(message);
+        messageLabel.revalidate(); 
+        messageLabel.repaint();
+    }
 }

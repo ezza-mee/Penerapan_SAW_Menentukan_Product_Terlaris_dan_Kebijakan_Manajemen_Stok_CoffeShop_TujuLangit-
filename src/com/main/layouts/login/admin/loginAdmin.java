@@ -34,7 +34,7 @@ public class loginAdmin extends containerPanel {
     private textField usernameField;
     private passwordField passwordField;
 
-    private button buttonLogin;
+    private buttonCustom buttonLogin;
 
     // private linkLabel labelLink;
 
@@ -123,7 +123,7 @@ public class loginAdmin extends containerPanel {
         passwordField = new passwordField(80, 270, 300, 10);
         passwordField.setPlaceholder("Enter your Password");
 
-        buttonLogin = new button("Login", 85, 360, 300, 40, 15);
+        buttonLogin = new buttonCustom("Login", 85, 360, 300, 40, 15);
 
         exitIcon.setBounds(1005, 30, 30, 30);
         usernameIcon.setBounds(85, 135, 25, 25);

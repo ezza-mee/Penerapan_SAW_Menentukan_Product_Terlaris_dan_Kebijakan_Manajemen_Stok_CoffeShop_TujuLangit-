@@ -10,7 +10,7 @@ public class supplierDashboardView extends contentPanel {
     private panelRounded headerContent;
     private panelRounded contentSupplier;
 
-    private button buttonAdd;
+    private buttonCustom buttonAdd;
 
     public supplierDashboardView() {
         super();
@@ -37,7 +37,7 @@ public class supplierDashboardView extends contentPanel {
         headerContent = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentSupplier = new panelRounded(40, 220, 1050, 410, 10, 10);
 
-        buttonAdd = new button("Add", 900, 35, 100, 40, 10);
+        buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
     }
 
     private void setColor() {

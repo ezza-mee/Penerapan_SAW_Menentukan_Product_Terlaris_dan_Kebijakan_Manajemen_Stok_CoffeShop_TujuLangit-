@@ -18,7 +18,7 @@ public class productDashboardView extends contentPanel {
     private panelRounded headerContent;
     private scrollPane scrollPane;
 
-    private button buttonAdd;
+    private buttonCustom buttonAdd;
 
     private linkLabel allLabel;
     private linkLabel foodLabel;
@@ -59,7 +59,7 @@ public class productDashboardView extends contentPanel {
         scrollPane = new scrollPane(contentProduct, 0, 0, getWidth(), getHeight());
         scrollPane.setBounds(40, 220, 1050, 410);
 
-        buttonAdd = new button("Add", 900, 35, 100, 40, 10);
+        buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
         allLabel = new linkLabel("ALL", 40, 40, 80, 30);
         foodLabel = new linkLabel("Food", 150, 40, 80, 30);
@@ -92,7 +92,7 @@ public class productDashboardView extends contentPanel {
                 cardPanel.setBackground(color.WHITE);
                 cardPanel.setLayout(null);
 
-                button buttonDelete = new button("Delete", 880, 40, 100, 30, 10);
+                buttonCustom buttonDelete = new buttonCustom("Delete", 880, 40, 100, 30, 10);
                 cardPanel.add(buttonDelete);
 
                 Component padding = Box.createRigidArea(new Dimension(0, 20));

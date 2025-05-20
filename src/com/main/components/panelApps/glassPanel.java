@@ -72,7 +72,7 @@ public class glassPanel extends JPanel {
         }
         setVisible(true);
         alpha = 0f;
-        fadeTimer = new Timer(15, new ActionListener() {
+        fadeTimer = new Timer(5, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 alpha += 0.05f;
                 if (alpha >= 0.7f) {
@@ -89,7 +89,7 @@ public class glassPanel extends JPanel {
         if (fadeTimer != null && fadeTimer.isRunning()) {
             fadeTimer.stop();
         }
-        fadeTimer = new Timer(15, new ActionListener() {
+        fadeTimer = new Timer(5, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 alpha -= 0.05f;
                 if (alpha <= 0f) {

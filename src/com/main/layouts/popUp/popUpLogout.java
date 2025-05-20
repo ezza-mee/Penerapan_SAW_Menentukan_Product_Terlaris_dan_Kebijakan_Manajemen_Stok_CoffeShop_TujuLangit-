@@ -17,8 +17,8 @@ public class popUpLogout extends popUpPanel {
     private textLabel confrimLabel;
     private textLabel logoutLabel;
 
-    private button buttonCancel;
-    private button buttonLogout;
+    private buttonCustom buttonCancel;
+    private buttonCustom buttonLogout;
 
     private appIcons appIcons = new appIcons();
     private imageIcon logoutIcon = appIcons.getLogoutIconRed(40, 40);
@@ -51,8 +51,8 @@ public class popUpLogout extends popUpPanel {
         confrimLabel = new textLabel(
                 "<html><body style='text-align: center;'>Are your sure you want to Logout the application?</body></html>",
                 0, 70, 300, 100);
-        buttonCancel = new button("Cancel", 40, 150, 100, 30, 10);
-        buttonLogout = new button("Logout", 160, 150, 100, 30, 10);
+        buttonCancel = new buttonCustom("Cancel", 40, 150, 100, 30, 10);
+        buttonLogout = new buttonCustom("Logout", 160, 150, 100, 30, 10);
 
         logoutIcon.setBounds(130, 30, 40, 40);
     }

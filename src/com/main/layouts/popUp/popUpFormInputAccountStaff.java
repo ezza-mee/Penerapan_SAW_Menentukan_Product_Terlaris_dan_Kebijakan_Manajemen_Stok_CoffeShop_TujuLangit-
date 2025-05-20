@@ -1,11 +1,22 @@
 package com.main.layouts.popUp;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
+import com.main.services.authInsertDataStaff;
+import com.main.views.mainFrame;
+import com.main.views.dashboardAdminView;
 
 public class popUpFormInputAccountStaff extends popUpPanel {
+
+    private mainFrame parentFrame;
+
+    private dashboardAdminView parentView;
 
     private textLabel headerLabel, emailLabel, passwordLabel, confirmPasswordLabel;
 
@@ -15,10 +26,28 @@ public class popUpFormInputAccountStaff extends popUpPanel {
 
     private passwordField passwordField, confirmPasswordField;
 
-    private button buttonSave, buttonCancel;
+    private buttonCustom buttonSave, buttonCancel;
 
-    public popUpFormInputAccountStaff() {
+    private authInsertDataStaff insertStaff = new authInsertDataStaff();
+
+    private String name, email, phone, gender, jobdesk, address;
+
+    public popUpFormInputAccountStaff(mainFrame parentFrame, dashboardAdminView parentView,
+            String name,
+            String email,
+            String phone,
+            String gender,
+            String jobdesk,
+            String address) {
         super();
+        this.parentFrame = parentFrame;
+        this.parentView = parentView;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.jobdesk = jobdesk;
+        this.address = address;
         setSize(500, 500);
         initComponent();
     }
@@ -27,15 +56,12 @@ public class popUpFormInputAccountStaff extends popUpPanel {
         setPosition();
         setColor();
         setFont();
+        handleButtonApps();
 
         add(headerLabel);
         add(emailLabel);
         add(passwordLabel);
         add(confirmPasswordLabel);
-
-        add(emailEmptyLabel);
-        add(passwordEmptyLabel);
-        add(confirmPasswordEmptyLabel);
 
         add(emailField);
         add(passwordField);
@@ -62,8 +88,11 @@ public class popUpFormInputAccountStaff extends popUpPanel {
         passwordField = new passwordField(70, 225, 350, 10);
         confirmPasswordField = new passwordField(70, 315, 350, 10);
 
-        buttonCancel = new button("Cancel", 70, 410, 150, 40, 10);
-        buttonSave = new button("Save", 270, 410, 150, 40, 10);
+        buttonCancel = new buttonCustom("Cancel", 70, 410, 150, 40, 10);
+        buttonSave = new buttonCustom("Save", 270, 410, 150, 40, 10);
+
+        this.emailField.setText(email);
+        emailField.setEditable(false);
 
     }
 
@@ -86,10 +115,80 @@ public class popUpFormInputAccountStaff extends popUpPanel {
         passwordLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
         confirmPasswordLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
 
-        emailEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));  
-        passwordEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));   
+        emailEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
+        passwordEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         confirmPasswordEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
 
+    }
+
+    private void handleButtonApps() {
+
+        buttonCancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                parentFrame.hideGlassPanel();
+            }
+        });
+
+        buttonSave.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String emailAccount = emailField.getText().trim();
+                String password = new String(passwordField.getPassword());
+                String confirmPassword = new String(confirmPasswordField.getPassword());
+
+                String validationResult = insertStaff.validateAccountInput(emailAccount, password, confirmPassword);
+
+                remove(emailEmptyLabel);
+                remove(passwordEmptyLabel);
+                remove(confirmPasswordEmptyLabel);
+
+                switch (validationResult) {
+                    case "ACCOUNT_EMAIL_PASSWORD_EMPTY":
+                        add(emailEmptyLabel);
+                        add(passwordEmptyLabel);
+                        break;
+                    case "ACCOUNT_EMAIL_EMPTY":
+                        add(emailEmptyLabel);
+                        break;
+                    case "ACCOUNT_PASSWORD_EMPTY":
+                        add(passwordEmptyLabel);
+                        break;
+                    case "CONFIRM_PASSWORD_EMPTY":
+                        add(confirmPasswordEmptyLabel);
+                        break;
+                    case "PASSWORD_MISMATCH":
+                        add(confirmPasswordEmptyLabel);
+                        confirmPasswordEmptyLabel.setText("Password and Confirm Password do not match");
+                        break;
+                }
+
+                if (confirmPassword.isEmpty()) {
+                    add(confirmPasswordEmptyLabel);
+                }
+
+                if (!validationResult.equals("VALID") || confirmPassword.isEmpty()) {
+                    revalidate();
+                    repaint();
+                    return;
+                }
+
+                boolean insertSuccess = authInsertDataStaff.insertStaffWithAccount(
+                        name, email, phone, gender, jobdesk, address,
+                        emailAccount, password);
+
+                if (insertSuccess) {
+                    parentFrame.hideGlassPanel();
+                    parentView.showDashboardStaff();
+                    parentView.showSuccessPopUpInsertStaff("Data and Account Staff Successfully Saved");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Insert Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                revalidate();
+                repaint();
+            }
+        });
     }
 
 }

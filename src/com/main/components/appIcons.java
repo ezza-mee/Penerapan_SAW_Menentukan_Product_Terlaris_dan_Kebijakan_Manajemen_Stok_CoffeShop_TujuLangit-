@@ -109,4 +109,16 @@ public class appIcons {
     public imageIcon getFailedIconRed(int width, int height) {
         return loadIcon("src/com/main/resources/images/failed(red).png", width, height);
     }
+
+    public imageIcon getDeleteIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/delete(white).png", width, height);
+    }
+
+    public imageIcon getEditIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/edit(white).png", width, height);
+    }
+
+    public imageIcon getDetailIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/detail(white).png", width, height);
+    }
 }

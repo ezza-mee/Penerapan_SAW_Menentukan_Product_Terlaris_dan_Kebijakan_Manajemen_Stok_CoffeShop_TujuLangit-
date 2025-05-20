@@ -8,10 +8,11 @@ public class scrollPane extends JScrollPane {
 
     public scrollPane(Component view, int x, int y, int width, int height) {
         super(view);
+        setViewportView(view);
         setBounds(x, y, width, height);
         setOpaque(false);
         getViewport().setBackground(color.DARKGREY);
-        setBorder(new EmptyBorder(5, 10, 5, 10));
+        setBorder(new EmptyBorder(0, 0, 0, 0));
         setDoubleBuffered(true);
         getVerticalScrollBar().setUnitIncrement(10);
 
@@ -25,7 +26,7 @@ public class scrollPane extends JScrollPane {
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
-    private static class RoundedScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
+    static class RoundedScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
         private final int THUMB_SIZE = 200;
 
         @Override
