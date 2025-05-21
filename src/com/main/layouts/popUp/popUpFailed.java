@@ -9,8 +9,11 @@ import javax.swing.BoxLayout;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
+import com.main.views.mainFrame;
 
 public class popUpFailed extends popUpPanel {
+
+    private mainFrame parentFrame;
 
     private appIcons appIcons = new appIcons();
     private imageIcon failedIcon = appIcons.getFailedIconRed(60, 60);
@@ -18,8 +21,9 @@ public class popUpFailed extends popUpPanel {
 
     private buttonCustom buttonConfirm;
 
-    public popUpFailed() {
+    public popUpFailed(mainFrame parentFrame) {
         super();
+        this.parentFrame = parentFrame;
         setSize(550, 240);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
@@ -30,6 +34,7 @@ public class popUpFailed extends popUpPanel {
         setPosition();
         setColor();
         setFont();
+        handleButton();
 
         add(failedIcon);
         add(Box.createRigidArea(new Dimension(0, 5)));
@@ -63,6 +68,15 @@ public class popUpFailed extends popUpPanel {
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    private void handleButton() {
+        buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                parentFrame.hideGlassPanel();
+            }
+        });
     }
 
     public void setNotificationMessage(String message) {

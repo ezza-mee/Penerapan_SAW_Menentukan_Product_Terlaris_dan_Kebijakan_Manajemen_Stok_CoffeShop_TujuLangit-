@@ -76,6 +76,19 @@ public class authInsertDataStaff {
         }
     }
 
+    public static String validateStaffDataExistence(String email, String phoneNumber) {
+        if (insertDataStaff.isEmailExist(email)) {
+            return "EMAIL_ALREADY_EXISTS";
+        }
+        if (insertDataStaff.isPhoneExist(phoneNumber)) {
+            return "PHONE_ALREADY_EXISTS";
+        }
+        if (phoneNumber.length() > 13) {
+            return "PHONE_TOO_LONG";
+        }
+        return "VALID";
+    }    
+
     public String validateAccountInput(String email, String password, String confirmPassword) {
         if ((email == null || email.isEmpty()) && (password == null || password.isEmpty())) {
             return "ACCOUNT_EMAIL_PASSWORD_EMPTY";

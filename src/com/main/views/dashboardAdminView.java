@@ -13,6 +13,7 @@ import com.main.layouts.dashboardAdmin.staff.staffDashboardView;
 import com.main.layouts.dashboardAdmin.staff.staffFormView;
 import com.main.layouts.dashboardAdmin.supplier.supplierDashboardView;
 import com.main.layouts.dashboardAdmin.transaction.transactionDashboardView;
+import com.main.layouts.popUp.popUpFailed;
 import com.main.layouts.popUp.popUpFormInputAccountStaff;
 import com.main.layouts.popUp.popUpLogout;
 import com.main.layouts.popUp.popUpSuccess;
@@ -92,6 +93,13 @@ public class dashboardAdminView extends containerPanel {
 
     public void showSuccessPopUpInsertStaff(String message) {
         popUpSuccess popUp = new popUpSuccess(parentFrame);
+        popUp.setNotificationMessage(message);
+        parentDashboard.setContent(restoreLastContent());
+        parentFrame.showGlassPanel(popUp);
+    }
+
+    public void showFailedPopUpInsertStaff(String message) {
+        popUpFailed popUp = new popUpFailed(parentFrame);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
         parentFrame.showGlassPanel(popUp);
