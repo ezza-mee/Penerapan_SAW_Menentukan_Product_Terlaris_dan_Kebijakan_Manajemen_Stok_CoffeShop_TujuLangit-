@@ -14,15 +14,19 @@ import com.main.layouts.dashboardAdmin.staff.staffFormView;
 import com.main.layouts.dashboardAdmin.supplier.supplierDashboardView;
 import com.main.layouts.dashboardAdmin.transaction.transactionDashboardView;
 import com.main.layouts.popUp.popUpFailed;
-import com.main.layouts.popUp.popUpFormInputAccountStaff;
 import com.main.layouts.popUp.popUpLogout;
 import com.main.layouts.popUp.popUpSuccess;
+import com.main.layouts.popUp.popUpStaff.popUpDetailDataStaff;
+import com.main.layouts.popUp.popUpStaff.popUpFormInputAccountStaff;
+import com.main.models.dataStaff.getterDataStaff;
 
 public class dashboardAdminView extends containerPanel {
 
     private parentDashboardView parentDashboard;
     private mainFrame parentFrame;
     private contentPanel lastContent;
+
+    private getterDataStaff dataStaffToEdit = null;
 
     public dashboardAdminView(mainFrame parentFrame) {
         super();
@@ -66,17 +70,30 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(dashboardStaff);
     }
 
-    public void showDashboardReport() {
-        reportDashboardView dashboardReport = new reportDashboardView();
-        lastContent = dashboardReport;
-        parentDashboard.setContent(dashboardReport);
-    }
-
     public void showFormStaff() {
         staffFormView formStaff = new staffFormView(this);
+
+        if (dataStaffToEdit != null) {
+            formStaff.setFormData(dataStaffToEdit); 
+            dataStaffToEdit = null; 
+        }
+
         lastContent = formStaff;
         parentDashboard.setContent(formStaff);
     }
+
+    // public void showFormAccountStaff(
+    //         String name,
+    //         String email,
+    //         String phone,
+    //         String gender,
+    //         String jobdesk,
+    //         String address, boolean isEdit, int idStaff) {
+
+    //     parentDashboard.setContent(restoreLastContent());
+    //     parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
+    //             parentFrame, this, name, email, phone, gender, jobdesk, address, isEdit, idStaff));
+    // }
 
     public void showFormAccountStaff(
             String name,
@@ -91,14 +108,26 @@ public class dashboardAdminView extends containerPanel {
                 parentFrame, this, name, email, phone, gender, jobdesk, address));
     }
 
-    public void showSuccessPopUpInsertStaff(String message) {
+    public void showDetailPopUpDataStaff(int idStaff) {
+        popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentFrame, this, idStaff);
+        parentDashboard.setContent(restoreLastContent());
+        parentFrame.showGlassPanel(popUp);
+    }
+
+    public void showDashboardReport() {
+        reportDashboardView dashboardReport = new reportDashboardView();
+        lastContent = dashboardReport;
+        parentDashboard.setContent(dashboardReport);
+    }
+
+    public void showSuccessPopUp(String message) {
         popUpSuccess popUp = new popUpSuccess(parentFrame);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
         parentFrame.showGlassPanel(popUp);
     }
 
-    public void showFailedPopUpInsertStaff(String message) {
+    public void showFailedPopUp(String message) {
         popUpFailed popUp = new popUpFailed(parentFrame);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
@@ -129,6 +158,10 @@ public class dashboardAdminView extends containerPanel {
     public void resetLastContent() {
         parentDashboard.getNavbar().showStaffView();
         lastContent = null;
+    }
+
+    public void setDataStaffToEdit(getterDataStaff dataStaff) {
+        this.dataStaffToEdit = dataStaff;
     }
 
 }

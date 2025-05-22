@@ -9,19 +9,20 @@ import javax.swing.table.DefaultTableModel;
 import com.main.models.connectionDatabase;
 
 public class loadDataStaff {
-    public static DefaultTableModel getAllStaff() {
+    public static DefaultTableModel getAllDataStaff() {
 
         String[] dataHeader = { "ID", "Date", "Name", "Jobdesk", "Status", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM tbl_data_staff";
+        String query = "SELECT * FROM vwalldatastaff";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
             ResultSet resultData = state.executeQuery(query);
 
             while (resultData.next()) {
-                Object[] rowData = { "NS00" + resultData.getInt("id"),
+                Object[] rowData = {
+                        "NS00" + resultData.getInt("idStaff"),
                         resultData.getString("date"),
                         resultData.getString("name"),
                         resultData.getString("jobdesk"),
@@ -33,4 +34,30 @@ public class loadDataStaff {
         }
         return tm;
     }
+
+    public static getterDataStaff getDataById(int idStaff) {
+        String query = "SELECT * FROM tbl_data_staff WHERE idStaff = ?";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idStaff);
+            ResultSet rs = state.executeQuery();
+
+            if (rs.next()) {
+                return new getterDataStaff(
+                        rs.getInt("idStaff"),
+                        rs.getString("date"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("gender"),
+                        rs.getString("jobdesk"),
+                        rs.getString("address"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
