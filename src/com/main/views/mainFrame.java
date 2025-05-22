@@ -5,7 +5,6 @@ import com.main.components.panelApps.glassPanel;
 import com.main.components.panelApps.wrapperPanel;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -39,7 +38,6 @@ public class mainFrame extends frameApps {
     public void showDashboardAdmin() {
         setContent(mainContent);
         mainContent.showDashboardAdmin();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(1366, 768);
         setBounds(0, 0, 1366, 768);
         setShape(new RoundRectangle2D.Double(0, 0, 1366, 768, 10, 10));

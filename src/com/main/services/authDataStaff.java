@@ -1,9 +1,12 @@
 package com.main.services;
 
 import com.main.models.dataStaff.insertDataStaff;
+import com.main.models.dataStaff.deleteDataStaff;
 import com.main.models.dataStaff.insertAccountStaff;
+import com.main.models.dataStaff.updateDataStaff;
+import com.main.models.dataStaff.updateAccountStaff;
 
-public class authInsertDataStaff {
+public class authDataStaff {
 
     public static boolean insertDataStaff(
             String nameStaff,
@@ -49,6 +52,57 @@ public class authInsertDataStaff {
         return true;
     }
 
+    public static boolean updateDataStaff(
+            int staffId,
+            String nameStaff,
+            String email,
+            String phoneNumber,
+            String gender,
+            String jobdesk,
+            String address) {
+        return updateDataStaff.updateStaff(
+                staffId,
+                nameStaff,
+                email,
+                phoneNumber,
+                gender,
+                jobdesk,
+                address);
+    }
+
+    public static boolean updateStaffWithAccount(
+        int idStaff,
+            String nameStaff,
+            String email,
+            String phoneNumber,
+            String gender,
+            String jobdesk,
+            String address,
+            String accountEmail,
+            String accountPassword) {
+        Integer updateStaff = updateDataStaff.updateStaffAndReturnId(idStaff, nameStaff, email, phoneNumber, gender, jobdesk, address);
+
+        if (updateStaff == null) {
+            System.out.println("Gagal insert data staff.");
+            return false;
+        }
+
+        if (jobdesk.equalsIgnoreCase("cashier") || jobdesk.equalsIgnoreCase("supplier")) {
+            if (accountEmail != null && accountPassword != null) {
+                return updateAccountStaff.updateAccount(idStaff, accountEmail, accountPassword);
+            } else {
+                System.out.println("Data akun tidak lengkap.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean resignStaffById(int staffId) {
+        return deleteDataStaff.resignStaff(staffId);
+    }
+
     public String validateStaffInput(String name, String email, String phoneNumber,
             String gender, String jobdesk, String address) {
 
@@ -76,6 +130,19 @@ public class authInsertDataStaff {
         }
     }
 
+    public static String validateStaffDataExistence(String email, String phoneNumber) {
+        if (insertDataStaff.isEmailExist(email)) {
+            return "EMAIL_ALREADY_EXISTS";
+        }
+        if (insertDataStaff.isPhoneExist(phoneNumber)) {
+            return "PHONE_ALREADY_EXISTS";
+        }
+        if (phoneNumber.length() > 13) {
+            return "PHONE_TOO_LONG";
+        }
+        return "VALID";
+    }
+
     public String validateAccountInput(String email, String password, String confirmPassword) {
         if ((email == null || email.isEmpty()) && (password == null || password.isEmpty())) {
             return "ACCOUNT_EMAIL_PASSWORD_EMPTY";
@@ -87,7 +154,7 @@ public class authInsertDataStaff {
             return "CONFIRM_PASSWORD_EMPTY";
         } else if (!password.equals(confirmPassword)) {
             return "PASSWORD_MISMATCH";
-        }else {
+        } else {
             return "VALID";
         }
     }

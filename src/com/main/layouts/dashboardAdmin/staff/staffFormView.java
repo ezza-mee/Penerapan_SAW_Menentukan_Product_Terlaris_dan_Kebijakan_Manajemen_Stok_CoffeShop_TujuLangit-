@@ -1,16 +1,19 @@
 package com.main.layouts.dashboardAdmin.staff;
 
-import javax.swing.JOptionPane;
-
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.models.dataStaff.getterDataStaff;
 import com.main.views.dashboardAdminView;
 
-import com.main.services.authInsertDataStaff;
+import com.main.services.authDataStaff;
 
 public class staffFormView extends contentPanel {
 
     private dashboardAdminView parentView;
+
+    private int staffIdToEdit = -1;
+    private String oldEmail = "";
+    private String oldPhoneNumber = "";
 
     private textLabel headerLabel;
 
@@ -31,7 +34,7 @@ public class staffFormView extends contentPanel {
 
     private buttonCustom buttonBack, buttonReset, buttonSave;
 
-    private authInsertDataStaff insertStaff = new authInsertDataStaff();
+    private authDataStaff insertStaff = new authDataStaff();
 
     public staffFormView(dashboardAdminView parentView) {
         super();
@@ -161,6 +164,19 @@ public class staffFormView extends contentPanel {
         addressEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
     }
 
+    public void setFormData(getterDataStaff dataStaff) {
+        nameField.setText(dataStaff.getName());
+        emailField.setText(dataStaff.getEmail());
+        phoneField.setText(dataStaff.getPhoneNumber());
+        genderField.setSelectedItem(dataStaff.getGender());
+        jobdeskField.setSelectedItem(dataStaff.getJobdesk());
+        addresField.setText(dataStaff.getAddress());
+
+        staffIdToEdit = dataStaff.getIdStaff();
+        oldEmail = dataStaff.getEmail();
+        oldPhoneNumber = dataStaff.getPhoneNumber();
+    }
+
     private void handleButton() {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -216,25 +232,42 @@ public class staffFormView extends contentPanel {
                         contentPanel.add(addressEmptyLabel);
                         break;
                     case "VALID":
-                        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
-                            parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, jobdesk);
-                        } else {
-                            boolean insertDataStaff = authInsertDataStaff.insertDataStaff(name, email, phoneNumber,
-                                    gender, jobdesk, address);
-                            if (insertDataStaff) {
-                                parentView.showSuccessPopUpInsertStaff("Data Staff Successfully Saved");
-                                parentView.showDashboardStaff();
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Insert Data Staff Failed", "Failed",
-                                        JOptionPane.ERROR_MESSAGE);
+                        String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber);
+                        if (!uniquenessCheck.equals("VALID")) {
+                            switch (uniquenessCheck) {
+                                case "EMAIL_ALREADY_EXISTS":
+                                    parentView.showFailedPopUp("Email is already used.");
+                                    break;
+                                case "PHONE_ALREADY_EXISTS":
+                                    parentView.showFailedPopUp("Phone number is already used.");
+                                    break;
+                                case "PHONE_TOO_LONG":
+                                    parentView.showFailedPopUp("Phone number cannot exceed 13 digits.");
+                                    break;
+                                default:
+                                    parentView.showFailedPopUp("Unknown validation error.");
+                                    break;
                             }
+                            return;
+                        }
+                        boolean success = authDataStaff.insertDataStaff(name, email, phoneNumber, gender,
+                                jobdesk, address);
+                        if (success) {
+                            if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
+                                parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, jobdesk);
+                            } else {
+                                parentView.showSuccessPopUp("Data Staff Successfully Saved");
+                                parentView.showDashboardStaff();
+                            }
+                        } else {
+                            parentView.showFailedPopUp("Failed to Save Data Staff");
                         }
                         break;
                 }
-
                 contentPanel.revalidate();
                 contentPanel.repaint();
             }
         });
     }
+
 }

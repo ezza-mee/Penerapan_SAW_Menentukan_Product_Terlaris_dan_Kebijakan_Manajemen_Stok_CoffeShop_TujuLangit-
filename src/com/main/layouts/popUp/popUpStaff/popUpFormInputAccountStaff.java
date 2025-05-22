@@ -1,4 +1,4 @@
-package com.main.layouts.popUp;
+package com.main.layouts.popUp.popUpStaff;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
-import com.main.services.authInsertDataStaff;
+import com.main.services.authDataStaff;
 import com.main.views.mainFrame;
 import com.main.views.dashboardAdminView;
 
@@ -28,8 +28,10 @@ public class popUpFormInputAccountStaff extends popUpPanel {
 
     private buttonCustom buttonSave, buttonCancel;
 
-    private authInsertDataStaff insertStaff = new authInsertDataStaff();
+    private authDataStaff insertStaff = new authDataStaff();
 
+    private boolean isEditMode;
+    private int idStaff;
     private String name, email, phone, gender, jobdesk, address;
 
     public popUpFormInputAccountStaff(mainFrame parentFrame, dashboardAdminView parentView,
@@ -42,6 +44,8 @@ public class popUpFormInputAccountStaff extends popUpPanel {
         super();
         this.parentFrame = parentFrame;
         this.parentView = parentView;
+        // this.isEditMode = isEdit;
+        // this.idStaff = idStaff;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -173,22 +177,24 @@ public class popUpFormInputAccountStaff extends popUpPanel {
                     return;
                 }
 
-                boolean insertSuccess = authInsertDataStaff.insertStaffWithAccount(
+                boolean insertSuccess = authDataStaff.insertStaffWithAccount(
                         name, email, phone, gender, jobdesk, address,
                         emailAccount, password);
 
                 if (insertSuccess) {
                     parentFrame.hideGlassPanel();
                     parentView.showDashboardStaff();
-                    parentView.showSuccessPopUpInsertStaff("Data and Account Staff Successfully Saved");
+                    parentView.showSuccessPopUp("Data and Account Staff Successfully Saved");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Insert Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    parentFrame.hideGlassPanel();
+                    parentView.showFailedPopUp("Failed to Save Data and Account Staff");
                 }
 
                 revalidate();
                 repaint();
             }
         });
+
     }
 
 }
