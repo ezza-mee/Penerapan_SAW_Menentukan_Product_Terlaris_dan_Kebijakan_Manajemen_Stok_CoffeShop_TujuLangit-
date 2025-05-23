@@ -11,10 +11,6 @@ public class staffFormView extends contentPanel {
 
     private dashboardAdminView parentView;
 
-    private int staffIdToEdit = -1;
-    private String oldEmail = "";
-    private String oldPhoneNumber = "";
-
     private textLabel headerLabel;
 
     private panelRounded contentPanel;
@@ -35,6 +31,10 @@ public class staffFormView extends contentPanel {
     private buttonCustom buttonBack, buttonReset, buttonSave;
 
     private authDataStaff insertStaff = new authDataStaff();
+
+    private int staffIdToEdit = -1;
+    private String oldEmail = "";
+    private String oldPhoneNumber = "";
 
     public staffFormView(dashboardAdminView parentView) {
         super();
@@ -233,7 +233,8 @@ public class staffFormView extends contentPanel {
                         break;
                     case "VALID":
                         String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber, oldEmail,
-                                oldPhoneNumber);
+                                oldPhoneNumber,
+                                staffIdToEdit);
                         if (!uniquenessCheck.equals("VALID")) {
                             switch (uniquenessCheck) {
                                 case "EMAIL_ALREADY_EXISTS":
@@ -256,7 +257,8 @@ public class staffFormView extends contentPanel {
 
                         if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
                             // Untuk Cashier & Supplier: arahkan ke form pembuatan akun
-                            parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, address, false, -1);
+                            parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, address, true,
+                                    staffIdToEdit);
                         } else {
                             if (staffIdToEdit == -1) {
                                 // INSERT DATA STAFF tanpa akun

@@ -52,6 +52,7 @@ public class updateDataStaff {
             int affectedRows = state.executeUpdate();
 
             if (affectedRows > 0) {
+                System.out.println("UPDATE gagal: idStaff " + idStaff + " tidak ditemukan.");
                 return idStaff;
             }
 
@@ -61,35 +62,4 @@ public class updateDataStaff {
 
         return null;
     }
-
-    public static boolean isEmailExist(String email) {
-        String query = "SELECT COUNT(*) FROM tbl_data_staff WHERE email = ?";
-        try (Connection conn = connectionDatabase.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, email);
-            var rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean isPhoneExist(String phone) {
-        String query = "SELECT COUNT(*) FROM tbl_data_staff WHERE phoneNumber = ?";
-        try (Connection conn = connectionDatabase.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, phone);
-            var rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 }

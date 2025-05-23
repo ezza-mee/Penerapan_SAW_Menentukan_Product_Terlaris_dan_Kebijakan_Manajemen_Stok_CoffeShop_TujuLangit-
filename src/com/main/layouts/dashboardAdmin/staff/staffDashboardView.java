@@ -91,7 +91,7 @@ public class staffDashboardView extends contentPanel {
                         if (selectedDataStaff != null) {
                             System.out.println("Edit baris ke: " + idStaff);
 
-                            parentView.setDataStaffToEdit(selectedDataStaff); 
+                            parentView.setDataStaffToEdit(selectedDataStaff);
                             parentView.showFormStaff();
 
                             System.out.println("Name: " + selectedDataStaff.getName());
@@ -100,6 +100,8 @@ public class staffDashboardView extends contentPanel {
                             System.out.println("Gender: " + selectedDataStaff.getGender());
                             System.out.println("Jobdesk: " + selectedDataStaff.getJobdesk());
                             System.out.println("Address: " + selectedDataStaff.getAddress());
+                            System.out.println("[DEBUG] Tombol Edit diklik. isEdit = true, idStaff = " + idStaff);
+
                         } else {
                             System.out.println("Data staff tidak ditemukan.");
                         }
