@@ -46,7 +46,6 @@ public class loadDataStaff {
             if (rs.next()) {
                 return new getterDataStaff(
                         rs.getInt("idStaff"),
-                        rs.getString("date"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phoneNumber"),

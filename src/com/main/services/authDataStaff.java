@@ -86,7 +86,7 @@ public class authDataStaff {
                 jobdesk, address);
 
         if (updateStaff == null) {
-            System.out.println("Gagal insert data staff.");
+            System.out.println("Gagal update data staff.");
             return false;
         }
 
@@ -137,17 +137,17 @@ public class authDataStaff {
         }
     }
 
-    public static String validateStaffDataExistence(String email, String phoneNumber, String oldEmail,
-            String oldPhoneNumber) {
-        if (!email.equalsIgnoreCase(oldEmail) && insertDataStaff.isEmailExist(email)) {
+    public static String validateStaffDataExistence(String email, String phoneNumber, String oldEmail, String oldPhoneNumber, int staffIdToEdit) {
+        if (!email.equalsIgnoreCase(oldEmail) && insertDataStaff.isEmailExist(email, staffIdToEdit)) {
             return "EMAIL_ALREADY_EXISTS";
         }
-        if (!phoneNumber.equals(oldPhoneNumber) && insertDataStaff.isPhoneExist(phoneNumber)) {
+        if (!phoneNumber.equalsIgnoreCase(oldPhoneNumber) && insertDataStaff.isPhoneExist(phoneNumber, staffIdToEdit)) {
             return "PHONE_ALREADY_EXISTS";
         }
         if (phoneNumber.length() > 13) {
             return "PHONE_TOO_LONG";
         }
+        
         return "VALID";
     }
 

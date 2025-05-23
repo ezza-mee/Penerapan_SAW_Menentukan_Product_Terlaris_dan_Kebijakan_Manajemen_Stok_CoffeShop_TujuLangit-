@@ -1,7 +1,6 @@
 package com.main.layouts.popUp.popUpStaff;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,6 +8,7 @@ import java.awt.event.MouseEvent;
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
 import com.main.models.dataStaff.getterAccountStaff;
+import com.main.models.dataStaff.getterDataStaff;
 import com.main.services.authDataStaff;
 import com.main.views.mainFrame;
 import com.main.views.dashboardAdminView;
@@ -32,13 +32,16 @@ public class popUpFormInputAccountStaff extends popUpPanel {
     private authDataStaff insertStaff = new authDataStaff();
 
     private boolean isEditMode;
+    private int staffIdToEdit = -1;
     private int idStaff;
-    private String name, email, phone, gender, jobdesk, address;
+    private String oldEmail = "";
+    private String oldPhoneNumber = "";
+    private String name, email, phoneNumber, gender, jobdesk, address;
 
     public popUpFormInputAccountStaff(mainFrame parentFrame, dashboardAdminView parentView,
             String name,
             String email,
-            String phone,
+            String phoneNumber,
             String gender,
             String jobdesk,
             String address, boolean isEdit, int idStaff) {
@@ -49,19 +52,10 @@ public class popUpFormInputAccountStaff extends popUpPanel {
         this.idStaff = idStaff;
         this.name = name;
         this.email = email;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.jobdesk = jobdesk;
         this.address = address;
-
-        if (isEditMode) {
-            getterAccountStaff accountData = authDataStaff.getDataAccountById(idStaff);
-            if (accountData != null) {
-                System.out.println("idStaff: " + idStaff);
-                this.passwordField.setText(accountData.getPassword());
-                this.confirmPasswordField.setText(accountData.getPassword());
-            }
-        }
 
         setSize(500, 500);
         initComponent();
@@ -136,6 +130,22 @@ public class popUpFormInputAccountStaff extends popUpPanel {
 
     }
 
+    public void setFormAccountData(getterAccountStaff accountData, getterDataStaff dataStaff) {
+        if (accountData != null && dataStaff != null) {
+            passwordField.setText(accountData.getPassword());
+            confirmPasswordField.setText(accountData.getPassword());
+
+            staffIdToEdit = dataStaff.getIdStaff();
+            oldEmail = accountData.getEmail();
+            oldPhoneNumber = dataStaff.getPhoneNumber();
+
+            System.out.println("Checking uniqueness with:");
+            System.out.println("email = " + email + ", oldEmail = " + oldEmail);
+            System.out.println("phone = " + phoneNumber + ", oldPhone = " + oldPhoneNumber);
+            System.out.println("staffIdToEdit = " + staffIdToEdit);
+        }
+    }
+
     private void handleButtonApps() {
 
         buttonCancel.addMouseListener(new MouseAdapter() {
@@ -174,7 +184,6 @@ public class popUpFormInputAccountStaff extends popUpPanel {
                         break;
                     case "PASSWORD_MISMATCH":
                         add(confirmPasswordEmptyLabel);
-                        confirmPasswordEmptyLabel.setText("Password and Confirm Password do not match");
                         break;
                 }
 
@@ -184,16 +193,37 @@ public class popUpFormInputAccountStaff extends popUpPanel {
                     return;
                 }
 
+                confirmPasswordEmptyLabel.setText("Password and Confirm Password do not match");
+                String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber, oldEmail,
+                        oldPhoneNumber, staffIdToEdit);
+                if (!uniquenessCheck.equals("VALID")) {
+                    switch (uniquenessCheck) {
+                        case "EMAIL_ALREADY_EXISTS":
+                            parentView.showFailedPopUp("Email is already used.");
+                            break;
+                        case "PHONE_ALREADY_EXISTS":
+                            parentView.showFailedPopUp("Phone number is already used.");
+                            break;
+                        case "PHONE_TOO_LONG":
+                            parentView.showFailedPopUp("Phone number cannot exceed 13 digits.");
+                            break;
+                        default:
+                            parentView.showFailedPopUp("Unknown validation error.");
+                            break;
+                    }
+                    return;
+                }
+
                 boolean result;
                 if (isEditMode) {
                     // UPDATE
                     result = authDataStaff.updateStaffWithAccount(
-                            idStaff, name, email, phone, gender, jobdesk, address,
+                            idStaff, name, email, phoneNumber, gender, jobdesk, address,
                             emailAccount, password);
                 } else {
                     // INSERT
                     result = authDataStaff.insertStaffWithAccount(
-                            name, email, phone, gender, jobdesk, address,
+                            name, email, phoneNumber, gender, jobdesk, address,
                             emailAccount, password);
                 }
 
@@ -206,13 +236,14 @@ public class popUpFormInputAccountStaff extends popUpPanel {
                     parentFrame.hideGlassPanel();
                     parentView.showFailedPopUp(
                             "Failed to " + (isEditMode ? "Update" : "Save") + " Data and Account Staff");
+                    System.out.println("isEditMode: " + isEditMode);
+                    System.out.println("idStaff: " + idStaff);
                 }
 
                 revalidate();
                 repaint();
             }
         });
-
     }
 
 }

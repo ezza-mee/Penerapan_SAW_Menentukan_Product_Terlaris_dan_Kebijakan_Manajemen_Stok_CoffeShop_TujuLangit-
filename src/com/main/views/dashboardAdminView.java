@@ -18,7 +18,9 @@ import com.main.layouts.popUp.popUpLogout;
 import com.main.layouts.popUp.popUpSuccess;
 import com.main.layouts.popUp.popUpStaff.popUpDetailDataStaff;
 import com.main.layouts.popUp.popUpStaff.popUpFormInputAccountStaff;
+import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.getterDataStaff;
+import com.main.services.authDataStaff;
 
 public class dashboardAdminView extends containerPanel {
 
@@ -27,6 +29,8 @@ public class dashboardAdminView extends containerPanel {
     private contentPanel lastContent;
 
     private getterDataStaff dataStaffToEdit = null;
+
+    private getterAccountStaff accountData = null;
 
     public dashboardAdminView(mainFrame parentFrame) {
         super();
@@ -74,8 +78,8 @@ public class dashboardAdminView extends containerPanel {
         staffFormView formStaff = new staffFormView(this);
 
         if (dataStaffToEdit != null) {
-            formStaff.setFormData(dataStaffToEdit); 
-            dataStaffToEdit = null; 
+            formStaff.setFormData(dataStaffToEdit);
+            dataStaffToEdit = null;
         }
 
         lastContent = formStaff;
@@ -85,28 +89,28 @@ public class dashboardAdminView extends containerPanel {
     public void showFormAccountStaff(
             String name,
             String email,
-            String phone,
+            String phoneNumber,
             String gender,
             String jobdesk,
             String address, boolean isEdit, int idStaff) {
 
+        popUpFormInputAccountStaff popupForm = new popUpFormInputAccountStaff(
+                parentFrame, this, name, email, phoneNumber, gender, jobdesk, address, isEdit, idStaff);
+
+        this.accountData = authDataStaff.getDataAccountById(idStaff);
+        this.dataStaffToEdit = new getterDataStaff(idStaff, name, email, phoneNumber, gender, jobdesk, address);
+
+        System.out.println("ID Staff: " + idStaff);
+
+        if (this.accountData != null) {
+            popupForm.setFormAccountData(this.accountData, dataStaffToEdit);
+            accountData = null;
+            System.out.println("[DEBUG] showFormAccountStaff: isEdit = " + isEdit + ", idStaff = " + idStaff);
+        }
+
         parentDashboard.setContent(restoreLastContent());
-        parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
-                parentFrame, this, name, email, phone, gender, jobdesk, address, isEdit, idStaff));
+        parentFrame.showGlassPanel(popupForm);
     }
-
-    // public void showFormAccountStaff(
-    //         String name,
-    //         String email,
-    //         String phone,
-    //         String gender,
-    //         String jobdesk,
-    //         String address) {
-
-    //     parentDashboard.setContent(restoreLastContent());
-    //     parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
-    //             parentFrame, this, name, email, phone, gender, jobdesk, address));
-    // }
 
     public void showDetailPopUpDataStaff(int idStaff) {
         popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentFrame, this, idStaff);
