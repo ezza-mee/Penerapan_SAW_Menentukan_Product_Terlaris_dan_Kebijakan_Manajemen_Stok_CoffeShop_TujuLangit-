@@ -82,31 +82,31 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(formStaff);
     }
 
-    // public void showFormAccountStaff(
-    //         String name,
-    //         String email,
-    //         String phone,
-    //         String gender,
-    //         String jobdesk,
-    //         String address, boolean isEdit, int idStaff) {
-
-    //     parentDashboard.setContent(restoreLastContent());
-    //     parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
-    //             parentFrame, this, name, email, phone, gender, jobdesk, address, isEdit, idStaff));
-    // }
-
     public void showFormAccountStaff(
             String name,
             String email,
             String phone,
             String gender,
             String jobdesk,
-            String address) {
+            String address, boolean isEdit, int idStaff) {
 
         parentDashboard.setContent(restoreLastContent());
         parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
-                parentFrame, this, name, email, phone, gender, jobdesk, address));
+                parentFrame, this, name, email, phone, gender, jobdesk, address, isEdit, idStaff));
     }
+
+    // public void showFormAccountStaff(
+    //         String name,
+    //         String email,
+    //         String phone,
+    //         String gender,
+    //         String jobdesk,
+    //         String address) {
+
+    //     parentDashboard.setContent(restoreLastContent());
+    //     parentFrame.showGlassPanel(new popUpFormInputAccountStaff(
+    //             parentFrame, this, name, email, phone, gender, jobdesk, address));
+    // }
 
     public void showDetailPopUpDataStaff(int idStaff) {
         popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentFrame, this, idStaff);

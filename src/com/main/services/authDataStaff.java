@@ -1,7 +1,9 @@
 package com.main.services;
 
 import com.main.models.dataStaff.insertDataStaff;
+import com.main.models.dataStaff.loadDataStaff;
 import com.main.models.dataStaff.deleteDataStaff;
+import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.insertAccountStaff;
 import com.main.models.dataStaff.updateDataStaff;
 import com.main.models.dataStaff.updateAccountStaff;
@@ -40,7 +42,7 @@ public class authDataStaff {
             return false;
         }
 
-        if (jobdesk.equalsIgnoreCase("cashier") || jobdesk.equalsIgnoreCase("supplier")) {
+        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
             if (accountEmail != null && accountPassword != null) {
                 return insertAccountStaff.insertAccount(idStaff, accountEmail, accountPassword);
             } else {
@@ -71,7 +73,7 @@ public class authDataStaff {
     }
 
     public static boolean updateStaffWithAccount(
-        int idStaff,
+            int idStaff,
             String nameStaff,
             String email,
             String phoneNumber,
@@ -80,14 +82,15 @@ public class authDataStaff {
             String address,
             String accountEmail,
             String accountPassword) {
-        Integer updateStaff = updateDataStaff.updateStaffAndReturnId(idStaff, nameStaff, email, phoneNumber, gender, jobdesk, address);
+        Integer updateStaff = updateDataStaff.updateStaffAndReturnId(idStaff, nameStaff, email, phoneNumber, gender,
+                jobdesk, address);
 
         if (updateStaff == null) {
             System.out.println("Gagal insert data staff.");
             return false;
         }
 
-        if (jobdesk.equalsIgnoreCase("cashier") || jobdesk.equalsIgnoreCase("supplier")) {
+        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
             if (accountEmail != null && accountPassword != null) {
                 return updateAccountStaff.updateAccount(idStaff, accountEmail, accountPassword);
             } else {
@@ -101,6 +104,10 @@ public class authDataStaff {
 
     public static boolean resignStaffById(int staffId) {
         return deleteDataStaff.resignStaff(staffId);
+    }
+
+    public static getterAccountStaff getDataAccountById(int idStaff) {
+        return loadDataStaff.getDataAccountById(idStaff);
     }
 
     public String validateStaffInput(String name, String email, String phoneNumber,
@@ -130,11 +137,12 @@ public class authDataStaff {
         }
     }
 
-    public static String validateStaffDataExistence(String email, String phoneNumber) {
-        if (insertDataStaff.isEmailExist(email)) {
+    public static String validateStaffDataExistence(String email, String phoneNumber, String oldEmail,
+            String oldPhoneNumber) {
+        if (!email.equalsIgnoreCase(oldEmail) && insertDataStaff.isEmailExist(email)) {
             return "EMAIL_ALREADY_EXISTS";
         }
-        if (insertDataStaff.isPhoneExist(phoneNumber)) {
+        if (!phoneNumber.equals(oldPhoneNumber) && insertDataStaff.isPhoneExist(phoneNumber)) {
             return "PHONE_ALREADY_EXISTS";
         }
         if (phoneNumber.length() > 13) {
