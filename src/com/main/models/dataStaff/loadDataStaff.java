@@ -14,7 +14,7 @@ public class loadDataStaff {
         String[] dataHeader = { "ID", "Date", "Name", "Jobdesk", "Status", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatastaff";
+        String query = "SELECT * FROM vwalldatastaff WHERE status IN ('Active', 'Inactive')";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -53,6 +53,27 @@ public class loadDataStaff {
                         rs.getString("gender"),
                         rs.getString("jobdesk"),
                         rs.getString("address"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static getterAccountStaff getDataAccountById(int idStaff) {
+        String query = "SELECT * FROM tbl_data_account_staff WHERE idStaff = ?";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idStaff);
+            ResultSet rs = state.executeQuery();
+
+            if (rs.next()) {
+                return new getterAccountStaff(
+                        rs.getInt("idAccount"),
+                        rs.getInt("idStaff"),
+                        rs.getString("email"),
+                        rs.getString("password"));
             }
         } catch (Exception e) {
             e.printStackTrace();

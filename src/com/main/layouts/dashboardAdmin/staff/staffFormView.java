@@ -232,7 +232,8 @@ public class staffFormView extends contentPanel {
                         contentPanel.add(addressEmptyLabel);
                         break;
                     case "VALID":
-                        String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber);
+                        String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber, oldEmail,
+                                oldPhoneNumber);
                         if (!uniquenessCheck.equals("VALID")) {
                             switch (uniquenessCheck) {
                                 case "EMAIL_ALREADY_EXISTS":
@@ -250,18 +251,37 @@ public class staffFormView extends contentPanel {
                             }
                             return;
                         }
-                        boolean success = authDataStaff.insertDataStaff(name, email, phoneNumber, gender,
-                                jobdesk, address);
-                        if (success) {
-                            if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
-                                parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, jobdesk);
-                            } else {
-                                parentView.showSuccessPopUp("Data Staff Successfully Saved");
-                                parentView.showDashboardStaff();
-                            }
+
+                        boolean success = false;
+
+                        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
+                            // Untuk Cashier & Supplier: arahkan ke form pembuatan akun
+                            parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, address, false, -1);
                         } else {
-                            parentView.showFailedPopUp("Failed to Save Data Staff");
+                            if (staffIdToEdit == -1) {
+                                // INSERT DATA STAFF tanpa akun
+                                success = authDataStaff.insertDataStaff(name, email, phoneNumber, gender, jobdesk,
+                                        address);
+                                if (success) {
+                                    parentView.showSuccessPopUp("Data Staff Successfully Saved");
+                                    parentView.showDashboardStaff();
+                                } else {
+                                    parentView.showFailedPopUp("Failed to Save Data Staff");
+                                }
+                            } else {
+                                // UPDATE DATA STAFF tanpa akun
+                                success = authDataStaff.updateDataStaff(staffIdToEdit, name, email, phoneNumber, gender,
+                                        jobdesk, address);
+                                if (success) {
+                                    parentView.showSuccessPopUp("Data Staff Successfully Updated");
+                                    parentView.showDashboardStaff();
+                                    staffIdToEdit = -1; // reset ID agar tidak update terus-menerus
+                                } else {
+                                    parentView.showFailedPopUp("Failed to Update Data Staff");
+                                }
+                            }
                         }
+
                         break;
                 }
                 contentPanel.revalidate();

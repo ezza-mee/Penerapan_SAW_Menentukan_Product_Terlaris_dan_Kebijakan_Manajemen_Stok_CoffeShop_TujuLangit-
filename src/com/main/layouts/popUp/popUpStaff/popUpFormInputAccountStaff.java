@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
+import com.main.models.dataStaff.getterAccountStaff;
 import com.main.services.authDataStaff;
 import com.main.views.mainFrame;
 import com.main.views.dashboardAdminView;
@@ -40,18 +41,28 @@ public class popUpFormInputAccountStaff extends popUpPanel {
             String phone,
             String gender,
             String jobdesk,
-            String address) {
+            String address, boolean isEdit, int idStaff) {
         super();
         this.parentFrame = parentFrame;
         this.parentView = parentView;
-        // this.isEditMode = isEdit;
-        // this.idStaff = idStaff;
+        this.isEditMode = isEdit;
+        this.idStaff = idStaff;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
         this.jobdesk = jobdesk;
         this.address = address;
+
+        if (isEditMode) {
+            getterAccountStaff accountData = authDataStaff.getDataAccountById(idStaff);
+            if (accountData != null) {
+                System.out.println("idStaff: " + idStaff);
+                this.passwordField.setText(accountData.getPassword());
+                this.confirmPasswordField.setText(accountData.getPassword());
+            }
+        }
+
         setSize(500, 500);
         initComponent();
     }
@@ -167,27 +178,34 @@ public class popUpFormInputAccountStaff extends popUpPanel {
                         break;
                 }
 
-                if (confirmPassword.isEmpty()) {
-                    add(confirmPasswordEmptyLabel);
-                }
-
                 if (!validationResult.equals("VALID") || confirmPassword.isEmpty()) {
                     revalidate();
                     repaint();
                     return;
                 }
 
-                boolean insertSuccess = authDataStaff.insertStaffWithAccount(
-                        name, email, phone, gender, jobdesk, address,
-                        emailAccount, password);
+                boolean result;
+                if (isEditMode) {
+                    // UPDATE
+                    result = authDataStaff.updateStaffWithAccount(
+                            idStaff, name, email, phone, gender, jobdesk, address,
+                            emailAccount, password);
+                } else {
+                    // INSERT
+                    result = authDataStaff.insertStaffWithAccount(
+                            name, email, phone, gender, jobdesk, address,
+                            emailAccount, password);
+                }
 
-                if (insertSuccess) {
+                if (result) {
                     parentFrame.hideGlassPanel();
                     parentView.showDashboardStaff();
-                    parentView.showSuccessPopUp("Data and Account Staff Successfully Saved");
+                    parentView.showSuccessPopUp(isEditMode ? "Data and Account Staff Successfully Updated"
+                            : "Data and Account Staff Successfully Saved");
                 } else {
                     parentFrame.hideGlassPanel();
-                    parentView.showFailedPopUp("Failed to Save Data and Account Staff");
+                    parentView.showFailedPopUp(
+                            "Failed to " + (isEditMode ? "Update" : "Save") + " Data and Account Staff");
                 }
 
                 revalidate();
