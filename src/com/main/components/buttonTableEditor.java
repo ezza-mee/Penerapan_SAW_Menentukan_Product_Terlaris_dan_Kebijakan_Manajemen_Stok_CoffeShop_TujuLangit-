@@ -2,10 +2,10 @@ package com.main.components;
 
 import javax.swing.*;
 import javax.swing.table.TableCellEditor;
-
 import com.main.controller.tableActionButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.EnumSet;
 
 public class buttonTableEditor extends AbstractCellEditor implements TableCellEditor {
 
@@ -13,11 +13,14 @@ public class buttonTableEditor extends AbstractCellEditor implements TableCellEd
     private final buttonCustom editButton;
     private final buttonCustom deleteButton;
     private final buttonCustom detailButton;
+    private final buttonCustom approveButton;
     private final tableActionButton actionListener;
+    private final EnumSet<buttonType> buttonTypes;
     private int row;
 
-    public buttonTableEditor(tableActionButton actionListener) {
+    public buttonTableEditor(tableActionButton actionListener, EnumSet<buttonType> buttonTypes) {
         this.actionListener = actionListener;
+        this.buttonTypes = buttonTypes;
 
         panel = new JPanel(new GridBagLayout());
         panel.setOpaque(false);
@@ -36,26 +39,35 @@ public class buttonTableEditor extends AbstractCellEditor implements TableCellEd
         detailButton.setPreferredSize(new Dimension(40, 40));
         detailButton.setIcon(iconApps.getDetailIconWhite(20, 20));
 
+        approveButton = new buttonCustom("", 0, 0, 0, 0, 10);
+        approveButton.setPreferredSize(new Dimension(40, 40));
+        approveButton.setIcon(iconApps.getApproveIconWhite(20, 20));
+
+        // Action listeners
         editButton.addActionListener((ActionEvent e) -> {
             actionListener.onEdit(row);
             fireEditingStopped();
         });
-
         deleteButton.addActionListener((ActionEvent e) -> {
             actionListener.onDelete(row);
             fireEditingStopped();
         });
-
         detailButton.addActionListener((ActionEvent e) -> {
             actionListener.onDetail(row);
             fireEditingStopped();
         });
 
-        JPanel container = new JPanel(new GridLayout(1, 2, 10, 0));
+        JPanel container = new JPanel(new GridLayout(1, 3, 10, 0));
         container.setOpaque(false);
-        container.add(editButton);
-        container.add(deleteButton);
-        container.add(detailButton);
+
+        if (buttonTypes.contains(buttonType.EDIT))
+            container.add(editButton);
+        if (buttonTypes.contains(buttonType.DELETE))
+            container.add(deleteButton);
+        if (buttonTypes.contains(buttonType.DETAIL))
+            container.add(detailButton);
+        if (buttonTypes.contains(buttonType.APPROVE))
+            container.add(detailButton);
 
         panel.add(container);
     }

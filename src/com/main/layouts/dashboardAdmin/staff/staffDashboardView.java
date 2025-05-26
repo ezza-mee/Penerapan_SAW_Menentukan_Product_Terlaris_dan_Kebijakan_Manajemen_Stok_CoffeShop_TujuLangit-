@@ -1,5 +1,7 @@
 package com.main.layouts.dashboardAdmin.staff;
 
+import java.util.EnumSet;
+
 import javax.swing.JOptionPane;
 
 import com.main.components.*;
@@ -31,6 +33,8 @@ public class staffDashboardView extends contentPanel {
     private appIcons iconApps = new appIcons();
 
     private imageIcon iconUser = iconApps.getUserIconGreen(35, 35);
+
+    private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, buttonType.DELETE, buttonType.DETAIL);
 
     public staffDashboardView(dashboardAdminView parentView) {
         super();
@@ -77,7 +81,7 @@ public class staffDashboardView extends contentPanel {
 
         buttonAdd = new buttonCustom("Add", 900, 40, 100, 40, 10);
 
-        dataStaffTable = new table(loadDataStaff.getAllDataStaff(), new tableActionButton() {
+        tableActionButton actionButton = new tableActionButton() {
             @Override
             public void onEdit(int row) {
                 try {
@@ -150,7 +154,20 @@ public class staffDashboardView extends contentPanel {
                     JOptionPane.showMessageDialog(null, "Gagal menampilkan detail staff!");
                 }
             }
-        });
+
+            @Override
+            public void onApprove(int row) {
+                // Not implemented
+            }
+        };
+
+        dataStaffTable = new table(loadDataStaff.getAllDataStaff(), actionButton);
+
+        int actionColumnIndex = 5;
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellRenderer(new buttonTableRenderer(buttonTypes));
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellEditor(new buttonTableEditor(actionButton, buttonTypes));
 
         scrollDataStaff = new scrollTable(dataStaffTable, 0, 0, 1050, 410);
 

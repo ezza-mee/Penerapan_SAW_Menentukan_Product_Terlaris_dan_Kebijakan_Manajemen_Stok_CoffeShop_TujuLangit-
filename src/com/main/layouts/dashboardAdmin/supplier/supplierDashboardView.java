@@ -1,7 +1,11 @@
 package com.main.layouts.dashboardAdmin.supplier;
 
+import java.util.EnumSet;
+
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.controller.tableActionButton;
+import com.main.models.dataSupplier.loadDataSupplier;
 import com.main.views.dashboardAdminView;
 
 public class supplierDashboardView extends contentPanel {
@@ -13,7 +17,20 @@ public class supplierDashboardView extends contentPanel {
     private panelRounded headerContent;
     private panelRounded contentSupplier;
 
+    private linkLabel allLabel;
+    private linkLabel pendingLabel;
+    private linkLabel stocklabel;
+    private linkLabel outStockLabel;
+
     private buttonCustom buttonAdd;
+
+    private table dataSupplierTable;
+    private scrollTable scrollDataSupplier;
+
+    private int quantityAllDataSupplier = loadDataSupplier.getAllQuantityDataSupplier();
+
+    private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, 
+            buttonType.DELETE, buttonType.DETAIL);
 
     public supplierDashboardView(dashboardAdminView parentView) {
         super();
@@ -28,7 +45,13 @@ public class supplierDashboardView extends contentPanel {
         setFont();
         handleButton();
 
+        headerContent.add(allLabel);
+        headerContent.add(pendingLabel);
+        headerContent.add(stocklabel);
+        headerContent.add(outStockLabel);
         headerContent.add(buttonAdd);
+
+        contentSupplier.add(scrollDataSupplier);
 
         add(headerLabel);
         add(headerContent);
@@ -42,8 +65,54 @@ public class supplierDashboardView extends contentPanel {
         headerContent = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentSupplier = new panelRounded(40, 220, 1050, 410, 10, 10);
 
+        allLabel = new linkLabel("ALL", 40, 40, 80, 30);
+        allLabel.setQuantity(quantityAllDataSupplier);
+        pendingLabel = new linkLabel("Pending", 155, 40, 120, 30);
+        stocklabel = new linkLabel("In Stock", 310, 40, 120, 30);
+        outStockLabel = new linkLabel("Out Stock", 470, 40, 120, 30);
+
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
-    }
+
+        tableActionButton actionButton = new tableActionButton() {
+            @Override
+            public void onEdit(int row) {
+                System.out.println("Edit row: " + row);
+            }
+
+            @Override
+            public void onDelete(int row) {
+                System.out.println("Delete row: " + row);
+            }
+
+            @Override
+            public void onDetail(int row) {
+                System.out.println("Detail row: " + row);
+            }
+
+            @Override
+            public void onApprove(int row) {
+                System.out.println("Approve row: " + row);
+            }
+        };
+
+        dataSupplierTable = new table(loadDataSupplier.getAllDataSupplier(), actionButton);
+
+        int actionColumnIndex = 6; 
+        dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellRenderer(new buttonTableRenderer(buttonTypes));
+        dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellEditor(new buttonTableEditor(actionButton, buttonTypes));
+
+        scrollDataSupplier = new scrollTable(dataSupplierTable, 0, 0, 1050, 410);
+
+        dataSupplierTable.getColumnModel().getColumn(0).setMinWidth(80);
+        dataSupplierTable.getColumnModel().getColumn(0).setMaxWidth(80);
+        dataSupplierTable.getColumnModel().getColumn(0).setWidth(80);
+
+        dataSupplierTable.getColumnModel().getColumn(4).setMinWidth(90);
+        dataSupplierTable.getColumnModel().getColumn(4).setMaxWidth(90);
+        dataSupplierTable.getColumnModel().getColumn(4).setWidth(90);
+    }    
 
     private void setColor() {
         headerLabel.setForeground(color.BLACK);
@@ -54,6 +123,11 @@ public class supplierDashboardView extends contentPanel {
 
     private void setFont() {
         headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
+
+        allLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        pendingLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        stocklabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        outStockLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
 
     }
 

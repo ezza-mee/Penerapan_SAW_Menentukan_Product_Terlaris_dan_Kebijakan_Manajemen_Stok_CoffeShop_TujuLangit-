@@ -125,4 +125,8 @@ public class appIcons {
     public imageIcon getUserIconGreen(int width, int height) {
         return loadIcon("src/com/main/resources/images/user(green).png", width, height);
     }
+
+    public imageIcon getApproveIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/approve(white).png", width, height);
+    }
 }

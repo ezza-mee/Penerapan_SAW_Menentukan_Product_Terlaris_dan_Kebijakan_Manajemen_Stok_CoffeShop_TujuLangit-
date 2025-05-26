@@ -3,6 +3,8 @@ package com.main.components;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
+import java.util.EnumSet;
+
 import com.main.controller.tableActionButton;
 
 public class table extends JTable {
@@ -61,8 +63,11 @@ public class table extends JTable {
             }
         }
 
-        getColumnModel().getColumn(actionColumnIndex).setCellRenderer(new buttonTableRenderer());
-        getColumnModel().getColumn(actionColumnIndex).setCellEditor(new buttonTableEditor(actionListener));
+        EnumSet<buttonType> buttons = EnumSet.of(buttonType.EDIT, buttonType.DELETE, buttonType.DETAIL,
+                buttonType.APPROVE);
+
+        getColumnModel().getColumn(actionColumnIndex).setCellRenderer(new buttonTableRenderer(buttons));
+        getColumnModel().getColumn(actionColumnIndex).setCellEditor(new buttonTableEditor(actionListener, buttons));
 
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent e) {
