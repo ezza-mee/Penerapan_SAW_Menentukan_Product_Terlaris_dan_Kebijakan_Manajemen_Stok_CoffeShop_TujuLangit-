@@ -1,7 +1,5 @@
 package com.main.layouts.dashboardAdmin.supplier;
 
-import javax.swing.JOptionPane;
-
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.services.authDataSupplier;
@@ -46,11 +44,6 @@ public class supplierFormView extends contentPanel {
         contentPanel.add(quantityLabel);
         contentPanel.add(unitLabel);
         contentPanel.add(descriptionLabel);
-
-        contentPanel.add(nameEmptyLabel);
-        contentPanel.add(quantityEmptyLabel);
-        contentPanel.add(unitEmptyLabel);
-        contentPanel.add(descriptionEmptyLabel);
 
         contentPanel.add(nameField);
         contentPanel.add(quantityField);
@@ -147,24 +140,14 @@ public class supplierFormView extends contentPanel {
                     String unit = (String) unitField.getSelectedItem();
                     String description = descriptionField.getText().trim();
 
-                    int quantity;
-
-                    try {
-                        quantity = Integer.parseInt(stringQuantity);
-                    } catch (NumberFormatException ex) {
-                        contentPanel.removeAll();
-                        contentPanel.add(quantityEmptyLabel);
-                        contentPanel.revalidate();
-                        contentPanel.repaint();
-                        return;
-                    }
-
+                    // Bersihkan semua label error terlebih dahulu
                     contentPanel.remove(nameEmptyLabel);
                     contentPanel.remove(quantityEmptyLabel);
                     contentPanel.remove(unitEmptyLabel);
                     contentPanel.remove(descriptionEmptyLabel);
 
-                    String validation = authData.validateSupplierInput(nameSupplier, quantity, unit, description);
+                    // Validasi input
+                    String validation = authData.validateSupplierInput(nameSupplier, stringQuantity, unit, description);
 
                     switch (validation) {
                         case "ALL_FIELDS_EMPTY":
@@ -173,20 +156,27 @@ public class supplierFormView extends contentPanel {
                             contentPanel.add(unitEmptyLabel);
                             contentPanel.add(descriptionEmptyLabel);
                             break;
+
                         case "NAME_SUPPLIER_EMPTY":
                             contentPanel.add(nameEmptyLabel);
                             break;
+
                         case "QUANTITY_INVALID":
                             contentPanel.add(quantityEmptyLabel);
                             break;
+
                         case "UNIT_EMPTY":
                             contentPanel.add(unitEmptyLabel);
                             break;
+
                         case "DESCRIPTION_EMPTY":
                             contentPanel.add(descriptionEmptyLabel);
                             break;
+
                         case "VALID":
-                            boolean success = authData.insertSupplier(nameSupplier, quantity, unit, description);
+                            int quantity = Integer.parseInt(stringQuantity);
+                            boolean success = authDataSupplier.insertDataSupplier(nameSupplier, quantity, unit,
+                                    description);
                             if (success) {
                                 parentView.showDashboardSupplier();
                                 parentView.showSuccessPopUp("Data Supplier Successfully Saved");
@@ -195,6 +185,7 @@ public class supplierFormView extends contentPanel {
                             }
                             break;
                     }
+
                     contentPanel.revalidate();
                     contentPanel.repaint();
                 } catch (Exception ex) {
@@ -202,6 +193,7 @@ public class supplierFormView extends contentPanel {
                 }
             }
         });
+
     }
 
 }

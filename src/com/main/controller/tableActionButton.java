@@ -6,4 +6,6 @@ public interface tableActionButton {
     void onDelete(int row);
 
     void onDetail(int row);
+
+    void onApprove(int row);
 }
