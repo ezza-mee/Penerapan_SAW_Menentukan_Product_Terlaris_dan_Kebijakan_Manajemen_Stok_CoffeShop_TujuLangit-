@@ -188,106 +188,115 @@ public class staffFormView extends contentPanel {
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                String name = nameField.getText().trim();
-                String email = emailField.getText().trim();
-                String phoneNumber = phoneField.getText().trim();
-                String gender = (String) genderField.getSelectedItem();
-                String jobdesk = (String) jobdeskField.getSelectedItem();
-                String address = addresField.getText().trim();
+                try {
+                    String name = nameField.getText().trim();
+                    String email = emailField.getText().trim();
+                    String phoneNumber = phoneField.getText().trim();
+                    String gender = (String) genderField.getSelectedItem();
+                    String jobdesk = (String) jobdeskField.getSelectedItem();
+                    String address = addresField.getText().trim();
 
-                contentPanel.remove(nameEmptyLabel);
-                contentPanel.remove(emailEmptyLabel);
-                contentPanel.remove(phoneEmptyLabel);
-                contentPanel.remove(genderEmptyLabel);
-                contentPanel.remove(jobdeskEmptyLabel);
-                contentPanel.remove(addressEmptyLabel);
+                    contentPanel.remove(nameEmptyLabel);
+                    contentPanel.remove(emailEmptyLabel);
+                    contentPanel.remove(phoneEmptyLabel);
+                    contentPanel.remove(genderEmptyLabel);
+                    contentPanel.remove(jobdeskEmptyLabel);
+                    contentPanel.remove(addressEmptyLabel);
 
-                String validation = insertStaff.validateStaffInput(name, email, phoneNumber, gender, jobdesk, address);
+                    String validation = insertStaff.validateStaffInput(name, email, phoneNumber, gender, jobdesk,
+                            address);
 
-                switch (validation) {
-                    case "ALL_FIELDS_EMPTY":
-                        contentPanel.add(nameEmptyLabel);
-                        contentPanel.add(emailEmptyLabel);
-                        contentPanel.add(phoneEmptyLabel);
-                        contentPanel.add(genderEmptyLabel);
-                        contentPanel.add(jobdeskEmptyLabel);
-                        contentPanel.add(addressEmptyLabel);
-                        break;
-                    case "NAME_EMPTY":
-                        contentPanel.add(nameEmptyLabel);
-                        break;
-                    case "EMAIL_EMPTY":
-                        contentPanel.add(emailEmptyLabel);
-                        break;
-                    case "PHONE_EMPTY":
-                        contentPanel.add(phoneEmptyLabel);
-                        break;
-                    case "GENDER_EMPTY":
-                        contentPanel.add(genderEmptyLabel);
-                        break;
-                    case "JOBDESK_EMPTY":
-                        contentPanel.add(jobdeskEmptyLabel);
-                        break;
-                    case "ADDRESS_EMPTY":
-                        contentPanel.add(addressEmptyLabel);
-                        break;
-                    case "VALID":
-                        String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber, oldEmail,
-                                oldPhoneNumber,
-                                staffIdToEdit);
-                        if (!uniquenessCheck.equals("VALID")) {
-                            switch (uniquenessCheck) {
-                                case "EMAIL_ALREADY_EXISTS":
-                                    parentView.showFailedPopUp("Email is already used.");
-                                    break;
-                                case "PHONE_ALREADY_EXISTS":
-                                    parentView.showFailedPopUp("Phone number is already used.");
-                                    break;
-                                case "PHONE_TOO_LONG":
-                                    parentView.showFailedPopUp("Phone number cannot exceed 13 digits.");
-                                    break;
-                                default:
-                                    parentView.showFailedPopUp("Unknown validation error.");
-                                    break;
-                            }
-                            return;
-                        }
-
-                        boolean success = false;
-
-                        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
-                            // Untuk Cashier & Supplier: arahkan ke form pembuatan akun
-                            parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, address, true,
+                    switch (validation) {
+                        case "ALL_FIELDS_EMPTY":
+                            contentPanel.add(nameEmptyLabel);
+                            contentPanel.add(emailEmptyLabel);
+                            contentPanel.add(phoneEmptyLabel);
+                            contentPanel.add(genderEmptyLabel);
+                            contentPanel.add(jobdeskEmptyLabel);
+                            contentPanel.add(addressEmptyLabel);
+                            break;
+                        case "NAME_EMPTY":
+                            contentPanel.add(nameEmptyLabel);
+                            break;
+                        case "EMAIL_EMPTY":
+                            contentPanel.add(emailEmptyLabel);
+                            break;
+                        case "PHONE_EMPTY":
+                            contentPanel.add(phoneEmptyLabel);
+                            break;
+                        case "GENDER_EMPTY":
+                            contentPanel.add(genderEmptyLabel);
+                            break;
+                        case "JOBDESK_EMPTY":
+                            contentPanel.add(jobdeskEmptyLabel);
+                            break;
+                        case "ADDRESS_EMPTY":
+                            contentPanel.add(addressEmptyLabel);
+                            break;
+                        case "VALID":
+                            String uniquenessCheck = authDataStaff.validateStaffDataExistence(email, phoneNumber,
+                                    oldEmail,
+                                    oldPhoneNumber,
                                     staffIdToEdit);
-                        } else {
-                            if (staffIdToEdit == -1) {
-                                // INSERT DATA STAFF tanpa akun
-                                success = authDataStaff.insertDataStaff(name, email, phoneNumber, gender, jobdesk,
-                                        address);
-                                if (success) {
-                                    parentView.showSuccessPopUp("Data Staff Successfully Saved");
-                                    parentView.showDashboardStaff();
-                                } else {
-                                    parentView.showFailedPopUp("Failed to Save Data Staff");
+                            if (!uniquenessCheck.equals("VALID")) {
+                                switch (uniquenessCheck) {
+                                    case "EMAIL_ALREADY_EXISTS":
+                                        parentView.showFailedPopUp("Email is already used.");
+                                        break;
+                                    case "PHONE_ALREADY_EXISTS":
+                                        parentView.showFailedPopUp("Phone number is already used.");
+                                        break;
+                                    case "PHONE_TOO_LONG":
+                                        parentView.showFailedPopUp("Phone number cannot exceed 13 digits.");
+                                        break;
+                                    default:
+                                        parentView.showFailedPopUp("Unknown validation error.");
+                                        break;
                                 }
+                                return;
+                            }
+
+                            boolean success = false;
+
+                            if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
+                                // Untuk Cashier & Supplier: arahkan ke form pembuatan akun
+                                parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, address,
+                                        true,
+                                        staffIdToEdit);
                             } else {
-                                // UPDATE DATA STAFF tanpa akun
-                                success = authDataStaff.updateDataStaff(staffIdToEdit, name, email, phoneNumber, gender,
-                                        jobdesk, address);
-                                if (success) {
-                                    parentView.showSuccessPopUp("Data Staff Successfully Updated");
-                                    parentView.showDashboardStaff();
-                                    staffIdToEdit = -1; // reset ID agar tidak update terus-menerus
+                                if (staffIdToEdit == -1) {
+                                    // INSERT DATA STAFF tanpa akun
+                                    success = authDataStaff.insertDataStaff(name, email, phoneNumber, gender, jobdesk,
+                                            address);
+                                    if (success) {
+                                        parentView.showSuccessPopUp("Data Staff Successfully Saved");
+                                        parentView.showDashboardStaff();
+                                    } else {
+                                        parentView.showFailedPopUp("Failed to Save Data Staff");
+                                    }
                                 } else {
-                                    parentView.showFailedPopUp("Failed to Update Data Staff");
+                                    // UPDATE DATA STAFF tanpa akun
+                                    success = authDataStaff.updateDataStaff(staffIdToEdit, name, email, phoneNumber,
+                                            gender,
+                                            jobdesk, address);
+                                    if (success) {
+                                        parentView.showSuccessPopUp("Data Staff Successfully Updated");
+                                        parentView.showDashboardStaff();
+                                        staffIdToEdit = -1; // reset ID agar tidak update terus-menerus
+                                    } else {
+                                        parentView.showFailedPopUp("Failed to Update Data Staff");
+                                    }
                                 }
                             }
-                        }
 
-                        break;
+                            break;
+                    }
+                    contentPanel.revalidate();
+                    contentPanel.repaint();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                contentPanel.revalidate();
-                contentPanel.repaint();
+
             }
         });
     }
