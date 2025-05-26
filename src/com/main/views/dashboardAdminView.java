@@ -12,6 +12,7 @@ import com.main.layouts.dashboardAdmin.product.productFormView;
 import com.main.layouts.dashboardAdmin.staff.staffDashboardView;
 import com.main.layouts.dashboardAdmin.staff.staffFormView;
 import com.main.layouts.dashboardAdmin.supplier.supplierDashboardView;
+import com.main.layouts.dashboardAdmin.supplier.supplierFormView;
 import com.main.layouts.dashboardAdmin.transaction.transactionDashboardView;
 import com.main.layouts.popUp.popUpFailed;
 import com.main.layouts.popUp.popUpLogout;
@@ -41,7 +42,7 @@ public class dashboardAdminView extends containerPanel {
         add(parentDashboard);
 
         // parentDashboard.getNavbar().showHomeView();
-        parentDashboard.getNavbar().showStaffView();
+        parentDashboard.getNavbar().showSupplierView();
     }
 
     public void showDashboardHome() {
@@ -56,10 +57,28 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(dashboardProduct);
     }
 
+    public void showFormProduct() {
+        productFormView formProduct = new productFormView(this);
+        lastContent = formProduct;
+        parentDashboard.setContent(formProduct);
+    }
+
+    public void showFormKomposisiProduct() {
+        productCompositionFormView formCompositionProduct = new productCompositionFormView(this);
+        lastContent = formCompositionProduct;
+        parentDashboard.setContent(formCompositionProduct);
+    }
+
     public void showDashboardSupplier() {
-        supplierDashboardView dashboardSupplier = new supplierDashboardView();
+        supplierDashboardView dashboardSupplier = new supplierDashboardView(this);
         lastContent = dashboardSupplier;
         parentDashboard.setContent(dashboardSupplier);
+    }
+
+    public void showFormSupplier() {
+        supplierFormView formSupplier = new supplierFormView(this);
+        lastContent = formSupplier;
+        parentDashboard.setContent(formSupplier);
     }
 
     public void showDashboardTransaction() {
@@ -138,18 +157,6 @@ public class dashboardAdminView extends containerPanel {
         parentFrame.showGlassPanel(popUp);
     }
 
-    public void showFormProduct() {
-        productFormView formProduct = new productFormView(this);
-        lastContent = formProduct;
-        parentDashboard.setContent(formProduct);
-    }
-
-    public void showFormKomposisiProduct() {
-        productCompositionFormView formCompositionProduct = new productCompositionFormView(this);
-        lastContent = formCompositionProduct;
-        parentDashboard.setContent(formCompositionProduct);
-    }
-
     public void showLogoutApp() {
         parentDashboard.setContent(restoreLastContent());
         parentFrame.showGlassPanel(new popUpLogout(parentFrame));
@@ -160,7 +167,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void resetLastContent() {
-        parentDashboard.getNavbar().showStaffView();
+        parentDashboard.getNavbar().showSupplierView();
         lastContent = null;
     }
 

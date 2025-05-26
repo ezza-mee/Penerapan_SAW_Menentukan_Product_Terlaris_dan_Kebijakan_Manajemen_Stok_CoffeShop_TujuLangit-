@@ -2,8 +2,11 @@ package com.main.layouts.dashboardAdmin.supplier;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.views.dashboardAdminView;
 
 public class supplierDashboardView extends contentPanel {
+
+    private dashboardAdminView parentView;
 
     private textLabel headerLabel;
 
@@ -12,8 +15,9 @@ public class supplierDashboardView extends contentPanel {
 
     private buttonCustom buttonAdd;
 
-    public supplierDashboardView() {
+    public supplierDashboardView(dashboardAdminView parentView) {
         super();
+        this.parentView = parentView;
         initContent();
     }
 
@@ -22,6 +26,7 @@ public class supplierDashboardView extends contentPanel {
         setPosition();
         setColor();
         setFont();
+        handleButton();
 
         headerContent.add(buttonAdd);
 
@@ -41,7 +46,7 @@ public class supplierDashboardView extends contentPanel {
     }
 
     private void setColor() {
-        headerLabel.setForeground(color.DARKGREEN);
+        headerLabel.setForeground(color.BLACK);
         headerContent.setBackground(color.WHITE);
         contentSupplier.setBackground(color.WHITE);
 
@@ -50,6 +55,15 @@ public class supplierDashboardView extends contentPanel {
     private void setFont() {
         headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
 
+    }
+
+    private void handleButton() {
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                parentView.showFormSupplier();
+            }
+        });
     }
 
 }
