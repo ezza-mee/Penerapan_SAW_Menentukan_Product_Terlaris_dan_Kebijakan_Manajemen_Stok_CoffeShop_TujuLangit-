@@ -7,6 +7,7 @@ import com.main.components.panelApps.contentPanel;
 import com.main.controller.tableActionButton;
 import com.main.models.dataSupplier.loadDataSupplier;
 import com.main.views.dashboardAdminView;
+import com.main.services.authDataSupplier;
 
 public class supplierDashboardView extends contentPanel {
 
@@ -29,8 +30,10 @@ public class supplierDashboardView extends contentPanel {
 
     private int quantityAllDataSupplier = loadDataSupplier.getAllQuantityDataSupplier();
 
-    private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, 
+    private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT,
             buttonType.DELETE, buttonType.DETAIL);
+
+    private authDataSupplier authData = new authDataSupplier();
 
     public supplierDashboardView(dashboardAdminView parentView) {
         super();
@@ -81,7 +84,26 @@ public class supplierDashboardView extends contentPanel {
 
             @Override
             public void onDelete(int row) {
-                System.out.println("Delete row: " + row);
+                try {
+                    int selectedRow = dataSupplierTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
+                        int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
+                        int quantity = 0;
+                        boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
+
+                        if (isSuccess) {
+                            parentView.showSuccessPopUp("Success Delete Data Delete");
+                            parentView.showDashboardSupplier();
+                        } else {
+                            parentView.showFailedPopUp("Failed Delete Data Delete");
+                            parentView.showDashboardSupplier();
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -97,7 +119,7 @@ public class supplierDashboardView extends contentPanel {
 
         dataSupplierTable = new table(loadDataSupplier.getAllDataSupplier(), actionButton);
 
-        int actionColumnIndex = 6; 
+        int actionColumnIndex = 6;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
                 .setCellRenderer(new buttonTableRenderer(buttonTypes));
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
@@ -112,7 +134,7 @@ public class supplierDashboardView extends contentPanel {
         dataSupplierTable.getColumnModel().getColumn(4).setMinWidth(90);
         dataSupplierTable.getColumnModel().getColumn(4).setMaxWidth(90);
         dataSupplierTable.getColumnModel().getColumn(4).setWidth(90);
-    }    
+    }
 
     private void setColor() {
         headerLabel.setForeground(color.BLACK);

@@ -1,6 +1,8 @@
 package com.main.services;
 
 import com.main.models.dataSupplier.insertDataSupplier;
+import com.main.models.dataSupplier.deleteDataSupplier;
+import com.main.models.dataSupplier.updateDataSupplier;
 
 public class authDataSupplier {
 
@@ -11,6 +13,20 @@ public class authDataSupplier {
             String description) {
 
         return insertDataSupplier.insertSupplier(nameSupplier, quantity, unitSupplier, description);
+    }
+
+    public static boolean updateDataSupplier(
+            int supplierId,
+            String nameSupplier,
+            int quantity,
+            String unitSupplier,
+            String description) {
+
+        return updateDataSupplier.updateSupplier(supplierId, nameSupplier, quantity, unitSupplier, description);
+    }
+
+    public static boolean deleteDataSupplier(int supplierId, int quantity) {
+        return deleteDataSupplier.deleteSupplier(supplierId, quantity);
     }
 
     public String validateSupplierInput(String nameSupplier, String quantity, String unitSupplier, String description) {
