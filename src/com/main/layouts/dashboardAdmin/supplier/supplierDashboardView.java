@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.tableActionButton;
+import com.main.models.dataSupplier.getterDataSupplier;
 import com.main.models.dataSupplier.loadDataSupplier;
 import com.main.views.dashboardAdminView;
 import com.main.services.authDataSupplier;
@@ -79,7 +80,32 @@ public class supplierDashboardView extends contentPanel {
         tableActionButton actionButton = new tableActionButton() {
             @Override
             public void onEdit(int row) {
-                System.out.println("Edit row: " + row);
+
+                try {
+                    int selectedRow = dataSupplierTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
+                        int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
+                        
+                        getterDataSupplier selectedDataSupplier = loadDataSupplier.getDataById(idSupplier);
+
+                        if (selectedDataSupplier != null) {
+                            System.out.println("Edit row: " + row);
+
+                            parentView.setDataSupplierToEdit(selectedDataSupplier);
+                            parentView.showFormSupplier();
+
+                            System.out.println("Name Supplier : " + selectedDataSupplier.getNameSupplier());
+                            System.out.println("Quantity : " + selectedDataSupplier.getQuantity());
+                            System.out.println("Unit : " + selectedDataSupplier.getUnit());
+                            System.out.println("Description : " + selectedDataSupplier.getDescription());
+                        } else {
+
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

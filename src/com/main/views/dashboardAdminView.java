@@ -21,6 +21,7 @@ import com.main.layouts.popUp.popUpStaff.popUpDetailDataStaff;
 import com.main.layouts.popUp.popUpStaff.popUpFormInputAccountStaff;
 import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.getterDataStaff;
+import com.main.models.dataSupplier.getterDataSupplier;
 import com.main.services.authDataStaff;
 
 public class dashboardAdminView extends containerPanel {
@@ -30,6 +31,7 @@ public class dashboardAdminView extends containerPanel {
     private contentPanel lastContent;
 
     private getterDataStaff dataStaffToEdit = null;
+    private getterDataSupplier dataSupplierToEdit = null;
 
     private getterAccountStaff accountData = null;
 
@@ -77,6 +79,12 @@ public class dashboardAdminView extends containerPanel {
 
     public void showFormSupplier() {
         supplierFormView formSupplier = new supplierFormView(this);
+
+        if (dataSupplierToEdit != null) {
+            formSupplier.setFormSupplier(dataSupplierToEdit);
+            dataSupplierToEdit = null;
+        }
+
         lastContent = formSupplier;
         parentDashboard.setContent(formSupplier);
     }
@@ -173,6 +181,10 @@ public class dashboardAdminView extends containerPanel {
 
     public void setDataStaffToEdit(getterDataStaff dataStaff) {
         this.dataStaffToEdit = dataStaff;
+    }
+
+    public void setDataSupplierToEdit(getterDataSupplier dataSupplier) {
+        this.dataSupplierToEdit = dataSupplier;
     }
 
 }

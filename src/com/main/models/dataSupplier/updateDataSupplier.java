@@ -16,6 +16,7 @@ public class updateDataSupplier {
             stmt.setInt(2, quantity);
             stmt.setString(3, unit);
             stmt.setString(4, description);
+            stmt.setInt(5, idSupplier);
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

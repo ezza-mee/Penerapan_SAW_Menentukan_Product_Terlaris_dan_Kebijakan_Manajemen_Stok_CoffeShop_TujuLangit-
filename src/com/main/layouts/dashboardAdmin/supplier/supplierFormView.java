@@ -2,6 +2,7 @@ package com.main.layouts.dashboardAdmin.supplier;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.models.dataSupplier.getterDataSupplier;
 import com.main.services.authDataSupplier;
 import com.main.views.dashboardAdminView;
 
@@ -26,6 +27,8 @@ public class supplierFormView extends contentPanel {
     private buttonCustom buttonBack, buttonReset, buttonSave;
 
     private authDataSupplier authData = new authDataSupplier();
+
+    private int supplierIdToEdit = -1;
 
     public supplierFormView(dashboardAdminView parentView) {
         super();
@@ -123,6 +126,17 @@ public class supplierFormView extends contentPanel {
         descriptionEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
     }
 
+    public void setFormSupplier(getterDataSupplier dataSupplier) {
+        nameField.setText(dataSupplier.getNameSupplier());
+        int quantity = dataSupplier.getQuantity();
+        quantityField.setText(String.valueOf(quantity));
+        unitField.setSelectedItem(dataSupplier.getUnit());
+        descriptionField.setText(dataSupplier.getDescription());
+
+        supplierIdToEdit = dataSupplier.getIdSupplier();
+
+    }
+
     private void handleButton() {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -174,14 +188,26 @@ public class supplierFormView extends contentPanel {
                             break;
 
                         case "VALID":
+                            boolean success = false;
                             int quantity = Integer.parseInt(stringQuantity);
-                            boolean success = authDataSupplier.insertDataSupplier(nameSupplier, quantity, unit,
-                                    description);
-                            if (success) {
-                                parentView.showDashboardSupplier();
-                                parentView.showSuccessPopUp("Data Supplier Successfully Saved");
+                            if (supplierIdToEdit == -1) {
+                                success = authDataSupplier.insertDataSupplier(nameSupplier, quantity, unit,
+                                        description);
+                                if (success) {
+                                    parentView.showDashboardSupplier();
+                                    parentView.showSuccessPopUp("Data Supplier Successfully Saved");
+                                } else {
+                                    parentView.showFailedPopUp("Failed to Save Data Staff");
+                                }
                             } else {
-                                parentView.showFailedPopUp("Failed to Save Data Staff");
+                                success = authDataSupplier.updateDataSupplier(supplierIdToEdit, nameSupplier, quantity,
+                                        unit, description);
+                                if (success) {
+                                    parentView.showDashboardSupplier();
+                                    parentView.showSuccessPopUp("Data Supplier Successfully Update");
+                                } else {
+                                    parentView.showFailedPopUp("Failed to Update Data Staff");
+                                }
                             }
                             break;
                     }
