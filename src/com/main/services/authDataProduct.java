@@ -16,6 +16,7 @@ public class authDataProduct {
             int idSupplier,
             String nameSupplier,
             int quantity,
+            String unit,
             List<listCompositionData> compositions) {
 
         int idProduct = insertDataProduct.insertProduct(imageProduct, nameProduct, price, category, description);
@@ -30,8 +31,9 @@ public class authDataProduct {
                     idProduct,
                     listComp.idSupplier,
                     nameProduct,
-                    nameSupplier,
-                    quantity);
+                    listComp.nameSupplier,
+                    listComp.quantity,
+                    listComp.unit);
 
             if (!compositionInserted) {
                 System.out.println("Produk berhasil disimpan, tapi gagal insert komposisi produk.");

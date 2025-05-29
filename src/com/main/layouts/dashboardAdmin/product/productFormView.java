@@ -211,22 +211,8 @@ public class productFormView extends contentPanel {
                             pathImageLabel.setForeground(color.BLACK);
                             // boolean success = false;
                             int price = Integer.parseInt(stringPrice);
-                            boolean success = authDataProduct.insertDataProductWithComposition(
-                                    imageProduct,
-                                    nameProduct,
-                                    price,
-                                    category,
-                                    description,
-                                    idSupplier,
-                                    nameSupplier,
-                                    quantity,
-                                    compositions);
-
-                            if (success) {
-                                parentView.showFormCompositionProduct();
-                            } else {
-                                parentView.showFailedPopUp("Failed to Save Data Staff");
-                            }
+                            parentView.showFormCompositionProduct(imageProduct, nameProduct, price, category,
+                                    description);
                             break;
                     }
 

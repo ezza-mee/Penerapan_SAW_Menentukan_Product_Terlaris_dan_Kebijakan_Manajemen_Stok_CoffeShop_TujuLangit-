@@ -9,10 +9,10 @@ import com.main.models.connectionDatabase;
 public class insertDataCompositionProduct {
     public static boolean insertCompositionProduct(int idProduct, int idSupplier, String nameProduct,
             String nameSupplier,
-            int quantity) {
+            int quantity, String unit) {
         boolean data = false;
 
-        String query = "INSERT INTO tbl_data_composition_product (idProduct, idSupplier, nameProduct, nameSupplier, quantity) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tbl_data_composition_product (idProduct, idSupplier, nameProduct, supplier, quantity, unit) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);) {
@@ -22,6 +22,7 @@ public class insertDataCompositionProduct {
             state.setString(3, nameProduct);
             state.setString(4, nameSupplier);
             state.setInt(5, quantity);
+            state.setString(6, unit);
 
             if (state.executeUpdate() > 0) {
                 data = true;

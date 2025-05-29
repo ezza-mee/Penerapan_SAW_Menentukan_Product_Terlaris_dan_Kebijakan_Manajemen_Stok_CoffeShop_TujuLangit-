@@ -202,7 +202,7 @@ public class navigationDashboardView extends navigationPanel {
         navProduct.setBackground(color.WHITE);
         navProduct.setNavigationAktif();
 
-        contentView.showFormCompositionProduct();
+        contentView.showFormProduct();
 
         setVisible(true);
     }

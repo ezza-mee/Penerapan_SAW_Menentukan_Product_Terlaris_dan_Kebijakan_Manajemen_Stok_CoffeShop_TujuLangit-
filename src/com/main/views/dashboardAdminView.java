@@ -65,8 +65,10 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(formProduct);
     }
 
-    public void showFormCompositionProduct() {
-        productCompositionFormView formCompositionProduct = new productCompositionFormView(this);
+    public void showFormCompositionProduct(String imageProduct, String nameProduct, int price, String category,
+            String description) {
+        productCompositionFormView formCompositionProduct = new productCompositionFormView(this, imageProduct,
+                nameProduct, price, category, description);
         lastContent = formCompositionProduct;
         parentDashboard.setContent(formCompositionProduct);
     }
