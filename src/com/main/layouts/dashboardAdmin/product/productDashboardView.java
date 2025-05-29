@@ -9,8 +9,11 @@ import java.awt.Dimension;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.views.dashboardAdminView;
 
 public class productDashboardView extends contentPanel {
+
+    private dashboardAdminView parentView;
 
     private textLabel headerLabel;
 
@@ -25,8 +28,9 @@ public class productDashboardView extends contentPanel {
     private linkLabel coffeLabel;
     private linkLabel drinkLabel;
 
-    public productDashboardView() {
+    public productDashboardView(dashboardAdminView parentView) {
         super();
+        this.parentView = parentView;
         initContent();
     }
 
@@ -69,55 +73,56 @@ public class productDashboardView extends contentPanel {
     }
 
     private void setColor() {
-        headerLabel.setForeground(color.DARKGREEN);
+        headerLabel.setForeground(color.BLACK);
         headerContent.setBackground(color.WHITE);
         contentProduct.setBackground(color.DARKGREY);
     }
 
     private void setFont() {
-        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
     }
 
     private void handleAddCard() {
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                panelRounded cardPanel = new panelRounded();
-                Dimension cardSize = new Dimension(1000, 100);
-                cardPanel.setPreferredSize(cardSize);
-                cardPanel.setMaximumSize(cardSize);
-                cardPanel.setMinimumSize(cardSize);
-                cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                parentView.showFormProduct();
+                // panelRounded cardPanel = new panelRounded();
+                // Dimension cardSize = new Dimension(1000, 100);
+                // cardPanel.setPreferredSize(cardSize);
+                // cardPanel.setMaximumSize(cardSize);
+                // cardPanel.setMinimumSize(cardSize);
+                // cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                cardPanel.setBackground(color.WHITE);
-                cardPanel.setLayout(null);
+                // cardPanel.setBackground(color.WHITE);
+                // cardPanel.setLayout(null);
 
-                buttonCustom buttonDelete = new buttonCustom("Delete", 880, 40, 100, 30, 10);
-                cardPanel.add(buttonDelete);
+                // buttonCustom buttonDelete = new buttonCustom("Delete", 880, 40, 100, 30, 10);
+                // cardPanel.add(buttonDelete);
 
-                Component padding = Box.createRigidArea(new Dimension(0, 20));
+                // Component padding = Box.createRigidArea(new Dimension(0, 20));
 
-                buttonDelete.addActionListener(new java.awt.event.ActionListener() {
-                    @Override
-                    public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        contentProduct.remove(cardPanel);
-                        contentProduct.remove(padding);
-                        contentProduct.revalidate();
-                        contentProduct.repaint();
-                    }
-                });
+                // buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+                // @Override
+                // public void actionPerformed(java.awt.event.ActionEvent ae) {
+                // contentProduct.remove(cardPanel);
+                // contentProduct.remove(padding);
+                // contentProduct.revalidate();
+                // contentProduct.repaint();
+                // }
+                // });
 
-                contentProduct.add(padding);
-                contentProduct.add(cardPanel, contentProduct.getComponentCount());
-                cardPanel.add(Box.createVerticalGlue());
+                // contentProduct.add(padding);
+                // contentProduct.add(cardPanel, contentProduct.getComponentCount());
+                // cardPanel.add(Box.createVerticalGlue());
 
-                contentProduct.revalidate();
-                contentProduct.repaint();
+                // contentProduct.revalidate();
+                // contentProduct.repaint();
 
-                javax.swing.SwingUtilities.invokeLater(() -> {
-                    JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-                    verticalBar.setValue(verticalBar.getMaximum());
-                });
+                // javax.swing.SwingUtilities.invokeLater(() -> {
+                // JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
+                // verticalBar.setValue(verticalBar.getMaximum());
+                // });
             }
         });
     }

@@ -34,8 +34,6 @@ public class supplierDashboardView extends contentPanel {
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT,
             buttonType.DELETE, buttonType.DETAIL);
 
-    private authDataSupplier authData = new authDataSupplier();
-
     public supplierDashboardView(dashboardAdminView parentView) {
         super();
         this.parentView = parentView;

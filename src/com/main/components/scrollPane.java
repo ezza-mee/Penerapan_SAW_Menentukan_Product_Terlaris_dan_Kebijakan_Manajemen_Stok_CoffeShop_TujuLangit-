@@ -10,17 +10,17 @@ public class scrollPane extends JScrollPane {
         super(view);
         setViewportView(view);
         setBounds(x, y, width, height);
-        setOpaque(false);
-        getViewport().setBackground(color.DARKGREY);
+        setOpaque(true);
+        getViewport().setOpaque(true);
         setBorder(new EmptyBorder(0, 0, 0, 0));
         setDoubleBuffered(true);
         getVerticalScrollBar().setUnitIncrement(10);
 
-        setViewportBorder(BorderFactory.createLineBorder(color.DARKGREY, 0, true));
+        setViewportBorder(BorderFactory.createLineBorder(color.WHITE, 0, true));
 
         JScrollBar vertical = getVerticalScrollBar();
         vertical.setPreferredSize(new Dimension(10, 0));
-        vertical.setBackground(color.DARKGREY);
+        vertical.setBackground(color.WHITE);
         vertical.setUI(new RoundedScrollBarUI());
 
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -32,7 +32,7 @@ public class scrollPane extends JScrollPane {
         @Override
         protected void configureScrollBarColors() {
             this.thumbColor = color.DARKGREEN;
-            this.trackColor = color.DARKGREY;
+            this.trackColor = color.WHITE;
         }
 
         @Override

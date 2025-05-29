@@ -44,7 +44,7 @@ public class dashboardAdminView extends containerPanel {
         add(parentDashboard);
 
         // parentDashboard.getNavbar().showHomeView();
-        parentDashboard.getNavbar().showSupplierView();
+        parentDashboard.getNavbar().showProductView();
     }
 
     public void showDashboardHome() {
@@ -54,7 +54,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showDashboardProduct() {
-        productDashboardView dashboardProduct = new productDashboardView();
+        productDashboardView dashboardProduct = new productDashboardView(this);
         lastContent = dashboardProduct;
         parentDashboard.setContent(dashboardProduct);
     }
@@ -65,8 +65,10 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(formProduct);
     }
 
-    public void showFormKomposisiProduct() {
-        productCompositionFormView formCompositionProduct = new productCompositionFormView(this);
+    public void showFormCompositionProduct(String imageProduct, String nameProduct, int price, String category,
+            String description) {
+        productCompositionFormView formCompositionProduct = new productCompositionFormView(this, imageProduct,
+                nameProduct, price, category, description);
         lastContent = formCompositionProduct;
         parentDashboard.setContent(formCompositionProduct);
     }
@@ -175,7 +177,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void resetLastContent() {
-        parentDashboard.getNavbar().showSupplierView();
+        parentDashboard.getNavbar().showProductView();
         lastContent = null;
     }
 
