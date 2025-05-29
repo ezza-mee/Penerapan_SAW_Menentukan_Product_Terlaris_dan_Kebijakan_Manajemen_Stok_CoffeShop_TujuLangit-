@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
+import com.main.models.dataStaff.getterDataStaff;
 
 public class loadDataSupplier {
     public static DefaultTableModel getAllDataSupplier() {
@@ -34,6 +35,28 @@ public class loadDataSupplier {
             e.printStackTrace();
         }
         return tm;
+    }
+
+    public static getterDataSupplier getDataById(int idSupplier) {
+        String query = "SELECT * FROM tbl_data_supplier WHERE idSupplier = ?";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idSupplier);
+            ResultSet rs = state.executeQuery();
+
+            if (rs.next()) {
+                return new getterDataSupplier(
+                        rs.getInt("idSupplier"),
+                        rs.getString("nameSupplier"),
+                        rs.getInt("quantity"),
+                        rs.getString("unit"),
+                        rs.getString("description"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static int getAllQuantityDataSupplier() {
