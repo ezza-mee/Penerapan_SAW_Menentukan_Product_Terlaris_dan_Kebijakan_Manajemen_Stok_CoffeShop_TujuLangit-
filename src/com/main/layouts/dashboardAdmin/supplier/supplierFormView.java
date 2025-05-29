@@ -26,6 +26,8 @@ public class supplierFormView extends contentPanel {
 
     private buttonCustom buttonBack, buttonReset, buttonSave;
 
+    private scrollPane scrollDescription;
+
     private authDataSupplier authData = new authDataSupplier();
 
     private int supplierIdToEdit = -1;
@@ -51,7 +53,7 @@ public class supplierFormView extends contentPanel {
         contentPanel.add(nameField);
         contentPanel.add(quantityField);
         contentPanel.add(unitField);
-        contentPanel.add(descriptionField);
+        contentPanel.add(scrollDescription);
 
         contentPanel.add(buttonBack);
         contentPanel.add(buttonReset);
@@ -95,6 +97,8 @@ public class supplierFormView extends contentPanel {
         buttonReset = new buttonCustom("Reset", 640, 470, 100, 40, 10);
         buttonSave = new buttonCustom("Save", 780, 470, 100, 40, 10);
 
+        scrollDescription = new scrollPane(descriptionField, 180, 285, 700, 140);
+
     }
 
     private void setColor() {
@@ -134,7 +138,6 @@ public class supplierFormView extends contentPanel {
         descriptionField.setText(dataSupplier.getDescription());
 
         supplierIdToEdit = dataSupplier.getIdSupplier();
-
     }
 
     private void handleButton() {

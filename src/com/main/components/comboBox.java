@@ -6,14 +6,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class comboBox<E> extends JComboBox<E> {
+public class comboBox<T> extends JComboBox<T> {
 
     private String placeholder;
     private int radius;
     private Color arrowColor = color.DARKGREEN;
     private boolean isPopupVisible = false;
 
-    public comboBox(E[] items, int x, int y, int width, int height, int radius) {
+    public comboBox(T[] items, int x, int y, int width, int height, int radius) {
         super(items);
         this.radius = radius;
         setOpaque(false);

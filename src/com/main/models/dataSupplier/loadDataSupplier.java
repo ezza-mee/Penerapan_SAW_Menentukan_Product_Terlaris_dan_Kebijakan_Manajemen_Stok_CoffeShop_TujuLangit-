@@ -3,11 +3,13 @@ package com.main.models.dataSupplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
-import com.main.models.dataStaff.getterDataStaff;
 
 public class loadDataSupplier {
     public static DefaultTableModel getAllDataSupplier() {
@@ -35,6 +37,28 @@ public class loadDataSupplier {
             e.printStackTrace();
         }
         return tm;
+    }
+
+    public static List<getterDataSupplier> getAllReadySupplierNames() {
+        List<getterDataSupplier> supplierNames = new ArrayList<>();
+        String query = "SELECT DISTINCT idSupplier, nameSupplier FROM vwalldatasupplier WHERE status = 'Ready'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query);
+                ResultSet rs = state.executeQuery()) {
+
+            while (rs.next()) {
+                int idSupplier = rs.getInt("idSupplier");
+                String nameSupplier = rs.getString("nameSupplier");
+
+                supplierNames.add(new getterDataSupplier(idSupplier, nameSupplier, 0, "", ""));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return supplierNames;
     }
 
     public static getterDataSupplier getDataById(int idSupplier) {

@@ -2,12 +2,23 @@ package com.main.layouts.dashboardAdmin.product;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollBar;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.main.components.panelApps.contentPanel;
+import com.main.models.dataProduct.listCompositionData;
+import com.main.models.dataSupplier.getterDataSupplier;
+import com.main.services.authDataProduct;
+import com.main.services.authDataSupplier;
 import com.main.views.dashboardAdminView;
 
 import com.main.components.*;
@@ -18,15 +29,27 @@ public class productCompositionFormView extends contentPanel {
 
     private panelRounded contentPanel, listIngredientPanel, parentListIngredientPanel;
 
-    private textLabel headerLabel, nameIngredientLabel, amountIngredientLabel, unitIngredientLabel, listIngredientLabel;
+    private textLabel headerLabel, nameIngredientLabel, quantityIngredientLabel, unitIngredientLabel,
+            listIngredientLabel;
 
-    private textField nameIngredientField, amountIngredientField;
+    private textLabel ingredientEmptyLabel, quantityEmptyLabel, unitEmptyLabel;
+
+    private textField quantityIngredientField;
 
     private comboBox<String> unitIngredientField;
+    private comboBox<getterDataSupplier> ingredientField;
 
     private buttonCustom buttonBack, buttonReset, buttonAdd, buttonSave;
 
     private scrollPane scrollPane;
+
+    private appIcons appIcons = new appIcons();
+
+    private imageIcon iconDelete = appIcons.getDeleteIconWhite(20, 20);
+
+    private authDataProduct authData = new authDataProduct();
+
+    private List<listCompositionData> listComposition = new ArrayList<>();
 
     public productCompositionFormView(dashboardAdminView parentView) {
         super();
@@ -39,15 +62,14 @@ public class productCompositionFormView extends contentPanel {
         setPosition();
         setColor();
         setFont();
-        handleAddCard();
         handleButton();
 
         contentPanel.add(nameIngredientLabel);
-        contentPanel.add(amountIngredientLabel);
+        contentPanel.add(quantityIngredientLabel);
         contentPanel.add(unitIngredientLabel);
 
-        contentPanel.add(nameIngredientField);
-        contentPanel.add(amountIngredientField);
+        contentPanel.add(ingredientField);
+        contentPanel.add(quantityIngredientField);
         contentPanel.add(unitIngredientField);
 
         contentPanel.add(buttonBack);
@@ -72,16 +94,40 @@ public class productCompositionFormView extends contentPanel {
         parentListIngredientPanel.setLayout(new BoxLayout(parentListIngredientPanel, BoxLayout.Y_AXIS));
 
         scrollPane = new scrollPane(parentListIngredientPanel, 0, 0, getWidth(), getHeight());
-        scrollPane.setBounds(0, 80, 410, 360);
+        scrollPane.setBounds(0, 80, 400, 360);
 
         headerLabel = new textLabel("Input Product Ingredient Composition", 40, 0, 600, 80);
         listIngredientLabel = new textLabel("List Ingredient", 40, 30, 300, 80);
         nameIngredientLabel = new textLabel("Name Ingredient", 100, 30, 300, 80);
-        amountIngredientLabel = new textLabel("Amount Ingredient", 100, 130, 300, 80);
+        quantityIngredientLabel = new textLabel("quantity Ingredient", 100, 130, 300, 80);
         unitIngredientLabel = new textLabel("unit Ingredient", 100, 230, 300, 80);
 
-        nameIngredientField = new textField(100, 85, 400, 10);
-        amountIngredientField = new textField(100, 185, 400, 10);
+        ingredientEmptyLabel = new textLabel("Ingredient is Empty", 100, 85, 300, 80);
+        quantityEmptyLabel = new textLabel("quantity is Empty", 100, 185, 300, 80);
+        unitEmptyLabel = new textLabel("Ingredient is Empty", 100, 290, 300, 80);
+
+        List<getterDataSupplier> supplierList = authDataSupplier.loadDataSupplier();
+
+        if (supplierList.isEmpty()) {
+            supplierList.add(new getterDataSupplier(0, "Tidak ada data supplier", 0, "", ""));
+        }
+
+        ingredientField = new comboBox<>(
+                supplierList.toArray(new getterDataSupplier[0]),
+                100, 80, 400, 30, 10);
+
+        ingredientField.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                if (value instanceof getterDataSupplier supplier) {
+                    value = supplier.getNameSupplier();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+        });
+        ingredientField.setPlaceholder("Select Ingredient");
+        quantityIngredientField = new textField(100, 185, 400, 10);
 
         String[] unitItems = { null, "Gram", "Kilogram", "Ons", "Mililiter", "Liter",
                 "Sendok Makan", "Sendok Teh", "Gelas", "Botol",
@@ -98,9 +144,16 @@ public class productCompositionFormView extends contentPanel {
     }
 
     private void setColor() {
+        contentPanel.setBackground(color.WHITE);
         listIngredientPanel.setBackground(color.WHITE);
         parentListIngredientPanel.setBackground(color.WHITE);
         scrollPane.setBackground(color.WHITE);
+
+        headerLabel.setForeground(color.BLACK);
+
+        ingredientEmptyLabel.setForeground(color.RED);
+        quantityEmptyLabel.setForeground(color.RED);
+        unitEmptyLabel.setForeground(color.RED);
     }
 
     private void setFont() {
@@ -108,59 +161,133 @@ public class productCompositionFormView extends contentPanel {
 
         listIngredientLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 18f));
         nameIngredientLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 18f));
-        amountIngredientLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 18f));
+        quantityIngredientLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 18f));
         unitIngredientLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 18f));
-    }
 
-    private void handleAddCard() {
-        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent ae) {
-                panelRounded cardPanel = new panelRounded();
-                Dimension cardSize = new Dimension(350, 100);
-                cardPanel.setPreferredSize(cardSize);
-                cardPanel.setMaximumSize(cardSize);
-                cardPanel.setMinimumSize(cardSize);
-                cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-                cardPanel.setBackground(color.WHITE);
-                cardPanel.setLayout(null);
-
-                buttonCustom buttonDelete = new buttonCustom("Delete", 220, 40, 100, 30, 10);
-                cardPanel.add(buttonDelete);
-
-                Component padding = Box.createRigidArea(new Dimension(0, 20));
-
-                buttonDelete.addActionListener(new java.awt.event.ActionListener() {
-                    @Override
-                    public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        parentListIngredientPanel.remove(cardPanel);
-                        parentListIngredientPanel.remove(padding);
-                        parentListIngredientPanel.revalidate();
-                        parentListIngredientPanel.repaint();
-                    }
-                });
-
-                parentListIngredientPanel.add(padding);
-                parentListIngredientPanel.add(cardPanel, parentListIngredientPanel.getComponentCount());
-                cardPanel.add(Box.createVerticalGlue());
-
-                parentListIngredientPanel.revalidate();
-                parentListIngredientPanel.repaint();
-
-                javax.swing.SwingUtilities.invokeLater(() -> {
-                    JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-                    verticalBar.setValue(verticalBar.getMaximum());
-                });
-            }
-        });
+        ingredientEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
+        quantityEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
+        unitEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
     }
 
     private void handleButton() {
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                try {
+                    getterDataSupplier selectedSupplier = (getterDataSupplier) ingredientField.getSelectedItem();
+                    String nameSupplier = selectedSupplier.getNameSupplier();
+                    String stringQuantity = quantityIngredientField.getText().trim();
+                    String unitSupplier = (String) unitIngredientField.getSelectedItem();
+
+                    contentPanel.remove(ingredientEmptyLabel);
+                    contentPanel.remove(quantityEmptyLabel);
+                    contentPanel.remove(unitEmptyLabel);
+
+                    String validation = authData.validateCompositionProductInput(nameSupplier, stringQuantity,
+                            unitSupplier);
+
+                    if (!validation.equals("VALID")) {
+                        switch (validation) {
+                            case "ALL_FIELDS_EMPTY":
+                                contentPanel.add(ingredientEmptyLabel);
+                                contentPanel.add(quantityEmptyLabel);
+                                contentPanel.add(unitEmptyLabel);
+                                break;
+                            case "NAME_SUPPLIER_EMPTY":
+                                contentPanel.add(ingredientEmptyLabel);
+                                break;
+                            case "QUANTITY_EMPTY":
+                                contentPanel.add(quantityEmptyLabel);
+                                break;
+                            case "UNIT_EMPTY":
+                                contentPanel.add(unitEmptyLabel);
+                                break;
+                        }
+
+                        contentPanel.revalidate();
+                        contentPanel.repaint();
+                        return;
+                    }
+                    System.out.println("idSupplier: " + selectedSupplier.getIdSupplier());
+
+                    int idSupplier = 0;
+                    int quantity = Integer.parseInt(stringQuantity);
+                    listCompositionData data = new listCompositionData(idSupplier, nameSupplier, quantity);
+                    listComposition.add(data);
+
+                    panelRounded cardPanel = new panelRounded();
+                    Dimension cardSize = new Dimension(380, 100);
+                    cardPanel.setPreferredSize(cardSize);
+                    cardPanel.setMaximumSize(cardSize);
+                    cardPanel.setMinimumSize(cardSize);
+                    cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    cardPanel.setBackground(color.WHITE);
+                    cardPanel.setLayout(null);
+
+                    JLabel nameLabel = new JLabel("Bahan: " + nameSupplier);
+                    JLabel qtyLabel = new JLabel("Jumlah: " + quantity + " " + unitSupplier);
+                    nameLabel.setBounds(20, 15, 200, 20);
+                    qtyLabel.setBounds(20, 40, 200, 20);
+                    cardPanel.add(nameLabel);
+                    cardPanel.add(qtyLabel);
+
+                    buttonCustom buttonDelete = new buttonCustom("", 330, 35, 40, 40, 10);
+                    buttonDelete.setIcon(iconDelete);
+                    cardPanel.add(buttonDelete);
+
+                    Component padding = Box.createRigidArea(new Dimension(0, 20));
+
+                    buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentListIngredientPanel.remove(cardPanel);
+                            parentListIngredientPanel.remove(padding);
+                            parentListIngredientPanel.revalidate();
+                            parentListIngredientPanel.repaint();
+
+                            listComposition.remove(data); // Hapus juga dari list
+                        }
+                    });
+
+                    parentListIngredientPanel.add(padding);
+                    parentListIngredientPanel.add(cardPanel, parentListIngredientPanel.getComponentCount());
+                    cardPanel.add(Box.createVerticalGlue());
+
+                    parentListIngredientPanel.revalidate();
+                    parentListIngredientPanel.repaint();
+
+                    // Scroll ke bawah otomatis
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
+                        verticalBar.setValue(verticalBar.getMaximum());
+                    });
+
+                    // Reset input field
+                    ingredientField.setSelectedIndex(0);
+                    quantityIngredientField.setText("");
+                    unitIngredientField.setSelectedIndex(0);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 parentView.showFormProduct();
+            }
+        });
+
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
