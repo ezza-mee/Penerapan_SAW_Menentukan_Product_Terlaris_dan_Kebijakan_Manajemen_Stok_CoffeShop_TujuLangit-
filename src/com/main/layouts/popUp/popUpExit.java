@@ -15,7 +15,6 @@ public class popUpExit extends popUpPanel {
 
     private textLabel exitLabel;
     private textLabel confrimLabel;
-    
 
     private buttonCustom buttonCancel;
     private buttonCustom buttonExit;

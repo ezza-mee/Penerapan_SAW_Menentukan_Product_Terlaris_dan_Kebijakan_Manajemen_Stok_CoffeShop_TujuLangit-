@@ -82,7 +82,7 @@ public class buttonInputImage extends buttonCustom {
             String path = selectedFile.getAbsolutePath();
 
             inputField.setText(path);
-            labelInfo.setText("<html><body style='width:200px;'>Selected Path:<br>" + path + "</body></html>");
+            labelInfo.setText("<html><body style='width:200px;'>Path:<br>" + path + "</body></html>");
 
             setText("Image Selected");
             setBackground(color.LIGHTGREY);

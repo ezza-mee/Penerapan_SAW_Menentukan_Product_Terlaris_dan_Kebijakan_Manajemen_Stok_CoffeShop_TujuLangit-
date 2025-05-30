@@ -38,4 +38,31 @@ public class loadDataProduct {
 
         return productList;
     }
+
+    public static getterDataProduct getProductById(int idProduct) {
+        String query = "SELECT idProduct, imageProduct, nameProduct, price, category, description FROM tbl_data_product WHERE idProduct = ?";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idProduct);
+            ResultSet rs = state.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("idProduct");
+                byte[] imageProduct = rs.getBytes("imageProduct");
+                String name = rs.getString("nameProduct");
+                int price = rs.getInt("price");
+                String category = rs.getString("category");
+                String description = rs.getString("description");
+
+                return new getterDataProduct(id, imageProduct, name, price, category, description);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

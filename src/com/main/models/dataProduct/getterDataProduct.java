@@ -3,15 +3,16 @@ package com.main.models.dataProduct;
 public class getterDataProduct {
     private int idProduct;
     private byte[] imageData;
-    private String name;
+    private String nameProduct;
     private int price;
     private String category;
     private String description;
 
-    public getterDataProduct(int idProduct, byte[] imageData, String name, int price, String category, String description) {
+    public getterDataProduct(int idProduct, byte[] imageData, String nameProduct, int price, String category,
+            String description) {
         this.idProduct = idProduct;
         this.imageData = imageData;
-        this.name = name;
+        this.nameProduct = nameProduct;
         this.price = price;
         this.category = category;
         this.description = description;
@@ -26,8 +27,8 @@ public class getterDataProduct {
         return imageData;
     }
 
-    public String getName() {
-        return name;
+    public String getNameProduct() {
+        return nameProduct;
     }
 
     public int getPrice() {

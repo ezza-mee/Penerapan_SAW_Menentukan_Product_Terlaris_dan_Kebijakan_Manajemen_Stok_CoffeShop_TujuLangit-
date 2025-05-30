@@ -2,12 +2,17 @@ package com.main.models.dataProduct;
 
 public class listCompositionData {
     public int idSupplier;
+    public int idProduct;
+    public String nameProduct;
     public String nameSupplier;
     public int quantity;
     public String unit;
 
-    public listCompositionData(int idSupplier, String nameSupplier, int quantity, String unit) {
+    public listCompositionData(int idSupplier, int idProduct, String nameProduct, String nameSupplier, int quantity,
+            String unit) {
+        this.idProduct = idProduct;
         this.idSupplier = idSupplier;
+        this.nameProduct = nameProduct;
         this.nameSupplier = nameSupplier;
         this.quantity = quantity;
         this.unit = unit;
@@ -15,6 +20,14 @@ public class listCompositionData {
 
     public int getIdSupplier() {
         return idSupplier;
+    }
+
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
     }
 
     public String getNameSupplier() {

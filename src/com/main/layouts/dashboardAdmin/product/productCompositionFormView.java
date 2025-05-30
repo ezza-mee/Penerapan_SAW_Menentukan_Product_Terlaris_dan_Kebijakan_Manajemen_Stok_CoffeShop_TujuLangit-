@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.main.components.panelApps.contentPanel;
+import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.listCompositionData;
+import com.main.models.dataProduct.loadDataProduct;
 import com.main.models.dataSupplier.getterDataSupplier;
 import com.main.services.authDataProduct;
 import com.main.services.authDataSupplier;
@@ -50,12 +52,13 @@ public class productCompositionFormView extends contentPanel {
     private List<listCompositionData> listComposition = new ArrayList<>();
 
     private String imageProduct, nameProduct, category, description;
-    private int price;
+    private int idProduct, price;
 
-    public productCompositionFormView(dashboardAdminView parentView, String imageProduct, String nameProduct, int price,
+    public productCompositionFormView(dashboardAdminView parentView, int idProduct, String imageProduct, String nameProduct, int price,
             String category, String description) {
         super();
         this.parentView = parentView;
+        this.idProduct = idProduct;
         this.imageProduct = imageProduct;
         this.nameProduct = nameProduct;
         this.price = price;
@@ -185,12 +188,66 @@ public class productCompositionFormView extends contentPanel {
         unitEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
     }
 
+    public void setFormCompositionProduct(List<listCompositionData> compositionList){
+        parentListIngredientPanel.removeAll();
+        listComposition.clear();
+
+        for (listCompositionData data : compositionList) {
+            listComposition.add(data); 
+
+            panelRounded cardPanel = new panelRounded();
+            Dimension cardSize = new Dimension(380, 80);
+            cardPanel.setPreferredSize(cardSize);
+            cardPanel.setMaximumSize(cardSize);
+            cardPanel.setMinimumSize(cardSize);
+            cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            cardPanel.setBackground(color.WHITE);
+            cardPanel.setLayout(null);
+
+            textLabel nameLabel = new textLabel(data.getNameSupplier(), 50, 30, 200, 30);
+            textLabel quantityAndUnitLabel = new textLabel(data.getQuantity() + " " + data.getUnit(), 50, 50, 200, 20);
+            nameLabel.setForeground(color.BLACK);
+            quantityAndUnitLabel.setForeground(color.BLACK);
+            nameLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
+            quantityAndUnitLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
+
+            cardPanel.add(nameLabel);
+            cardPanel.add(quantityAndUnitLabel);
+
+            buttonCustom buttonDelete = new buttonCustom("", 330, 35, 40, 40, 10);
+            buttonDelete.setIcon(iconDelete);
+            cardPanel.add(buttonDelete);
+
+            Component padding = Box.createRigidArea(new Dimension(0, 10));
+
+            buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent ae) {
+                    parentListIngredientPanel.remove(cardPanel);
+                    parentListIngredientPanel.remove(padding);
+                    parentListIngredientPanel.revalidate();
+                    parentListIngredientPanel.repaint();
+                    listComposition.remove(data);
+                }
+            });
+
+            parentListIngredientPanel.add(padding);
+            parentListIngredientPanel.add(cardPanel, parentListIngredientPanel.getComponentCount());
+            cardPanel.add(Box.createVerticalGlue());
+        }
+
+        parentListIngredientPanel.revalidate();
+        parentListIngredientPanel.repaint();
+    }
+
+
     private void handleButton() {
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 try {
                     getterDataSupplier selectedSupplier = (getterDataSupplier) ingredientField.getSelectedItem();
+                    
                     String nameSupplier = selectedSupplier.getNameSupplier();
                     String stringQuantity = quantityIngredientField.getText().trim();
                     String unit = (String) unitIngredientField.getSelectedItem();
@@ -228,7 +285,7 @@ public class productCompositionFormView extends contentPanel {
                     int idSupplier = selectedSupplier.getIdSupplier();
 
                     int quantity = Integer.parseInt(stringQuantity);
-                    listCompositionData data = new listCompositionData(idSupplier, nameSupplier, quantity, unit);
+                    listCompositionData data = new listCompositionData(idProduct, idSupplier, nameProduct, nameSupplier, quantity, unit);
                     listComposition.add(data);
 
                     panelRounded cardPanel = new panelRounded();
@@ -294,7 +351,7 @@ public class productCompositionFormView extends contentPanel {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentView.showFormProduct();
+               parentView.showFormProduct();
             }
         });
 

@@ -5,8 +5,16 @@ import com.main.models.dataProduct.insertDataProduct;
 import com.main.models.dataProduct.listCompositionData;
 import com.main.models.dataProduct.deleteDataProduct;
 import com.main.models.dataProduct.insertDataCompositionProduct;
+import com.main.models.dataProduct.updateDataProduct;
+import com.main.models.dataProduct.updateDataCompositionProduct;
 
 public class authDataProduct {
+
+    public static boolean updateDataProduct(int idProduct, String imageProduct, String nameProduct, int price,
+            String category,
+            String description) {
+        return updateDataProduct.updateProduct(idProduct, imageProduct, nameProduct, price, category, description);
+    }
 
     public static boolean insertDataProductWithComposition(
             String imageProduct,
@@ -38,6 +46,46 @@ public class authDataProduct {
 
             if (!compositionInserted) {
                 System.out.println("Produk berhasil disimpan, tapi gagal insert komposisi produk.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean updateDataProductWithComposition(
+            int idProduct,
+            String imageProduct,
+            String nameProduct,
+            int price,
+            String category,
+            String description,
+            List<listCompositionData> compositions) {
+
+        boolean productUpdated = updateDataProduct.updateProduct(
+                idProduct,
+                imageProduct,
+                nameProduct,
+                price,
+                category,
+                description);
+
+        if (!productUpdated) {
+            System.out.println("Gagal update data produk.");
+            return false;
+        }
+
+        for (listCompositionData listComp : compositions) {
+            boolean compositionUpdated = updateDataCompositionProduct.updateCompositionProduct(
+                    listComp.idSupplier,
+                    idProduct,
+                    nameProduct,
+                    listComp.nameSupplier,
+                    listComp.quantity,
+                    listComp.unit);
+
+            if (!compositionUpdated) {
+                System.out.println("Produk berhasil diupdate, tapi gagal update komposisi: " + listComp.nameSupplier);
                 return false;
             }
         }

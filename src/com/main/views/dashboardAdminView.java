@@ -1,5 +1,7 @@
 package com.main.views;
 
+import java.util.List;
+
 import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.components.panelApps.contentPanel;
@@ -14,11 +16,15 @@ import com.main.layouts.dashboardAdmin.staff.staffFormView;
 import com.main.layouts.dashboardAdmin.supplier.supplierDashboardView;
 import com.main.layouts.dashboardAdmin.supplier.supplierFormView;
 import com.main.layouts.dashboardAdmin.transaction.transactionDashboardView;
+import com.main.layouts.popUp.popUpConfrim;
 import com.main.layouts.popUp.popUpFailed;
 import com.main.layouts.popUp.popUpLogout;
 import com.main.layouts.popUp.popUpSuccess;
 import com.main.layouts.popUp.popUpStaff.popUpDetailDataStaff;
 import com.main.layouts.popUp.popUpStaff.popUpFormInputAccountStaff;
+import com.main.models.dataProduct.getterDataProduct;
+import com.main.models.dataProduct.listCompositionData;
+import com.main.models.dataProduct.loadDataCompositionProduct;
 import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.getterDataStaff;
 import com.main.models.dataSupplier.getterDataSupplier;
@@ -27,17 +33,19 @@ import com.main.services.authDataStaff;
 public class dashboardAdminView extends containerPanel {
 
     private parentDashboardView parentDashboard;
-    private mainFrame parentFrame;
+    private mainFrame parentApp;
     private contentPanel lastContent;
 
     private getterDataStaff dataStaffToEdit = null;
     private getterDataSupplier dataSupplierToEdit = null;
+    private getterDataProduct dataProductToEdit = null;
+    private boolean compositionModified = false;
 
     private getterAccountStaff accountData = null;
 
-    public dashboardAdminView(mainFrame parentFrame) {
+    public dashboardAdminView(mainFrame parentApp) {
         super();
-        this.parentFrame = parentFrame;
+        this.parentApp = parentApp;
         setSize(1366, 768);
         setBackground(color.GREEN);
         parentDashboard = new parentDashboardView(this);
@@ -61,15 +69,26 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showFormProduct() {
-        productFormView formProduct = new productFormView(this);
+        productFormView formProduct = new productFormView(parentApp, this);
+
+        if (dataProductToEdit != null) {
+            formProduct.setFormProduct(dataProductToEdit);
+            dataProductToEdit = null;
+        }
+
         lastContent = formProduct;
         parentDashboard.setContent(formProduct);
     }
 
-    public void showFormCompositionProduct(String imageProduct, String nameProduct, int price, String category,
-            String description) {
-        productCompositionFormView formCompositionProduct = new productCompositionFormView(this, imageProduct,
-                nameProduct, price, category, description);
+    public void showFormCompositionProduct(int idProduct, String imageProduct, String nameProduct,
+            int price, String category, String description, List<listCompositionData> compositionList) {
+        productCompositionFormView formCompositionProduct = new productCompositionFormView(this, idProduct,
+                imageProduct, nameProduct, price, category, description);
+
+        if (compositionList != null) {
+            formCompositionProduct.setFormCompositionProduct(compositionList);
+        }
+
         lastContent = formCompositionProduct;
         parentDashboard.setContent(formCompositionProduct);
     }
@@ -125,7 +144,7 @@ public class dashboardAdminView extends containerPanel {
             String address, boolean isEdit, int idStaff) {
 
         popUpFormInputAccountStaff popupForm = new popUpFormInputAccountStaff(
-                parentFrame, this, name, email, phoneNumber, gender, jobdesk, address, isEdit, idStaff);
+                parentApp, this, name, email, phoneNumber, gender, jobdesk, address, isEdit, idStaff);
 
         this.accountData = authDataStaff.getDataAccountById(idStaff);
         this.dataStaffToEdit = new getterDataStaff(idStaff, name, email, phoneNumber, gender, jobdesk, address);
@@ -139,13 +158,13 @@ public class dashboardAdminView extends containerPanel {
         }
 
         parentDashboard.setContent(restoreLastContent());
-        parentFrame.showGlassPanel(popupForm);
+        parentApp.showGlassPanel(popupForm);
     }
 
     public void showDetailPopUpDataStaff(int idStaff) {
-        popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentFrame, this, idStaff);
+        popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentApp, this, idStaff);
         parentDashboard.setContent(restoreLastContent());
-        parentFrame.showGlassPanel(popUp);
+        parentApp.showGlassPanel(popUp);
     }
 
     public void showDashboardReport() {
@@ -155,22 +174,30 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showSuccessPopUp(String message) {
-        popUpSuccess popUp = new popUpSuccess(parentFrame);
+        popUpSuccess popUp = new popUpSuccess(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentFrame.showGlassPanel(popUp);
+        parentApp.showGlassPanel(popUp);
     }
 
     public void showFailedPopUp(String message) {
-        popUpFailed popUp = new popUpFailed(parentFrame);
+        popUpFailed popUp = new popUpFailed(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentFrame.showGlassPanel(popUp);
+        parentApp.showGlassPanel(popUp);
+    }
+
+    public popUpConfrim showConfrimPopUp(String message) {
+        popUpConfrim popUp = new popUpConfrim(parentApp);
+        popUp.setNotificationMessage(message);
+        parentApp.showGlassPanel(popUp);
+        parentDashboard.setContent(restoreLastContent());
+        return popUp;
     }
 
     public void showLogoutApp() {
         parentDashboard.setContent(restoreLastContent());
-        parentFrame.showGlassPanel(new popUpLogout(parentFrame));
+        parentApp.showGlassPanel(new popUpLogout(parentApp));
     }
 
     public contentPanel restoreLastContent() {
@@ -182,12 +209,24 @@ public class dashboardAdminView extends containerPanel {
         lastContent = null;
     }
 
-    public void setDataStaffToEdit(getterDataStaff dataStaff) {
-        this.dataStaffToEdit = dataStaff;
+    public void setDataProductToEdit(getterDataProduct dataProduct) {
+        this.dataProductToEdit = dataProduct;
+    }
+
+    public void setCompositionModified(boolean modified) {
+        this.compositionModified = modified;
+    }
+
+    public boolean isCompositionModified() {
+        return this.compositionModified;
     }
 
     public void setDataSupplierToEdit(getterDataSupplier dataSupplier) {
         this.dataSupplierToEdit = dataSupplier;
+    }
+
+    public void setDataStaffToEdit(getterDataStaff dataStaff) {
+        this.dataStaffToEdit = dataStaff;
     }
 
 }
