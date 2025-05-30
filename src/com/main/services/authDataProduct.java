@@ -3,6 +3,7 @@ package com.main.services;
 import java.util.List;
 import com.main.models.dataProduct.insertDataProduct;
 import com.main.models.dataProduct.listCompositionData;
+import com.main.models.dataProduct.deleteDataProduct;
 import com.main.models.dataProduct.insertDataCompositionProduct;
 
 public class authDataProduct {
@@ -42,6 +43,10 @@ public class authDataProduct {
         }
 
         return true;
+    }
+
+    public static boolean deleteDataProduct(int idProduct) {
+        return deleteDataProduct.deleteProduct(idProduct);
     }
 
     public String validateProductInput(String imageProduct, String nameProduct, String category, String price,

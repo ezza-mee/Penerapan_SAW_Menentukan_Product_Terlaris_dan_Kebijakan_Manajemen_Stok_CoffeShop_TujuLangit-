@@ -1,0 +1,41 @@
+package com.main.models.dataProduct;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.main.models.connectionDatabase;
+
+public class loadDataProduct {
+
+    public static ArrayList<getterDataProduct> getAllProducts() {
+        ArrayList<getterDataProduct> productList = new ArrayList<>();
+
+        String query = "SELECT idProduct, imageProduct, nameProduct, price, category, description FROM tbl_data_product WHERE status = 'Ready'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query);
+                ResultSet rs = state.executeQuery()) {
+
+            while (rs.next()) {
+                int idProduct = rs.getInt("idProduct");
+                byte[] imageProduct = rs.getBytes("imageProduct");
+                String name = rs.getString("nameProduct");
+                int price = rs.getInt("price");
+                String category = rs.getString("category");
+                String description = rs.getString("description");
+
+                getterDataProduct product = new getterDataProduct(idProduct, imageProduct, name, price, category,
+                        description);
+                productList.add(product);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productList;
+    }
+}

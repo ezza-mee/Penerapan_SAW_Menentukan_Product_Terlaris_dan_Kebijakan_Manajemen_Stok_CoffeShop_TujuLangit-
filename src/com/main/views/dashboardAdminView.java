@@ -55,6 +55,7 @@ public class dashboardAdminView extends containerPanel {
 
     public void showDashboardProduct() {
         productDashboardView dashboardProduct = new productDashboardView(this);
+        dashboardProduct.loadAllProductCards();
         lastContent = dashboardProduct;
         parentDashboard.setContent(dashboardProduct);
     }
