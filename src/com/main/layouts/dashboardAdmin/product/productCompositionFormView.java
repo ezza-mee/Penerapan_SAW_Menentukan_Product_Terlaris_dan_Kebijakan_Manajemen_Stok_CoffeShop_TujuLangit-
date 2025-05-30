@@ -301,7 +301,6 @@ public class productCompositionFormView extends contentPanel {
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-
                 try {
                     getterDataSupplier selectedSupplier = (getterDataSupplier) ingredientField.getSelectedItem();
                     int idSupplier = selectedSupplier.getIdSupplier();
@@ -341,7 +340,7 @@ public class productCompositionFormView extends contentPanel {
 
                         parentView.showDashboardProduct();
                     } else {
-                        parentView.showFailedPopUp("Data Supplier Failed Saved ");
+                        parentView.showFailedPopUp("Data Product Failed Saved ");
                     }
 
                 } catch (Exception e) {
