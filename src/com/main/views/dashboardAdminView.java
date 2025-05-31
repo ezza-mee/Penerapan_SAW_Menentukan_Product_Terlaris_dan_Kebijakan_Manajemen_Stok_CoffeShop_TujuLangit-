@@ -24,7 +24,6 @@ import com.main.layouts.popUp.popUpStaff.popUpDetailDataStaff;
 import com.main.layouts.popUp.popUpStaff.popUpFormInputAccountStaff;
 import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.listCompositionData;
-import com.main.models.dataProduct.loadDataCompositionProduct;
 import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.getterDataStaff;
 import com.main.models.dataSupplier.getterDataSupplier;
@@ -37,11 +36,11 @@ public class dashboardAdminView extends containerPanel {
     private contentPanel lastContent;
 
     private getterDataStaff dataStaffToEdit = null;
+    private getterAccountStaff accountData = null;
     private getterDataSupplier dataSupplierToEdit = null;
     private getterDataProduct dataProductToEdit = null;
-    private boolean compositionModified = false;
 
-    private getterAccountStaff accountData = null;
+    private boolean compositionModified = false;
 
     public dashboardAdminView(mainFrame parentApp) {
         super();

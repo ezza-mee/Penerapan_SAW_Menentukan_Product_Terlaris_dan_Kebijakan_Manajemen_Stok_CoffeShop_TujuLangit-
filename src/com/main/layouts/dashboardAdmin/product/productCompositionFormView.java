@@ -4,7 +4,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 
 import java.awt.Component;
@@ -13,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.main.components.panelApps.contentPanel;
-import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.listCompositionData;
-import com.main.models.dataProduct.loadDataProduct;
 import com.main.models.dataSupplier.getterDataSupplier;
 import com.main.services.authDataProduct;
 import com.main.services.authDataSupplier;
@@ -46,6 +43,7 @@ public class productCompositionFormView extends contentPanel {
     private appIcons appIcons = new appIcons();
 
     private imageIcon iconDelete = appIcons.getDeleteIconWhite(20, 20);
+    private imageIcon iconEdit = appIcons.getEditIconWhite(20, 20);
 
     private authDataProduct authData = new authDataProduct();
 
@@ -54,7 +52,11 @@ public class productCompositionFormView extends contentPanel {
     private String imageProduct, nameProduct, category, description;
     private int idProduct, price;
 
-    public productCompositionFormView(dashboardAdminView parentView, int idProduct, String imageProduct, String nameProduct, int price,
+    private boolean isEditMode = false;
+    private listCompositionData currentEditData = null;
+
+    public productCompositionFormView(dashboardAdminView parentView, int idProduct, String imageProduct,
+            String nameProduct, int price,
             String category, String description) {
         super();
         this.parentView = parentView;
@@ -160,6 +162,7 @@ public class productCompositionFormView extends contentPanel {
         buttonReset = new buttonCustom("Reset", 310, 470, 100, 40, 10);
         buttonAdd = new buttonCustom("Add", 440, 470, 100, 40, 10);
 
+        buttonAdd.setText(isEditMode ? "Save" : "Add");
     }
 
     private void setColor() {
@@ -188,58 +191,112 @@ public class productCompositionFormView extends contentPanel {
         unitEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
     }
 
-    public void setFormCompositionProduct(List<listCompositionData> compositionList){
+    public void setFormCompositionProduct(List<listCompositionData> compositionList) {
+
+        System.out.println("setFormCompositionProduct called with compositionList size: "
+                + (compositionList != null ? compositionList.size() : "null"));
+
         parentListIngredientPanel.removeAll();
         listComposition.clear();
 
-        for (listCompositionData data : compositionList) {
-            listComposition.add(data); 
+        if (compositionList != null) {
+            for (listCompositionData data : compositionList) {
+                System.out.println("Composition item - Supplier: " + data.getNameSupplier() + ", Quantity: "
+                        + data.getQuantity() + ", Unit: " + data.getUnit());
 
-            panelRounded cardPanel = new panelRounded();
-            Dimension cardSize = new Dimension(380, 80);
-            cardPanel.setPreferredSize(cardSize);
-            cardPanel.setMaximumSize(cardSize);
-            cardPanel.setMinimumSize(cardSize);
-            cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            cardPanel.setBackground(color.WHITE);
-            cardPanel.setLayout(null);
+                int idSupplier = data.getIdSupplier();
 
-            textLabel nameLabel = new textLabel(data.getNameSupplier(), 50, 30, 200, 30);
-            textLabel quantityAndUnitLabel = new textLabel(data.getQuantity() + " " + data.getUnit(), 50, 50, 200, 20);
-            nameLabel.setForeground(color.BLACK);
-            quantityAndUnitLabel.setForeground(color.BLACK);
-            nameLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
-            quantityAndUnitLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
+                listComposition.add(data);
 
-            cardPanel.add(nameLabel);
-            cardPanel.add(quantityAndUnitLabel);
+                panelRounded cardPanel = new panelRounded();
+                Dimension cardSize = new Dimension(380, 80);
+                cardPanel.setPreferredSize(cardSize);
+                cardPanel.setMaximumSize(cardSize);
+                cardPanel.setMinimumSize(cardSize);
+                cardPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                cardPanel.setBackground(color.WHITE);
+                cardPanel.setLayout(null);
 
-            buttonCustom buttonDelete = new buttonCustom("", 330, 35, 40, 40, 10);
-            buttonDelete.setIcon(iconDelete);
-            cardPanel.add(buttonDelete);
+                textLabel nameLabel = new textLabel(data.getNameSupplier(), 50, 30, 200, 30);
+                textLabel quantityAndUnitLabel = new textLabel(data.getQuantity() + " " + data.getUnit(), 50, 50, 200,
+                        20);
+                nameLabel.setForeground(color.BLACK);
+                quantityAndUnitLabel.setForeground(color.BLACK);
+                nameLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
+                quantityAndUnitLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
 
-            Component padding = Box.createRigidArea(new Dimension(0, 10));
+                cardPanel.add(nameLabel);
+                cardPanel.add(quantityAndUnitLabel);
 
-            buttonDelete.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent ae) {
-                    parentListIngredientPanel.remove(cardPanel);
-                    parentListIngredientPanel.remove(padding);
-                    parentListIngredientPanel.revalidate();
-                    parentListIngredientPanel.repaint();
-                    listComposition.remove(data);
-                }
-            });
+                buttonCustom buttonDelete = new buttonCustom("", 330, 35, 40, 40, 10);
+                buttonDelete.setIcon(iconDelete);
+                cardPanel.add(buttonDelete);
 
-            parentListIngredientPanel.add(padding);
-            parentListIngredientPanel.add(cardPanel, parentListIngredientPanel.getComponentCount());
-            cardPanel.add(Box.createVerticalGlue());
+                buttonCustom buttonEdit = new buttonCustom("", 280, 35, 40, 40, 10);
+                buttonEdit.setIcon(iconEdit);
+                cardPanel.add(buttonEdit);
+
+                Component padding = Box.createRigidArea(new Dimension(0, 10));
+
+                buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        for (int i = 0; i < ingredientField.getItemCount(); i++) {
+                            getterDataSupplier supplierItem = (getterDataSupplier) ingredientField.getItemAt(i);
+                            if (supplierItem.getIdSupplier() == data.getIdSupplier()) {
+                                ingredientField.setSelectedIndex(i);
+                                break;
+                            }
+                        }
+                        quantityIngredientField.setText(String.valueOf(data.getQuantity()));
+                        unitIngredientField.setSelectedItem(data.getUnit());
+
+                        isEditMode = true;
+                        currentEditData = data;
+
+                        boolean exists = authDataProduct.checkCompositionExists(idSupplier, idProduct);
+
+                        if (exists) {
+                            boolean deleted = authDataProduct.deleteDataCompositionProduct(idProduct);
+                            System.out.println("Deleted from DB: " + deleted);
+                        }
+
+                        parentListIngredientPanel.remove(cardPanel);
+                        parentListIngredientPanel.remove(padding);
+                        parentListIngredientPanel.revalidate();
+                        parentListIngredientPanel.repaint();
+                    }
+                });
+
+                buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        boolean exists = authDataProduct.checkCompositionExists(idSupplier, idProduct);
+
+                        if (exists) {
+                            boolean deleted = authDataProduct.deleteDataCompositionProduct(idProduct);
+                            System.out.println("Deleted from DB: " + deleted);
+                        }
+
+                        parentListIngredientPanel.remove(cardPanel);
+                        parentListIngredientPanel.remove(padding);
+                        parentListIngredientPanel.revalidate();
+                        parentListIngredientPanel.repaint();
+                        listComposition.remove(data);
+                    }
+                });
+
+                parentListIngredientPanel.add(padding);
+                parentListIngredientPanel.add(cardPanel, parentListIngredientPanel.getComponentCount());
+                cardPanel.add(Box.createVerticalGlue());
+            }
+        } else {
+            System.out.println("compositionList is null.");
         }
 
         parentListIngredientPanel.revalidate();
         parentListIngredientPanel.repaint();
     }
-
 
     private void handleButton() {
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -247,18 +304,44 @@ public class productCompositionFormView extends contentPanel {
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 try {
                     getterDataSupplier selectedSupplier = (getterDataSupplier) ingredientField.getSelectedItem();
-                    
+                    int idSupplier = selectedSupplier.getIdSupplier();
                     String nameSupplier = selectedSupplier.getNameSupplier();
                     String stringQuantity = quantityIngredientField.getText().trim();
                     String unit = (String) unitIngredientField.getSelectedItem();
+                    int quantity = Integer.parseInt(stringQuantity);
 
                     contentPanel.remove(ingredientEmptyLabel);
                     contentPanel.remove(quantityEmptyLabel);
                     contentPanel.remove(unitEmptyLabel);
 
+                    System.out.println("idSupplier : " + idSupplier);
+
+                    if (isEditMode) {
+                        currentEditData.setQuantity(quantity);
+                        currentEditData.setUnit(unit);
+
+                        listComposition.add(currentEditData);
+
+                        isEditMode = false;
+                        currentEditData = null;
+                    } else {
+                        boolean isDuplicate = listComposition.stream()
+                                .anyMatch(data -> data.getIdSupplier() == idSupplier);
+                        if (isDuplicate) {
+                            parentView.showFailedPopUp("Supplier sudah ditambahkan untuk produk ini.");
+                            return;
+                        }
+
+                        listCompositionData data = new listCompositionData(idProduct, idSupplier, nameProduct,
+                                nameSupplier, quantity, unit);
+                        listComposition.add(data);
+                    }
+
+                    listCompositionData data = new listCompositionData(idProduct, idSupplier, nameProduct,
+                            nameSupplier, quantity, unit);
+
                     String validation = authData.validateCompositionProductInput(nameSupplier, stringQuantity,
                             unit);
-
                     if (!validation.equals("VALID")) {
                         switch (validation) {
                             case "ALL_FIELDS_EMPTY":
@@ -282,12 +365,6 @@ public class productCompositionFormView extends contentPanel {
                         return;
                     }
 
-                    int idSupplier = selectedSupplier.getIdSupplier();
-
-                    int quantity = Integer.parseInt(stringQuantity);
-                    listCompositionData data = new listCompositionData(idProduct, idSupplier, nameProduct, nameSupplier, quantity, unit);
-                    listComposition.add(data);
-
                     panelRounded cardPanel = new panelRounded();
                     Dimension cardSize = new Dimension(380, 80);
                     cardPanel.setPreferredSize(cardSize);
@@ -306,20 +383,40 @@ public class productCompositionFormView extends contentPanel {
                     cardPanel.add(nameLabel);
                     cardPanel.add(quantityAndUnitLabel);
 
+                    buttonCustom buttonEdit = new buttonCustom("", 280, 35, 40, 40, 10);
+                    buttonEdit.setIcon(iconEdit);
+                    cardPanel.add(buttonEdit);
+
                     buttonCustom buttonDelete = new buttonCustom("", 330, 35, 40, 40, 10);
                     buttonDelete.setIcon(iconDelete);
                     cardPanel.add(buttonDelete);
 
                     Component padding = Box.createRigidArea(new Dimension(0, 10));
 
+                    buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            // System.out.println("idSupplier : " + idSupplier);
+                            // System.out.println("supplier : " + nameSupplier);
+                            // System.out.println("unit : " + unit);
+
+                        }
+                    });
+
                     buttonDelete.addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            boolean exists = authDataProduct.checkCompositionExists(idSupplier, idProduct);
+
+                            if (exists) {
+                                boolean deleted = authDataProduct.deleteDataCompositionProduct(idProduct);
+                                System.out.println("Deleted from DB: " + deleted);
+                            }
+
                             parentListIngredientPanel.remove(cardPanel);
                             parentListIngredientPanel.remove(padding);
                             parentListIngredientPanel.revalidate();
                             parentListIngredientPanel.repaint();
-
                             listComposition.remove(data);
                         }
                     });
@@ -331,13 +428,11 @@ public class productCompositionFormView extends contentPanel {
                     parentListIngredientPanel.revalidate();
                     parentListIngredientPanel.repaint();
 
-                    // Scroll ke bawah otomatis
                     javax.swing.SwingUtilities.invokeLater(() -> {
                         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
                         verticalBar.setValue(verticalBar.getMaximum());
                     });
 
-                    // Reset input field
                     ingredientField.setSelectedIndex(0);
                     quantityIngredientField.setText("");
                     unitIngredientField.setSelectedIndex(0);
@@ -351,7 +446,7 @@ public class productCompositionFormView extends contentPanel {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-               parentView.showFormProduct();
+                parentView.showFormProduct();
             }
         });
 
@@ -380,28 +475,97 @@ public class productCompositionFormView extends contentPanel {
                         return;
                     }
 
-                    boolean success = authDataProduct.insertDataProductWithComposition(
-                            imageProduct,
-                            nameProduct,
-                            price,
-                            category,
-                            description,
-                            idSupplier,
-                            nameSupplier,
-                            quantity,
-                            unit,
-                            listComposition);
+                    // Cek apakah produk sudah ada berdasarkan nama
+                    int idProduct = authDataProduct.getProductIdByName(nameProduct);
+                    boolean productExists = (idProduct != -1);
 
-                    if (success) {
-                        parentView.showSuccessPopUp("Data Product Successfully Saved");
+                    if (!productExists) {
+                        // Produk belum ada → insert produk dan komposisi
+                        boolean success = authDataProduct.insertDataProductWithComposition(
+                                imageProduct,
+                                nameProduct,
+                                price,
+                                category,
+                                description,
+                                idSupplier,
+                                nameSupplier,
+                                quantity,
+                                unit,
+                                listComposition);
 
-                        parentView.showDashboardProduct();
+                        if (success) {
+                            parentView.showSuccessPopUp("Produk berhasil disimpan");
+                            parentView.showDashboardProduct();
+                        } else {
+                            parentView.showFailedPopUp("Gagal menyimpan produk");
+                        }
+
                     } else {
-                        parentView.showFailedPopUp("Data Product Failed Saved ");
+                        // Produk sudah ada → update atau tambahkan komposisi baru
+                        boolean allCompositionsExist = true;
+
+                        for (listCompositionData data : listComposition) {
+                            boolean compExists = authDataProduct.checkCompositionExists(data.idSupplier, idProduct);
+                            if (!compExists) {
+                                allCompositionsExist = false;
+                                break;
+                            }
+                        }
+
+                        if (allCompositionsExist) {
+                            // Semua komposisi sudah ada → update produk dan komposisinya
+                            boolean success = authDataProduct.updateDataProductWithComposition(
+                                    idSupplier,
+                                    idProduct,
+                                    imageProduct,
+                                    nameProduct,
+                                    price,
+                                    category,
+                                    description,
+                                    listComposition);
+
+                            if (success) {
+                                parentView.showSuccessPopUp("Produk dan komposisi berhasil diupdate");
+                                parentView.showDashboardProduct();
+                            } else {
+                                parentView.showFailedPopUp("Gagal update produk / komposisi");
+                            }
+
+                        } else {
+                            // Tambahkan hanya komposisi yang belum ada
+                            boolean allInserted = true;
+
+                            for (listCompositionData data : listComposition) {
+                                boolean exists = authDataProduct.checkCompositionExists(data.idSupplier, idProduct);
+                                if (!exists) {
+                                    boolean inserted = authDataProduct.insertCompositionProduct(
+                                            data.idSupplier,
+                                            idProduct,
+                                            nameProduct,
+                                            data.nameSupplier,
+                                            data.quantity,
+                                            data.unit);
+                                    if (!inserted) {
+                                        allInserted = false;
+                                        System.out
+                                                .println("Gagal insert komposisi untuk supplier: " + data.nameSupplier);
+                                        System.out.println("idSupplier :" + idSupplier + "idProduct : " + idProduct);
+                                    }
+                                }
+                            }
+
+                            if (allInserted) {
+                                parentView.showSuccessPopUp("Komposisi baru berhasil ditambahkan ke produk");
+                                parentView.showDashboardProduct();
+                            } else {
+                                parentView.showFailedPopUp("Beberapa komposisi gagal ditambahkan");
+                            }
+                        }
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    parentView.showFailedPopUp("Terjadi kesalahan saat menyimpan produk");
                 }
             }
         });

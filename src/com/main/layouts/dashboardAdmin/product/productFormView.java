@@ -12,10 +12,7 @@ import com.main.views.mainFrame;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import com.main.components.*;
 
@@ -190,6 +187,8 @@ public class productFormView extends contentPanel {
             imagePathField.setText("No image available");
             pathImageLabel.setText("No image available");
         }
+
+        productIdToEdit = dataProduct.getIdProduct();
     }
 
     private void handleButton() {
@@ -200,10 +199,34 @@ public class productFormView extends contentPanel {
             }
         });
 
+        buttonReset.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                popUpConfrim messagePopUp = parentView
+                        .showConfrimPopUp("Do you want to update the composition as well?");
+
+                messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        parentApp.hideGlassPanel();
+                    }
+                });
+
+                messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        parentApp.hideGlassPanel();
+                    }
+                });
+            }
+        });
+
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 try {
+                    System.out.println("productIdToEdit = " + productIdToEdit);
+
                     String imageProduct = imagePathField.getText().trim();
                     String nameProduct = nameProductField.getText().trim();
                     String stringPrice = priceProductField.getText().trim();
@@ -260,6 +283,7 @@ public class productFormView extends contentPanel {
                                         parentView.setCompositionModified(true);
                                         List<listCompositionData> currentComposition = loadDataCompositionProduct
                                                 .getDataCompositonById(productIdToEdit);
+                                                
                                         parentView.showFormCompositionProduct(
                                                 productIdToEdit, imageProduct, nameProduct, price, category,
                                                 description, currentComposition);
@@ -271,8 +295,7 @@ public class productFormView extends contentPanel {
                                     public void actionPerformed(java.awt.event.ActionEvent ae) {
                                         parentApp.hideGlassPanel();
                                         authDataProduct.updateDataProduct(productIdToEdit, imageProduct, nameProduct,
-                                                price,
-                                                category, description);
+                                                price, category, description);
                                         productIdToEdit = -1;
                                         parentView.showSuccessPopUp("Data Product Successfully Saved");
                                         parentView.showDashboardProduct();

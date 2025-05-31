@@ -41,4 +41,13 @@ public class listCompositionData {
     public String getUnit() {
         return unit;
     }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+    
 }

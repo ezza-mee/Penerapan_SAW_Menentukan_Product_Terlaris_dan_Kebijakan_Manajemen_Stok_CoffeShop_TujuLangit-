@@ -24,7 +24,7 @@ public class updateDataProduct {
             state.setInt(3, price);
             state.setString(4, category);
             state.setString(5, description);
-            state.setInt(7, idProduct);
+            state.setInt(6, idProduct);
 
             int rows = state.executeUpdate();
             return rows > 0;

@@ -1,0 +1,31 @@
+package com.main.models.dataProduct;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.main.models.connectionDatabase;
+
+public class deleteDataCompositionProduct {
+    public static boolean deleteCompositionByProductAndSupplier(int idProduct) {
+        boolean success = false;
+
+        String query = "DELETE FROM tbl_data_composition_product WHERE idProduct = ?";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idProduct);
+
+            if (state.executeUpdate() > 0) {
+                success = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+}
