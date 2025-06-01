@@ -31,7 +31,10 @@ public class glassPanel extends JPanel {
     }
 
     public void showPopUp(JPanel popUp) {
-        setSize(getParent().getSize());
+        if (getParent() != null) {
+            setBounds(0, 0, getParent().getWidth(), getParent().getHeight());
+        }
+
         this.removeAll();
         this.currentPopUp = popUp;
 

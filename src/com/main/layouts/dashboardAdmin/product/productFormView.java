@@ -1,18 +1,24 @@
 package com.main.layouts.dashboardAdmin.product;
 
 import com.main.components.panelApps.contentPanel;
+import com.main.layouts.popUp.popUpConfrim;
+import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.listCompositionData;
+import com.main.models.dataProduct.loadDataCompositionProduct;
 import com.main.services.authDataProduct;
 import com.main.views.dashboardAdminView;
+import com.main.views.mainFrame;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import com.main.components.*;
 
 public class productFormView extends contentPanel {
+
+    private mainFrame parentApp;
 
     private dashboardAdminView parentView;
 
@@ -39,14 +45,10 @@ public class productFormView extends contentPanel {
     private authDataProduct authData = new authDataProduct();
 
     private int productIdToEdit = -1;
-    private int idSupplier = 1;
-    private String nameSupplier = "";
-    private int quantity = 1;
 
-    private List<listCompositionData> compositions = new ArrayList<>();
-
-    public productFormView(dashboardAdminView parentView) {
+    public productFormView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
+        this.parentApp = parentApp;
         this.parentView = parentView;
         initContent();
     }
@@ -156,6 +158,39 @@ public class productFormView extends contentPanel {
         pathImageLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
     }
 
+    public void setFormProduct(getterDataProduct dataProduct) {
+        nameProductField.setText(dataProduct.getNameProduct());
+        String stringPrice = Integer.toString(dataProduct.getPrice());
+        priceProductField.setText(stringPrice);
+        categoryProductField.setSelectedItem(dataProduct.getCategory());
+        descriptionProductField.setText(dataProduct.getDescription());
+
+        byte[] imageBytes = dataProduct.getImageData();
+        if (imageBytes != null && imageBytes.length > 0) {
+            try {
+                String fileExtension = (imageBytes[0] == (byte) 0xFF && imageBytes[1] == (byte) 0xD8) ? ".jpg" : ".png";
+                File tempFile = File.createTempFile("product_image_", fileExtension);
+
+                try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                    fos.write(imageBytes);
+                }
+
+                String imageFilePath = tempFile.getAbsolutePath();
+                imagePathField.setText(imageFilePath);
+                pathImageLabel.setText("<html><body style='width:200px;'>Path : <br>" + imageFilePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                imagePathField.setText("Error loading image");
+                pathImageLabel.setText("Error loading image");
+            }
+        } else {
+            imagePathField.setText("No image available");
+            pathImageLabel.setText("No image available");
+        }
+
+        productIdToEdit = dataProduct.getIdProduct();
+    }
+
     private void handleButton() {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -164,10 +199,34 @@ public class productFormView extends contentPanel {
             }
         });
 
+        buttonReset.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                popUpConfrim messagePopUp = parentView
+                        .showConfrimPopUp("Do you want to update the composition as well?");
+
+                messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        parentApp.hideGlassPanel();
+                    }
+                });
+
+                messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        parentApp.hideGlassPanel();
+                    }
+                });
+            }
+        });
+
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 try {
+                    System.out.println("productIdToEdit = " + productIdToEdit);
+
                     String imageProduct = imagePathField.getText().trim();
                     String nameProduct = nameProductField.getText().trim();
                     String stringPrice = priceProductField.getText().trim();
@@ -209,10 +268,42 @@ public class productFormView extends contentPanel {
                             break;
                         case "VALID":
                             pathImageLabel.setForeground(color.BLACK);
-                            // boolean success = false;
                             int price = Integer.parseInt(stringPrice);
-                            parentView.showFormCompositionProduct(imageProduct, nameProduct, price, category,
-                                    description);
+                            if (productIdToEdit == -1) {
+                                parentView.showFormCompositionProduct(-1, imageProduct, nameProduct, price,
+                                        category, description, null);
+                            } else {
+                                popUpConfrim messagePopUp = parentView
+                                        .showConfrimPopUp("Do you want to update the composition as well?");
+
+                                messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                                    @Override
+                                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                                        parentApp.hideGlassPanel();
+                                        parentView.setCompositionModified(true);
+                                        List<listCompositionData> currentComposition = loadDataCompositionProduct
+                                                .getDataCompositonById(productIdToEdit);
+                                                
+                                        parentView.showFormCompositionProduct(
+                                                productIdToEdit, imageProduct, nameProduct, price, category,
+                                                description, currentComposition);
+                                    }
+                                });
+
+                                messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                                    @Override
+                                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                                        parentApp.hideGlassPanel();
+                                        authDataProduct.updateDataProduct(productIdToEdit, imageProduct, nameProduct,
+                                                price, category, description);
+                                        productIdToEdit = -1;
+                                        parentView.showSuccessPopUp("Data Product Successfully Saved");
+                                        parentView.showDashboardProduct();
+                                    }
+                                });
+
+                            }
+
                             break;
                     }
 

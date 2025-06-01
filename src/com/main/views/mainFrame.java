@@ -7,6 +7,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class mainFrame extends frameApps {
 
@@ -49,9 +50,12 @@ public class mainFrame extends frameApps {
         if (glass == null) {
             glass = new glassPanel();
             getLayeredPane().add(glass, JLayeredPane.POPUP_LAYER);
-            glass.setBounds(0, 0, getWidth(), getHeight());
         }
-        glass.showPopUp(panel); 
+
+        SwingUtilities.invokeLater(() -> {
+            glass.setBounds(0, 0, getWidth(), getHeight());
+            glass.showPopUp(panel);
+        });
     }
 
     public void hideGlassPanel() {

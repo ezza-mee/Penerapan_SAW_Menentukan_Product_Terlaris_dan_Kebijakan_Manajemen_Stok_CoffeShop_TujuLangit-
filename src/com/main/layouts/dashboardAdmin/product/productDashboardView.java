@@ -134,7 +134,7 @@ public class productDashboardView extends contentPanel {
         cardPanel.add(imageLabel);
 
         // Nama produk
-        JLabel nameLabel = new JLabel(product.getName());
+        JLabel nameLabel = new JLabel(product.getNameProduct());
         nameLabel.setBounds(130, 10, 400, 25);
         nameLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 18f));
         cardPanel.add(nameLabel);
@@ -180,6 +180,30 @@ public class productDashboardView extends contentPanel {
                 } else {
                     parentView.showFailedPopUp("Product Delete Data Product");
                 }
+            }
+        });
+
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                int idProduct = product.getIdProduct();
+                getterDataProduct selectedDataProduct = loadDataProduct.getProductById(idProduct);
+
+                if (selectedDataProduct != null) {
+                    parentView.setDataProductToEdit(selectedDataProduct);
+                    parentView.showFormProduct();
+                } else {
+                    parentView.showFailedPopUp("Product Data Not Found");
+                }
+
+            }
+        });
+
+        buttonDetail.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                int idProduct = product.getIdProduct();
+                System.out.println("idProduct : " + idProduct);
             }
         });
 

@@ -53,7 +53,6 @@ public class popUpSuccess extends popUpPanel {
         messageLabel = new textLabel("Data Successfully Saved", 0, 135, 600, 80);
 
         buttonConfirm = new buttonCustom("OK", 0, 200, 200, 40, 10);
-
     }
 
     private void setColor() {
