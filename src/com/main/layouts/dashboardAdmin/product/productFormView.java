@@ -270,7 +270,7 @@ public class productFormView extends contentPanel {
                             pathImageLabel.setForeground(color.BLACK);
                             int price = Integer.parseInt(stringPrice);
                             if (productIdToEdit == -1) {
-                                parentView.showFormCompositionProduct(-1, imageProduct, nameProduct, price,
+                                parentView.showFormCompositionProduct(productIdToEdit, imageProduct, nameProduct, price,
                                         category, description, null);
                             } else {
                                 popUpConfrim messagePopUp = parentView
@@ -282,11 +282,12 @@ public class productFormView extends contentPanel {
                                         parentApp.hideGlassPanel();
                                         parentView.setCompositionModified(true);
                                         List<listCompositionData> currentComposition = loadDataCompositionProduct
-                                                .getDataCompositonById(productIdToEdit);
-                                                
-                                        parentView.showFormCompositionProduct(
-                                                productIdToEdit, imageProduct, nameProduct, price, category,
+                                                .getDataCompositonByProduct(productIdToEdit);
+
+                                        parentView.showFormCompositionProduct(productIdToEdit, imageProduct,
+                                                nameProduct, price, category,
                                                 description, currentComposition);
+                                        System.out.println("idProduct : " + productIdToEdit);
                                     }
                                 });
 

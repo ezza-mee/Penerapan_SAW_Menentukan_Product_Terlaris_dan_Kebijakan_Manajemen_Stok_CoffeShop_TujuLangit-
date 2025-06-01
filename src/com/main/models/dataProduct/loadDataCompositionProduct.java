@@ -10,7 +10,7 @@ import java.util.List;
 import com.main.models.connectionDatabase;
 
 public class loadDataCompositionProduct {
-    public static List<listCompositionData> getDataCompositonById(int idProduct) {
+    public static List<listCompositionData> getDataCompositonByProduct(int idProduct) {
         List<listCompositionData> compositionList = new ArrayList<>();
         System.out.println("getDataCompositonById: retrieved list size = " + compositionList.size());
         String query = "SELECT * FROM tbl_data_composition_product WHERE idProduct = ?";

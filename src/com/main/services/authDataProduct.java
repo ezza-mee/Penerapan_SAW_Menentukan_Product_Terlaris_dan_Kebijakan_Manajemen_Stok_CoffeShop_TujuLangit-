@@ -4,7 +4,6 @@ import java.util.List;
 import com.main.models.dataProduct.insertDataProduct;
 import com.main.models.dataProduct.listCompositionData;
 import com.main.models.dataProduct.loadDataCompositionProduct;
-import com.main.models.dataProduct.loadDataProduct;
 import com.main.models.dataProduct.deleteDataCompositionProduct;
 import com.main.models.dataProduct.deleteDataProduct;
 import com.main.models.dataProduct.insertDataCompositionProduct;
@@ -25,12 +24,9 @@ public class authDataProduct {
             int price,
             String category,
             String description,
-            int idSupplier,
-            String nameSupplier,
-            int quantity,
-            String unit,
             List<listCompositionData> compositions) {
 
+        // Insert product terlebih dahulu
         int idProduct = insertDataProduct.insertProduct(imageProduct, nameProduct, price, category, description);
 
         if (idProduct == -1) {
@@ -38,34 +34,27 @@ public class authDataProduct {
             return false;
         }
 
-        for (listCompositionData listComp : compositions) {
+        // Masukkan setiap komposisi
+        for (listCompositionData comp : compositions) {
+            System.out.printf("Memasukkan komposisi: idSupplier = %d, nameSupplier = %s, quantity = %d, unit = %s%n",
+                    comp.idSupplier, comp.nameSupplier, comp.quantity, comp.unit);
+
             boolean compositionInserted = insertDataCompositionProduct.insertCompositionProduct(
+                    comp.idSupplier,
                     idProduct,
-                    idSupplier,
                     nameProduct,
-                    listComp.nameSupplier,
-                    listComp.quantity,
-                    listComp.unit);
+                    comp.nameSupplier,
+                    comp.quantity,
+                    comp.unit);
 
             if (!compositionInserted) {
-                System.out.println("Produk berhasil disimpan, tapi gagal insert komposisi produk.");
+                System.out.printf("Gagal memasukkan komposisi: idSupplier = %d, nameSupplier = %s%n",
+                        comp.idSupplier, comp.nameSupplier);
                 return false;
             }
         }
 
         return true;
-    }
-
-    public static boolean insertCompositionProduct(int idSupplier, int idProduct, String nameProduct,
-            String nameSupplier, int quantity, String unit) {
-        return insertDataCompositionProduct.insertCompositionProduct(idSupplier, idProduct, nameProduct, nameSupplier,
-                quantity, unit);
-    }
-
-    public static boolean updateCompositionProduct(int idSupplier, int idProduct, String nameProduct,
-            String nameSupplier, int quantity, String unit) {
-        return updateDataCompositionProduct.updateCompositionProduct(idSupplier, idProduct, nameProduct, nameSupplier,
-                quantity, unit);
     }
 
     public static boolean updateDataProductWithComposition(
@@ -91,17 +80,25 @@ public class authDataProduct {
             return false;
         }
 
-        for (listCompositionData listComp : compositions) {
-            boolean compositionUpdated = updateDataCompositionProduct.updateCompositionProduct(
-                    listComp.idSupplier,
+        // Hapus semua komposisi lama dulu
+        boolean deleted = deleteDataCompositionProduct.deleteAllCompositionByProduct(idProduct);
+        if (!deleted) {
+            System.out.println("Gagal menghapus komposisi lama.");
+            return false;
+        }
+
+        // Tambahkan ulang semua komposisi dari list baru
+        for (listCompositionData comp : compositions) {
+            boolean inserted = insertDataCompositionProduct.insertCompositionProduct(
+                    comp.idSupplier,
                     idProduct,
                     nameProduct,
-                    listComp.nameSupplier,
-                    listComp.quantity,
-                    listComp.unit);
+                    comp.nameSupplier,
+                    comp.quantity,
+                    comp.unit);
 
-            if (!compositionUpdated) {
-                System.out.println("Produk berhasil diupdate, tapi gagal update komposisi: " + listComp.nameSupplier);
+            if (!inserted) {
+                System.out.printf("Gagal menambahkan komposisi baru: %s%n", comp.nameSupplier);
                 return false;
             }
         }
@@ -117,12 +114,8 @@ public class authDataProduct {
         return deleteDataProduct.deleteProduct(idProduct);
     }
 
-    public static int getProductIdByName(String nameProduct) {
-        return loadDataProduct.getProductIdByName(nameProduct);
-    }
-
-    public static boolean deleteDataCompositionProduct(int idProduct) {
-        return deleteDataCompositionProduct.deleteCompositionByProductAndSupplier(idProduct);
+    public static boolean deleteDataCompositionProduct(int idSupplier, int idProduct) {
+        return deleteDataCompositionProduct.deleteComposition(idSupplier, idProduct);
     }
 
     public String validateProductInput(String imageProduct, String nameProduct, String category, String price,

@@ -64,26 +64,4 @@ public class loadDataProduct {
 
         return null;
     }
-
-    public static int getProductIdByName(String nameProduct) {
-        int idProduct = -1;
-        String query = "SELECT idProduct FROM tbl_data_product WHERE nameProduct = ?";
-
-        try (Connection conn = connectionDatabase.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, nameProduct);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                idProduct = rs.getInt("idProduct");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return idProduct;
-    }
-
 }
