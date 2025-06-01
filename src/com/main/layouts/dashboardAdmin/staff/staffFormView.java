@@ -288,7 +288,6 @@ public class staffFormView extends contentPanel {
                                     }
                                 }
                             }
-
                             break;
                     }
                     contentPanel.revalidate();

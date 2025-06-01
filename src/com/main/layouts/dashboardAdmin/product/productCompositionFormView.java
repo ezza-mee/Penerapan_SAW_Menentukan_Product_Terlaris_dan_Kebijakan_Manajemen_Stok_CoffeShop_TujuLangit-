@@ -268,6 +268,7 @@ public class productCompositionFormView extends contentPanel {
                         parentListIngredientPanel.remove(padding);
                         parentListIngredientPanel.revalidate();
                         parentListIngredientPanel.repaint();
+                        listComposition.remove(data);
                     }
                 });
 
@@ -339,16 +340,31 @@ public class productCompositionFormView extends contentPanel {
                     listCompositionData data;
 
                     if (isEditMode) {
+                        // Hapus data lama dari list sebelum memasukkan ulang
+                        listComposition.remove(currentEditData);
+
+                        // Cek duplikat setelah dihapus
+                        boolean isDuplicate = listComposition.stream()
+                                .anyMatch(d -> d.getIdSupplier() == idSupplier);
+
+                        if (isDuplicate) {
+                            parentView.showFailedPopUp("Supplier sudah ditambahkan untuk produk ini.");
+                            listComposition.add(currentEditData); // Kembalikan data lama
+                            return;
+                        }
+
+                        // Update dan simpan kembali
                         currentEditData.setQuantity(quantity);
                         currentEditData.setUnit(unit);
                         data = currentEditData;
-
                         listComposition.add(data);
+
                         isEditMode = false;
                         currentEditData = null;
                     } else {
                         boolean isDuplicate = listComposition.stream()
                                 .anyMatch(d -> d.getIdSupplier() == idSupplier);
+
                         if (isDuplicate) {
                             parentView.showFailedPopUp("Supplier sudah ditambahkan untuk produk ini.");
                             return;
@@ -359,7 +375,7 @@ public class productCompositionFormView extends contentPanel {
                         listComposition.add(data);
                     }
 
-                    // Tampilkan data di panel
+                    // Sekarang "data" pasti terisi
                     addCompositionCardToPanel(data);
 
                     // Scroll otomatis ke bawah
@@ -483,64 +499,66 @@ public class productCompositionFormView extends contentPanel {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentView.showFormProduct();
+                parentView.showDashboardProduct();;
             }
         });
 
-        buttonSave.addActionListener(e -> {
-            try {
-                if (listComposition.isEmpty()) {
-                    parentView.showFailedPopUp("Silakan tambahkan komposisi terlebih dahulu");
-                    return;
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                try {
+                    if (listComposition.isEmpty()) {
+                        parentView.showFailedPopUp("Silakan tambahkan komposisi terlebih dahulu");
+                        return;
+                    }
+
+                    listCompositionData dataComp = listComposition.get(0);
+                    int idSupplier = dataComp.idSupplier;
+                    int quantity = dataComp.quantity;
+                    String unit = dataComp.unit;
+
+                    if (quantity <= 0 || unit == null || unit.isEmpty()) {
+                        parentView.showFailedPopUp("Komposisi pertama harus memiliki quantity dan unit yang valid");
+                        return;
+                    }
+
+                    boolean success;
+                    if (isUpdateMode) {
+                        System.out.println("IdProduct update : " + idProduct);
+                        // Update produk dan komposisinya
+                        success = authDataProduct.updateDataProductWithComposition(
+                                idSupplier,
+                                idProduct,
+                                imageProduct,
+                                nameProduct,
+                                price,
+                                category,
+                                description,
+                                listComposition);
+                    } else {
+                        System.out.println("IdProduct insert : " + idProduct);
+                        // Insert produk dan komposisinya
+                        success = authDataProduct.insertDataProductWithComposition(
+                                imageProduct,
+                                nameProduct,
+                                price,
+                                category,
+                                description,
+                                listComposition);
+                    }
+
+                    if (success) {
+                        parentView.showSuccessPopUp("Produk berhasil disimpan");
+                        parentView.showDashboardProduct();
+                    } else {
+                        parentView.showFailedPopUp("Gagal menyimpan produk");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    parentView.showFailedPopUp("Terjadi kesalahan saat menyimpan produk");
                 }
-
-                listCompositionData dataComp = listComposition.get(0);
-                int idSupplier = dataComp.idSupplier;
-                int quantity = dataComp.quantity;
-                String unit = dataComp.unit;
-
-                if (quantity <= 0 || unit == null || unit.isEmpty()) {
-                    parentView.showFailedPopUp("Komposisi pertama harus memiliki quantity dan unit yang valid");
-                    return;
-                }
-
-                boolean success;
-                if (isUpdateMode) {
-                    System.out.println("IdProduct update : " + idProduct);
-                    // Update produk dan komposisinya
-                    success = authDataProduct.updateDataProductWithComposition(
-                            idSupplier,
-                            idProduct,
-                            imageProduct,
-                            nameProduct,
-                            price,
-                            category,
-                            description,
-                            listComposition);
-                } else {
-                    System.out.println("IdProduct insert : " + idProduct);
-                    // Insert produk dan komposisinya
-                    success = authDataProduct.insertDataProductWithComposition(
-                            imageProduct,
-                            nameProduct,
-                            price,
-                            category,
-                            description,
-                            listComposition);
-                }
-
-                if (success) {
-                    parentView.showSuccessPopUp("Produk berhasil disimpan");
-                    parentView.showDashboardProduct();
-                } else {
-                    parentView.showFailedPopUp("Gagal menyimpan produk");
-                }
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                parentView.showFailedPopUp("Terjadi kesalahan saat menyimpan produk");
             }
         });
-
     }
 }

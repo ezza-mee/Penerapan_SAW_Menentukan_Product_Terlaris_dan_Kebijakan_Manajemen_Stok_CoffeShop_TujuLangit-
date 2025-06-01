@@ -5,12 +5,16 @@ import java.util.EnumSet;
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.tableActionButton;
+import com.main.layouts.popUp.popUpConfrim;
 import com.main.models.dataSupplier.getterDataSupplier;
 import com.main.models.dataSupplier.loadDataSupplier;
 import com.main.views.dashboardAdminView;
 import com.main.services.authDataSupplier;
+import com.main.views.mainFrame;
 
 public class supplierDashboardView extends contentPanel {
+
+    private mainFrame parentApp;
 
     private dashboardAdminView parentView;
 
@@ -34,8 +38,9 @@ public class supplierDashboardView extends contentPanel {
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT,
             buttonType.DELETE, buttonType.DETAIL);
 
-    public supplierDashboardView(dashboardAdminView parentView) {
+    public supplierDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
+        this.parentApp = parentApp;
         this.parentView = parentView;
         initContent();
     }
@@ -78,29 +83,37 @@ public class supplierDashboardView extends contentPanel {
         tableActionButton actionButton = new tableActionButton() {
             @Override
             public void onEdit(int row) {
-
                 try {
-                    int selectedRow = dataSupplierTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
-                        int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
-                        
-                        getterDataSupplier selectedDataSupplier = loadDataSupplier.getDataById(idSupplier);
+                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
 
-                        if (selectedDataSupplier != null) {
-                            System.out.println("Edit row: " + row);
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataSupplierTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
+                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
 
-                            parentView.setDataSupplierToEdit(selectedDataSupplier);
-                            parentView.showFormSupplier();
+                                getterDataSupplier selectedDataSupplier = loadDataSupplier.getDataById(idSupplier);
 
-                            System.out.println("Name Supplier : " + selectedDataSupplier.getNameSupplier());
-                            System.out.println("Quantity : " + selectedDataSupplier.getQuantity());
-                            System.out.println("Unit : " + selectedDataSupplier.getUnit());
-                            System.out.println("Description : " + selectedDataSupplier.getDescription());
-                        } else {
-
+                                if (selectedDataSupplier != null) {
+                                    parentApp.hideGlassPanel();
+                                    parentView.setDataSupplierToEdit(selectedDataSupplier);
+                                    parentView.showFormSupplier();
+                                } else {
+                                    parentApp.hideGlassPanel();
+                                    parentView.showFailedPopUp("Data Supplier not found!");
+                                }
+                            }
                         }
-                    }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassPanel();
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -109,22 +122,40 @@ public class supplierDashboardView extends contentPanel {
             @Override
             public void onDelete(int row) {
                 try {
-                    int selectedRow = dataSupplierTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
-                        int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
-                        int quantity = 0;
-                        boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
 
-                        if (isSuccess) {
-                            parentView.showSuccessPopUp("Success Delete Data Delete");
-                            parentView.showDashboardSupplier();
-                        } else {
-                            parentView.showFailedPopUp("Failed Delete Data Delete");
-                            parentView.showDashboardSupplier();
+                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
+
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataSupplierTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
+                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
+                                int quantity = 0;
+                                boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
+
+                                if (isSuccess) {
+                                    parentApp.hideGlassPanel();
+                                    parentView.showSuccessPopUp("Success Delete Data Delete");
+                                    parentView.showDashboardSupplier();
+                                } else {
+                                    parentApp.hideGlassPanel();
+                                    parentView.showFailedPopUp("Failed Delete Data Delete");
+                                    parentView.showDashboardSupplier();
+                                }
+
+                            }
                         }
+                    });
 
-                    }
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassPanel();
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -132,11 +163,13 @@ public class supplierDashboardView extends contentPanel {
 
             @Override
             public void onDetail(int row) {
+                // Not implemented
                 System.out.println("Detail row: " + row);
             }
 
             @Override
             public void onApprove(int row) {
+                // Not implemented
                 System.out.println("Approve row: " + row);
             }
         };

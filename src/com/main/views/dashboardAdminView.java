@@ -61,7 +61,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showDashboardProduct() {
-        productDashboardView dashboardProduct = new productDashboardView(this);
+        productDashboardView dashboardProduct = new productDashboardView(parentApp, this);
         dashboardProduct.loadAllProductCards();
         lastContent = dashboardProduct;
         parentDashboard.setContent(dashboardProduct);
@@ -93,7 +93,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showDashboardSupplier() {
-        supplierDashboardView dashboardSupplier = new supplierDashboardView(this);
+        supplierDashboardView dashboardSupplier = new supplierDashboardView(parentApp, this);
         lastContent = dashboardSupplier;
         parentDashboard.setContent(dashboardSupplier);
     }
@@ -117,7 +117,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showDashboardStaff() {
-        staffDashboardView dashboardStaff = new staffDashboardView(this);
+        staffDashboardView dashboardStaff = new staffDashboardView(parentApp, this);
         lastContent = dashboardStaff;
         parentDashboard.setContent(dashboardStaff);
     }

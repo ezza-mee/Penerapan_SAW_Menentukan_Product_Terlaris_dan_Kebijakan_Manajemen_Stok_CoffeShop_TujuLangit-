@@ -7,12 +7,16 @@ import javax.swing.JOptionPane;
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.tableActionButton;
+import com.main.layouts.popUp.popUpConfrim;
 import com.main.models.dataStaff.loadDataStaff;
 import com.main.services.authDataStaff;
 import com.main.views.dashboardAdminView;
 import com.main.models.dataStaff.getterDataStaff;
+import com.main.views.mainFrame;
 
 public class staffDashboardView extends contentPanel {
+
+    private mainFrame parentApp;
 
     private dashboardAdminView parentView;
 
@@ -36,8 +40,9 @@ public class staffDashboardView extends contentPanel {
 
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, buttonType.DELETE, buttonType.DETAIL);
 
-    public staffDashboardView(dashboardAdminView parentView) {
+    public staffDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
+        this.parentApp = parentApp;
         this.parentView = parentView;
         initContent();
     }
@@ -85,31 +90,36 @@ public class staffDashboardView extends contentPanel {
             @Override
             public void onEdit(int row) {
                 try {
-                    int selectedRow = dataStaffTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
-                        int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to update the composition as well?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
 
-                        getterDataStaff selectedDataStaff = loadDataStaff.getDataById(idStaff);
+                                getterDataStaff selectedDataStaff = loadDataStaff.getDataById(idStaff);
 
-                        if (selectedDataStaff != null) {
-                            System.out.println("Edit baris ke: " + idStaff);
-
-                            parentView.setDataStaffToEdit(selectedDataStaff);
-                            parentView.showFormStaff();
-
-                            System.out.println("Name: " + selectedDataStaff.getName());
-                            System.out.println("Email: " + selectedDataStaff.getEmail());
-                            System.out.println("Phone: " + selectedDataStaff.getPhoneNumber());
-                            System.out.println("Gender: " + selectedDataStaff.getGender());
-                            System.out.println("Jobdesk: " + selectedDataStaff.getJobdesk());
-                            System.out.println("Address: " + selectedDataStaff.getAddress());
-                            System.out.println("[DEBUG] Tombol Edit diklik. isEdit = true, idStaff = " + idStaff);
-
-                        } else {
-                            System.out.println("Data staff tidak ditemukan.");
+                                if (selectedDataStaff != null) {
+                                    parentApp.hideGlassPanel();
+                                    parentView.setDataStaffToEdit(selectedDataStaff);
+                                    parentView.showFormStaff();
+                                } else {
+                                    parentView.showFailedPopUp("Data Staff not found!");
+                                }
+                            }
                         }
-                    }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassPanel();
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -118,20 +128,37 @@ public class staffDashboardView extends contentPanel {
             @Override
             public void onDelete(int row) {
                 try {
-                    int selectedRow = dataStaffTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
-                        int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
-                        boolean isSuccess = authDataStaff.resignStaffById(idStaff);
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to update the composition as well?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                                boolean isSuccess = authDataStaff.resignStaffById(idStaff);
 
-                        if (isSuccess) {
-                            parentView.showSuccessPopUp("Success Delete Data Staff");
-                            parentView.showDashboardStaff();
-                        } else {
-                            parentView.showFailedPopUp("Failed Delete Data Staff");
-                            parentView.showDashboardStaff();
+                                if (isSuccess) {
+                                    parentApp.hideGlassPanel();
+                                    parentView.showSuccessPopUp("Success Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                } else {
+                                    parentApp.hideGlassPanel();
+                                    parentView.showFailedPopUp("Failed Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                }
+                            }
                         }
-                    }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassPanel();
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -144,20 +171,18 @@ public class staffDashboardView extends contentPanel {
                     if (selectedRow != -1) {
                         String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
                         int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
-                        System.out.println("Detail baris ke: " + idStaff);
-
                         parentView.showDetailPopUpDataStaff(idStaff);
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Gagal menampilkan detail staff!");
+                    parentView.showFailedPopUp("Data Staff not found!");
                 }
             }
 
             @Override
             public void onApprove(int row) {
                 // Not implemented
+                System.out.println("Approve row: " + row);
             }
         };
 
