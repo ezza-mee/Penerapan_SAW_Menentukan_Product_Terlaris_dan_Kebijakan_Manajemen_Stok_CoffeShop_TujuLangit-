@@ -74,6 +74,14 @@ public class appIcons {
         return loadIcon("src/com/main/resources/images/staff(white).png", width, height);
     }
 
+    public imageIcon getTableIconHover(int width, int height) {
+        return loadIcon("src/com/main/resources/images/orderTable(green).png", width, height);
+    }
+
+    public imageIcon getTableIconDefault(int width, int height) {
+        return loadIcon("src/com/main/resources/images/orderTable(white).png", width, height);
+    }
+
     public imageIcon getTransactionIconHover(int width, int height) {
         return loadIcon("src/com/main/resources/images/transaction(green).png", width, height);
     }

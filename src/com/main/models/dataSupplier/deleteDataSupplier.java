@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class deleteDataSupplier {
-    public static boolean deleteSupplier(int idStaff, int quantity) {
+    public static boolean deleteSupplier(int idSupplier, int quantity) {
         boolean data = false;
 
         String query = "UPDATE tbl_data_supplier SET quantity = ?, status = 'Out Of Stock' WHERE idSupplier = ?";
@@ -16,7 +16,7 @@ public class deleteDataSupplier {
                 PreparedStatement state = conn.prepareStatement(query)) {
 
             state.setInt(1, quantity);
-            state.setInt(2, idStaff);
+            state.setInt(2, idSupplier);
 
             if (state.executeUpdate() > 0) {
                 data = true;

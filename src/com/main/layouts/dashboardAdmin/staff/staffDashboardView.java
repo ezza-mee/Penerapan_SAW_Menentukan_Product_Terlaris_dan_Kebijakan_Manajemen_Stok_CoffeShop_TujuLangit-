@@ -2,8 +2,6 @@ package com.main.layouts.dashboardAdmin.staff;
 
 import java.util.EnumSet;
 
-import javax.swing.JOptionPane;
-
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.tableActionButton;
@@ -24,13 +22,13 @@ public class staffDashboardView extends contentPanel {
 
     private textLabel valueTotalStaffLabel;
 
-    private panelRounded headerContent, contentStaff, lineQuantityStaff;
+    private panelRounded headerPanel, contentPanel, lineQuantityStaff;
 
     private textField searchField;
 
     private buttonCustom buttonAdd;
 
-    private table dataStaffTable;
+    private tableCustom dataStaffTable;
 
     private scrollTable scrollDataStaff;
 
@@ -54,26 +52,26 @@ public class staffDashboardView extends contentPanel {
         setFont();
         handelButton();
 
-        headerContent.add(iconUser);
-        headerContent.add(totalStaffLabel);
-        headerContent.add(valueTotalStaffLabel);
-        headerContent.add(searchField);
-        headerContent.add(buttonAdd);
-        headerContent.add(lineQuantityStaff);
+        headerPanel.add(iconUser);
+        headerPanel.add(totalStaffLabel);
+        headerPanel.add(valueTotalStaffLabel);
+        headerPanel.add(searchField);
+        headerPanel.add(buttonAdd);
+        headerPanel.add(lineQuantityStaff);
 
-        contentStaff.add(scrollDataStaff);
+        contentPanel.add(scrollDataStaff);
 
         add(headerLabel);
-        add(headerContent);
-        add(contentStaff);
+        add(headerPanel);
+        add(contentPanel);
 
         setVisible(true);
     }
 
     private void setPosition() {
         headerLabel = new textLabel("Data Staff", 40, 0, 200, 80);
-        headerContent = new panelRounded(40, 80, 1050, 110, 10, 10);
-        contentStaff = new panelRounded(40, 220, 1050, 410, 10, 10);
+        headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
+        contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
         lineQuantityStaff = new panelRounded(320, 35, 5, 50, 3, 3);
 
         iconUser.setBounds(40, 40, 35, 35);
@@ -91,7 +89,7 @@ public class staffDashboardView extends contentPanel {
             public void onEdit(int row) {
                 try {
                     popUpConfrim messagePopUp = parentView
-                            .showConfrimPopUp("Do you want to update the composition as well?");
+                            .showConfrimPopUp("Do you want to edit Data Staff?");
                     messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
@@ -129,7 +127,7 @@ public class staffDashboardView extends contentPanel {
             public void onDelete(int row) {
                 try {
                     popUpConfrim messagePopUp = parentView
-                            .showConfrimPopUp("Do you want to update the composition as well?");
+                            .showConfrimPopUp("Do you want to delete Data Staff?");
                     messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
@@ -186,7 +184,7 @@ public class staffDashboardView extends contentPanel {
             }
         };
 
-        dataStaffTable = new table(loadDataStaff.getAllDataStaff(), actionButton);
+        dataStaffTable = new tableCustom(loadDataStaff.getAllDataStaff(), actionButton);
 
         int actionColumnIndex = 5;
         dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
@@ -211,8 +209,8 @@ public class staffDashboardView extends contentPanel {
 
     private void setColor() {
         headerLabel.setForeground(color.BLACK);
-        headerContent.setBackground(color.WHITE);
-        contentStaff.setBackground(color.WHITE);
+        headerPanel.setBackground(color.WHITE);
+        contentPanel.setBackground(color.WHITE);
         lineQuantityStaff.setBackground(color.DARKGREY);
 
         totalStaffLabel.setForeground(color.BLACK);

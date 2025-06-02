@@ -15,6 +15,8 @@ import com.main.layouts.dashboardAdmin.staff.staffDashboardView;
 import com.main.layouts.dashboardAdmin.staff.staffFormView;
 import com.main.layouts.dashboardAdmin.supplier.supplierDashboardView;
 import com.main.layouts.dashboardAdmin.supplier.supplierFormView;
+import com.main.layouts.dashboardAdmin.table.tableDashboardView;
+import com.main.layouts.dashboardAdmin.table.tableFormView;
 import com.main.layouts.dashboardAdmin.transaction.transactionDashboardView;
 import com.main.layouts.popUp.popUpConfrim;
 import com.main.layouts.popUp.popUpFailed;
@@ -27,6 +29,7 @@ import com.main.models.dataProduct.listCompositionData;
 import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.getterDataStaff;
 import com.main.models.dataSupplier.getterDataSupplier;
+import com.main.models.dataTable.getterDataTable;
 import com.main.services.authDataStaff;
 
 public class dashboardAdminView extends containerPanel {
@@ -39,6 +42,7 @@ public class dashboardAdminView extends containerPanel {
     private getterAccountStaff accountData = null;
     private getterDataSupplier dataSupplierToEdit = null;
     private getterDataProduct dataProductToEdit = null;
+    private getterDataTable dataTableToEdit = null;
 
     private boolean compositionModified = false;
 
@@ -51,7 +55,7 @@ public class dashboardAdminView extends containerPanel {
         add(parentDashboard);
 
         // parentDashboard.getNavbar().showHomeView();
-        parentDashboard.getNavbar().showProductView();
+        parentDashboard.getNavbar().showTableView();
     }
 
     public void showDashboardHome() {
@@ -108,6 +112,24 @@ public class dashboardAdminView extends containerPanel {
 
         lastContent = formSupplier;
         parentDashboard.setContent(formSupplier);
+    }
+
+    public void showDashboardTable() {
+        tableDashboardView dashboardTable = new tableDashboardView(parentApp, this);
+        lastContent = dashboardTable;
+        parentDashboard.setContent(dashboardTable);
+    }
+
+    public void showFormTable() {
+        tableFormView formTable = new tableFormView(this);
+
+        if (dataTableToEdit != null) {
+            formTable.setFormTable(dataTableToEdit);
+            dataTableToEdit = null;
+        }
+
+        lastContent = formTable;
+        parentDashboard.setContent(formTable);
     }
 
     public void showDashboardTransaction() {
@@ -204,7 +226,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void resetLastContent() {
-        parentDashboard.getNavbar().showProductView();
+        parentDashboard.getNavbar().showTableView();
         lastContent = null;
     }
 
@@ -222,6 +244,10 @@ public class dashboardAdminView extends containerPanel {
 
     public void setDataSupplierToEdit(getterDataSupplier dataSupplier) {
         this.dataSupplierToEdit = dataSupplier;
+    }
+
+    public void setDataTableToEdit(getterDataTable dataTable) {
+        this.dataTableToEdit = dataTable;
     }
 
     public void setDataStaffToEdit(getterDataStaff dataStaff) {
