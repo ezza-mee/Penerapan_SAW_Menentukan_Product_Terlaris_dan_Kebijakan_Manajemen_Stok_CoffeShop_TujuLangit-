@@ -41,11 +41,19 @@ public class navigationDashboardView extends navigationPanel {
 
     );
 
+    private navigation navTable = new navigation(
+            appIcons.getTableIconDefault(30, 30),
+            appIcons.getTableIconHover(30, 30),
+            "Table",
+            150 + 50 + 50 + 50
+
+    );
+
     private navigation navTransaction = new navigation(
             appIcons.getTransactionIconDefault(30, 30),
             appIcons.getTransactionIconHover(30, 30),
             "Transaction",
-            150 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50
 
     );
 
@@ -53,7 +61,7 @@ public class navigationDashboardView extends navigationPanel {
             appIcons.getStaffIconDefault(30, 30),
             appIcons.getStaffIconHover(30, 30),
             "Staff",
-            150 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -61,7 +69,7 @@ public class navigationDashboardView extends navigationPanel {
             appIcons.getReportIconDefault(30, 30),
             appIcons.getReportIconHover(30, 30),
             "Report",
-            150 + 50 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -69,7 +77,7 @@ public class navigationDashboardView extends navigationPanel {
             appIcons.getLogoutIconDefault(30, 30),
             appIcons.getLogoutIconHover(30, 30),
             "Logout",
-            150 + 50 + 50 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -85,6 +93,10 @@ public class navigationDashboardView extends navigationPanel {
         navSupplier.setForeground(color.WHITE);
         navSupplier.setBackground(color.DARKGREEN);
         navSupplier.setNavigationInAktif();
+
+        navTable.setForeground(color.WHITE);
+        navTable.setBackground(color.DARKGREEN);
+        navTable.setNavigationInAktif();
 
         navTransaction.setForeground(color.WHITE);
         navTransaction.setBackground(color.DARKGREEN);
@@ -115,6 +127,7 @@ public class navigationDashboardView extends navigationPanel {
         add(navHome);
         add(navProduct);
         add(navSupplier);
+        add(navTable);
         add(navTransaction);
         add(navStaff);
         add(navReport);
@@ -150,6 +163,13 @@ public class navigationDashboardView extends navigationPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
                 showSupplierView();
+            }
+        });
+
+        navTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showTableView();
             }
         });
 
@@ -215,6 +235,18 @@ public class navigationDashboardView extends navigationPanel {
         navSupplier.setNavigationAktif();
 
         contentView.showDashboardSupplier();
+
+        setVisible(true);
+    }
+
+    public void showTableView() {
+        resetNavigation();
+
+        navTable.setForeground(color.DARKGREEN);
+        navTable.setBackground(color.WHITE);
+        navTable.setNavigationAktif();
+
+        contentView.showDashboardTable();
 
         setVisible(true);
     }

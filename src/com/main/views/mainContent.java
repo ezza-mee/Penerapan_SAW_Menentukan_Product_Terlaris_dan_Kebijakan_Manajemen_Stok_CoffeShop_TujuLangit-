@@ -37,9 +37,9 @@ public class mainContent extends wrapperPanel {
     public void showDashboardAdmin() {
         refreshContent();
         setSize(1366, 768);
-        dashboardAdminView.showFormProduct();
+        dashboardAdminView.showDashboardTable();
         dashboardAdminView.resetLastContent();
-        parentDashboard.getNavbar().showProductView();
+        parentDashboard.getNavbar().showTableView();
         add(dashboardAdminView);
         setVisible(true);
     }

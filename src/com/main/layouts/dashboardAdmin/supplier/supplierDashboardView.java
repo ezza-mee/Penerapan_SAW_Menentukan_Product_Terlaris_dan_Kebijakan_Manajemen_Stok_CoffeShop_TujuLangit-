@@ -20,17 +20,13 @@ public class supplierDashboardView extends contentPanel {
 
     private textLabel headerLabel;
 
-    private panelRounded headerContent;
-    private panelRounded contentSupplier;
+    private panelRounded headerPanel, contentPanel;
 
-    private linkLabel allLabel;
-    private linkLabel pendingLabel;
-    private linkLabel stocklabel;
-    private linkLabel outStockLabel;
+    private linkLabel allLabel, pendingLabel, stockLabel, outStockLabel;
 
     private buttonCustom buttonAdd;
 
-    private table dataSupplierTable;
+    private tableCustom dataSupplierTable;
     private scrollTable scrollDataSupplier;
 
     private int quantityAllDataSupplier = loadDataSupplier.getAllQuantityDataSupplier();
@@ -52,30 +48,30 @@ public class supplierDashboardView extends contentPanel {
         setFont();
         handleButton();
 
-        headerContent.add(allLabel);
-        headerContent.add(pendingLabel);
-        headerContent.add(stocklabel);
-        headerContent.add(outStockLabel);
-        headerContent.add(buttonAdd);
+        headerPanel.add(allLabel);
+        headerPanel.add(pendingLabel);
+        headerPanel.add(stockLabel);
+        headerPanel.add(outStockLabel);
+        headerPanel.add(buttonAdd);
 
-        contentSupplier.add(scrollDataSupplier);
+        contentPanel.add(scrollDataSupplier);
 
         add(headerLabel);
-        add(headerContent);
-        add(contentSupplier);
+        add(headerPanel);
+        add(contentPanel);
 
         setVisible(true);
     }
 
     private void setPosition() {
         headerLabel = new textLabel("Data Supplier", 40, 0, 300, 80);
-        headerContent = new panelRounded(40, 80, 1050, 110, 10, 10);
-        contentSupplier = new panelRounded(40, 220, 1050, 410, 10, 10);
+        headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
+        contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
 
         allLabel = new linkLabel("ALL", 40, 40, 80, 30);
         allLabel.setQuantity(quantityAllDataSupplier);
         pendingLabel = new linkLabel("Pending", 155, 40, 120, 30);
-        stocklabel = new linkLabel("In Stock", 310, 40, 120, 30);
+        stockLabel = new linkLabel("In Stock", 310, 40, 120, 30);
         outStockLabel = new linkLabel("Out Stock", 470, 40, 120, 30);
 
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
@@ -174,7 +170,7 @@ public class supplierDashboardView extends contentPanel {
             }
         };
 
-        dataSupplierTable = new table(loadDataSupplier.getAllDataSupplier(), actionButton);
+        dataSupplierTable = new tableCustom(loadDataSupplier.getAllDataSupplier(), actionButton);
 
         int actionColumnIndex = 6;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
@@ -195,8 +191,8 @@ public class supplierDashboardView extends contentPanel {
 
     private void setColor() {
         headerLabel.setForeground(color.BLACK);
-        headerContent.setBackground(color.WHITE);
-        contentSupplier.setBackground(color.WHITE);
+        headerPanel.setBackground(color.WHITE);
+        contentPanel.setBackground(color.WHITE);
 
     }
 
@@ -205,7 +201,7 @@ public class supplierDashboardView extends contentPanel {
 
         allLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
         pendingLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
-        stocklabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        stockLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
         outStockLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
 
     }

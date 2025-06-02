@@ -200,7 +200,7 @@ public class supplierFormView extends contentPanel {
                                     parentView.showDashboardSupplier();
                                     parentView.showSuccessPopUp("Data Supplier Successfully Saved");
                                 } else {
-                                    parentView.showFailedPopUp("Failed to Save Data Staff");
+                                    parentView.showFailedPopUp("Failed to Save Data Supplier");
                                 }
                             } else {
                                 success = authDataSupplier.updateDataSupplier(supplierIdToEdit, nameSupplier, quantity,
@@ -209,7 +209,7 @@ public class supplierFormView extends contentPanel {
                                     parentView.showDashboardSupplier();
                                     parentView.showSuccessPopUp("Data Supplier Successfully Update");
                                 } else {
-                                    parentView.showFailedPopUp("Failed to Update Data Staff");
+                                    parentView.showFailedPopUp("Failed to Update Data Supplier");
                                 }
                             }
                             break;

@@ -7,9 +7,9 @@ import java.util.EnumSet;
 
 import com.main.controller.tableActionButton;
 
-public class table extends JTable {
+public class tableCustom extends JTable {
 
-    public table(TableModel model, tableActionButton actionListener) {
+    public tableCustom(TableModel model, tableActionButton actionListener) {
         super(model);
         setFont(fontStyle.getFont(fontStyle.FontStyle.REGULAR, 14f));
         setRowHeight(60);
