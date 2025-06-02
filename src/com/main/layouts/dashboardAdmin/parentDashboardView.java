@@ -10,8 +10,10 @@ public class parentDashboardView extends containerPanel {
 
     private dashboardAdminView parentView;
 
+    private contentPanel currentContent;
+
     private headerPanel headerPanel = new headerPanel();
-    private headerDashboardView contentHeader = new headerDashboardView();
+    private headerDashboardView contentHeader;
     private navigationPanel navigationPanel = new navigationPanel();
     private contentContainer contentContainer = new contentContainer();
 
@@ -23,6 +25,9 @@ public class parentDashboardView extends containerPanel {
         contentContainer.removeAll();
         contentContainer.add(content);
         content.add(copyRight);
+
+        this.currentContent = content;
+
         contentContainer.revalidate();
         contentContainer.repaint();
     }
@@ -31,6 +36,7 @@ public class parentDashboardView extends containerPanel {
         super();
         this.parentView = parentView;
         this.navBar = new navigationDashboardView(this.parentView);
+        this.contentHeader = new headerDashboardView(this);
         setSize(1366, 768);
         initsLayoutParent();
     }
@@ -70,6 +76,10 @@ public class parentDashboardView extends containerPanel {
 
     public navigationDashboardView getNavbar() {
         return navBar;
+    }
+
+    public contentPanel getCurrentContent() {
+        return currentContent;
     }
 
 }

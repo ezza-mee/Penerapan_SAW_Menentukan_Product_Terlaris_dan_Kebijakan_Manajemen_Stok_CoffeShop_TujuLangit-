@@ -1,18 +1,24 @@
 package com.main.layouts.dashboardAdmin.staff;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.controller.searchableView;
 import com.main.controller.tableActionButton;
 import com.main.layouts.popUp.popUpConfrim;
 import com.main.models.dataStaff.loadDataStaff;
 import com.main.services.authDataStaff;
 import com.main.views.dashboardAdminView;
+import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataStaff.getterDataStaff;
 import com.main.views.mainFrame;
 
-public class staffDashboardView extends contentPanel {
+public class staffDashboardView extends contentPanel implements searchableView {
 
     private mainFrame parentApp;
 
@@ -230,6 +236,30 @@ public class staffDashboardView extends contentPanel {
                 parentView.showFormStaff();
             }
         });
+    }
+
+    public void filterDataByKeyword(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) dataStaffTable.getModel();
+        model.setRowCount(0); // Clear table data
+
+        ArrayList<getterDataStaff> list;
+
+        if (keyword.trim().isEmpty()) {
+            list = loadDataStaff.getAllStaff();
+        } else {
+            list = authDataStaff.searchStaffByKeyword(keyword);
+        }
+
+        for (getterDataStaff dataStaff : list) {
+            model.addRow(new Object[] {
+                    "NS00" + dataStaff.getIdStaff(), // ID
+                    dataStaff.getDate(), // Date
+                    dataStaff.getName(), // Name
+                    dataStaff.getJobdesk(), // Jobdesk
+                    dataStaff.getStatus(), // Status
+                    "Aksi"
+            });
+        }
     }
 
 }

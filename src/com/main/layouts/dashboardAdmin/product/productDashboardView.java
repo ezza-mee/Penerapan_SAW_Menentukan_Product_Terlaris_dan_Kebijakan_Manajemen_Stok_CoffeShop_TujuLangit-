@@ -13,6 +13,7 @@ import java.awt.Dimension;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.controller.searchableView;
 import com.main.layouts.popUp.popUpConfrim;
 import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.loadDataProduct;
@@ -20,7 +21,7 @@ import com.main.services.authDataProduct;
 import com.main.views.dashboardAdminView;
 import com.main.views.mainFrame;
 
-public class productDashboardView extends contentPanel {
+public class productDashboardView extends contentPanel implements searchableView {
 
     private mainFrame parentApp;
 
@@ -106,6 +107,27 @@ public class productDashboardView extends contentPanel {
                 parentView.showFormProduct();
             }
         });
+    }
+
+    public void filterDataByKeyword(String keyword) {
+        contentProduct.removeAll();
+
+        ArrayList<getterDataProduct> list;
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            // Jika keyword kosong, tampilkan semua data
+            list = loadDataProduct.getAllProducts(); // Pastikan method ini ada
+        } else {
+            // Jika keyword ada, lakukan pencarian
+            list = authDataProduct.searchProductByKeyword(keyword);
+        }
+
+        for (getterDataProduct product : list) {
+            loadDataProductInCard(product);
+        }
+
+        contentProduct.revalidate();
+        contentProduct.repaint();
     }
 
     public void loadAllProductCards() {

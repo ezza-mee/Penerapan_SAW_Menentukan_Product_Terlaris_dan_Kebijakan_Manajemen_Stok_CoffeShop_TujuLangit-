@@ -2,13 +2,25 @@ package com.main.services;
 
 import com.main.models.dataStaff.insertDataStaff;
 import com.main.models.dataStaff.loadDataStaff;
+
+import java.util.ArrayList;
+
 import com.main.models.dataStaff.deleteDataStaff;
 import com.main.models.dataStaff.getterAccountStaff;
 import com.main.models.dataStaff.insertAccountStaff;
 import com.main.models.dataStaff.updateDataStaff;
 import com.main.models.dataStaff.updateAccountStaff;
+import com.main.models.dataStaff.getterDataStaff;
+import com.main.models.dataStaff.searchDataStaff;
 
 public class authDataStaff {
+
+    public static ArrayList<getterDataStaff> searchStaffByKeyword(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataStaff.searchStaff(keyword.trim());
+    }
 
     public static boolean insertDataStaff(
             String nameStaff,
@@ -137,7 +149,8 @@ public class authDataStaff {
         }
     }
 
-    public static String validateStaffDataExistence(String email, String phoneNumber, String oldEmail, String oldPhoneNumber, int staffIdToEdit) {
+    public static String validateStaffDataExistence(String email, String phoneNumber, String oldEmail,
+            String oldPhoneNumber, int staffIdToEdit) {
         if (!email.equalsIgnoreCase(oldEmail) && insertDataStaff.isEmailExist(email, staffIdToEdit)) {
             return "EMAIL_ALREADY_EXISTS";
         }
@@ -147,7 +160,7 @@ public class authDataStaff {
         if (phoneNumber.length() > 13) {
             return "PHONE_TOO_LONG";
         }
-        
+
         return "VALID";
     }
 

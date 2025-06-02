@@ -1,16 +1,25 @@
 package com.main.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.main.models.dataProduct.insertDataProduct;
 import com.main.models.dataProduct.listCompositionData;
 import com.main.models.dataProduct.loadDataCompositionProduct;
+import com.main.models.dataProduct.searchDataProduct;
 import com.main.models.dataProduct.deleteDataCompositionProduct;
 import com.main.models.dataProduct.deleteDataProduct;
+import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.insertDataCompositionProduct;
 import com.main.models.dataProduct.updateDataProduct;
-import com.main.models.dataProduct.updateDataCompositionProduct;
 
 public class authDataProduct {
+
+    public static ArrayList<getterDataProduct> searchProductByKeyword(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataProduct.searchProducts(keyword.trim());
+    }
 
     public static boolean updateDataProduct(int idProduct, String imageProduct, String nameProduct, int price,
             String category,

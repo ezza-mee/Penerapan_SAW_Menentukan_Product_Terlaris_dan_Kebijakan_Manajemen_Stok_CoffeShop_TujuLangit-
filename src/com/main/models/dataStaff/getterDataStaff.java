@@ -2,22 +2,27 @@ package com.main.models.dataStaff;
 
 public class getterDataStaff {
     private int idStaff;
-    private String name, email, phoneNumber, gender, jobdesk, address, password;
+    private String date, name, email, phoneNumber, gender, jobdesk, address, password, status;
 
-    public getterDataStaff(int idStaff, String name, String email, String phoneNumber, String gender,
-            String jobdesk,
-            String address) {
+    public getterDataStaff(int idStaff, String date, String name, String email, String phoneNumber, String gender,
+            String jobdesk, String address, String status) {
         this.idStaff = idStaff;
+        this.date = date;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.jobdesk = jobdesk;
         this.address = address;
+        this.status = status;
     }
 
     public int getIdStaff() {
         return idStaff;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getName() {
@@ -46,5 +51,9 @@ public class getterDataStaff {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
