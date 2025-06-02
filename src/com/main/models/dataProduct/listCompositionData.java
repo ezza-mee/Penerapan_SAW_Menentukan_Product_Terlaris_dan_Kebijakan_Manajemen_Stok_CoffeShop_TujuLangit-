@@ -10,8 +10,8 @@ public class listCompositionData {
 
     public listCompositionData(int idSupplier, int idProduct, String nameProduct, String nameSupplier, int quantity,
             String unit) {
-        this.idProduct = idProduct;
         this.idSupplier = idSupplier;
+        this.idProduct = idProduct;
         this.nameProduct = nameProduct;
         this.nameSupplier = nameSupplier;
         this.quantity = quantity;
@@ -49,5 +49,5 @@ public class listCompositionData {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-    
+
 }

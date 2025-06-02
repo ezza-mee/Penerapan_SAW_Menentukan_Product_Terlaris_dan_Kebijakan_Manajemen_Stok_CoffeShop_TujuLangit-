@@ -13,12 +13,16 @@ import java.awt.Dimension;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.layouts.popUp.popUpConfrim;
 import com.main.models.dataProduct.getterDataProduct;
 import com.main.models.dataProduct.loadDataProduct;
 import com.main.services.authDataProduct;
 import com.main.views.dashboardAdminView;
+import com.main.views.mainFrame;
 
 public class productDashboardView extends contentPanel {
+
+    private mainFrame parentApp;
 
     private dashboardAdminView parentView;
 
@@ -40,8 +44,9 @@ public class productDashboardView extends contentPanel {
     private imageIcon iconEdit = appIcon.getEditIconWhite(20, 20);
     private imageIcon iconDetail = appIcon.getDetailIconWhite(20, 20);
 
-    public productDashboardView(dashboardAdminView parentView) {
+    public productDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
+        this.parentApp = parentApp;
         this.parentView = parentView;
         initContent();
     }
@@ -168,34 +173,64 @@ public class productDashboardView extends contentPanel {
         buttonDelete.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                int idProduct = product.getIdProduct();
-                boolean success = authDataProduct.deleteDataProduct(idProduct);
+                popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
 
-                if (success) {
-                    parentView.showSuccessPopUp("Success Delete Data Product");
-                    contentProduct.remove(cardPanel);
-                    contentProduct.remove(padding);
-                    contentProduct.revalidate();
-                    contentProduct.repaint();
-                } else {
-                    parentView.showFailedPopUp("Product Delete Data Product");
-                }
+                messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        int idProduct = product.getIdProduct();
+                        boolean success = authDataProduct.deleteDataProduct(idProduct);
+
+                        if (success) {
+                            parentApp.hideGlassPanel();
+                            parentView.showSuccessPopUp("Success Delete Data Product");
+                            contentProduct.remove(cardPanel);
+                            contentProduct.remove(padding);
+                            contentProduct.revalidate();
+                            contentProduct.repaint();
+                        } else {
+                            parentView.showFailedPopUp("Product Delete Data Product");
+                        }
+
+                    }
+                });
+
+                messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        parentApp.hideGlassPanel();
+                    }
+                });
             }
         });
 
         buttonEdit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                int idProduct = product.getIdProduct();
-                getterDataProduct selectedDataProduct = loadDataProduct.getProductById(idProduct);
+                popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
 
-                if (selectedDataProduct != null) {
-                    parentView.setDataProductToEdit(selectedDataProduct);
-                    parentView.showFormProduct();
-                } else {
-                    parentView.showFailedPopUp("Product Data Not Found");
-                }
+                messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        int idProduct = product.getIdProduct();
+                        getterDataProduct selectedDataProduct = loadDataProduct.getProductById(idProduct);
 
+                        if (selectedDataProduct != null) {
+                            parentApp.hideGlassPanel();
+                            parentView.setDataProductToEdit(selectedDataProduct);
+                            parentView.showFormProduct();
+                        } else {
+                            parentView.showFailedPopUp("Product Data Not Found");
+                        }
+                    }
+                });
+
+                messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        parentApp.hideGlassPanel();
+                    }
+                });
             }
         });
 
