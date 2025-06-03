@@ -260,9 +260,8 @@ public class staffFormView extends contentPanel {
 
                             if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
                                 // Untuk Cashier & Supplier: arahkan ke form pembuatan akun
-                                parentView.showFormAccountStaff(name, email, phoneNumber, gender, jobdesk, address,
-                                        true,
-                                        staffIdToEdit);
+                                parentView.showFormAccountStaff("now()", name, email, phoneNumber, gender, jobdesk,
+                                        address, "Inactive", true, staffIdToEdit);
                             } else {
                                 if (staffIdToEdit == -1) {
                                     // INSERT DATA STAFF tanpa akun
@@ -277,8 +276,7 @@ public class staffFormView extends contentPanel {
                                 } else {
                                     // UPDATE DATA STAFF tanpa akun
                                     success = authDataStaff.updateDataStaff(staffIdToEdit, name, email, phoneNumber,
-                                            gender,
-                                            jobdesk, address);
+                                            gender, jobdesk, address);
                                     if (success) {
                                         parentView.showSuccessPopUp("Data Staff Successfully Updated");
                                         parentView.showDashboardStaff();

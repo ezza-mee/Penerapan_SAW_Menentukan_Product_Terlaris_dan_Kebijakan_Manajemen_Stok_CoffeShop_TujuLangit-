@@ -157,18 +157,20 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showFormAccountStaff(
+            String date,
             String name,
             String email,
             String phoneNumber,
             String gender,
             String jobdesk,
-            String address, boolean isEdit, int idStaff) {
+            String address,
+            String status, boolean isEdit, int idStaff) {
 
         popUpFormInputAccountStaff popupForm = new popUpFormInputAccountStaff(
-                parentApp, this, name, email, phoneNumber, gender, jobdesk, address, isEdit, idStaff);
+                parentApp, this, date, name, email, phoneNumber, gender, jobdesk, address, status, isEdit, idStaff);
 
         this.accountData = authDataStaff.getDataAccountById(idStaff);
-        this.dataStaffToEdit = new getterDataStaff(idStaff, name, email, phoneNumber, gender, jobdesk, address);
+        this.dataStaffToEdit = new getterDataStaff(idStaff, date, name, email, phoneNumber, gender, jobdesk, address, status);
 
         System.out.println("ID Staff: " + idStaff);
 

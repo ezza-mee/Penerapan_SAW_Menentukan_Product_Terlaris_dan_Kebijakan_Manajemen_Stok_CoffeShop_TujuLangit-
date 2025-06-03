@@ -36,26 +36,30 @@ public class popUpFormInputAccountStaff extends popUpPanel {
     private int idStaff;
     private String oldEmail = "";
     private String oldPhoneNumber = "";
-    private String name, email, phoneNumber, gender, jobdesk, address;
+    private String date, name, email, phoneNumber, gender, jobdesk, address, status;
 
     public popUpFormInputAccountStaff(mainFrame parentFrame, dashboardAdminView parentView,
+            String date,
             String name,
             String email,
             String phoneNumber,
             String gender,
             String jobdesk,
-            String address, boolean isEdit, int idStaff) {
+            String address,
+            String status, boolean isEdit, int idStaff) {
         super();
         this.parentFrame = parentFrame;
         this.parentView = parentView;
         this.isEditMode = isEdit;
         this.idStaff = idStaff;
+        this.date = date;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.jobdesk = jobdesk;
         this.address = address;
+        this.status = status;
 
         setSize(500, 500);
         initComponent();
@@ -127,7 +131,6 @@ public class popUpFormInputAccountStaff extends popUpPanel {
         emailEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         passwordEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         confirmPasswordEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
-
     }
 
     public void setFormAccountData(getterAccountStaff accountData, getterDataStaff dataStaff) {

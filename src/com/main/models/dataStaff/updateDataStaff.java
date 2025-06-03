@@ -52,7 +52,6 @@ public class updateDataStaff {
             int affectedRows = state.executeUpdate();
 
             if (affectedRows > 0) {
-                System.out.println("UPDATE gagal: idStaff " + idStaff + " tidak ditemukan.");
                 return idStaff;
             }
 
