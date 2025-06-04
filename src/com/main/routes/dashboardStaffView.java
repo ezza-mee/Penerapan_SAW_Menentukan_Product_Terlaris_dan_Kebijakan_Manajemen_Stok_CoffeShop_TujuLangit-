@@ -1,9 +1,12 @@
 package com.main.routes;
 
+import java.util.List;
+
 import com.main.auth.utils.Role;
 import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.components.panelApps.contentPanel;
+import com.main.models.entity.listTransactionProduct;
 import com.main.views.dashboardStaff.homeDashboardView;
 import com.main.views.dashboardStaff.parentDashboardStaff;
 import com.main.views.dashboardStaff.historyTransaction.historyTransactionDashboarView;
@@ -15,6 +18,7 @@ import com.main.views.popUp.popUpConfrim;
 import com.main.views.popUp.popUpFailed;
 import com.main.views.popUp.popUpLogout;
 import com.main.views.popUp.popUpSuccess;
+import com.main.views.popUp.popUpTransaction.popUpTransaction;
 
 public class dashboardStaffView extends containerPanel {
     private Role role;
@@ -43,6 +47,7 @@ public class dashboardStaffView extends containerPanel {
 
     public void showDashboardProduct() {
         productDashboardView dashboardProduct = new productDashboardView(parentApp, this);
+        dashboardProduct.loadAllProductCards();
         lastContent = dashboardProduct;
         parentDashboard.setContent(dashboardProduct);
     }
@@ -92,6 +97,12 @@ public class dashboardStaffView extends containerPanel {
         parentApp.showGlassPanel(popUp);
         parentDashboard.setContent(restoreLastContent());
         return popUp;
+    }
+
+    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int subPrice){
+        popUpTransaction popUp = new popUpTransaction(parentApp, this, listProduct, subQuantity, subPrice);
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showGlassPanel(popUp);
     }
 
     public void showLogoutApp() {

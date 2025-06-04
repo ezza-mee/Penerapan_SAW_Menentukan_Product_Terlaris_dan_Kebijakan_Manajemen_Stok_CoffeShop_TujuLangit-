@@ -2,8 +2,8 @@ package com.main.services;
 
 import java.util.List;
 
-import com.main.models.entity.deleteSupplier;
-import com.main.models.supplier.dataSupplier;
+import com.main.models.entity.dataSupplier;
+import com.main.models.supplier.deleteSupplier;
 import com.main.models.supplier.insertSupplier;
 import com.main.models.supplier.loadDataSupplier;
 import com.main.models.supplier.updateSupplier;

@@ -18,7 +18,6 @@ import com.main.models.product.loadDataProduct;
 import com.main.routes.dashboardStaffView;
 import com.main.routes.mainFrame;
 import com.main.services.authDataProduct;
-import com.main.views.popUp.popUpConfrim;
 
 public class productDashboardView extends contentPanel implements searchableView {
 

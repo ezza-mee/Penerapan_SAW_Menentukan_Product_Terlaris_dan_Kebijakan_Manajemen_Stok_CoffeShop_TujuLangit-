@@ -3,12 +3,14 @@ package com.main.views.dashboardStaff.transaction;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
@@ -20,6 +22,7 @@ import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.searchableView;
 import com.main.models.entity.dataProduct;
+import com.main.models.entity.listTransactionProduct;
 import com.main.models.product.loadDataProduct;
 import com.main.routes.dashboardStaffView;
 
@@ -55,6 +58,7 @@ public class transactionFormView extends contentPanel {
         setPosition();
         setColor();
         setFont();
+        handleButton();
 
         headerPanel.add(listProductLabel);
         bottomPanel.add(buttonBack);
@@ -238,7 +242,7 @@ public class transactionFormView extends contentPanel {
                             String stringQuantity = quantityField.getText().trim();
 
                             if (!stringQuantity.matches("\\d+")) {
-                                return; 
+                                return;
                             }
 
                             int quantity = Integer.parseInt(stringQuantity);
@@ -256,7 +260,7 @@ public class transactionFormView extends contentPanel {
                             }
                             updateTotalSubTotal();
                         }
-                    });                    
+                    });
 
                     int price = product.getPrice();
                     textLabel priceLabel = new textLabel("Rp. " + price, 20, 45, 200, 20);
@@ -295,7 +299,7 @@ public class transactionFormView extends contentPanel {
                                 parentListTransactionPanel.remove(padding);
                                 addedProductCards.remove(productId);
                                 productQuantities.remove(productId);
-                                productList.remove(productId); 
+                                productList.remove(productId);
                                 parentListTransactionPanel.revalidate();
                                 parentListTransactionPanel.repaint();
                             } else {
@@ -313,7 +317,7 @@ public class transactionFormView extends contentPanel {
 
                     addedProductCards.put(productId, cardPanel);
                     productQuantities.put(productId, quantityField);
-                    productList.put(productId, product); 
+                    productList.put(productId, product);
                 }
 
                 updateTotalSubTotal();
@@ -325,6 +329,46 @@ public class transactionFormView extends contentPanel {
 
         listProductPanel.revalidate();
         listProductPanel.repaint();
+    }
+
+    private void handleButton() {
+        buttonPayment.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                if (productList.isEmpty()) {
+                    parentView.showFailedPopUp("Please add product to make transaction!");
+                    return;
+                }
+
+                // Simpan ke list untuk dikirim
+                List<listTransactionProduct> listProducts = new ArrayList<>();
+                int subQuantity = 0;
+                int subPrice = 0;
+
+                for (Map.Entry<Integer, dataProduct> entry : productList.entrySet()) {
+                    int idProduct = entry.getKey();
+                    dataProduct product = entry.getValue();
+                    int quantity = Integer.parseInt(productQuantities.get(idProduct).getText());
+                    int price = product.getPrice() * quantity;
+
+                    listTransactionProduct transProduct = new listTransactionProduct(
+                            idProduct,
+                            product.getNameProduct(),
+                            quantity,
+                            price);
+
+                    listProducts.add(transProduct);
+                    subQuantity += quantity;
+                    subPrice += price;
+                }
+
+                // Buka pop-up pengisian data transaksi
+                parentView.showPopUpTransaction(
+                        listProducts,
+                        subQuantity,
+                        subPrice);
+            }
+        });
     }
 
 }

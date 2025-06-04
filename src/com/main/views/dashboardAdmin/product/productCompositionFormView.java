@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.main.components.panelApps.contentPanel;
-import com.main.models.product.listCompositionData;
-import com.main.models.supplier.dataSupplier;
+import com.main.models.entity.dataSupplier;
+import com.main.models.entity.listCompositionData;
 import com.main.routes.dashboardAdminView;
 import com.main.services.authDataProduct;
 import com.main.services.authDataSupplier;

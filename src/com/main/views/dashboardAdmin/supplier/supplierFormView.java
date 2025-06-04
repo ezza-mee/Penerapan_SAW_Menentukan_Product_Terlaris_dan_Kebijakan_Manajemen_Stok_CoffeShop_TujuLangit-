@@ -2,7 +2,7 @@ package com.main.views.dashboardAdmin.supplier;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
-import com.main.models.supplier.dataSupplier;
+import com.main.models.entity.dataSupplier;
 import com.main.routes.dashboardAdminView;
 import com.main.services.authDataSupplier;
 

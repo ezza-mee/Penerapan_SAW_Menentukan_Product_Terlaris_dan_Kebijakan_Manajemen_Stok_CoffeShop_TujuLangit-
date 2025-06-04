@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.main.models.entity.dataProduct;
+import com.main.models.entity.listCompositionData;
 import com.main.models.product.deleteCompositionProduct;
 import com.main.models.product.deleteProduct;
 import com.main.models.product.insertCompositionProduct;
 import com.main.models.product.insertProduct;
-import com.main.models.product.listCompositionData;
 import com.main.models.product.loadCompositionProduct;
 import com.main.models.product.searchDataProduct;
 import com.main.models.product.updateProduct;
@@ -46,9 +46,6 @@ public class authDataProduct {
 
         // Masukkan setiap komposisi
         for (listCompositionData comp : compositions) {
-            System.out.printf("Memasukkan komposisi: idSupplier = %d, nameSupplier = %s, quantity = %d, unit = %s%n",
-                    comp.idSupplier, comp.nameSupplier, comp.quantity, comp.unit);
-
             boolean compositionInserted = insertCompositionProduct.insertComposition(
                     comp.idSupplier,
                     idProduct,
@@ -58,8 +55,6 @@ public class authDataProduct {
                     comp.unit);
 
             if (!compositionInserted) {
-                System.out.printf("Gagal memasukkan komposisi: idSupplier = %d, nameSupplier = %s%n",
-                        comp.idSupplier, comp.nameSupplier);
                 return false;
             }
         }
