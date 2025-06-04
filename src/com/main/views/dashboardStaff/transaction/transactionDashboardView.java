@@ -43,6 +43,7 @@ public class transactionDashboardView extends contentPanel {
         setPostion();
         setColor();
         setFont();
+        handleButton();
 
         headerPanel.add(buttonAdd);
 
@@ -57,7 +58,6 @@ public class transactionDashboardView extends contentPanel {
         headerLabel = new textLabel("Data Transaction", 40, 0, 400, 80);
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
-       
 
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
@@ -73,6 +73,13 @@ public class transactionDashboardView extends contentPanel {
         headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
     }
 
-   
+    private void handleButton() {
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                parentView.showFormTransaction();
+            }
+        });
+    }
 
 }

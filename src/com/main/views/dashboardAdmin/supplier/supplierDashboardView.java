@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.tableActionButton;
-import com.main.models.supplier.dataSupplier;
+import com.main.models.entity.dataSupplier;
 import com.main.models.supplier.loadDataSupplier;
 import com.main.routes.dashboardAdminView;
 import com.main.routes.mainFrame;

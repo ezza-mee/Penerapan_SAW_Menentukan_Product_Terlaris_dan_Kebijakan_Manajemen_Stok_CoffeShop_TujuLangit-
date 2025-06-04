@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.main.models.connectionDatabase;
+import com.main.models.entity.listCompositionData;
 
 public class loadCompositionProduct {
     public static List<listCompositionData> getDataCompositonByProduct(int idProduct) {

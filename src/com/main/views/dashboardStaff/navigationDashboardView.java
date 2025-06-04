@@ -107,12 +107,13 @@ public class navigationDashboardView extends navigationPanel {
         System.out.println("Role NAV : " + role);
         if (role == Role.CASHIER) {
             add(navHome);
+            add(navProduct);
+            add(navTable);
             add(navTransaction);
             add(navHistoryTransaction);
             add(navLogout);
         } else if (role == Role.SUPPLIER) {
-            add(navProduct);
-            add(navTable);
+            add(navLogout);
         }
 
     }

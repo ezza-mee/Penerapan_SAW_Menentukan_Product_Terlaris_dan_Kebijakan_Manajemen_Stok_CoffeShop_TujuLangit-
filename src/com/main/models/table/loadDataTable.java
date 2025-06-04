@@ -3,6 +3,9 @@ package com.main.models.table;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -56,5 +59,27 @@ public class loadDataTable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<dataTable> getAllAvailableNumberTable() {
+        List<dataTable> numberTable = new ArrayList<>();
+        String query = "SELECT DISTINCT idTable, number FROM vwalldataTable WHERE status = 'Available'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query);
+                ResultSet rs = state.executeQuery()) {
+
+            while (rs.next()) {
+                int idTable = rs.getInt("idTable");
+                String number = rs.getString("number");
+
+                numberTable.add(new dataTable(idTable, number, "", ""));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return numberTable;
     }
 }

@@ -1,4 +1,4 @@
-package com.main.models.product;
+package com.main.models.entity;
 
 public class listCompositionData {
     public int idSupplier;

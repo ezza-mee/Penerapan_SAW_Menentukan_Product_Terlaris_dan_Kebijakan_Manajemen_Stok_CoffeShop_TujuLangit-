@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
+import com.main.models.entity.dataSupplier;
 
 public class loadDataSupplier {
     public static DefaultTableModel getAllDataSupplier() {

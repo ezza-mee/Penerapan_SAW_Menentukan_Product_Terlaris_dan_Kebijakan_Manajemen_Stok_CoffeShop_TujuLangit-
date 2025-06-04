@@ -2,7 +2,7 @@ package com.main.views.dashboardAdmin.product;
 
 import com.main.components.panelApps.contentPanel;
 import com.main.models.entity.dataProduct;
-import com.main.models.product.listCompositionData;
+import com.main.models.entity.listCompositionData;
 import com.main.models.product.loadCompositionProduct;
 import com.main.routes.dashboardAdminView;
 import com.main.routes.mainFrame;

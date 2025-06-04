@@ -1,4 +1,4 @@
-package com.main.models.entity;
+package com.main.models.supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

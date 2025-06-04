@@ -49,6 +49,7 @@ public class mainContent extends wrapperPanel {
             dashboardAdminView.showDashboardHome();
             dashboardAdminView.resetLastContent();
             parentDashboardAdmin.getNavbar().showHomeView();
+            // add class yang menampung semua content bukan parent dashboard
             add(dashboardAdminView);
         } else {
             dashboardStaffView = new dashboardStaffView(mainFrame, role);

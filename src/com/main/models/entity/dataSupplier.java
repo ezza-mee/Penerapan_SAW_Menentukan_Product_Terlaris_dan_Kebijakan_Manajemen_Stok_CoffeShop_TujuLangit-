@@ -1,4 +1,4 @@
-package com.main.models.supplier;
+package com.main.models.entity;
 
 public class dataSupplier {
     private int idSupplier;
