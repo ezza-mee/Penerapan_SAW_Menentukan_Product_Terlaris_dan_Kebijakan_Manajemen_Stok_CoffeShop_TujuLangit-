@@ -1,23 +1,27 @@
 package com.main.services;
 
+import com.main.auth.sessionLogin;
+import com.main.models.entity.accountDataStaff;
+import com.main.models.staff.verifyAccounStaff;
+
 public class authLogin {
 
-    public String validateLogin(String username, String password) {
-        if (username.isEmpty() && password.isEmpty()) {
-            return "USERNAME_PASSWORD_EMPTY";
-        } else if (username.isEmpty()) {
-            return "USERNAME_EMPTY";
+    public static String validateLogin(String email, String password) {
+        if (email.isEmpty() && password.isEmpty()) {
+            return "EMAIL_PASSWORD_EMPTY";
+        } else if (email.isEmpty()) {
+            return "EMAIL_EMPTY";
         } else if (password.isEmpty()) {
             return "PASSWORD_EMPTY";
-        } else if (!username.equals("admin") && !password.equals("admin")) {
-            return "USERNAME_PASSWORD_WRONG";
-        } else if (!username.equals("admin")) {
-            return "USERNAME_WRONG";
-        } else if (!password.equals("admin")) {
-            return "PASSWORD_WRONG";
-        } else {
-            return "SUCCESS";
         }
+
+        accountDataStaff staff = verifyAccounStaff.verifyStaffLogin(email, password);
+
+        if (staff == null) {
+            return "INVALID_CREDENTIALS";
+        }
+        sessionLogin.set(staff);
+        return "SUCCESS";
     }
 
 }

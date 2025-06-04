@@ -1,20 +1,35 @@
 package com.main.controller;
 
-import com.main.views.mainFrame;
+import com.main.auth.utils.Role;
+import com.main.routes.mainFrame;
 
 public class appsController {
 
-    private static mainFrame frameApp = new mainFrame();
+    private static final mainFrame parentApp = new mainFrame();
 
     public static void showLogin() {
-        frameApp.showLoginApp();
-        frameApp.setVisible(true);
-
+        parentApp.showLoginApp();
+        // setVisible sudah dipanggil di showLoginApp
     }
 
     public static void showDashboardAdmin() {
-        frameApp.showDashboardAdmin();
-        frameApp.setVisible(true);
+        parentApp.showDashboard(Role.ADMIN);
+        // setVisible sudah dipanggil di showDashboard
     }
 
+    public static void showDashboardByRole(Role role) {
+        if (role == null) {
+            throw new IllegalArgumentException("Role tidak boleh null.");
+        }
+
+        switch (role) {
+            case ADMIN:
+            case CASHIER:
+            case SUPPLIER:
+                parentApp.showDashboard(role);
+                break;
+            default:
+                throw new IllegalArgumentException("Role tidak dikenal: " + role);
+        }
+    }
 }

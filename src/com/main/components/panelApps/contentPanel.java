@@ -1,6 +1,7 @@
 package com.main.components.panelApps;
 
 import javax.swing.*;
+import com.main.components.*;
 
 public abstract class contentPanel extends JPanel {
 

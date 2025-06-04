@@ -10,20 +10,21 @@ public class scrollPane extends JScrollPane {
         super(view);
         setViewportView(view);
         setBounds(x, y, width, height);
-        setOpaque(true);
-        getViewport().setOpaque(true);
+        setOpaque(false);
+        getViewport().setOpaque(false);
         setBorder(new EmptyBorder(0, 0, 0, 0));
         setDoubleBuffered(true);
+        setViewportBorder(null);
+        getViewport().setScrollMode(JViewport.BLIT_SCROLL_MODE);
         getVerticalScrollBar().setUnitIncrement(10);
-
-        setViewportBorder(BorderFactory.createLineBorder(color.WHITE, 0, true));
 
         JScrollBar vertical = getVerticalScrollBar();
         vertical.setPreferredSize(new Dimension(10, 0));
-        vertical.setBackground(color.WHITE);
+        vertical.setBackground(new Color(0, 0, 0, 0));
         vertical.setUI(new RoundedScrollBarUI());
 
-        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
     }
 
     static class RoundedScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
@@ -32,7 +33,6 @@ public class scrollPane extends JScrollPane {
         @Override
         protected void configureScrollBarColors() {
             this.thumbColor = color.DARKGREEN;
-            this.trackColor = color.WHITE;
         }
 
         @Override
@@ -55,6 +55,9 @@ public class scrollPane extends JScrollPane {
             button.setPreferredSize(new Dimension(0, 0));
             button.setMinimumSize(new Dimension(0, 0));
             button.setMaximumSize(new Dimension(0, 0));
+            button.setFocusable(false);
+            button.setBorderPainted(false);
+            button.setContentAreaFilled(false);
             return button;
         }
 

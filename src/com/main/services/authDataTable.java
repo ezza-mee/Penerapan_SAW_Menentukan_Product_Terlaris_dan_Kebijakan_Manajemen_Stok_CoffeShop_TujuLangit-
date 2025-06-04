@@ -1,20 +1,20 @@
 package com.main.services;
 
-import com.main.models.dataTable.insertDataTable;
-import com.main.models.dataTable.updateDataTable;
-import com.main.models.dataTable.deleteDataTable;
+import com.main.models.table.deleteTable;
+import com.main.models.table.insertTable;
+import com.main.models.table.updateTable;
 
 public class authDataTable {
     public static boolean insertDataTable(String number, String capacity, String description) {
-        return insertDataTable.insertTable(number, capacity, description);
+        return insertTable.insertData(number, capacity, description);
     }
 
     public static boolean updateDataTable(int idTable, String number, String capacity, String description) {
-        return updateDataTable.updateTable(idTable, number, capacity, description);
+        return updateTable.updateData(idTable, number, capacity, description);
     }
 
     public static boolean deleteDataTable(int idTable) {
-        return deleteDataTable.deleteTable(idTable);
+        return deleteTable.deleteData(idTable);
     }
 
     public String validateTableInput(String number, String capacity, String description) {
