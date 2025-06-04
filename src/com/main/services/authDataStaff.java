@@ -1,21 +1,20 @@
 package com.main.services;
 
-import com.main.models.dataStaff.insertDataStaff;
-import com.main.models.dataStaff.loadDataStaff;
-
 import java.util.ArrayList;
 
-import com.main.models.dataStaff.deleteDataStaff;
-import com.main.models.dataStaff.getterAccountStaff;
-import com.main.models.dataStaff.insertAccountStaff;
-import com.main.models.dataStaff.updateDataStaff;
-import com.main.models.dataStaff.updateAccountStaff;
-import com.main.models.dataStaff.getterDataStaff;
-import com.main.models.dataStaff.searchDataStaff;
+import com.main.models.staff.deleteStaff;
+import com.main.models.entity.accountDataStaff;
+import com.main.models.entity.dataStaff;
+import com.main.models.staff.insertAccountStaff;
+import com.main.models.staff.insertStaff;
+import com.main.models.staff.loadDataStaff;
+import com.main.models.staff.searchDataStaff;
+import com.main.models.staff.updateAccountStaff;
+import com.main.models.staff.updateStaff;
 
 public class authDataStaff {
 
-    public static ArrayList<getterDataStaff> searchStaffByKeyword(String keyword) {
+    public static ArrayList<dataStaff> searchStaffByKeyword(String keyword) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -29,7 +28,7 @@ public class authDataStaff {
             String gender,
             String jobdesk,
             String address) {
-        return insertDataStaff.insertStaff(
+        return insertStaff.insertData(
                 nameStaff,
                 email,
                 phoneNumber,
@@ -47,16 +46,17 @@ public class authDataStaff {
             String address,
             String accountEmail,
             String accountPassword) {
-        Integer idStaff = insertDataStaff.insertStaffAndGetId(nameStaff, email, phoneNumber, gender, jobdesk, address);
+        Integer idStaff = insertStaff.insertStaffAndGetId(nameStaff, email, phoneNumber, gender, jobdesk, address);
 
         if (idStaff == null) {
             System.out.println("Gagal insert data staff.");
             return false;
         }
 
-        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
+        if (jobdesk.equalsIgnoreCase("Admin") || jobdesk.equalsIgnoreCase("Cashier")
+                || jobdesk.equalsIgnoreCase("Supplier")) {
             if (accountEmail != null && accountPassword != null) {
-                return insertAccountStaff.insertAccount(idStaff, accountEmail, accountPassword);
+                return insertAccountStaff.insertAccount(idStaff, accountEmail, accountPassword, jobdesk);
             } else {
                 System.out.println("Data akun tidak lengkap.");
                 return false;
@@ -74,14 +74,7 @@ public class authDataStaff {
             String gender,
             String jobdesk,
             String address) {
-        return updateDataStaff.updateStaff(
-                staffId,
-                nameStaff,
-                email,
-                phoneNumber,
-                gender,
-                jobdesk,
-                address);
+        return updateStaff.updateData(staffId, nameStaff, email, phoneNumber, gender, jobdesk, address);
     }
 
     public static boolean updateStaffWithAccount(
@@ -94,17 +87,18 @@ public class authDataStaff {
             String address,
             String accountEmail,
             String accountPassword) {
-        Integer updateStaff = updateDataStaff.updateStaffAndReturnId(idStaff, nameStaff, email, phoneNumber, gender,
+        Integer resultUpdate = updateStaff.updateStaffAndReturnId(idStaff, nameStaff, email, phoneNumber, gender,
                 jobdesk, address);
 
-        if (updateStaff == null) {
+        if (resultUpdate == null) {
             System.out.println("Gagal update data staff.");
             return false;
         }
 
-        if (jobdesk.equalsIgnoreCase("Cashier") || jobdesk.equalsIgnoreCase("Supplier")) {
+        if (jobdesk.equalsIgnoreCase("Admin") || jobdesk.equalsIgnoreCase("Cashier")
+                || jobdesk.equalsIgnoreCase("Supplier")) {
             if (accountEmail != null && accountPassword != null) {
-                return updateAccountStaff.updateAccount(idStaff, accountEmail, accountPassword);
+                return updateAccountStaff.updateAccount(resultUpdate, accountEmail, accountPassword, jobdesk);
             } else {
                 System.out.println("Data akun tidak lengkap.");
                 return false;
@@ -115,10 +109,10 @@ public class authDataStaff {
     }
 
     public static boolean resignStaffById(int staffId) {
-        return deleteDataStaff.resignStaff(staffId);
+        return deleteStaff.resignStaff(staffId);
     }
 
-    public static getterAccountStaff getDataAccountById(int idStaff) {
+    public static accountDataStaff getDataAccountById(int idStaff) {
         return loadDataStaff.getDataAccountById(idStaff);
     }
 
@@ -151,10 +145,10 @@ public class authDataStaff {
 
     public static String validateStaffDataExistence(String email, String phoneNumber, String oldEmail,
             String oldPhoneNumber, int staffIdToEdit) {
-        if (!email.equalsIgnoreCase(oldEmail) && insertDataStaff.isEmailExist(email, staffIdToEdit)) {
+        if (!email.equalsIgnoreCase(oldEmail) && insertStaff.isEmailExist(email, staffIdToEdit)) {
             return "EMAIL_ALREADY_EXISTS";
         }
-        if (!phoneNumber.equalsIgnoreCase(oldPhoneNumber) && insertDataStaff.isPhoneExist(phoneNumber, staffIdToEdit)) {
+        if (!phoneNumber.equalsIgnoreCase(oldPhoneNumber) && insertStaff.isPhoneExist(phoneNumber, staffIdToEdit)) {
             return "PHONE_ALREADY_EXISTS";
         }
         if (phoneNumber.length() > 13) {

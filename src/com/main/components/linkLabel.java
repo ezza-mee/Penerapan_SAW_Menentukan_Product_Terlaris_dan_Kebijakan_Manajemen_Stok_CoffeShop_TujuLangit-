@@ -66,7 +66,6 @@ public class linkLabel extends JPanel {
         });
 
         add(label);
-        add(quantityLabel);
         setLabelAktif();
         revalidate();
         repaint();
@@ -102,7 +101,12 @@ public class linkLabel extends JPanel {
     }
 
     public void setQuantity(int qty) {
-        quantityLabel.setText(String.valueOf(qty));
+        if (qty > 0) {
+            quantityLabel.setText(String.valueOf(qty));
+            add(quantityLabel);
+        } else {
+            remove(quantityLabel);
+        }
     }
 
     private void updateQuantityStyle(boolean isActive) {

@@ -1,13 +1,12 @@
 package com.main.services;
 
-import com.main.models.dataSupplier.insertDataSupplier;
-
 import java.util.List;
 
-import com.main.models.dataSupplier.deleteDataSupplier;
-import com.main.models.dataSupplier.getterDataSupplier;
-import com.main.models.dataSupplier.updateDataSupplier;
-import com.main.models.dataSupplier.loadDataSupplier;
+import com.main.models.entity.deleteSupplier;
+import com.main.models.supplier.dataSupplier;
+import com.main.models.supplier.insertSupplier;
+import com.main.models.supplier.loadDataSupplier;
+import com.main.models.supplier.updateSupplier;
 
 public class authDataSupplier {
 
@@ -17,7 +16,7 @@ public class authDataSupplier {
             String unitSupplier,
             String description) {
 
-        return insertDataSupplier.insertSupplier(nameSupplier, quantity, unitSupplier, description);
+        return insertSupplier.insertData(nameSupplier, quantity, unitSupplier, description);
     }
 
     public static boolean updateDataSupplier(
@@ -27,14 +26,14 @@ public class authDataSupplier {
             String unitSupplier,
             String description) {
 
-        return updateDataSupplier.updateSupplier(supplierId, nameSupplier, quantity, unitSupplier, description);
+        return updateSupplier.updateData(supplierId, nameSupplier, quantity, unitSupplier, description);
     }
 
     public static boolean deleteDataSupplier(int supplierId, int quantity) {
-        return deleteDataSupplier.deleteSupplier(supplierId, quantity);
+        return deleteSupplier.deleteData(supplierId, quantity);
     }
 
-    public static List<getterDataSupplier> loadDataSupplier() {
+    public static List<dataSupplier> loadDataSupplier() {
         return loadDataSupplier.getAllReadySupplierNames();
     }
 

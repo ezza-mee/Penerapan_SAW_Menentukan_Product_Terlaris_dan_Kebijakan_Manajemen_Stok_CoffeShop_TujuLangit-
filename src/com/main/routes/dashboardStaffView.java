@@ -1,0 +1,110 @@
+package com.main.routes;
+
+import com.main.auth.utils.Role;
+import com.main.components.color;
+import com.main.components.panelApps.containerPanel;
+import com.main.components.panelApps.contentPanel;
+import com.main.views.dashboardStaff.homeDashboardView;
+import com.main.views.dashboardStaff.parentDashboardStaff;
+import com.main.views.dashboardStaff.historyTransaction.historyTransactionDashboarView;
+import com.main.views.dashboardStaff.product.productDashboardView;
+import com.main.views.dashboardStaff.table.tableDashboardView;
+import com.main.views.dashboardStaff.transaction.transactionDashboardView;
+import com.main.views.dashboardStaff.transaction.transactionFormView;
+import com.main.views.popUp.popUpConfrim;
+import com.main.views.popUp.popUpFailed;
+import com.main.views.popUp.popUpLogout;
+import com.main.views.popUp.popUpSuccess;
+
+public class dashboardStaffView extends containerPanel {
+    private Role role;
+
+    private parentDashboardStaff parentDashboard;
+    private mainFrame parentApp;
+    private contentPanel lastContent;
+
+    public dashboardStaffView(mainFrame parentApp, Role role) {
+        super();
+        this.parentApp = parentApp;
+        this.role = role;
+        setSize(1366, 768);
+        setBackground(color.GREEN);
+        parentDashboard = new parentDashboardStaff(this, role);
+        add(parentDashboard);
+
+        parentDashboard.getNavbar().showHomeView();
+    }
+
+    public void showDashboardHome() {
+        homeDashboardView dashboardHome = new homeDashboardView();
+        lastContent = dashboardHome;
+        parentDashboard.setContent(dashboardHome);
+    }
+
+    public void showDashboardProduct() {
+        productDashboardView dashboardProduct = new productDashboardView(parentApp, this);
+        lastContent = dashboardProduct;
+        parentDashboard.setContent(dashboardProduct);
+    }
+
+    public void showDashboardTable() {
+        tableDashboardView dashboardTable = new tableDashboardView(parentApp, this);
+        lastContent = dashboardTable;
+        parentDashboard.setContent(dashboardTable);
+    }
+
+    public void showDashboardTransaction() {
+        transactionDashboardView dashboardTransaction = new transactionDashboardView(this);
+        lastContent = dashboardTransaction;
+        parentDashboard.setContent(dashboardTransaction);
+    }
+
+    public void showFormTransaction() {
+        transactionFormView formTransaction = new transactionFormView(this);
+        formTransaction.loadAllProductCards();
+        lastContent = formTransaction;
+        parentDashboard.setContent(formTransaction);
+    }
+
+    public void showDashboardHistoryTransaction() {
+        historyTransactionDashboarView historyTransaction = new historyTransactionDashboarView(this);
+        lastContent = historyTransaction;
+        parentDashboard.setContent(historyTransaction);
+    }
+
+    public void showSuccessPopUp(String message) {
+        popUpSuccess popUp = new popUpSuccess(parentApp);
+        popUp.setNotificationMessage(message);
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showGlassPanel(popUp);
+    }
+
+    public void showFailedPopUp(String message) {
+        popUpFailed popUp = new popUpFailed(parentApp);
+        popUp.setNotificationMessage(message);
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showGlassPanel(popUp);
+    }
+
+    public popUpConfrim showConfrimPopUp(String message) {
+        popUpConfrim popUp = new popUpConfrim(parentApp);
+        popUp.setNotificationMessage(message);
+        parentApp.showGlassPanel(popUp);
+        parentDashboard.setContent(restoreLastContent());
+        return popUp;
+    }
+
+    public void showLogoutApp() {
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showGlassPanel(new popUpLogout(parentApp, role));
+    }
+
+    public contentPanel restoreLastContent() {
+        return lastContent != null ? lastContent : new homeDashboardView();
+    }
+
+    public void resetLastContent() {
+        parentDashboard.getNavbar().showHomeView();
+        lastContent = null;
+    }
+}

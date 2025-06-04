@@ -6,6 +6,10 @@ public class appIcons {
         return new imageIcon(path, width, height);
     }
 
+    public imageIcon getEmailIcon(int width, int height) {
+        return loadIcon("src/com/main/resources/images/Email(green).png", width, height);
+    }
+
     public imageIcon getUsernameIcon(int width, int height) {
         return loadIcon("src/com/main/resources/images/username(green).png", width, height);
     }
@@ -98,6 +102,14 @@ public class appIcons {
         return loadIcon("src/com/main/resources/images/report(white).png", width, height);
     }
 
+    public imageIcon getHistoryTransactionIconHover(int width, int height) {
+        return loadIcon("src/com/main/resources/images/historyTransaction(green).png", width, height);
+    }
+
+    public imageIcon getHistoryTransactionIconDefault(int width, int height) {
+        return loadIcon("src/com/main/resources/images/historyTransaction(white).png", width, height);
+    }
+
     public imageIcon getLogoutIconHover(int width, int height) {
         return loadIcon("src/com/main/resources/images/logout(green).png", width, height);
     }
@@ -136,5 +148,13 @@ public class appIcons {
 
     public imageIcon getApproveIconWhite(int width, int height) {
         return loadIcon("src/com/main/resources/images/approve(white).png", width, height);
+    }
+
+    public imageIcon getAddIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/add(white).png", width, height);
+    }
+
+    public imageIcon getMinusIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/minus(white).png", width, height);
     }
 }

@@ -2,19 +2,20 @@ package com.main.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.main.models.dataProduct.insertDataProduct;
-import com.main.models.dataProduct.listCompositionData;
-import com.main.models.dataProduct.loadDataCompositionProduct;
-import com.main.models.dataProduct.searchDataProduct;
-import com.main.models.dataProduct.deleteDataCompositionProduct;
-import com.main.models.dataProduct.deleteDataProduct;
-import com.main.models.dataProduct.getterDataProduct;
-import com.main.models.dataProduct.insertDataCompositionProduct;
-import com.main.models.dataProduct.updateDataProduct;
+
+import com.main.models.entity.dataProduct;
+import com.main.models.product.deleteCompositionProduct;
+import com.main.models.product.deleteProduct;
+import com.main.models.product.insertCompositionProduct;
+import com.main.models.product.insertProduct;
+import com.main.models.product.listCompositionData;
+import com.main.models.product.loadCompositionProduct;
+import com.main.models.product.searchDataProduct;
+import com.main.models.product.updateProduct;
 
 public class authDataProduct {
 
-    public static ArrayList<getterDataProduct> searchProductByKeyword(String keyword) {
+    public static ArrayList<dataProduct> searchProductByKeyword(String keyword) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -24,7 +25,7 @@ public class authDataProduct {
     public static boolean updateDataProduct(int idProduct, String imageProduct, String nameProduct, int price,
             String category,
             String description) {
-        return updateDataProduct.updateProduct(idProduct, imageProduct, nameProduct, price, category, description);
+        return updateProduct.updateData(idProduct, imageProduct, nameProduct, price, category, description);
     }
 
     public static boolean insertDataProductWithComposition(
@@ -36,7 +37,7 @@ public class authDataProduct {
             List<listCompositionData> compositions) {
 
         // Insert product terlebih dahulu
-        int idProduct = insertDataProduct.insertProduct(imageProduct, nameProduct, price, category, description);
+        int idProduct = insertProduct.insertData(imageProduct, nameProduct, price, category, description);
 
         if (idProduct == -1) {
             System.out.println("Gagal insert data produk.");
@@ -48,7 +49,7 @@ public class authDataProduct {
             System.out.printf("Memasukkan komposisi: idSupplier = %d, nameSupplier = %s, quantity = %d, unit = %s%n",
                     comp.idSupplier, comp.nameSupplier, comp.quantity, comp.unit);
 
-            boolean compositionInserted = insertDataCompositionProduct.insertCompositionProduct(
+            boolean compositionInserted = insertCompositionProduct.insertComposition(
                     comp.idSupplier,
                     idProduct,
                     nameProduct,
@@ -76,7 +77,7 @@ public class authDataProduct {
             String description,
             List<listCompositionData> compositions) {
 
-        boolean productUpdated = updateDataProduct.updateProduct(
+        boolean productUpdated = updateProduct.updateData(
                 idProduct,
                 imageProduct,
                 nameProduct,
@@ -90,7 +91,7 @@ public class authDataProduct {
         }
 
         // Hapus semua komposisi lama dulu
-        boolean deleted = deleteDataCompositionProduct.deleteAllCompositionByProduct(idProduct);
+        boolean deleted = deleteCompositionProduct.deleteAllCompositionByProduct(idProduct);
         if (!deleted) {
             System.out.println("Gagal menghapus komposisi lama.");
             return false;
@@ -98,7 +99,7 @@ public class authDataProduct {
 
         // Tambahkan ulang semua komposisi dari list baru
         for (listCompositionData comp : compositions) {
-            boolean inserted = insertDataCompositionProduct.insertCompositionProduct(
+            boolean inserted = insertCompositionProduct.insertComposition(
                     comp.idSupplier,
                     idProduct,
                     nameProduct,
@@ -116,15 +117,15 @@ public class authDataProduct {
     }
 
     public static boolean checkCompositionExists(int idSupplier, int idProduct) {
-        return loadDataCompositionProduct.checkCompositionExists(idSupplier, idProduct);
+        return loadCompositionProduct.checkCompositionExists(idSupplier, idProduct);
     }
 
     public static boolean deleteDataProduct(int idProduct) {
-        return deleteDataProduct.deleteProduct(idProduct);
+        return deleteProduct.deleteData(idProduct);
     }
 
     public static boolean deleteDataCompositionProduct(int idSupplier, int idProduct) {
-        return deleteDataCompositionProduct.deleteComposition(idSupplier, idProduct);
+        return deleteCompositionProduct.deleteComposition(idSupplier, idProduct);
     }
 
     public String validateProductInput(String imageProduct, String nameProduct, String category, String price,
