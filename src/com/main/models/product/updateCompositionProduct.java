@@ -9,7 +9,7 @@ import com.main.models.connectionDatabase;
 public class updateCompositionProduct {
     public static boolean updateComposition(int idSupplier, int idProduct,
             String nameProduct, String nameSupplier,
-            int quantity, String unit) {
+            double quantity, String unit) {
 
         String query = "UPDATE tbl_data_composition_product " +
                 "SET nameProduct = ?, nameSupplier = ?, quantity = ?, unit = ? " +
@@ -20,7 +20,7 @@ public class updateCompositionProduct {
 
             state.setString(1, nameProduct);
             state.setString(2, nameSupplier);
-            state.setInt(3, quantity);
+            state.setDouble(3, quantity);
             state.setString(4, unit);
             state.setInt(5, idSupplier);
             state.setInt(6, idProduct);

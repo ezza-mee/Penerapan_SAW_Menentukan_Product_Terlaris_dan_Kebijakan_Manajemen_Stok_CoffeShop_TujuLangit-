@@ -15,6 +15,7 @@ import com.main.models.entity.dataTable;
 import com.main.models.entity.listTransactionProduct;
 import com.main.routes.dashboardStaffView;
 import com.main.routes.mainFrame;
+import com.main.services.authDataProcessStokManager;
 import com.main.services.authDataTable;
 import com.main.services.authDataTransaction;
 
@@ -221,7 +222,7 @@ public class popUpTransaction extends popUpPanel {
                             String numberTable = selectedTable.getNumber();
                             int idTable = selectedTable.getIdtable();
 
-                            boolean isSuccess = authDataTransaction.insertDataTransaction(
+                            int idTransaction = authDataTransaction.insertDataTransaction(
                                     idStaff,
                                     idTable,
                                     staffName,
@@ -233,7 +234,11 @@ public class popUpTransaction extends popUpPanel {
                                     paymentMethod,
                                     listProduct);
 
-                            if (isSuccess) {
+                            if (idTransaction > 0) {
+                                for (listTransactionProduct product : listProduct) {
+                                    int idProduct = product.getIdProduct();
+                                    authDataProcessStokManager.processManagerStok(idProduct, idTransaction);
+                                }
                                 parentView.showDashboardTransaction();
                                 parentView.showSuccessPopUp("Transaction successful");
                                 parentApp.hideGlassPanel();

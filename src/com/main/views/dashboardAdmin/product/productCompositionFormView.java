@@ -316,7 +316,7 @@ public class productCompositionFormView extends contentPanel {
 
                     int idSupplier = selectedSupplier.getIdSupplier();
                     String nameSupplier = selectedSupplier.getNameSupplier();
-                    int quantity = Integer.parseInt(stringQuantity);
+                    double quantity = Double.parseDouble(stringQuantity);
 
                     System.out.println("=== [DEBUG] Adding new composition ===");
                     System.out.println("idSupplier: " + idSupplier);
@@ -513,7 +513,7 @@ public class productCompositionFormView extends contentPanel {
 
                     listCompositionData dataComp = listComposition.get(0);
                     int idSupplier = dataComp.idSupplier;
-                    int quantity = dataComp.quantity;
+                    double quantity = dataComp.quantity;
                     String unit = dataComp.unit;
 
                     if (quantity <= 0 || unit == null || unit.isEmpty()) {

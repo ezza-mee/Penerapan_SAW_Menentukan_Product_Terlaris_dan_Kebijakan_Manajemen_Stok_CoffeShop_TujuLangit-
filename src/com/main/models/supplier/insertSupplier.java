@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class insertSupplier {
-    public static boolean insertData(String nameSupplier, int quantity, String unitSupplier, String description) {
+    public static boolean insertData(String nameSupplier, double quantity, String unitSupplier, String description) {
         boolean data = false;
 
         String query = "INSERT INTO tbl_data_supplier (date, nameSupplier, quantity, unit, description, status) VALUES (now(), ?, ?, ?, ?, 'Ready')";
@@ -16,7 +16,7 @@ public class insertSupplier {
                 PreparedStatement state = conn.prepareStatement(query);) {
 
             state.setString(1, nameSupplier);
-            state.setInt(2, quantity);
+            state.setDouble(2, quantity);
             state.setString(3, unitSupplier);
             state.setString(4, description);
 

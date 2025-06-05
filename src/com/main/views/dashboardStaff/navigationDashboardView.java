@@ -216,7 +216,7 @@ public class navigationDashboardView extends navigationPanel {
         navTransaction.setBackground(color.WHITE);
         navTransaction.setNavigationAktif();
 
-        contentView.showFormTransaction();
+        contentView.showDashboardTransaction();
 
         setVisible(true);
     }

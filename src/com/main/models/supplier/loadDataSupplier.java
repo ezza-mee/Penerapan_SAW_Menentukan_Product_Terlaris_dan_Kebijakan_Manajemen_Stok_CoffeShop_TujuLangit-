@@ -74,7 +74,7 @@ public class loadDataSupplier {
                 return new dataSupplier(
                         rs.getInt("idSupplier"),
                         rs.getString("nameSupplier"),
-                        rs.getInt("quantity"),
+                        rs.getDouble("quantity"),
                         rs.getString("unit"),
                         rs.getString("description"));
             }

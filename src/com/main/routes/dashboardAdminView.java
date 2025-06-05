@@ -7,6 +7,7 @@ import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.components.panelApps.contentPanel;
 import com.main.models.entity.accountDataStaff;
+import com.main.models.entity.dataConvertion;
 import com.main.models.entity.dataProduct;
 import com.main.models.entity.dataSupplier;
 import com.main.models.entity.dataTable;
@@ -16,6 +17,8 @@ import com.main.services.authDataStaff;
 import com.main.views.dashboardAdmin.homeDashboardView;
 import com.main.views.dashboardAdmin.parentDashboardAdmin;
 import com.main.views.dashboardAdmin.Report.reportDashboardView;
+import com.main.views.dashboardAdmin.convertion.convertionDashboardView;
+import com.main.views.dashboardAdmin.convertion.convertionFormView;
 import com.main.views.dashboardAdmin.product.productCompositionFormView;
 import com.main.views.dashboardAdmin.product.productDashboardView;
 import com.main.views.dashboardAdmin.product.productFormView;
@@ -46,6 +49,7 @@ public class dashboardAdminView extends containerPanel {
     private dataSupplier dataSupplierToEdit = null;
     private dataProduct dataProductToEdit = null;
     private dataTable dataTableToEdit = null;
+    private dataConvertion dataConvertionToEdit = null;
 
     private boolean compositionModified = false;
 
@@ -58,7 +62,7 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard = new parentDashboardAdmin(this, role);
         add(parentDashboard);
 
-        parentDashboard.getNavbar().showHomeView();
+        parentDashboard.getNavbar().showConvertionView();
     }
 
     public void showDashboardHome() {
@@ -139,6 +143,24 @@ public class dashboardAdminView extends containerPanel {
         transactionDashboardView dashboardTransaction = new transactionDashboardView();
         lastContent = dashboardTransaction;
         parentDashboard.setContent(dashboardTransaction);
+    }
+
+    public void showDashboardConvertion() {
+        convertionDashboardView dashboardConvertion = new convertionDashboardView(parentApp, this);
+        lastContent = dashboardConvertion;
+        parentDashboard.setContent(dashboardConvertion);
+    }
+
+    public void showFormConvertion() {
+        convertionFormView formConvertion = new convertionFormView(this);
+
+        if (dataConvertionToEdit != null) {
+            formConvertion.setFormConvertion(dataConvertionToEdit);
+            dataConvertionToEdit = null;
+        }
+
+        lastContent = formConvertion;
+        parentDashboard.setContent(formConvertion);
     }
 
     public void showDashboardStaff() {
@@ -229,7 +251,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void resetLastContent() {
-        parentDashboard.getNavbar().showHomeView();
+        parentDashboard.getNavbar().showConvertionView();
         lastContent = null;
     }
 
@@ -251,6 +273,10 @@ public class dashboardAdminView extends containerPanel {
 
     public void setDataTableToEdit(dataTable dataTable) {
         this.dataTableToEdit = dataTable;
+    }
+
+    public void setDataConvertionToEdit(dataConvertion dataConvertion) {
+        this.dataConvertionToEdit = dataConvertion;
     }
 
     public void setDataStaffToEdit(entityDataStaff dataStaff) {

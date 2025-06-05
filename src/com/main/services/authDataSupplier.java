@@ -12,7 +12,7 @@ public class authDataSupplier {
 
     public static boolean insertDataSupplier(
             String nameSupplier,
-            int quantity,
+            double quantity,
             String unitSupplier,
             String description) {
 
@@ -22,14 +22,14 @@ public class authDataSupplier {
     public static boolean updateDataSupplier(
             int supplierId,
             String nameSupplier,
-            int quantity,
+            double quantity,
             String unitSupplier,
             String description) {
 
         return updateSupplier.updateData(supplierId, nameSupplier, quantity, unitSupplier, description);
     }
 
-    public static boolean deleteDataSupplier(int supplierId, int quantity) {
+    public static boolean deleteDataSupplier(int supplierId, double quantity) {
         return deleteSupplier.deleteData(supplierId, quantity);
     }
 
@@ -46,7 +46,7 @@ public class authDataSupplier {
         } else if (nameSupplier == null || nameSupplier.isEmpty()) {
             return "NAME_SUPPLIER_EMPTY";
         } else if (quantity == null || quantity.isEmpty()) {
-            return "QUANTITY_INVALID";
+            return "QUANTITY_EMPTY";
         } else if (unitSupplier == null || unitSupplier.isEmpty()) {
             return "UNIT_EMPTY";
         } else if (description == null || description.isEmpty()) {

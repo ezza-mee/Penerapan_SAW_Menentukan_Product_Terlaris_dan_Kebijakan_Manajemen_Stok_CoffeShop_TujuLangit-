@@ -28,7 +28,7 @@ public class loadCompositionProduct {
                         rs.getInt("idProduct"),
                         rs.getString("nameProduct"),
                         rs.getString("supplier"),
-                        rs.getInt("quantity"),
+                        rs.getDouble("quantity"),
                         rs.getString("unit"));
                 compositionList.add(data);
             }

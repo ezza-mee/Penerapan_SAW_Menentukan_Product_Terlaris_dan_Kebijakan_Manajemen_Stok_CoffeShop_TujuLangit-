@@ -5,10 +5,10 @@ public class listCompositionData {
     public int idProduct;
     public String nameProduct;
     public String nameSupplier;
-    public int quantity;
+    public double quantity;
     public String unit;
 
-    public listCompositionData(int idSupplier, int idProduct, String nameProduct, String nameSupplier, int quantity,
+    public listCompositionData(int idSupplier, int idProduct, String nameProduct, String nameSupplier, double quantity,
             String unit) {
         this.idSupplier = idSupplier;
         this.idProduct = idProduct;
@@ -34,7 +34,7 @@ public class listCompositionData {
         return nameSupplier;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -42,7 +42,7 @@ public class listCompositionData {
         return unit;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

@@ -2,10 +2,10 @@ package com.main.models.entity;
 
 public class dataSupplier {
     private int idSupplier;
-    private int quantity;
+    private double quantity;
     private String nameSupplier, unit, description;
 
-    public dataSupplier(int idSupplier, String nameSupplier, int quantity, String unit, String description) {
+    public dataSupplier(int idSupplier, String nameSupplier, double quantity, String unit, String description) {
         this.idSupplier = idSupplier;
         this.nameSupplier = nameSupplier;
         this.quantity = quantity;
@@ -21,7 +21,7 @@ public class dataSupplier {
         return nameSupplier;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -35,7 +35,7 @@ public class dataSupplier {
 
     @Override
     public String toString() {
-        return this.nameSupplier; 
+        return this.nameSupplier;
     }
 
 }

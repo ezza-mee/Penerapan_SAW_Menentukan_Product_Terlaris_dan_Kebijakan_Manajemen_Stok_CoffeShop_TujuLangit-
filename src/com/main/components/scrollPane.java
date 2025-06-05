@@ -55,9 +55,6 @@ public class scrollPane extends JScrollPane {
             button.setPreferredSize(new Dimension(0, 0));
             button.setMinimumSize(new Dimension(0, 0));
             button.setMaximumSize(new Dimension(0, 0));
-            button.setFocusable(false);
-            button.setBorderPainted(false);
-            button.setContentAreaFilled(false);
             return button;
         }
 

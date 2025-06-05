@@ -8,7 +8,7 @@ import com.main.models.connectionDatabase;
 
 public class insertCompositionProduct {
     public static boolean insertComposition(int idSupplier, int idProduct, String nameProduct,
-            String nameSupplier, int quantity, String unit) {
+            String nameSupplier, double quantity, String unit) {
         boolean data = false;
 
         String query = "INSERT INTO tbl_data_composition_product (idSupplier, idProduct, nameProduct, supplier, quantity, unit) VALUES (?, ?, ?, ?, ?, ?)";
@@ -20,7 +20,7 @@ public class insertCompositionProduct {
             state.setInt(2, idProduct);
             state.setString(3, nameProduct);
             state.setString(4, nameSupplier);
-            state.setInt(5, quantity);
+            state.setDouble(5, quantity);
             state.setString(6, unit);
 
             if (state.executeUpdate() > 0) {
