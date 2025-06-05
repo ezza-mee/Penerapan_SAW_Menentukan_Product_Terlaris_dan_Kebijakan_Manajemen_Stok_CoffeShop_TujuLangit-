@@ -132,8 +132,7 @@ public class supplierFormView extends contentPanel {
 
     public void setFormSupplier(dataSupplier dataSupplier) {
         nameField.setText(dataSupplier.getNameSupplier());
-        int quantity = dataSupplier.getQuantity();
-        quantityField.setText(String.valueOf(quantity));
+        quantityField.setText(String.valueOf(dataSupplier.getQuantity()));
         unitField.setSelectedItem(dataSupplier.getUnit());
         descriptionField.setText(dataSupplier.getDescription());
 
@@ -178,7 +177,7 @@ public class supplierFormView extends contentPanel {
                             contentPanel.add(nameEmptyLabel);
                             break;
 
-                        case "QUANTITY_INVALID":
+                        case "QUANTITY_EMPTY":
                             contentPanel.add(quantityEmptyLabel);
                             break;
 
@@ -192,7 +191,7 @@ public class supplierFormView extends contentPanel {
 
                         case "VALID":
                             boolean success = false;
-                            int quantity = Integer.parseInt(stringQuantity);
+                            double quantity = Double.parseDouble(stringQuantity);
                             if (supplierIdToEdit == -1) {
                                 success = authDataSupplier.insertDataSupplier(nameSupplier, quantity, unit,
                                         description);

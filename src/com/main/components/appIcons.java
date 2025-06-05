@@ -94,6 +94,14 @@ public class appIcons {
         return loadIcon("src/com/main/resources/images/transaction(white).png", width, height);
     }
 
+    public imageIcon getConvertionIconHover(int width, int height) {
+        return loadIcon("src/com/main/resources/images/convertion(green).png", width, height);
+    }
+
+    public imageIcon getConvertionIconDefault(int width, int height) {
+        return loadIcon("src/com/main/resources/images/convertion(white).png", width, height);
+    }
+
     public imageIcon getReportIconHover(int width, int height) {
         return loadIcon("src/com/main/resources/images/report(green).png", width, height);
     }

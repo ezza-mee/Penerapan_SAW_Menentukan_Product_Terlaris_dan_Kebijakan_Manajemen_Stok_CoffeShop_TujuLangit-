@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class updateSupplier {
-    public static boolean updateData(int idSupplier, String nameSupplier, int quantity, String unit,
+    public static boolean updateData(int idSupplier, String nameSupplier, double quantity, String unit,
             String description) {
         String query = "UPDATE tbl_data_supplier SET nameSupplier = ?, quantity = ?, unit = ?, description = ?, status =  'Ready' WHERE idSupplier = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nameSupplier);
-            stmt.setInt(2, quantity);
+            stmt.setDouble(2, quantity);
             stmt.setString(3, unit);
             stmt.setString(4, description);
             stmt.setInt(5, idSupplier);

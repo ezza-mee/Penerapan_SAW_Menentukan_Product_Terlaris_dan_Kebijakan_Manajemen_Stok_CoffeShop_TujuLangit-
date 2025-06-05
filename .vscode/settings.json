@@ -4,5 +4,7 @@
 	"java.project.referencedLibraries": {
 		"include": ["lib/**/*.jar"],
 		"exclude": ["lib/mysql-connector-j-8.3.0/mysql-connector-j-8.3.0/mysql-connector-j-8.3.0.jar"]
-	}
+	},
+	"editor.fontFamily": "'Poppins SemiBold', 'Poppins', Consolas, 'Courier New', monospace",
+	"editor.fontSize": 14,
 }

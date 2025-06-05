@@ -12,4 +12,8 @@ public class listTransactionProduct {
         this.quantity = quantity;
         this.price = price;
     }
+
+    public int getIdProduct(){
+        return idProduct;
+    }
 }

@@ -8,7 +8,7 @@ import com.main.models.transaction.insertTransaction;
 
 public class authDataTransaction {
 
-    public static boolean insertDataTransaction(int idStaff, int idTable, String staff,
+    public static int insertDataTransaction(int idStaff, int idTable, String staff,
             String numberTable, String customer, int qantity, int price, String description, String payment,
             List<listTransactionProduct> listProduct) {
 
@@ -17,7 +17,7 @@ public class authDataTransaction {
 
         if (idTransaction == -1) {
             System.out.println("gagal insert");
-            return false;
+            return -1;
         }
 
         for (listTransactionProduct data : listProduct) {
@@ -29,11 +29,11 @@ public class authDataTransaction {
                     data.price);
 
             if (!insertListProduct) {
-                return false;
+                return -1;
             }
         }
 
-        return true;
+        return idTransaction;
     }
 
     public String validateDataTransactionInput(String numberTable, String customer, String description,

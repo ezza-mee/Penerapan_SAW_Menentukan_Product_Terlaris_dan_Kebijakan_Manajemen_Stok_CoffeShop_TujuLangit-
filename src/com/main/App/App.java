@@ -19,6 +19,7 @@ public class App {
     public static void main(String[] args) {
         // debug tanpa login ambil data account dan data staff dari database sesuaikan
         // datanya
+
         accountDataStaff test = new accountDataStaff(17, 73, "anas@email.com", "www",
                 "Cashier");
         sessionLogin.set(test);
