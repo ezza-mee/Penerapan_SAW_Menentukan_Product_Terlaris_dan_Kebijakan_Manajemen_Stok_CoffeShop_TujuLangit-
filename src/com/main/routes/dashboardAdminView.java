@@ -17,6 +17,7 @@ import com.main.services.authDataStaff;
 import com.main.views.dashboardAdmin.homeDashboardView;
 import com.main.views.dashboardAdmin.parentDashboardAdmin;
 import com.main.views.dashboardAdmin.Report.reportDashboardView;
+import com.main.views.dashboardAdmin.calculation.calculationDashboardView;
 import com.main.views.dashboardAdmin.convertion.convertionDashboardView;
 import com.main.views.dashboardAdmin.convertion.convertionFormView;
 import com.main.views.dashboardAdmin.product.productCompositionFormView;
@@ -62,7 +63,7 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard = new parentDashboardAdmin(this, role);
         add(parentDashboard);
 
-        parentDashboard.getNavbar().showConvertionView();
+        parentDashboard.getNavbar().showCalculationView();
     }
 
     public void showDashboardHome() {
@@ -163,6 +164,12 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(formConvertion);
     }
 
+    public void showDashboardCalculation() {
+        calculationDashboardView dashboardCalculation = new calculationDashboardView(parentApp, this);
+        lastContent = dashboardCalculation;
+        parentDashboard.setContent(dashboardCalculation);
+    }
+
     public void showDashboardStaff() {
         staffDashboardView dashboardStaff = new staffDashboardView(parentApp, this);
         lastContent = dashboardStaff;
@@ -251,7 +258,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void resetLastContent() {
-        parentDashboard.getNavbar().showConvertionView();
+        parentDashboard.getNavbar().showCalculationView();
         lastContent = null;
     }
 

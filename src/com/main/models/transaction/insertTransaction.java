@@ -13,7 +13,7 @@ public class insertTransaction {
             int subQuantity, int subPrice, String description, String payment) {
         int generatedId = -1;
 
-        String query = "INSERT INTO tbl_data_transaction (idStaff, idTable, date, staff, numberTable, customer, subQuantity, subPrice, description, payment) VALUES (?, ?, now(), ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tbl_data_transaction (idStaff, idTable, date, staff, numberTable, customer, subQuantity, subPrice, description, payment, status) VALUES (?, ?, now(), ?, ?, ?, ?, ?, ?, ?, 'Process')";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);) {

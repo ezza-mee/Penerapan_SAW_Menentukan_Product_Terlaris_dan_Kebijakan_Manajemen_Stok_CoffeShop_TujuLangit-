@@ -65,11 +65,19 @@ public class navigationDashboardView extends navigationPanel {
 
     );
 
+    private navigation navCalculation = new navigation(
+            appIcons.getCalculationIconDefault(30, 30),
+            appIcons.getCalculationIconHover(30, 30),
+            "Calculation",
+            150 + 50 + 50 + 50 + 50 + 50 + 50
+
+    );
+
     private navigation navStaff = new navigation(
             appIcons.getStaffIconDefault(30, 30),
             appIcons.getStaffIconHover(30, 30),
             "Staff",
-            150 + 50 + 50 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -77,7 +85,7 @@ public class navigationDashboardView extends navigationPanel {
             appIcons.getReportIconDefault(30, 30),
             appIcons.getReportIconHover(30, 30),
             "Report",
-            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -85,7 +93,7 @@ public class navigationDashboardView extends navigationPanel {
             appIcons.getLogoutIconDefault(30, 30),
             appIcons.getLogoutIconHover(30, 30),
             "Logout",
-            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -113,6 +121,10 @@ public class navigationDashboardView extends navigationPanel {
         navConvertion.setForeground(color.WHITE);
         navConvertion.setBackground(color.DARKGREEN);
         navConvertion.setNavigationInAktif();
+
+        navCalculation.setForeground(color.WHITE);
+        navCalculation.setBackground(color.DARKGREEN);
+        navCalculation.setNavigationInAktif();
 
         navStaff.setForeground(color.WHITE);
         navStaff.setBackground(color.DARKGREEN);
@@ -143,6 +155,7 @@ public class navigationDashboardView extends navigationPanel {
         add(navTable);
         add(navTransaction);
         add(navConvertion);
+        add(navCalculation);
         add(navStaff);
         add(navReport);
         add(navLogout);
@@ -198,6 +211,13 @@ public class navigationDashboardView extends navigationPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
                 showConvertionView();
+            }
+        });
+
+        navCalculation.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showCalculationView();
             }
         });
 
@@ -291,7 +311,19 @@ public class navigationDashboardView extends navigationPanel {
         navConvertion.setBackground(color.WHITE);
         navConvertion.setNavigationAktif();
 
-        contentView.showFormConvertion();
+        contentView.showDashboardConvertion();
+
+        setVisible(true);
+    }
+
+    public void showCalculationView() {
+        resetNavigation();
+
+        navCalculation.setForeground(color.DARKGREEN);
+        navCalculation.setBackground(color.WHITE);
+        navCalculation.setNavigationAktif();
+
+        contentView.showDashboardCalculation();
 
         setVisible(true);
     }
