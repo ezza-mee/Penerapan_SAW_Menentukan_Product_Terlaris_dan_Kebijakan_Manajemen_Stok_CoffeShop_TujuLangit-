@@ -72,4 +72,9 @@ public class mainFrame extends frameApps {
             repaint();
         }
     }
+
+    public void resetLocation() {
+        setLocationRelativeTo(null);
+    }
+
 }

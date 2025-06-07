@@ -1,5 +1,7 @@
 package com.main.views.dashboardAdmin;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 
 import com.main.auth.utils.Role;
@@ -8,6 +10,8 @@ import com.main.components.panelApps.*;
 import com.main.routes.dashboardAdminView;
 
 public class parentDashboardAdmin extends containerPanel {
+
+    private int mouseX, mouseY;
 
     private dashboardAdminView parentView;
 
@@ -47,6 +51,7 @@ public class parentDashboardAdmin extends containerPanel {
         setPosition();
         setColor();
         setFont();
+        handleAction();
 
         headerPanel.add(contentHeader);
 
@@ -75,6 +80,31 @@ public class parentDashboardAdmin extends containerPanel {
     private void setFont() {
         copyRight.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         copyRight.setHorizontalAlignment(JLabel.CENTER);
+    }
+
+    private void handleAction() {
+        headerPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX = e.getXOnScreen();
+                mouseY = e.getYOnScreen();
+            }
+        });
+
+        headerPanel.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(parentDashboardAdmin.this);
+                int x = e.getXOnScreen();
+                int y = e.getYOnScreen();
+                int dx = x - mouseX;
+                int dy = y - mouseY;
+                window.setLocation(window.getX() + dx, window.getY() + dy);
+                mouseX = x;
+                mouseY = y;
+            }
+        });
+
     }
 
     public navigationDashboardView getNavbar() {

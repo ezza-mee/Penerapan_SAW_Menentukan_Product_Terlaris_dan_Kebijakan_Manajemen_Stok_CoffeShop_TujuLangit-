@@ -20,25 +20,25 @@ public class App {
         // debug tanpa login ambil data account dan data staff dari database sesuaikan
         // datanya
 
-        accountDataStaff test = new accountDataStaff(17, 73, "anas@email.com", "www",
-                "Cashier");
-        sessionLogin.set(test);
+        // accountDataStaff test = new accountDataStaff(17, 73, "anas@email.com", "www",
+        // "Cashier");
+        // sessionLogin.set(test);
 
-        dataStaff dummyStaff = new dataStaff(
-                73,
-                "2025-06-03 21:34:38",
-                "anas malik",
-                "anas@email.com",
-                "32423523",
-                "Male",
-                "Cashier",
-                "malaysia",
-                "Active");
-        sessionManager.setRole(Role.CASHIER);
-        sessionManager.setStaffData(dummyStaff);
+        // dataStaff dummyStaff = new dataStaff(
+        // 73,
+        // "2025-06-03 21:34:38",
+        // "anas malik",
+        // "anas@email.com",
+        // "32423523",
+        // "Male",
+        // "Cashier",
+        // "malaysia",
+        // "Active");
+        // sessionManager.setRole(Role.CASHIER);
+        // sessionManager.setStaffData(dummyStaff);
 
-        appsController.showDashboardByRole(Role.CASHIER);
-        // appsController.showDashboardAdmin();
+        // appsController.showDashboardByRole(Role.CASHIER);
+        appsController.showDashboardAdmin();
         // appsController.showLogin();
 
         // new testFrame().setVisible(true);

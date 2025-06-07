@@ -102,6 +102,14 @@ public class appIcons {
         return loadIcon("src/com/main/resources/images/convertion(white).png", width, height);
     }
 
+    public imageIcon getCalculationIconHover(int width, int height) {
+        return loadIcon("src/com/main/resources/images/calculation(green).png", width, height);
+    }
+
+    public imageIcon getCalculationIconDefault(int width, int height) {
+        return loadIcon("src/com/main/resources/images/calculation(white).png", width, height);
+    }
+
     public imageIcon getReportIconHover(int width, int height) {
         return loadIcon("src/com/main/resources/images/report(green).png", width, height);
     }

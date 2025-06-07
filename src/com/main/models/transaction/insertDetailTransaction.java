@@ -10,7 +10,7 @@ public class insertDetailTransaction {
     public static boolean insertData(int idTransaction, int idProduct, String product, int quantity, int price) {
         boolean data = false;
 
-        String query = "INSERT INTO tbl_detail_transaction (idtransaction, idProduct, product, quantity, price, status) VALUES (?, ?, ?, ?, ?, 'Process')";
+        String query = "INSERT INTO tbl_detail_transaction (idtransaction, idProduct, product, quantity, price) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);) {

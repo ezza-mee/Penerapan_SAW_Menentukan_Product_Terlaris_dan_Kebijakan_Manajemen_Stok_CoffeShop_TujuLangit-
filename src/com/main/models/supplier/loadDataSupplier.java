@@ -29,7 +29,7 @@ public class loadDataSupplier {
                         "SU00" + resultData.getInt("idSupplier"),
                         resultData.getString("date"),
                         resultData.getString("nameSupplier"),
-                        resultData.getInt("quantity"),
+                        resultData.getDouble("quantity"),
                         resultData.getString("unit"),
                         resultData.getString("status") };
                 tm.addRow(rowData);
