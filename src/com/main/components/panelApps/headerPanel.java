@@ -6,7 +6,7 @@ public class headerPanel extends JPanel {
 
     public headerPanel() {
         super();
-        setSize(1126, 80);
+        setSize(1366, 80);
         setLayout(null);
     }
 
