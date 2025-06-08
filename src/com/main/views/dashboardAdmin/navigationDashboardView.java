@@ -12,88 +12,83 @@ public class navigationDashboardView extends navigationPanel {
 
     private appIcons appIcons = new appIcons();
 
-    private textLabel brandLabel = new textLabel(
-            "<html><body><div><b>TujuLangit</b></div> Forestpark</body></html>", 0, 0, 240, 100
-
-    );
-
     private navigation navHome = new navigation(
-            appIcons.getHomeIconDefault(30, 30),
-            appIcons.getHomeIconHover(30, 30),
+            appIcons.getHomeIconDefault(25, 25),
+            appIcons.getHomeIconHover(25, 25),
             "Home",
-            150
+            70
 
     );
 
     private navigation navProduct = new navigation(
-            appIcons.getProductIconDefault(30, 30),
-            appIcons.getProductIconHover(30, 30),
+            appIcons.getProductIconDefault(25, 25),
+            appIcons.getProductIconHover(25, 25),
             "Product",
-            150 + 50
+            70 + 50
 
     );
 
     private navigation navSupplier = new navigation(
-            appIcons.getSupplierIconDefault(30, 30),
-            appIcons.getSupplierIconHover(30, 30),
+            appIcons.getSupplierIconDefault(25, 25),
+            appIcons.getSupplierIconHover(25, 25),
             "Supplier",
-            150 + 50 + 50
+            70 + 50 + 50
 
     );
 
     private navigation navTable = new navigation(
-            appIcons.getTableIconDefault(30, 30),
-            appIcons.getTableIconHover(30, 30),
+            appIcons.getTableIconDefault(25, 25),
+            appIcons.getTableIconHover(25, 25),
             "Table",
-            150 + 50 + 50 + 50
+            70 + 50 + 50 + 50
 
     );
 
     private navigation navTransaction = new navigation(
-            appIcons.getTransactionIconDefault(30, 30),
-            appIcons.getTransactionIconHover(30, 30),
+            appIcons.getTransactionIconDefault(25, 25),
+            appIcons.getTransactionIconHover(25, 25),
             "Transaction",
-            150 + 50 + 50 + 50 + 50
+            70 + 50 + 50 + 50 + 50
 
     );
 
     private navigation navConvertion = new navigation(
-            appIcons.getConvertionIconDefault(30, 30),
-            appIcons.getConvertionIconHover(30, 30),
+            appIcons.getConvertionIconDefault(25, 25),
+            appIcons.getConvertionIconHover(25, 25),
             "Convertion",
-            150 + 50 + 50 + 50 + 50 + 50
+            70 + 50 + 50 + 50 + 50 + 50
 
     );
 
     private navigation navCalculation = new navigation(
-            appIcons.getCalculationIconDefault(30, 30),
-            appIcons.getCalculationIconHover(30, 30),
+            appIcons.getCalculationIconDefault(25, 25),
+            appIcons.getCalculationIconHover(25, 25),
             "Calculation",
-            150 + 50 + 50 + 50 + 50 + 50 + 50
+            70 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
     private navigation navStaff = new navigation(
-            appIcons.getStaffIconDefault(30, 30),
-            appIcons.getStaffIconHover(30, 30),
+            appIcons.getStaffIconDefault(25, 25),
+            appIcons.getStaffIconHover(25, 25),
             "Staff",
-            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50
+            70 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
     private navigation navReport = new navigation(
-            appIcons.getReportIconDefault(30, 30),
-            appIcons.getReportIconHover(30, 30),
+            appIcons.getReportIconDefault(25, 25),
+            appIcons.getReportIconHover(25, 25),
             "Report",
-            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
+            70 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
     private navigation navLogout = new navigation(
-            appIcons.getLogoutIconDefault(30, 30),
-            appIcons.getLogoutIconHover(30, 30),
+            appIcons.getLogoutIconDefault(25, 25),
+            appIcons.getLogoutIconHover(25, 25),
             "Logout",
-            150 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
+            70 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -145,10 +140,7 @@ public class navigationDashboardView extends navigationPanel {
         this.contentView = contentView;
 
         handelNavigation();
-        setFont();
-        setColor();
 
-        add(brandLabel);
         add(navHome);
         add(navProduct);
         add(navSupplier);
@@ -159,15 +151,6 @@ public class navigationDashboardView extends navigationPanel {
         add(navStaff);
         add(navReport);
         add(navLogout);
-    }
-
-    private void setColor() {
-        brandLabel.setForeground(color.WHITE);
-    }
-
-    private void setFont() {
-        brandLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BLACK, 20f));
-        brandLabel.setHorizontalAlignment(JLabel.CENTER);
     }
 
     private void handelNavigation() {

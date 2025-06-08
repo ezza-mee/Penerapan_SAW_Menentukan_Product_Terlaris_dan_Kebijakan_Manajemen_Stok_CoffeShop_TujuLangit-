@@ -11,10 +11,10 @@ public class datePickerField extends JPanel {
     private UtilDateModel model;
     private JDatePickerImpl datePicker;
 
-    public datePickerField(int width, String placeholder) {
+    public datePickerField(int x, int y, int width, int height, String placeholder) {
         setLayout(null); // null layout agar tidak trigger resize frame
         setOpaque(false);
-        setPreferredSize(new Dimension(width, 30));
+        setBounds(x, y, width, height);
 
         model = new UtilDateModel();
         Properties p = new Properties();

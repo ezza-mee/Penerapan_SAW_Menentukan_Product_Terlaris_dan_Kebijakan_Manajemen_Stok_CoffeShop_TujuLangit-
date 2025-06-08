@@ -65,12 +65,13 @@ public class parentDashboardAdmin extends containerPanel {
 
     private void setPosition() {
         contentContainer.setBounds(240, 80, 1126, 698);
-        headerPanel.setBounds(240, 0, 1126, 80);
+        navigationPanel.setBounds(0, 80, 240, 688);
 
         copyRight = new textLabel("CopyRight. 2025 TujuLangit Forestpark", 0, 640, 1126, 40);
     }
 
     private void setColor() {
+        headerPanel.setBackground(color.WHITE);
         navigationPanel.setBackground(color.GREEN);
         contentContainer.setBackground(color.DARKGREY);
 
