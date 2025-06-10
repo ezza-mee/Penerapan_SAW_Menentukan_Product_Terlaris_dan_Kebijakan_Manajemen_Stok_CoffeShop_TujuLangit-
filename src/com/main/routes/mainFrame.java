@@ -73,8 +73,4 @@ public class mainFrame extends frameApps {
         }
     }
 
-    public void resetLocation() {
-        setLocationRelativeTo(null);
-    }
-
 }

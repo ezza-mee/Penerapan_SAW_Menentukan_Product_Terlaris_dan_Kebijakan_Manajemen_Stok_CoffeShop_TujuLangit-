@@ -13,7 +13,7 @@ import com.main.routes.mainFrame;
 
 public class popUpSuccess extends popUpPanel {
 
-    private mainFrame parentFrame;
+    private mainFrame parentApp;
 
     private appIcons appIcons = new appIcons();
     private imageIcon successIcon = appIcons.getSuccessIconGreen(60, 60);
@@ -21,9 +21,9 @@ public class popUpSuccess extends popUpPanel {
 
     private buttonCustom buttonConfirm;
 
-    public popUpSuccess(mainFrame parentFrame) {
+    public popUpSuccess(mainFrame parentApp) {
         super();
-        this.parentFrame = parentFrame;
+        this.parentApp = parentApp;
         setSize(550, 240);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
@@ -73,14 +73,14 @@ public class popUpSuccess extends popUpPanel {
         buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentFrame.hideGlassPanel();
+                parentApp.hideGlassPanel();
             }
         });
     }
 
     public void setNotificationMessage(String message) {
         messageLabel.setText(message);
-        messageLabel.revalidate(); 
+        messageLabel.revalidate();
         messageLabel.repaint();
     }
 }

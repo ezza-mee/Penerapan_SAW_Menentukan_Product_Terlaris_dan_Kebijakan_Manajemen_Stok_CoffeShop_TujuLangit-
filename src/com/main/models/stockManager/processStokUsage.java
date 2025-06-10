@@ -90,7 +90,7 @@ public class processStokUsage {
                 logStmt.setInt(4, idTransaction);
                 logStmt.setString(5, ingredient);
                 logStmt.setDouble(6, totalUsage);
-                logStmt.setString(7, supplierUnit);
+                logStmt.setString(7, compositionUnit);
                 logStmt.setString(8, productName);
                 logStmt.executeUpdate();
             }

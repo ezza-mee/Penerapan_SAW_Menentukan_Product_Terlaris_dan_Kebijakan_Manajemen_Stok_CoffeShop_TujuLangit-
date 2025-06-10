@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 import com.main.models.convertion.loadDataConvertion;
 import com.main.models.entity.dataConvertion;
 import com.main.routes.dashboardAdminView;
@@ -22,7 +22,7 @@ public class convertionDashboardView extends contentPanel {
 
     private buttonCustom buttonAdd;
 
-    private tableCustom dataConvertion;
+    private tableActionButton dataConvertion;
 
     private scrollTable scrollDataConvertion;
 
@@ -59,7 +59,7 @@ public class convertionDashboardView extends contentPanel {
 
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
-        tableActionButton actionButton = new tableActionButton() {
+        actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 try {
@@ -152,7 +152,7 @@ public class convertionDashboardView extends contentPanel {
             }
         };
 
-        dataConvertion = new tableCustom(loadDataConvertion.getAllDataConvertion(), actionButton);
+        dataConvertion = new tableActionButton(loadDataConvertion.getAllDataConvertion(), actionButton);
 
         int actionColumnIndex = 6;
         dataConvertion.getColumnModel().getColumn(actionColumnIndex)

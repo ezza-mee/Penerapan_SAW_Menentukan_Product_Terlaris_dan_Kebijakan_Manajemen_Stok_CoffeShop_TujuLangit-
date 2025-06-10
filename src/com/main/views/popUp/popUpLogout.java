@@ -85,7 +85,6 @@ public class popUpLogout extends popUpPanel {
             public void mouseClicked(MouseEvent e) {
                 parentFrame.showLoginApp();
                 parentFrame.hideGlassPanel();
-                parentFrame.closeGlassPanel();
                 dashboardAdminView.resetLastContent();
             }
         });

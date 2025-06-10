@@ -2,7 +2,7 @@ package com.main.components;
 
 import javax.swing.*;
 import javax.swing.table.TableCellEditor;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.EnumSet;
@@ -14,12 +14,12 @@ public class buttonTableEditor extends AbstractCellEditor implements TableCellEd
     private final buttonCustom deleteButton;
     private final buttonCustom detailButton;
     private final buttonCustom approveButton;
-    private final tableActionButton actionListener;
+    private final actionButtonTable actionListener;
     private final EnumSet<buttonType> buttonTypes;
     private int row;
 
-    public buttonTableEditor(tableActionButton actionListener, EnumSet<buttonType> buttonTypes) {
-        this.actionListener = actionListener;
+    public buttonTableEditor(actionButtonTable actionListener2, EnumSet<buttonType> buttonTypes) {
+        this.actionListener = actionListener2;
         this.buttonTypes = buttonTypes;
 
         panel = new JPanel(new GridBagLayout());

@@ -12,6 +12,8 @@ public class headerDashboardView extends headerPanel {
 
     private parentDashboardAdmin parentDashboard;
 
+    private panelRounded brandPanel;
+
     private textLabel welcomeLabel;
 
     private textField searchField;
@@ -27,6 +29,7 @@ public class headerDashboardView extends headerPanel {
         setColor();
         setFont();
 
+        add(brandPanel);
         add(searchField);
         add(welcomeLabel);
 
@@ -34,9 +37,10 @@ public class headerDashboardView extends headerPanel {
     }
 
     private void setPosition() {
-        welcomeLabel = new textLabel("Welcome", 40, 0, 100, 80);
+        brandPanel = new panelRounded(0, 0, 240, 80, 0, 0);
+        welcomeLabel = new textLabel("Welcome", 300, 0, 100, 80);
 
-        searchField = new textField(400, 25, 400, 10);
+        searchField = new textField(500, 25, 400, 10);
         searchField.setPlaceholder("Search");
 
         searchField.addKeyListener(new KeyAdapter() {
@@ -55,6 +59,7 @@ public class headerDashboardView extends headerPanel {
 
     private void setColor() {
         setBackground(color.WHITE);
+        brandPanel.setBackground(color.DARKGREEN);
         welcomeLabel.setForeground(color.DARKGREEN);
     }
 

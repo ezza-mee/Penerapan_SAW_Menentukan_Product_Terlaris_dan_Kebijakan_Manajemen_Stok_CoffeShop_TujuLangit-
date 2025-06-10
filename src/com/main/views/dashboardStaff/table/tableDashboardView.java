@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 import com.main.models.entity.dataTable;
 import com.main.models.table.loadDataTable;
 import com.main.routes.dashboardStaffView;
@@ -24,7 +24,7 @@ public class tableDashboardView extends contentPanel {
 
     private linkLabel allLabel, cleaningLabel, availableLabel, reservedLabel;
 
-    private tableCustom dataTable;
+    private tableActionButton dataTable;
 
     private scrollTable scrollTable;
 
@@ -47,7 +47,7 @@ public class tableDashboardView extends contentPanel {
         headerPanel.add(cleaningLabel);
         headerPanel.add(availableLabel);
         headerPanel.add(reservedLabel);
-        
+
         contentPanel.add(scrollTable);
 
         add(headerLabel);
@@ -68,7 +68,7 @@ public class tableDashboardView extends contentPanel {
         availableLabel = new linkLabel("Available", 310, 40, 120, 30);
         reservedLabel = new linkLabel("Reserved", 470, 40, 120, 30);
 
-        tableActionButton actionButton = new tableActionButton() {
+        actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 try {
@@ -138,7 +138,7 @@ public class tableDashboardView extends contentPanel {
             }
         };
 
-        dataTable = new tableCustom(loadDataTable.getAllDataTable(), actionButton);
+        dataTable = new tableActionButton(loadDataTable.getAllDataTable(), actionButton);
 
         int actionColumnIndex = 6;
         dataTable.getColumnModel().getColumn(actionColumnIndex)

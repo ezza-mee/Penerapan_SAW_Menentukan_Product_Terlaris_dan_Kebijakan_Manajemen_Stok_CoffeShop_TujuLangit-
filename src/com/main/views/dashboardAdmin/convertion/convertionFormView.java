@@ -123,9 +123,6 @@ public class convertionFormView extends contentPanel {
     public void setFormConvertion(dataConvertion dataConvertion) {
         formUnitField.setSelectedItem(dataConvertion.getFormUnit());
         toUnitField.setSelectedItem(dataConvertion.getToUnit());
-
-        System.out.println("Multiplier: " + dataConvertion.getMultiplier());
-
         multiplierField.setText(String.valueOf(dataConvertion.getMultiplier()));
         descriptionField.setText(dataConvertion.getDescription());
 

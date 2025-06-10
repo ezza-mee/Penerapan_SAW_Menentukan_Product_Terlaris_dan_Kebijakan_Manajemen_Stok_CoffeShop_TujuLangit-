@@ -13,7 +13,7 @@ public class listTransactionProduct {
         this.price = price;
     }
 
-    public int getIdProduct(){
+    public int getIdProduct() {
         return idProduct;
     }
 }

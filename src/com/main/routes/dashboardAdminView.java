@@ -6,12 +6,14 @@ import com.main.auth.utils.Role;
 import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.components.panelApps.contentPanel;
+import com.main.components.panelApps.glassPopUpLayer;
 import com.main.models.entity.accountDataStaff;
 import com.main.models.entity.dataConvertion;
 import com.main.models.entity.dataProduct;
 import com.main.models.entity.dataSupplier;
 import com.main.models.entity.dataTable;
 import com.main.models.entity.entityDataStaff;
+import com.main.models.entity.dataBobotKriteria;
 import com.main.models.entity.listCompositionData;
 import com.main.services.authDataStaff;
 import com.main.views.dashboardAdmin.homeDashboardView;
@@ -34,8 +36,10 @@ import com.main.views.popUp.popUpConfrim;
 import com.main.views.popUp.popUpFailed;
 import com.main.views.popUp.popUpLogout;
 import com.main.views.popUp.popUpSuccess;
+import com.main.views.popUp.popUpBobotKriteria.popUpDataBobotKriteria;
+import com.main.views.popUp.popUpBobotKriteria.popUpInputBobotKriteria;
 import com.main.views.popUp.popUpStaff.popUpDetailDataStaff;
-import com.main.views.popUp.popUpStaff.popUpFormInputAccountStaff;
+import com.main.views.popUp.popUpStaff.popUpInputAccountStaff;
 
 public class dashboardAdminView extends containerPanel {
 
@@ -51,6 +55,7 @@ public class dashboardAdminView extends containerPanel {
     private dataProduct dataProductToEdit = null;
     private dataTable dataTableToEdit = null;
     private dataConvertion dataConvertionToEdit = null;
+    private dataBobotKriteria dataBobotKriteriaToEdit = null;
 
     private boolean compositionModified = false;
 
@@ -170,6 +175,25 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(dashboardCalculation);
     }
 
+    public void showDashboardBobotKriteria() {
+        popUpDataBobotKriteria dashboardBobotKriteria = new popUpDataBobotKriteria(parentApp, this);
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showGlassPanel(dashboardBobotKriteria);
+
+    }
+
+    public void showFormDataKriteria() {
+        popUpInputBobotKriteria popUpBobotKriteria = new popUpInputBobotKriteria(parentApp, this);
+
+        if (dataBobotKriteriaToEdit != null) {
+            popUpBobotKriteria.setFormBobotKriteria(dataBobotKriteriaToEdit);
+            dataBobotKriteriaToEdit = null;
+        }
+
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showGlassPanel(popUpBobotKriteria);
+    }
+
     public void showDashboardStaff() {
         staffDashboardView dashboardStaff = new staffDashboardView(parentApp, this);
         lastContent = dashboardStaff;
@@ -196,7 +220,7 @@ public class dashboardAdminView extends containerPanel {
             String jobdesk,
             String address, boolean isEdit, int idStaff) {
 
-        popUpFormInputAccountStaff popupForm = new popUpFormInputAccountStaff(
+        popUpInputAccountStaff popUpForm = new popUpInputAccountStaff(
                 parentApp, this, name, email, phoneNumber, gender, jobdesk, address, isEdit, idStaff);
 
         this.accountData = authDataStaff.getDataAccountById(idStaff);
@@ -205,13 +229,13 @@ public class dashboardAdminView extends containerPanel {
         System.out.println("ID Staff: " + idStaff);
 
         if (this.accountData != null) {
-            popupForm.setFormAccountData(this.accountData, dataStaffToEdit);
+            popUpForm.setFormAccountData(this.accountData, dataStaffToEdit);
             accountData = null;
             System.out.println("[DEBUG] showFormAccountStaff: isEdit = " + isEdit + ", idStaff = " + idStaff);
         }
 
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popupForm);
+        parentApp.showGlassPanel(popUpForm);
     }
 
     public void showDetailPopUpDataStaff(int idStaff) {
@@ -284,6 +308,10 @@ public class dashboardAdminView extends containerPanel {
 
     public void setDataConvertionToEdit(dataConvertion dataConvertion) {
         this.dataConvertionToEdit = dataConvertion;
+    }
+
+    public void setDataBobotKriteriaToEdit(dataBobotKriteria dataBobotKriteria) {
+        this.dataBobotKriteriaToEdit = dataBobotKriteria;
     }
 
     public void setDataStaffToEdit(entityDataStaff dataStaff) {

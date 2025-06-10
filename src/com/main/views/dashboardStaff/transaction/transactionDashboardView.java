@@ -6,7 +6,7 @@ import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.models.transaction.loadDataTransaction;
 import com.main.routes.dashboardStaffView;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 
 public class transactionDashboardView extends contentPanel {
 
@@ -18,7 +18,7 @@ public class transactionDashboardView extends contentPanel {
 
     private buttonCustom buttonAdd;
 
-    private tableCustom dataTransaction;
+    private tableActionButton dataTransaction;
     private scrollTable scrollTableTransaction;
 
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.DETAIL, buttonType.APPROVE);
@@ -54,7 +54,7 @@ public class transactionDashboardView extends contentPanel {
 
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
-        tableActionButton actionButton = new tableActionButton() {
+        actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 // Not implemented
@@ -80,7 +80,7 @@ public class transactionDashboardView extends contentPanel {
             }
         };
 
-        dataTransaction = new tableCustom(loadDataTransaction.getAllDataTransaction(), actionButton);
+        dataTransaction = new tableActionButton(loadDataTransaction.getAllDataTransaction(), actionButton);
 
         int actionColumnIndex = 8;
         dataTransaction.getColumnModel().getColumn(actionColumnIndex)

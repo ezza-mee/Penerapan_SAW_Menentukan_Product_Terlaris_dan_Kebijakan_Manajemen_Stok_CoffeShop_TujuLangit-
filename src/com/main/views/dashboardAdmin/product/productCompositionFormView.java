@@ -295,7 +295,7 @@ public class productCompositionFormView extends contentPanel {
                 cardPanel.add(Box.createVerticalGlue());
             }
         } else {
-            System.out.println("compositionList is null.");
+            parentView.showFailedPopUp("compositionList is null.");
         }
 
         buttonAdd.setText(isEditMode ? "Save" : "Add");
@@ -463,11 +463,13 @@ public class productCompositionFormView extends contentPanel {
                         isEditMode = true;
                         currentEditData = data;
 
+                        buttonAdd.setText(isEditMode ? "Save" : "Add");
+
                         parentListIngredientPanel.remove(cardPanel);
                         parentListIngredientPanel.remove(padding);
                         parentListIngredientPanel.revalidate();
                         parentListIngredientPanel.repaint();
-                        buttonAdd.setText(isEditMode ? "Save" : "Add");
+
                     }
                 });
 
@@ -507,7 +509,7 @@ public class productCompositionFormView extends contentPanel {
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 try {
                     if (listComposition.isEmpty()) {
-                        parentView.showFailedPopUp("Silakan tambahkan komposisi terlebih dahulu");
+                        parentView.showFailedPopUp("Please add the composition first");
                         return;
                     }
 
@@ -517,7 +519,8 @@ public class productCompositionFormView extends contentPanel {
                     String unit = dataComp.unit;
 
                     if (quantity <= 0 || unit == null || unit.isEmpty()) {
-                        parentView.showFailedPopUp("Komposisi pertama harus memiliki quantity dan unit yang valid");
+                        parentView.showFailedPopUp(
+                                "quantity is not filled, please fill in the product composition quantity");
                         return;
                     }
 
@@ -547,15 +550,15 @@ public class productCompositionFormView extends contentPanel {
                     }
 
                     if (success) {
-                        parentView.showSuccessPopUp("Produk berhasil disimpan");
+                        parentView.showSuccessPopUp("Composition Product and Product successfully saved");
                         parentView.showDashboardProduct();
                     } else {
-                        parentView.showFailedPopUp("Gagal menyimpan produk");
+                        parentView.showFailedPopUp("Composition Product and Product failed to save");
                     }
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    parentView.showFailedPopUp("Terjadi kesalahan saat menyimpan produk");
+                    parentView.showFailedPopUp("An error occurred while saving the product and product composition");
                 }
             }
         });

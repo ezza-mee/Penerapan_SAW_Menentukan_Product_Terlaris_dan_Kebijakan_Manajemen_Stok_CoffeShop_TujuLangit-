@@ -1,12 +1,12 @@
 package com.main.models.entity;
 
 public class listCompositionData {
-    public int idSupplier;
-    public int idProduct;
-    public String nameProduct;
-    public String nameSupplier;
-    public double quantity;
-    public String unit;
+   public int idSupplier;
+   public int idProduct;
+   public String nameProduct;
+   public String nameSupplier;
+   public double quantity;
+   public String unit;
 
     public listCompositionData(int idSupplier, int idProduct, String nameProduct, String nameSupplier, double quantity,
             String unit) {
