@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class glassPanel extends JPanel {
+public class glassPanelNotification extends JPanel {
     private float alpha = 0f;
     private Timer fadeTimer;
 
     private JPanel currentPopUp;
 
-    public glassPanel() {
+    public glassPanelNotification() {
         setOpaque(false);
         setLayout(null);
         setSize(1080, 720);

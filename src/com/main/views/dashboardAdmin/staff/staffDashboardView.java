@@ -106,7 +106,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
                                 entityDataStaff selectedDataStaff = loadDataStaff.getDataStaffById(idStaff);
 
                                 if (selectedDataStaff != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataStaffToEdit(selectedDataStaff);
                                     parentView.showFormStaff();
                                 } else {
@@ -119,7 +119,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -143,11 +143,11 @@ public class staffDashboardView extends contentPanel implements searchableView {
                                 boolean isSuccess = authDataStaff.resignStaffById(idStaff);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Staff");
                                     parentView.showDashboardStaff();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Staff");
                                     parentView.showDashboardStaff();
                                 }
@@ -158,7 +158,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 

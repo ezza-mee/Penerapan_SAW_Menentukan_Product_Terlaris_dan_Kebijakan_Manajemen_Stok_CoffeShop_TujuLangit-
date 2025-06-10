@@ -136,7 +136,7 @@ public class popUpInputBobotKriteria extends popUpPanel {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentApp.hideGlassPanel();
+                parentApp.hideGlassNotificationPanel();
             }
         });
 
@@ -189,7 +189,7 @@ public class popUpInputBobotKriteria extends popUpPanel {
                             if (bobotKriteriaIdToEdit == -1) {
                                 success = authDataBobotKriteria.insertBobotKriteria(kriteria, weight, type);
                                 if (success) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassFormPanel();
                                     parentView.showDashboardBobotKriteria();
                                     parentView.showSuccessPopUp("Data Bobot Kriteria Successfully Saved");
 
@@ -200,16 +200,17 @@ public class popUpInputBobotKriteria extends popUpPanel {
                                 success = authDataBobotKriteria.updateBobotKriteria(bobotKriteriaIdToEdit, kriteria,
                                         weight, type);
                                 if (success) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassFormPanel();
                                     parentView.showDashboardBobotKriteria();
                                     parentView.showSuccessPopUp("Data Bobot Kriteria Successfully Updated");
                                 } else {
                                     parentView.showFailedPopUp("Failed to Update Data Bobot Kriteria");
                                 }
                             }
-
                             return;
                     }
+                    revalidate();
+                    repaint();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

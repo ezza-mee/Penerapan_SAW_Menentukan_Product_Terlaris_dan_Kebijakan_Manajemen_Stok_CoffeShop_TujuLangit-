@@ -206,7 +206,7 @@ public class formLogin extends containerPanel {
         exitIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentFrame.showGlassPanel(new popUpExit(parentFrame));
+                parentFrame.showNotificationPopUp(new popUpExit(parentFrame));
             }
 
             @Override

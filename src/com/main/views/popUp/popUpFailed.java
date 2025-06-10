@@ -74,7 +74,7 @@ public class popUpFailed extends popUpPanel {
         buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentApp.hideGlassPanel();
+                parentApp.hideGlassNotificationPanel();
             }
         });
     }

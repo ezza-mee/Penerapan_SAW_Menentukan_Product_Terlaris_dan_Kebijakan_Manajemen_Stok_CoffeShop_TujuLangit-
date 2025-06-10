@@ -93,11 +93,11 @@ public class supplierDashboardView extends contentPanel {
                                 dataSupplier selectedDataSupplier = loadDataSupplier.getDataById(idSupplier);
 
                                 if (selectedDataSupplier != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataSupplierToEdit(selectedDataSupplier);
                                     parentView.showFormSupplier();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Data Supplier not found!");
                                 }
                             }
@@ -107,7 +107,7 @@ public class supplierDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
                 } catch (Exception e) {
@@ -132,11 +132,11 @@ public class supplierDashboardView extends contentPanel {
                                 boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Delete");
                                     parentView.showDashboardSupplier();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Delete");
                                     parentView.showDashboardSupplier();
                                 }
@@ -148,7 +148,7 @@ public class supplierDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 

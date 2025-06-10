@@ -85,7 +85,7 @@ public class tableDashboardView extends contentPanel {
                                 dataTable selectedData = loadDataTable.getDataById(idTable);
 
                                 if (selectedData != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
 
                                 } else {
                                     parentView.showFailedPopUp("Data Table not found!");
@@ -97,7 +97,7 @@ public class tableDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 

@@ -208,14 +208,14 @@ public class productFormView extends contentPanel {
                 messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        parentApp.hideGlassPanel();
+                        parentApp.hideGlassNotificationPanel();
                     }
                 });
 
                 messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        parentApp.hideGlassPanel();
+                        parentApp.hideGlassNotificationPanel();
                     }
                 });
             }
@@ -279,7 +279,7 @@ public class productFormView extends contentPanel {
                                 messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
                                     @Override
                                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                                        parentApp.hideGlassPanel();
+                                        parentApp.hideGlassNotificationPanel();
                                         parentView.setCompositionModified(true);
                                         List<listCompositionData> currentComposition = loadCompositionProduct
                                                 .getDataCompositonByProduct(productIdToEdit);
@@ -294,7 +294,7 @@ public class productFormView extends contentPanel {
                                 messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                                     @Override
                                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                                        parentApp.hideGlassPanel();
+                                        parentApp.hideGlassNotificationPanel();
                                         authDataProduct.updateDataProduct(productIdToEdit, imageProduct, nameProduct,
                                                 price, category, description);
                                         productIdToEdit = -1;

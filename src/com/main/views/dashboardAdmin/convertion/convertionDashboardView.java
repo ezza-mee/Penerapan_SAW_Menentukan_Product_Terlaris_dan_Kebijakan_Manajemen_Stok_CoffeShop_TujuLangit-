@@ -76,11 +76,11 @@ public class convertionDashboardView extends contentPanel {
                                 dataConvertion selectedDataSConvertion = loadDataConvertion.getDataById(idConvertion);
 
                                 if (selectedDataSConvertion != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataConvertionToEdit(selectedDataSConvertion);
                                     parentView.showFormConvertion();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Data Convertion not found!");
                                 }
                             }
@@ -90,7 +90,7 @@ public class convertionDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
                 } catch (Exception e) {
@@ -114,11 +114,11 @@ public class convertionDashboardView extends contentPanel {
                                 boolean isSuccess = authDataConvertion.deleteDataConvertion(idConvertion);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Convertion");
                                     parentView.showDashboardConvertion();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Convertion");
                                     parentView.showDashboardConvertion();
                                 }
@@ -130,7 +130,7 @@ public class convertionDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 

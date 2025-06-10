@@ -90,7 +90,7 @@ public class tableDashboardView extends contentPanel {
                                 dataTable selectedData = loadDataTable.getDataById(idTable);
 
                                 if (selectedData != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataTableToEdit(selectedData);
                                     parentView.showFormTable();
                                 } else {
@@ -103,7 +103,7 @@ public class tableDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -127,11 +127,11 @@ public class tableDashboardView extends contentPanel {
                                 boolean isSuccess = authDataTable.deleteDataTable(id);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Table");
                                     parentView.showDashboardTable();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Table");
                                     parentView.showDashboardTable();
                                 }
@@ -142,7 +142,7 @@ public class tableDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 

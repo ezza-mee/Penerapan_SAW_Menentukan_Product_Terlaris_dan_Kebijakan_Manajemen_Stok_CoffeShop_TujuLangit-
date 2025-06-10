@@ -170,7 +170,7 @@ public class popUpTransaction extends popUpPanel {
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentApp.hideGlassPanel();
+                parentApp.hideGlassNotificationPanel();
             }
         });
 
@@ -241,7 +241,7 @@ public class popUpTransaction extends popUpPanel {
                                 }
                                 parentView.showDashboardTransaction();
                                 parentView.showSuccessPopUp("Transaction successful");
-                                parentApp.hideGlassPanel();
+                                parentApp.hideGlassNotificationPanel();
                             } else {
                                 parentView.showFailedPopUp("Transaction failed");
                             }

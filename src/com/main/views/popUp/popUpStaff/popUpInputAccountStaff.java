@@ -151,7 +151,7 @@ public class popUpInputAccountStaff extends popUpPanel {
         buttonCancel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentFrame.hideGlassPanel();
+                parentFrame.hideGlassNotificationPanel();
             }
         });
 
@@ -230,12 +230,12 @@ public class popUpInputAccountStaff extends popUpPanel {
                 }
 
                 if (result) {
-                    parentFrame.hideGlassPanel();
+                    parentFrame.hideGlassNotificationPanel();
                     parentView.showDashboardStaff();
                     parentView.showSuccessPopUp(isEditMode ? "Data and Account Staff Successfully Updated"
                             : "Data and Account Staff Successfully Saved");
                 } else {
-                    parentFrame.hideGlassPanel();
+                    parentFrame.hideGlassNotificationPanel();
                     parentView.showFailedPopUp(
                             "Failed to " + (isEditMode ? "Update" : "Save") + " Data and Account Staff");
                     System.out.println("isEditMode: " + isEditMode);

@@ -204,7 +204,7 @@ public class productDashboardView extends contentPanel implements searchableView
                         boolean success = authDataProduct.deleteDataProduct(idProduct);
 
                         if (success) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                             parentView.showSuccessPopUp("Success Delete Data Product");
                             contentPanel.remove(cardPanel);
                             contentPanel.remove(padding);
@@ -220,7 +220,7 @@ public class productDashboardView extends contentPanel implements searchableView
                 messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        parentApp.hideGlassPanel();
+                        parentApp.hideGlassNotificationPanel();
                     }
                 });
             }
@@ -238,7 +238,7 @@ public class productDashboardView extends contentPanel implements searchableView
                         dataProduct selectedDataProduct = loadDataProduct.getProductById(idProduct);
 
                         if (selectedDataProduct != null) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                             parentView.setDataProductToEdit(selectedDataProduct);
                             parentView.showFormProduct();
                         } else {
@@ -250,7 +250,7 @@ public class productDashboardView extends contentPanel implements searchableView
                 messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        parentApp.hideGlassPanel();
+                        parentApp.hideGlassNotificationPanel();
                     }
                 });
             }

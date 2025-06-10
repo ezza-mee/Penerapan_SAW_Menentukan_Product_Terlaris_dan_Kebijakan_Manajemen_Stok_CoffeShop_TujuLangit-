@@ -6,7 +6,6 @@ import com.main.auth.utils.Role;
 import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.components.panelApps.contentPanel;
-import com.main.components.panelApps.glassPopUpLayer;
 import com.main.models.entity.accountDataStaff;
 import com.main.models.entity.dataConvertion;
 import com.main.models.entity.dataProduct;
@@ -178,7 +177,7 @@ public class dashboardAdminView extends containerPanel {
     public void showDashboardBobotKriteria() {
         popUpDataBobotKriteria dashboardBobotKriteria = new popUpDataBobotKriteria(parentApp, this);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(dashboardBobotKriteria);
+        parentApp.showDashboardPopUp(dashboardBobotKriteria);
 
     }
 
@@ -191,7 +190,7 @@ public class dashboardAdminView extends containerPanel {
         }
 
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUpBobotKriteria);
+        parentApp.showFormPopUp(popUpBobotKriteria);
     }
 
     public void showDashboardStaff() {
@@ -235,13 +234,13 @@ public class dashboardAdminView extends containerPanel {
         }
 
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUpForm);
+        parentApp.showNotificationPopUp(popUpForm);
     }
 
     public void showDetailPopUpDataStaff(int idStaff) {
         popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentApp, this, idStaff);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showDashboardReport() {
@@ -254,27 +253,27 @@ public class dashboardAdminView extends containerPanel {
         popUpSuccess popUp = new popUpSuccess(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showFailedPopUp(String message) {
         popUpFailed popUp = new popUpFailed(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public popUpConfrim showConfrimPopUp(String message) {
         popUpConfrim popUp = new popUpConfrim(parentApp);
         popUp.setNotificationMessage(message);
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
         parentDashboard.setContent(restoreLastContent());
         return popUp;
     }
 
     public void showLogoutApp() {
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(new popUpLogout(parentApp, role));
+        parentApp.showNotificationPopUp(new popUpLogout(parentApp, role));
     }
 
     public contentPanel restoreLastContent() {

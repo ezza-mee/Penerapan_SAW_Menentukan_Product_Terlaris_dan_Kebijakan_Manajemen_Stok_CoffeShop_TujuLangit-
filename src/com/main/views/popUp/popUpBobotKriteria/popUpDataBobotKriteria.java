@@ -82,11 +82,11 @@ public class popUpDataBobotKriteria extends popUpPanel {
                                         .getDataById(idBobotKriteria);
 
                                 if (selectedDataSBobotKriteria != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFormDataKriteria();
                                     parentView.setDataBobotKriteriaToEdit(selectedDataSBobotKriteria);
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Data BobotKriteria not found!");
                                 }
                             }
@@ -96,7 +96,7 @@ public class popUpDataBobotKriteria extends popUpPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
                 } catch (Exception e) {
@@ -121,12 +121,12 @@ public class popUpDataBobotKriteria extends popUpPanel {
                                 boolean isSuccess = authDataBobotKriteria.deleteBobotKriteria(idBobotKriteria);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
-                                    // parentView.showDashboardBobotKriteria();
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showDashboardBobotKriteria();
                                     parentView.showSuccessPopUp("Success Delete Data BobotKriteria");
                                 } else {
-                                    parentApp.hideGlassPanel();
-                                    // parentView.showDashboardBobotKriteria();
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showDashboardBobotKriteria();
                                     parentView.showFailedPopUp("Failed Delete Data BobotKriteria");
                                 }
 
@@ -137,7 +137,7 @@ public class popUpDataBobotKriteria extends popUpPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -186,14 +186,13 @@ public class popUpDataBobotKriteria extends popUpPanel {
         buttonBack.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentApp.hideGlassPanel();
+                parentApp.hideGlassDashboardPanel();
             }
         });
 
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentApp.hideGlassPanel();
                 parentView.showFormDataKriteria();
             }
         });
