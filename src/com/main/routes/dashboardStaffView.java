@@ -81,33 +81,33 @@ public class dashboardStaffView extends containerPanel {
         popUpSuccess popUp = new popUpSuccess(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showFailedPopUp(String message) {
         popUpFailed popUp = new popUpFailed(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public popUpConfrim showConfrimPopUp(String message) {
         popUpConfrim popUp = new popUpConfrim(parentApp);
         popUp.setNotificationMessage(message);
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
         parentDashboard.setContent(restoreLastContent());
         return popUp;
     }
 
-    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int subPrice){
+    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int subPrice) {
         popUpTransaction popUp = new popUpTransaction(parentApp, this, listProduct, subQuantity, subPrice);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showLogoutApp() {
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(new popUpLogout(parentApp, role));
+        parentApp.showNotificationPopUp(new popUpLogout(parentApp, role));
     }
 
     public contentPanel restoreLastContent() {

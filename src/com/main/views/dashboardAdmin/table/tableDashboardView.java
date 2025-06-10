@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 import com.main.models.entity.dataTable;
 import com.main.models.table.loadDataTable;
 import com.main.routes.dashboardAdminView;
@@ -26,7 +26,7 @@ public class tableDashboardView extends contentPanel {
 
     private buttonCustom buttonAdd;
 
-    private tableCustom dataTable;
+    private tableActionButton dataTable;
 
     private scrollTable scrollTable;
 
@@ -73,7 +73,7 @@ public class tableDashboardView extends contentPanel {
         reservedLabel = new linkLabel("Reserved", 470, 40, 120, 30);
         buttonAdd = new buttonCustom("Add", 900, 40, 100, 40, 10);
 
-        tableActionButton actionButton = new tableActionButton() {
+        actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 try {
@@ -90,7 +90,7 @@ public class tableDashboardView extends contentPanel {
                                 dataTable selectedData = loadDataTable.getDataById(idTable);
 
                                 if (selectedData != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataTableToEdit(selectedData);
                                     parentView.showFormTable();
                                 } else {
@@ -103,7 +103,7 @@ public class tableDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -127,11 +127,11 @@ public class tableDashboardView extends contentPanel {
                                 boolean isSuccess = authDataTable.deleteDataTable(id);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Table");
                                     parentView.showDashboardTable();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Table");
                                     parentView.showDashboardTable();
                                 }
@@ -142,7 +142,7 @@ public class tableDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -173,7 +173,7 @@ public class tableDashboardView extends contentPanel {
             }
         };
 
-        dataTable = new tableCustom(loadDataTable.getAllDataTable(), actionButton);
+        dataTable = new tableActionButton(loadDataTable.getAllDataTable(), actionButton);
 
         int actionColumnIndex = 6;
         dataTable.getColumnModel().getColumn(actionColumnIndex)

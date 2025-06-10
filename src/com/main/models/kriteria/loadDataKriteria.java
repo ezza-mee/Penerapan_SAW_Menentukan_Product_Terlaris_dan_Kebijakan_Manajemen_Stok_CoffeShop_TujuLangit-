@@ -12,11 +12,13 @@ public class loadDataKriteria {
     public static DefaultTableModel getAllDataKriteria() {
         String[] dataHeader = {
                 "ID Kriteria", "ID Produk", "ID Transaction", "ID Datail", "ID Out Stock", "Produk", "Harga", "Jumlah",
-                "Out Stock", "Frekuensi", "Periode", "Last Update"
+                "Out Stock", "Unit", "Frekuensi", "Periode", "Last Update"
         };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
+        // String query = "SELECT * FROM tbl_data_kriteria WHERE DATE(lastUpdate) =
+        // CURDATE() ORDER BY lastUpdate DESC";
         String query = "SELECT * FROM tbl_data_kriteria";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
@@ -33,7 +35,8 @@ public class loadDataKriteria {
                         resultData.getString("product"),
                         resultData.getInt("price"),
                         resultData.getInt("quantity"),
-                        resultData.getDouble("outStock"),
+                        String.format("%.2f", resultData.getDouble("outStock")),
+                        resultData.getString("unit"),
                         resultData.getInt("frekuensi"),
                         resultData.getString("periode"),
                         resultData.getTimestamp("lastUpdate")
@@ -49,7 +52,7 @@ public class loadDataKriteria {
     public static DefaultTableModel getAllDataKriteriaByPeriode(String periode) {
         String[] dataHeader = {
                 "ID Kriteria", "ID Produk", "ID Transaction", "ID Datail", "ID Out Stock", "Produk", "Harga", "Jumlah",
-                "Out Stock", "Frekuensi", "Periode", "Last Update"
+                "Out Stock", "Unit", "Frekuensi", "Periode", "Last Update"
         };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
@@ -71,7 +74,8 @@ public class loadDataKriteria {
                         resultData.getString("product"),
                         resultData.getInt("price"),
                         resultData.getInt("quantity"),
-                        resultData.getDouble("outStock"),
+                        String.format("%.2f", resultData.getDouble("outStock")),
+                        resultData.getString("unit"),
                         resultData.getInt("frekuensi"),
                         resultData.getString("periode"),
                         resultData.getTimestamp("lastUpdate")

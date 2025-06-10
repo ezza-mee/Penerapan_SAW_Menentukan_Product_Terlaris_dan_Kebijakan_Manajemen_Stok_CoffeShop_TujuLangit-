@@ -173,4 +173,8 @@ public class appIcons {
     public imageIcon getMinusIconWhite(int width, int height) {
         return loadIcon("src/com/main/resources/images/minus(white).png", width, height);
     }
+
+    public imageIcon getBackIconWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/back(white).png", width, height);
+    }
 }

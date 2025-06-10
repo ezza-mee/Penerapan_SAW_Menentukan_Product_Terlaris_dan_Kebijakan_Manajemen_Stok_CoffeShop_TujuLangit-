@@ -1,10 +1,10 @@
 package com.main.models.entity;
 
 public class dataTable {
-    int idTable;
-    String number;
-    String capacity;
-    String description;
+    private int idTable;
+    private String number;
+    private String capacity;
+    private String description;
 
     public dataTable(int idTable, String number, String capacity, String description) {
         this.idTable = idTable;

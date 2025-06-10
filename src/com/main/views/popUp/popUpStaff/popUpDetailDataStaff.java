@@ -121,7 +121,7 @@ public class popUpDetailDataStaff extends popUpPanel {
         buttonBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentFrame.hideGlassPanel();
+                parentFrame.hideGlassNotificationPanel();
             }
         });
     }

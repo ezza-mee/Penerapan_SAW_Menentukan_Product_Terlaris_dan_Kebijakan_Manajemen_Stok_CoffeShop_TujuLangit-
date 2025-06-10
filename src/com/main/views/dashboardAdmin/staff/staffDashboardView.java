@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.searchableView;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 import com.main.models.entity.dataStaff;
 import com.main.models.entity.entityDataStaff;
 import com.main.models.staff.loadDataStaff;
@@ -33,7 +33,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
 
     private buttonCustom buttonAdd;
 
-    private tableCustom dataStaffTable;
+    private tableActionButton dataStaffTable;
 
     private scrollTable scrollDataStaff;
 
@@ -89,7 +89,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
 
         buttonAdd = new buttonCustom("Add", 900, 40, 100, 40, 10);
 
-        tableActionButton actionButton = new tableActionButton() {
+        actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 try {
@@ -106,7 +106,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
                                 entityDataStaff selectedDataStaff = loadDataStaff.getDataStaffById(idStaff);
 
                                 if (selectedDataStaff != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataStaffToEdit(selectedDataStaff);
                                     parentView.showFormStaff();
                                 } else {
@@ -119,7 +119,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -143,11 +143,11 @@ public class staffDashboardView extends contentPanel implements searchableView {
                                 boolean isSuccess = authDataStaff.resignStaffById(idStaff);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Staff");
                                     parentView.showDashboardStaff();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Staff");
                                     parentView.showDashboardStaff();
                                 }
@@ -158,7 +158,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -189,7 +189,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
             }
         };
 
-        dataStaffTable = new tableCustom(loadDataStaff.getAllDataStaff(), actionButton);
+        dataStaffTable = new tableActionButton(loadDataStaff.getAllDataStaff(), actionButton);
 
         int actionColumnIndex = 5;
         dataStaffTable.getColumnModel().getColumn(actionColumnIndex)

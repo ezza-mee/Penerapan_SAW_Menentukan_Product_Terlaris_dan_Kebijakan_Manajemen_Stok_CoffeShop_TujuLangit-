@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
-import com.main.controller.tableActionButton;
+import com.main.controller.actionButtonTable;
 import com.main.models.entity.dataSupplier;
 import com.main.models.supplier.loadDataSupplier;
 import com.main.routes.dashboardAdminView;
@@ -26,7 +26,7 @@ public class supplierDashboardView extends contentPanel {
 
     private buttonCustom buttonAdd;
 
-    private tableCustom dataSupplierTable;
+    private tableActionButton dataSupplierTable;
     private scrollTable scrollDataSupplier;
 
     private int quantityAllDataSupplier = loadDataSupplier.getAllQuantityDataSupplier();
@@ -76,7 +76,7 @@ public class supplierDashboardView extends contentPanel {
 
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
-        tableActionButton actionButton = new tableActionButton() {
+        actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 try {
@@ -93,11 +93,11 @@ public class supplierDashboardView extends contentPanel {
                                 dataSupplier selectedDataSupplier = loadDataSupplier.getDataById(idSupplier);
 
                                 if (selectedDataSupplier != null) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.setDataSupplierToEdit(selectedDataSupplier);
                                     parentView.showFormSupplier();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Data Supplier not found!");
                                 }
                             }
@@ -107,7 +107,7 @@ public class supplierDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
                 } catch (Exception e) {
@@ -132,11 +132,11 @@ public class supplierDashboardView extends contentPanel {
                                 boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
 
                                 if (isSuccess) {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showSuccessPopUp("Success Delete Data Delete");
                                     parentView.showDashboardSupplier();
                                 } else {
-                                    parentApp.hideGlassPanel();
+                                    parentApp.hideGlassNotificationPanel();
                                     parentView.showFailedPopUp("Failed Delete Data Delete");
                                     parentView.showDashboardSupplier();
                                 }
@@ -148,7 +148,7 @@ public class supplierDashboardView extends contentPanel {
                     messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassPanel();
+                            parentApp.hideGlassNotificationPanel();
                         }
                     });
 
@@ -170,7 +170,7 @@ public class supplierDashboardView extends contentPanel {
             }
         };
 
-        dataSupplierTable = new tableCustom(loadDataSupplier.getAllDataSupplier(), actionButton);
+        dataSupplierTable = new tableActionButton(loadDataSupplier.getAllDataSupplier(), actionButton);
 
         int actionColumnIndex = 6;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)

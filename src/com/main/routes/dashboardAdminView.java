@@ -12,6 +12,7 @@ import com.main.models.entity.dataProduct;
 import com.main.models.entity.dataSupplier;
 import com.main.models.entity.dataTable;
 import com.main.models.entity.entityDataStaff;
+import com.main.models.entity.dataBobotKriteria;
 import com.main.models.entity.listCompositionData;
 import com.main.services.authDataStaff;
 import com.main.views.dashboardAdmin.homeDashboardView;
@@ -34,8 +35,10 @@ import com.main.views.popUp.popUpConfrim;
 import com.main.views.popUp.popUpFailed;
 import com.main.views.popUp.popUpLogout;
 import com.main.views.popUp.popUpSuccess;
+import com.main.views.popUp.popUpBobotKriteria.popUpDataBobotKriteria;
+import com.main.views.popUp.popUpBobotKriteria.popUpInputBobotKriteria;
 import com.main.views.popUp.popUpStaff.popUpDetailDataStaff;
-import com.main.views.popUp.popUpStaff.popUpFormInputAccountStaff;
+import com.main.views.popUp.popUpStaff.popUpInputAccountStaff;
 
 public class dashboardAdminView extends containerPanel {
 
@@ -51,6 +54,7 @@ public class dashboardAdminView extends containerPanel {
     private dataProduct dataProductToEdit = null;
     private dataTable dataTableToEdit = null;
     private dataConvertion dataConvertionToEdit = null;
+    private dataBobotKriteria dataBobotKriteriaToEdit = null;
 
     private boolean compositionModified = false;
 
@@ -170,6 +174,25 @@ public class dashboardAdminView extends containerPanel {
         parentDashboard.setContent(dashboardCalculation);
     }
 
+    public void showDashboardBobotKriteria() {
+        popUpDataBobotKriteria dashboardBobotKriteria = new popUpDataBobotKriteria(parentApp, this);
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showDashboardPopUp(dashboardBobotKriteria);
+
+    }
+
+    public void showFormDataKriteria() {
+        popUpInputBobotKriteria popUpBobotKriteria = new popUpInputBobotKriteria(parentApp, this);
+
+        if (dataBobotKriteriaToEdit != null) {
+            popUpBobotKriteria.setFormBobotKriteria(dataBobotKriteriaToEdit);
+            dataBobotKriteriaToEdit = null;
+        }
+
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showFormPopUp(popUpBobotKriteria);
+    }
+
     public void showDashboardStaff() {
         staffDashboardView dashboardStaff = new staffDashboardView(parentApp, this);
         lastContent = dashboardStaff;
@@ -196,7 +219,7 @@ public class dashboardAdminView extends containerPanel {
             String jobdesk,
             String address, boolean isEdit, int idStaff) {
 
-        popUpFormInputAccountStaff popupForm = new popUpFormInputAccountStaff(
+        popUpInputAccountStaff popUpForm = new popUpInputAccountStaff(
                 parentApp, this, name, email, phoneNumber, gender, jobdesk, address, isEdit, idStaff);
 
         this.accountData = authDataStaff.getDataAccountById(idStaff);
@@ -205,19 +228,19 @@ public class dashboardAdminView extends containerPanel {
         System.out.println("ID Staff: " + idStaff);
 
         if (this.accountData != null) {
-            popupForm.setFormAccountData(this.accountData, dataStaffToEdit);
+            popUpForm.setFormAccountData(this.accountData, dataStaffToEdit);
             accountData = null;
             System.out.println("[DEBUG] showFormAccountStaff: isEdit = " + isEdit + ", idStaff = " + idStaff);
         }
 
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popupForm);
+        parentApp.showNotificationPopUp(popUpForm);
     }
 
     public void showDetailPopUpDataStaff(int idStaff) {
         popUpDetailDataStaff popUp = new popUpDetailDataStaff(parentApp, this, idStaff);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showDashboardReport() {
@@ -230,27 +253,27 @@ public class dashboardAdminView extends containerPanel {
         popUpSuccess popUp = new popUpSuccess(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showFailedPopUp(String message) {
         popUpFailed popUp = new popUpFailed(parentApp);
         popUp.setNotificationMessage(message);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public popUpConfrim showConfrimPopUp(String message) {
         popUpConfrim popUp = new popUpConfrim(parentApp);
         popUp.setNotificationMessage(message);
-        parentApp.showGlassPanel(popUp);
+        parentApp.showNotificationPopUp(popUp);
         parentDashboard.setContent(restoreLastContent());
         return popUp;
     }
 
     public void showLogoutApp() {
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showGlassPanel(new popUpLogout(parentApp, role));
+        parentApp.showNotificationPopUp(new popUpLogout(parentApp, role));
     }
 
     public contentPanel restoreLastContent() {
@@ -284,6 +307,10 @@ public class dashboardAdminView extends containerPanel {
 
     public void setDataConvertionToEdit(dataConvertion dataConvertion) {
         this.dataConvertionToEdit = dataConvertion;
+    }
+
+    public void setDataBobotKriteriaToEdit(dataBobotKriteria dataBobotKriteria) {
+        this.dataBobotKriteriaToEdit = dataBobotKriteria;
     }
 
     public void setDataStaffToEdit(entityDataStaff dataStaff) {

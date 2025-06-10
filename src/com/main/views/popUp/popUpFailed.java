@@ -13,7 +13,7 @@ import com.main.routes.mainFrame;
 
 public class popUpFailed extends popUpPanel {
 
-    private mainFrame parentFrame;
+    private mainFrame parentApp;
 
     private appIcons appIcons = new appIcons();
     private imageIcon failedIcon = appIcons.getFailedIconRed(60, 60);
@@ -21,9 +21,9 @@ public class popUpFailed extends popUpPanel {
 
     private buttonCustom buttonConfirm;
 
-    public popUpFailed(mainFrame parentFrame) {
+    public popUpFailed(mainFrame parentApp) {
         super();
-        this.parentFrame = parentFrame;
+        this.parentApp = parentApp;
         setSize(550, 240);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
@@ -74,7 +74,7 @@ public class popUpFailed extends popUpPanel {
         buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentFrame.hideGlassPanel();
+                parentApp.hideGlassNotificationPanel();
             }
         });
     }

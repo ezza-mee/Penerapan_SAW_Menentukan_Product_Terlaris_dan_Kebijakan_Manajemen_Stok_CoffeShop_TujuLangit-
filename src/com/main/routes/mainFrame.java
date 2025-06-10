@@ -2,7 +2,9 @@ package com.main.routes;
 
 import com.main.auth.utils.Role;
 import com.main.components.frameApps.frameApps;
-import com.main.components.panelApps.glassPanel;
+import com.main.components.panelApps.glassPanelDashboard;
+import com.main.components.panelApps.glassPanelForm;
+import com.main.components.panelApps.glassPanelNotification;
 import com.main.components.panelApps.wrapperPanel;
 
 import javax.swing.*;
@@ -11,7 +13,9 @@ import java.awt.geom.RoundRectangle2D;
 public class mainFrame extends frameApps {
 
     private mainContent mainContent;
-    private glassPanel glass;
+    private glassPanelNotification glassNotification;
+    private glassPanelDashboard glassDashboard;
+    private glassPanelForm glassForm;
 
     public mainFrame() {
         super();
@@ -46,35 +50,88 @@ public class mainFrame extends frameApps {
         setVisible(true);
     }
 
-    public void showGlassPanel(JPanel panel) {
-        if (glass == null) {
-            glass = new glassPanel();
-            getLayeredPane().add(glass, JLayeredPane.POPUP_LAYER);
+    public void showDashboardPopUp(JPanel panel) {
+        if (glassDashboard == null) {
+            glassDashboard = new glassPanelDashboard();
+            getLayeredPane().add(glassDashboard, JLayeredPane.MODAL_LAYER);
+            // getLayeredPane().setComponentZOrder(glassDashboard, 2);
         }
 
         SwingUtilities.invokeLater(() -> {
-            glass.setBounds(0, 0, getWidth(), getHeight());
-            glass.showPopUp(panel);
+            glassDashboard.setBounds(0, 0, getWidth(), getHeight());
+            glassDashboard.showPopUp(panel);
         });
     }
 
-    public void hideGlassPanel() {
-        if (glass != null) {
-            glass.fadeOut(() -> glass.setVisible(false));
+    public void hideGlassDashboardPanel() {
+        if (glassDashboard != null) {
+            glassDashboard.fadeOut(() -> glassDashboard.setVisible(false));
         }
     }
 
-    public void closeGlassPanel() {
-        if (glass != null) {
-            glass.setVisible(false);
-            remove(glass);
+    public void closeGlassDashboardPanel() {
+        if (glassDashboard != null) {
+            glassDashboard.setVisible(false);
+            remove(glassDashboard);
             revalidate();
             repaint();
         }
     }
 
-    public void resetLocation() {
-        setLocationRelativeTo(null);
+    public void showFormPopUp(JPanel panel) {
+        if (glassForm == null) {
+            glassForm = new glassPanelForm();
+            getLayeredPane().add(glassForm, JLayeredPane.POPUP_LAYER);
+            // getLayeredPane().setComponentZOrder(glassForm, 1);
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            glassForm.setBounds(0, 0, getWidth(), getHeight());
+            glassForm.showPopUp(panel);
+        });
+    }
+
+    public void hideGlassFormPanel() {
+        if (glassForm != null) {
+            glassForm.fadeOut(() -> glassForm.setVisible(false));
+        }
+    }
+
+    public void closeGlassFormPanel() {
+        if (glassForm != null) {
+            glassForm.setVisible(false);
+            remove(glassForm);
+            revalidate();
+            repaint();
+        }
+    }
+
+    public void showNotificationPopUp(JPanel panel) {
+        if (glassNotification == null) {
+            glassNotification = new glassPanelNotification();
+            getLayeredPane().add(glassNotification, JLayeredPane.DRAG_LAYER);
+            // getLayeredPane().setComponentZOrder(glassNotification, 0);
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            glassNotification.setBounds(0, 0, getWidth(), getHeight());
+            glassNotification.showPopUp(panel);
+        });
+    }
+
+    public void hideGlassNotificationPanel() {
+        if (glassNotification != null) {
+            glassNotification.fadeOut(() -> glassNotification.setVisible(false));
+        }
+    }
+
+    public void closeGlassNotificationPanel() {
+        if (glassNotification != null) {
+            glassNotification.setVisible(false);
+            remove(glassNotification);
+            revalidate();
+            repaint();
+        }
     }
 
 }

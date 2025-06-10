@@ -88,7 +88,7 @@ public class popUpExit extends popUpPanel {
         buttonCancel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentFrame.hideGlassPanel();
+                parentFrame.hideGlassNotificationPanel();
             }
         });
 

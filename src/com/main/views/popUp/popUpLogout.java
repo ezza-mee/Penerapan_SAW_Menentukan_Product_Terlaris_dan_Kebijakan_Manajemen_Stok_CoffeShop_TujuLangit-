@@ -84,8 +84,7 @@ public class popUpLogout extends popUpPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 parentFrame.showLoginApp();
-                parentFrame.hideGlassPanel();
-                parentFrame.closeGlassPanel();
+                parentFrame.hideGlassNotificationPanel();
                 dashboardAdminView.resetLastContent();
             }
         });
@@ -93,7 +92,7 @@ public class popUpLogout extends popUpPanel {
         buttonCancel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentFrame.hideGlassPanel();
+                parentFrame.hideGlassNotificationPanel();
             }
         });
     }
