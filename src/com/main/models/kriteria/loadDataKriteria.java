@@ -3,10 +3,13 @@ package com.main.models.kriteria;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
+import com.main.models.entity.dataKriteria;
 
 public class loadDataKriteria {
     public static DefaultTableModel getAllDataKriteria() {
@@ -17,9 +20,7 @@ public class loadDataKriteria {
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
-        // String query = "SELECT * FROM tbl_data_kriteria WHERE DATE(lastUpdate) =
-        // CURDATE() ORDER BY lastUpdate DESC";
-        String query = "SELECT * FROM tbl_data_kriteria";
+        String query = "SELECT * FROM tbl_data_kriteria WHERE DATE(lastUpdate) = CURDATE() ORDER BY lastUpdate DESC";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -27,7 +28,7 @@ public class loadDataKriteria {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        resultData.getInt("idKriteria"),
+                        "DK00" + resultData.getInt("idKriteria"),
                         resultData.getInt("idProduct"),
                         resultData.getInt("idTransaction"),
                         resultData.getInt("idDetail"),
@@ -66,7 +67,7 @@ public class loadDataKriteria {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        resultData.getInt("idKriteria"),
+                        "DK00" + resultData.getInt("idKriteria"),
                         resultData.getInt("idProduct"),
                         resultData.getInt("idTransaction"),
                         resultData.getInt("idDetail"),
@@ -87,4 +88,31 @@ public class loadDataKriteria {
         }
         return tm;
     }
+
+    public static List<dataKriteria> getListKriteriaByPeriode(String periode) {
+        List<dataKriteria> list = new ArrayList<>();
+        String query = "SELECT * FROM tbl_data_kriteria WHERE periode = ?";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, periode);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                dataKriteria k = new dataKriteria(
+                        rs.getInt("idKriteria"),
+                        rs.getString("product"),
+                        rs.getInt("price"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("outStock"),
+                        rs.getInt("frekuensi"),
+                        rs.getString("periode"));
+                list.add(k);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
