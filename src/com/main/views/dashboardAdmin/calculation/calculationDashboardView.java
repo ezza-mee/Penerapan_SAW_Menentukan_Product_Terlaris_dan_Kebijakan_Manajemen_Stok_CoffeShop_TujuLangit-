@@ -5,14 +5,16 @@ import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.models.entity.dataKriteria;
 import com.main.models.kriteria.loadDataKriteria;
 import com.main.routes.dashboardAdminView;
 import com.main.routes.mainFrame;
-import com.main.models.entity.dataBobotKriteria;
+import com.main.services.authDataSaw;
 
 public class calculationDashboardView extends contentPanel {
 
@@ -24,13 +26,15 @@ public class calculationDashboardView extends contentPanel {
 
     private datePickerField dateField;
 
+    private textLabel dataKriteriaLabel;
+
     private tableNoActionButton dataKriteria, dataNormalisation, dataRanking;
 
     private scrollTable scrollDataKriteria, scrollDataNormalisation, scrollDataRanking;
 
     private scrollPane scrollDataCalculation;
 
-    private buttonCustom buttonAddBobot;
+    private buttonCustom buttonAddBobot, buttonCalculation;
 
     private String selectedPriode = null;
 
@@ -52,6 +56,9 @@ public class calculationDashboardView extends contentPanel {
         headerPanel.add(dateField);
         headerPanel.add(buttonAddBobot);
 
+        contentPanel.add(dataKriteriaLabel);
+
+        contentPanel.add(buttonCalculation);
         contentPanel.add(scrollDataKriteria);
         contentPanel.add(scrollDataNormalisation);
         contentPanel.add(scrollDataRanking);
@@ -64,8 +71,10 @@ public class calculationDashboardView extends contentPanel {
 
     private void setPosition() {
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
+        dataKriteriaLabel = new textLabel("Data Kriteria", 40, 20, 300, 40);
 
         buttonAddBobot = new buttonCustom("Add Bobot", 870, 35, 135, 40, 10);
+        buttonCalculation = new buttonCustom("Calculation", 870, 35, 135, 40, 10);
 
         contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
         scrollDataCalculation = new scrollPane(contentPanel, 40, 220, 1050, 410);
@@ -148,9 +157,12 @@ public class calculationDashboardView extends contentPanel {
         headerPanel.setBackground(color.WHITE);
         contentPanel.setBackground(color.WHITE);
 
+        dataKriteriaLabel.setForeground(color.BLACK);
+
     }
 
     private void setFont() {
+        dataKriteriaLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
 
     }
 
@@ -159,6 +171,19 @@ public class calculationDashboardView extends contentPanel {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 parentView.showDashboardBobotKriteria();
+            }
+        });
+
+        buttonCalculation.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                String periode = dateField.getSelectedDate();
+                if (periode != null && !periode.isEmpty()) {
+                    authDataSaw.executeSAW(periode);
+                    parentView.showSuccessPopUp("Data Berhasil diNormalisation"+periode);
+                } else {
+                   parentView.showFailedPopUp("Silahkan Pilih Periode!");
+                }
             }
         });
     }
