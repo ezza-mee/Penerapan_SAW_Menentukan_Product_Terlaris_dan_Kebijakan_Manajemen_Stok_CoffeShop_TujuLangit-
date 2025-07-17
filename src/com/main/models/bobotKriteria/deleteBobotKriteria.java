@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class deleteBobotKriteria {
-      public static boolean deleteData(int idWeight) {
+    public static boolean deleteData(int idWeight) {
         boolean success = false;
 
-        String query = "DELETE FROM tbl_data_kriteria_weight WHERE idWeight = ?";
+        String query = "DELETE FROM tbl_data_kriteria WHERE idKriteria = ?";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {

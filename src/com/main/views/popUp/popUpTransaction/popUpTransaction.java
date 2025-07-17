@@ -42,19 +42,21 @@ public class popUpTransaction extends popUpPanel {
 
     private List<listTransactionProduct> listProduct;
 
-    private int subQuantity, subPrice;
+    private int subQuantity, priceProduct, subPrice;
 
     public popUpTransaction(mainFrame parentApp, dashboardStaffView parentView,
-            List<listTransactionProduct> listProduct, int subQuantity, int subPrice) {
+            List<listTransactionProduct> listProduct, int subQuantity, int priceProduct, int subPrice) {
         super();
         this.parentApp = parentApp;
         this.parentView = parentView;
         this.listProduct = listProduct;
         this.subQuantity = subQuantity;
+        this.priceProduct = priceProduct;
         this.subPrice = subPrice;
 
         System.out.println("list product : " + listProduct);
         System.out.println("sub quantity : " + subQuantity);
+        System.out.println("price product : " + priceProduct);
         System.out.println("sub price : " + subPrice);
         setSize(600, 600);
         initComponent();
@@ -72,10 +74,11 @@ public class popUpTransaction extends popUpPanel {
         add(descriptionLabel);
         add(paymentLabel);
 
-        add(numberTableField);
         add(nameField);
         add(scrollDescription);
+
         add(paymentField);
+        add(numberTableField);
 
         add(buttonConfrim);
         add(buttonCancel);
@@ -229,6 +232,7 @@ public class popUpTransaction extends popUpPanel {
                                     numberTable,
                                     customerName,
                                     subQuantity,
+                                    priceProduct,
                                     subPrice,
                                     description,
                                     paymentMethod,

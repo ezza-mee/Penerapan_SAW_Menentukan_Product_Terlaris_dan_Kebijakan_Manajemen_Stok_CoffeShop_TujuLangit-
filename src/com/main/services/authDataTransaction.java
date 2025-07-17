@@ -9,10 +9,10 @@ import com.main.models.transaction.insertTransaction;
 public class authDataTransaction {
 
     public static int insertDataTransaction(int idStaff, int idTable, String staff,
-            String numberTable, String customer, int qantity, int price, String description, String payment,
+            String numberTable, String customer, int qantity, int priceProduct,  int subPrice, String description, String payment,
             List<listTransactionProduct> listProduct) {
 
-        int idTransaction = insertTransaction.insertData(idStaff, idTable, staff, numberTable, customer, qantity, price,
+        int idTransaction = insertTransaction.insertData(idStaff, idTable, staff, numberTable, customer, qantity, subPrice,
                 description, payment);
 
         if (idTransaction == -1) {
@@ -26,7 +26,8 @@ public class authDataTransaction {
                     data.idProduct,
                     data.nameProduct,
                     data.quantity,
-                    data.price);
+                    data.priceProduct,
+                    data.subPrice);
 
             if (!insertListProduct) {
                 return -1;

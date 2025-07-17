@@ -48,10 +48,8 @@ public class popUpLogout extends popUpPanel {
     }
 
     private void setPosition() {
-        logoutLabel = new textLabel("<html><body><h2><b>Logout Apps</b></h2></body></html>", 0, 35, 300, 100);
-        confrimLabel = new textLabel(
-                "<html><body style='text-align: center;'>Are your sure you want to Logout the application?</body></html>",
-                0, 70, 300, 100);
+        logoutLabel = new textLabel("Logout Apps", 0, 35, 300, 100);
+        confrimLabel = new textLabel("<html><body style='text-align: center;'>Are your sure you want to Logout the application?</body></html>",0, 70, 300, 100);
         buttonCancel = new buttonCustom("Cancel", 40, 150, 100, 30, 10);
         buttonLogout = new buttonCustom("Logout", 160, 150, 100, 30, 10);
 
@@ -74,7 +72,7 @@ public class popUpLogout extends popUpPanel {
 
     private void setFont() {
         logoutLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
-        confrimLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 13f));
+        confrimLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 12f));
 
         logoutLabel.setHorizontalAlignment(JLabel.CENTER);
     }

@@ -1,7 +1,7 @@
 package com.main.models.entity;
 
-public class dataKriteria {
-    public int idKriteria;
+public class dataAlternatif {
+    public int idAlternatif;
     public String product;
     public int price;
     public int quantity;
@@ -9,9 +9,9 @@ public class dataKriteria {
     public int frekuensi;
     public String periode;
 
-    public dataKriteria(int idKriteria, String product, int price, int quantity, double outStock, int frekuensi,
+    public dataAlternatif(int idAlternatif, String product, int price, int quantity, double outStock, int frekuensi,
             String periode) {
-        this.idKriteria = idKriteria;
+        this.idAlternatif = idAlternatif;
         this.product = product;
         this.price = price;
         this.quantity = quantity;
@@ -20,8 +20,8 @@ public class dataKriteria {
         this.periode = periode;
     }
 
-    public int getIdKriteria() {
-        return idKriteria;
+    public int getIdAlternatif() {
+        return idAlternatif;
     }
 
     public String getProduct() {

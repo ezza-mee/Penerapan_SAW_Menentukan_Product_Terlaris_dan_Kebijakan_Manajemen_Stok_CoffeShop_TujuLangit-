@@ -7,7 +7,7 @@ import com.main.models.connectionDatabase;
 
 public class updateBobotKriteria {
     public static boolean updateData(int idWeight, String kriteria, double weight, String type) {
-        String query = "UPDATE tbl_data_kriteria_weight SET kriteria = ?, weight = ?, type = ?,  lastUpdate = NOW() WHERE idWeight = ?";
+        String query = "UPDATE tbl_data_kriteria SET kriteria = ?, weight = ?, type = ?,  lastUpdate = NOW() WHERE idKriteria = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, kriteria);

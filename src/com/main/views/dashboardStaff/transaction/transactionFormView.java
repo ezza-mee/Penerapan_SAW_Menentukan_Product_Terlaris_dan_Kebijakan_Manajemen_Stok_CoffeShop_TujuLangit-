@@ -343,29 +343,40 @@ public class transactionFormView extends contentPanel {
                 // Simpan ke list untuk dikirim
                 List<listTransactionProduct> listProducts = new ArrayList<>();
                 int subQuantity = 0;
+                int priceProduct = 0;
                 int subPrice = 0;
+
+                boolean isFirst = true;
 
                 for (Map.Entry<Integer, dataProduct> entry : productList.entrySet()) {
                     int idProduct = entry.getKey();
                     dataProduct product = entry.getValue();
                     int quantity = Integer.parseInt(productQuantities.get(idProduct).getText());
-                    int price = product.getPrice() * quantity;
+                    int price = product.getPrice();
+                    int calculationPrice = product.getPrice() * quantity;
 
-                    listTransactionProduct transProduct = new listTransactionProduct(
+                    listTransactionProduct transactionProduct = new listTransactionProduct(
                             idProduct,
                             product.getNameProduct(),
                             quantity,
-                            price);
+                            price,
+                            calculationPrice);
 
-                    listProducts.add(transProduct);
+                    listProducts.add(transactionProduct);
                     subQuantity += quantity;
-                    subPrice += price;
+                    subPrice += calculationPrice;
+
+                    if (isFirst) {
+                        priceProduct = price;
+                        isFirst = false;
+                    }
                 }
 
                 // Buka pop-up pengisian data transaksi
                 parentView.showPopUpTransaction(
                         listProducts,
                         subQuantity,
+                        priceProduct,
                         subPrice);
             }
         });

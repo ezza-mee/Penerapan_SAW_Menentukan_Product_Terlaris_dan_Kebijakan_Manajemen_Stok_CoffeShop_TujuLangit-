@@ -10,8 +10,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
-import com.main.models.entity.dataKriteria;
-import com.main.models.kriteria.loadDataKriteria;
+import com.main.models.alternatif.loadDataAlternatif;
+import com.main.models.entity.dataAlternatif;
 import com.main.routes.dashboardAdminView;
 import com.main.routes.mainFrame;
 import com.main.services.authDataSaw;
@@ -26,11 +26,11 @@ public class calculationDashboardView extends contentPanel {
 
     private datePickerField dateField;
 
-    private textLabel dataKriteriaLabel;
+    private textLabel dataAlternatifLabel;
 
-    private tableNoActionButton dataKriteria, dataNormalisation, dataRanking;
+    private tableNoActionButton dataAlternatif, dataNormalisation, dataRanking;
 
-    private scrollTable scrollDataKriteria, scrollDataNormalisation, scrollDataRanking;
+    private scrollTable scrollDataAlternatif, scrollDataNormalisation, scrollDataRanking;
 
     private scrollPane scrollDataCalculation;
 
@@ -56,10 +56,10 @@ public class calculationDashboardView extends contentPanel {
         headerPanel.add(dateField);
         headerPanel.add(buttonAddBobot);
 
-        contentPanel.add(dataKriteriaLabel);
+        contentPanel.add(dataAlternatifLabel);
 
         contentPanel.add(buttonCalculation);
-        contentPanel.add(scrollDataKriteria);
+        contentPanel.add(scrollDataAlternatif);
         contentPanel.add(scrollDataNormalisation);
         contentPanel.add(scrollDataRanking);
 
@@ -71,7 +71,7 @@ public class calculationDashboardView extends contentPanel {
 
     private void setPosition() {
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
-        dataKriteriaLabel = new textLabel("Data Kriteria", 40, 20, 300, 40);
+        dataAlternatifLabel = new textLabel("Data Alternatif", 40, 20, 300, 40);
 
         buttonAddBobot = new buttonCustom("Add Bobot", 870, 35, 135, 40, 10);
         buttonCalculation = new buttonCustom("Calculation", 870, 35, 135, 40, 10);
@@ -87,52 +87,44 @@ public class calculationDashboardView extends contentPanel {
         dataRanking = new tableNoActionButton(null);
         scrollDataRanking = new scrollTable(dataRanking, 0, 900, 1050, 300);
 
-        dataKriteria = new tableNoActionButton(loadDataKriteria.getAllDataKriteria());
-        scrollDataKriteria = new scrollTable(dataKriteria, 0, 80, 1050, 300);
+        dataAlternatif = new tableNoActionButton(loadDataAlternatif.getAllDataAlternatif());
+        scrollDataAlternatif = new scrollTable(dataAlternatif, 0, 80, 1050, 300);
 
-        dataKriteria.getColumnModel().getColumn(0).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(0).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(0).setWidth(80);
+        dataAlternatif.getColumnModel().getColumn(0).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(0).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(0).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(1).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(1).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(1).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(1).setMinWidth(0);
+        dataAlternatif.getColumnModel().getColumn(1).setMaxWidth(0);
+        dataAlternatif.getColumnModel().getColumn(1).setWidth(0);
 
-        dataKriteria.getColumnModel().getColumn(2).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(2).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(2).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(2).setMinWidth(0);
+        dataAlternatif.getColumnModel().getColumn(2).setMaxWidth(0);
+        dataAlternatif.getColumnModel().getColumn(2).setWidth(0);
 
-        dataKriteria.getColumnModel().getColumn(3).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(3).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(3).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(3).setMinWidth(0);
+        dataAlternatif.getColumnModel().getColumn(3).setMaxWidth(0);
+        dataAlternatif.getColumnModel().getColumn(3).setWidth(0);
 
-        dataKriteria.getColumnModel().getColumn(4).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(4).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(4).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(6).setMinWidth(100);
+        dataAlternatif.getColumnModel().getColumn(6).setMaxWidth(100);
+        dataAlternatif.getColumnModel().getColumn(6).setWidth(100);
+ 
+        dataAlternatif.getColumnModel().getColumn(7).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(7).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(7).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(6).setMinWidth(100);
-        dataKriteria.getColumnModel().getColumn(6).setMaxWidth(100);
-        dataKriteria.getColumnModel().getColumn(6).setWidth(100);
+        dataAlternatif.getColumnModel().getColumn(8).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(8).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(8).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(7).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(7).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(7).setWidth(80);
+        dataAlternatif.getColumnModel().getColumn(9).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(9).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(9).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(8).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(8).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(8).setWidth(80);
-
-        dataKriteria.getColumnModel().getColumn(9).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(9).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(9).setWidth(80);
-
-        dataKriteria.getColumnModel().getColumn(10).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(10).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(10).setWidth(80);
-
-        dataKriteria.getColumnModel().getColumn(11).setMinWidth(100);
-        dataKriteria.getColumnModel().getColumn(11).setMaxWidth(100);
-        dataKriteria.getColumnModel().getColumn(11).setWidth(100);
+        dataAlternatif.getColumnModel().getColumn(10).setMinWidth(100);
+        dataAlternatif.getColumnModel().getColumn(10).setMaxWidth(100);
+        dataAlternatif.getColumnModel().getColumn(10).setWidth(100);
 
         dateField.getDatePicker().addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -157,12 +149,12 @@ public class calculationDashboardView extends contentPanel {
         headerPanel.setBackground(color.WHITE);
         contentPanel.setBackground(color.WHITE);
 
-        dataKriteriaLabel.setForeground(color.BLACK);
+        dataAlternatifLabel.setForeground(color.BLACK);
 
     }
 
     private void setFont() {
-        dataKriteriaLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+        dataAlternatifLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
 
     }
 
@@ -180,9 +172,9 @@ public class calculationDashboardView extends contentPanel {
                 String periode = dateField.getSelectedDate();
                 if (periode != null && !periode.isEmpty()) {
                     authDataSaw.executeSAW(periode);
-                    parentView.showSuccessPopUp("Data Berhasil diNormalisation"+periode);
+                    parentView.showSuccessPopUp("Data Berhasil diNormalisation" + periode);
                 } else {
-                   parentView.showFailedPopUp("Silahkan Pilih Periode!");
+                    parentView.showFailedPopUp("Silahkan Pilih Periode!");
                 }
             }
         });
@@ -193,63 +185,55 @@ public class calculationDashboardView extends contentPanel {
         if (periode == null || periode.isEmpty()) {
             model = new DefaultTableModel();
         } else {
-            model = loadDataKriteria.getAllDataKriteriaByPeriode(periode);
+            model = loadDataAlternatif.getAllDataAlternatifByPeriode(periode);
         }
 
-        dataKriteria.setModel(model);
+        dataAlternatif.setModel(model);
 
-        if (dataKriteria instanceof tableNoActionButton customTable) {
+        if (dataAlternatif instanceof tableNoActionButton customTable) {
             customTable.applyCustomStyle();
         }
 
-        dataKriteria.getColumnModel().getColumn(0).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(0).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(0).setWidth(80);
+        dataAlternatif.getColumnModel().getColumn(0).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(0).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(0).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(1).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(1).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(1).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(1).setMinWidth(0);
+        dataAlternatif.getColumnModel().getColumn(1).setMaxWidth(0);
+        dataAlternatif.getColumnModel().getColumn(1).setWidth(0);
 
-        dataKriteria.getColumnModel().getColumn(2).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(2).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(2).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(2).setMinWidth(0);
+        dataAlternatif.getColumnModel().getColumn(2).setMaxWidth(0);
+        dataAlternatif.getColumnModel().getColumn(2).setWidth(0);
 
-        dataKriteria.getColumnModel().getColumn(3).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(3).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(3).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(3).setMinWidth(0);
+        dataAlternatif.getColumnModel().getColumn(3).setMaxWidth(0);
+        dataAlternatif.getColumnModel().getColumn(3).setWidth(0);
 
-        dataKriteria.getColumnModel().getColumn(4).setMinWidth(0);
-        dataKriteria.getColumnModel().getColumn(4).setMaxWidth(0);
-        dataKriteria.getColumnModel().getColumn(4).setWidth(0);
+        dataAlternatif.getColumnModel().getColumn(6).setMinWidth(100);
+        dataAlternatif.getColumnModel().getColumn(6).setMaxWidth(100);
+        dataAlternatif.getColumnModel().getColumn(6).setWidth(100);
 
-        dataKriteria.getColumnModel().getColumn(6).setMinWidth(100);
-        dataKriteria.getColumnModel().getColumn(6).setMaxWidth(100);
-        dataKriteria.getColumnModel().getColumn(6).setWidth(100);
+        dataAlternatif.getColumnModel().getColumn(7).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(7).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(7).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(7).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(7).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(7).setWidth(80);
+        dataAlternatif.getColumnModel().getColumn(8).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(8).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(8).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(8).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(8).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(8).setWidth(80);
+        dataAlternatif.getColumnModel().getColumn(9).setMinWidth(80);
+        dataAlternatif.getColumnModel().getColumn(9).setMaxWidth(80);
+        dataAlternatif.getColumnModel().getColumn(9).setWidth(80);
 
-        dataKriteria.getColumnModel().getColumn(9).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(9).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(9).setWidth(80);
-
-        dataKriteria.getColumnModel().getColumn(10).setMinWidth(80);
-        dataKriteria.getColumnModel().getColumn(10).setMaxWidth(80);
-        dataKriteria.getColumnModel().getColumn(10).setWidth(80);
-
-        dataKriteria.getColumnModel().getColumn(11).setMinWidth(100);
-        dataKriteria.getColumnModel().getColumn(11).setMaxWidth(100);
-        dataKriteria.getColumnModel().getColumn(11).setWidth(100);
+        dataAlternatif.getColumnModel().getColumn(10).setMinWidth(100);
+        dataAlternatif.getColumnModel().getColumn(10).setMaxWidth(100);
+        dataAlternatif.getColumnModel().getColumn(10).setWidth(100);
 
         for (int i = 1; i <= 4; i++) {
-            dataKriteria.getColumnModel().getColumn(i).setMinWidth(0);
-            dataKriteria.getColumnModel().getColumn(i).setMaxWidth(0);
-            dataKriteria.getColumnModel().getColumn(i).setWidth(0);
+            dataAlternatif.getColumnModel().getColumn(i).setMinWidth(0);
+            dataAlternatif.getColumnModel().getColumn(i).setMaxWidth(0);
+            dataAlternatif.getColumnModel().getColumn(i).setWidth(0);
         }
     }
 

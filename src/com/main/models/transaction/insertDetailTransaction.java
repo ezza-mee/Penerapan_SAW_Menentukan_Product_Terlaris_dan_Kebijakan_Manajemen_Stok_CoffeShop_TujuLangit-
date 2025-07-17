@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class insertDetailTransaction {
-    public static boolean insertData(int idTransaction, int idProduct, String product, int quantity, int price) {
+    public static boolean insertData(int idTransaction, int idProduct, String product, int quantity, int priceProduct,
+            int subPrice) {
         boolean data = false;
 
-        String query = "INSERT INTO tbl_detail_transaction (idtransaction, idProduct, product, quantity, price) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tbl_detail_transaction (idtransaction, idProduct, product, quantity, price, subPrice) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);) {
@@ -19,7 +20,8 @@ public class insertDetailTransaction {
             state.setInt(2, idProduct);
             state.setString(3, product);
             state.setInt(4, quantity);
-            state.setInt(5, price);
+            state.setInt(5, priceProduct);
+            state.setInt(6, subPrice);
 
             if (state.executeUpdate() > 0) {
                 data = true;

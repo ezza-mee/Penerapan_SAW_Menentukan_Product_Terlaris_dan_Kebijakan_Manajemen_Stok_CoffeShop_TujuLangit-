@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import javax.swing.table.DefaultTableModel;
 import com.main.models.connectionDatabase;
-import com.main.models.entity.dataConvertion;
 import com.main.models.entity.dataBobotKriteria;
 
 public class loadDataBobotKriteria {
@@ -16,7 +15,7 @@ public class loadDataBobotKriteria {
         String[] dataHeader = { "ID", "Kriteria", "Weight", "Type", "Date", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM tbl_data_kriteria_weight";
+        String query = "SELECT * FROM tbl_data_kriteria";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -24,7 +23,7 @@ public class loadDataBobotKriteria {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "BK00" + resultData.getInt("idWeight"),
+                        "BK00" + resultData.getInt("idKriteria"),
                         resultData.getString("Kriteria"),
                         resultData.getDouble("weight"),
                         resultData.getString("type"),
@@ -37,17 +36,17 @@ public class loadDataBobotKriteria {
         return tm;
     }
 
-    public static dataBobotKriteria getDataById(int idWeight) {
-        String query = "SELECT * FROM tbl_data_kriteria_weight WHERE idWeight = ?";
+    public static dataBobotKriteria getDataById(int idKriteria) {
+        String query = "SELECT * FROM tbl_data_kriteria WHERE idKriteria = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
-            state.setInt(1, idWeight);
+            state.setInt(1, idKriteria);
             ResultSet resultData = state.executeQuery();
 
             if (resultData.next()) {
                 return new dataBobotKriteria(
-                        resultData.getInt("idWeight"),
+                        resultData.getInt("idKriteria"),
                         resultData.getString("Kriteria"),
                         resultData.getDouble("weight"),
                         resultData.getString("type"));
@@ -58,12 +57,12 @@ public class loadDataBobotKriteria {
         return null;
     }
 
-    public double getWeightById(int idWeight) {
+    public double getWeightById(int idKriteria) {
         double weight = 0.0;
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn
-                        .prepareStatement("SELECT weight FROM tbl_data_kriteria_weight WHERE idWeight = ?")) {
-            stmt.setInt(1, idWeight);
+                        .prepareStatement("SELECT weight FROM tbl_data_kriteria WHERE idKriteria = ?")) {
+            stmt.setInt(1, idKriteria);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 weight = rs.getDouble("weight");
@@ -79,7 +78,7 @@ public class loadDataBobotKriteria {
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn
-                        .prepareStatement("SELECT SUM(weight) AS weight FROM tbl_data_kriteria_weight");
+                        .prepareStatement("SELECT SUM(weight) AS weight FROM tbl_data_kriteria");
                 ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
@@ -99,7 +98,7 @@ public class loadDataBobotKriteria {
         double total = 0.0;
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn
-                        .prepareStatement("SELECT SUM(weight) AS weight FROM tbl_data_kriteria_weight");
+                        .prepareStatement("SELECT SUM(weight) AS weight FROM tbl_data_kriteria");
                 ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
