@@ -10,7 +10,7 @@ public class insertBobotKriteria {
     public static boolean insertData(String kriteria, double weight, String type) {
         boolean data = false;
 
-        String query = "INSERT INTO tbl_data_kriteria_weight (kriteria, weight, type, lastUpdate) VALUES (?, ?, ?, NOW())";
+        String query = "INSERT INTO tbl_data_kriteria (kriteria, weight, type, lastUpdate) VALUES (?, ?, ?, NOW())";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);) {

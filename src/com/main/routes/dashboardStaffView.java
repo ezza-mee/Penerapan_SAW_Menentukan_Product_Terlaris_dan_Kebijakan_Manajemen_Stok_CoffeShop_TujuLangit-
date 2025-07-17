@@ -99,10 +99,10 @@ public class dashboardStaffView extends containerPanel {
         return popUp;
     }
 
-    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int subPrice) {
-        popUpTransaction popUp = new popUpTransaction(parentApp, this, listProduct, subQuantity, subPrice);
+    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int priceProduct, int subPrice) {
+        popUpTransaction popUp = new popUpTransaction(parentApp, this, listProduct, subQuantity, priceProduct, subPrice);
+        parentApp.showFormPopUp(popUp);
         parentDashboard.setContent(restoreLastContent());
-        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showLogoutApp() {

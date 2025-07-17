@@ -126,10 +126,10 @@ public class popUpInputBobotKriteria extends popUpPanel {
 
     public void setFormBobotKriteria(dataBobotKriteria bobotKriteria) {
         kriteriaField.setText(bobotKriteria.getKriteria());
-        weightField.setText(String.valueOf(bobotKriteria.getIdWeight()));
+        weightField.setText(String.valueOf(bobotKriteria.getIdKriteria()));
         typeField.setSelectedItem(bobotKriteria.getType());
 
-        bobotKriteriaIdToEdit = bobotKriteria.getIdWeight();
+        bobotKriteriaIdToEdit = bobotKriteria.getIdKriteria();
     }
 
     private void handleButton() {

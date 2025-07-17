@@ -4,13 +4,15 @@ public class listTransactionProduct {
     public int idProduct;
     public String nameProduct;
     public int quantity;
-    public int price;
+    public int priceProduct;
+    public int subPrice;
 
-    public listTransactionProduct(int idProduct, String nameProduct, int quantity, int price) {
+    public listTransactionProduct(int idProduct, String nameProduct, int quantity, int priceProduct, int subPrice) {
         this.idProduct = idProduct;
         this.nameProduct = nameProduct;
         this.quantity = quantity;
-        this.price = price;
+        this.priceProduct = priceProduct;
+        this.subPrice = subPrice;
     }
 
     public int getIdProduct() {

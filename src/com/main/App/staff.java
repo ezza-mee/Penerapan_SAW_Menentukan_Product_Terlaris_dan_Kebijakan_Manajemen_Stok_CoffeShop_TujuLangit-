@@ -44,24 +44,5 @@ public class staff {
 
         // new testFrame().setVisible(true);
     }
-    
-    public static class testFrame extends JFrame {
-        public testFrame() {
-            setTitle("Test Transaction Popup Component");
-            setSize(1000, 800);
-            setLocationRelativeTo(null);
-
-            JPanel panel = new JPanel();
-            panel.setBounds(0, 0, 1000, 800);
-            panel.setBackground(color.DARKGREEN);
-            panel.setLayout(null);
-
-            // popUpTransaction test = new popUpTransaction();
-            // test.setBounds(200, 100, 600, 600);
-            // panel.add(test);
-
-            add(panel);
-        }
-    }
 
 }

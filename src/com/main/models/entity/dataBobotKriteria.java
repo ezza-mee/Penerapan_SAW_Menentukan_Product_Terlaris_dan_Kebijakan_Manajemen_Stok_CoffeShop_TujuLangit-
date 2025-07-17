@@ -1,19 +1,19 @@
 package com.main.models.entity;
 
 public class dataBobotKriteria {
-    private int idWeight;
+    private int idKriteria;
     private String kriteria, type;
     private double weight;
 
-    public dataBobotKriteria(int idWeight, String kriteria, double weight, String type) {
-        this.idWeight = idWeight;
+    public dataBobotKriteria(int idKriteria, String kriteria, double weight, String type) {
+        this.idKriteria = idKriteria;
         this.kriteria = kriteria;
         this.weight = weight;
         this.type = type;
     }
 
-    public int getIdWeight() {
-        return idWeight;
+    public int getIdKriteria() {
+        return idKriteria;
     }
 
     public String getKriteria() {

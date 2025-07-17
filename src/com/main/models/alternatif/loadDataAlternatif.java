@@ -1,4 +1,4 @@
-package com.main.models.kriteria;
+package com.main.models.alternatif;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,18 +9,18 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
-import com.main.models.entity.dataKriteria;
+import com.main.models.entity.dataAlternatif;
 
-public class loadDataKriteria {
-    public static DefaultTableModel getAllDataKriteria() {
+public class loadDataAlternatif {
+    public static DefaultTableModel getAllDataAlternatif() {
         String[] dataHeader = {
-                "ID Kriteria", "ID Produk", "ID Transaction", "ID Datail", "ID Out Stock", "Produk", "Harga", "Jumlah",
-                "Out Stock", "Unit", "Frekuensi", "Periode", "Last Update"
+                "ID Alternatif",  "ID Transaction", "ID Detail",  "ID Produck", "Product", "Price Product", "quantity",
+                "subTotal", "Frekuensi", "Periode", "Last Update"
         };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
-        String query = "SELECT * FROM tbl_data_kriteria WHERE DATE(lastUpdate) = CURDATE() ORDER BY lastUpdate DESC";
+        String query = "SELECT * FROM tbl_data_alternatif WHERE DATE(lastUpdate) = CURDATE() ORDER BY lastUpdate DESC";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -28,16 +28,14 @@ public class loadDataKriteria {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "DK00" + resultData.getInt("idKriteria"),
-                        resultData.getInt("idProduct"),
+                        "DK00" + resultData.getInt("idAlternatif"),
                         resultData.getInt("idTransaction"),
-                        resultData.getInt("idDetail"),
-                        resultData.getInt("idOutStock"),
+                        resultData.getInt("idDetailTransaction"),
+                        resultData.getInt("idProduct"),
                         resultData.getString("product"),
                         resultData.getInt("price"),
                         resultData.getInt("quantity"),
-                        String.format("%.2f", resultData.getDouble("outStock")),
-                        resultData.getString("unit"),
+                        resultData.getInt("totalRevenue"),
                         resultData.getInt("frekuensi"),
                         resultData.getString("periode"),
                         resultData.getTimestamp("lastUpdate")
@@ -50,15 +48,15 @@ public class loadDataKriteria {
         return tm;
     }
 
-    public static DefaultTableModel getAllDataKriteriaByPeriode(String periode) {
+    public static DefaultTableModel getAllDataAlternatifByPeriode(String periode) {
         String[] dataHeader = {
-                "ID Kriteria", "ID Produk", "ID Transaction", "ID Datail", "ID Out Stock", "Produk", "Harga", "Jumlah",
-                "Out Stock", "Unit", "Frekuensi", "Periode", "Last Update"
+                "ID Alternatif", "ID Produk", "ID Transaction", "ID Detail", "Product", "price", "quantity",
+                "total Revenue", "Frekuensi", "Periode", "Last Update"
         };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
-        String query = "SELECT * FROM tbl_data_kriteria WHERE periode = ?";
+        String query = "SELECT * FROM tbl_data_alternatif WHERE periode = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -67,16 +65,14 @@ public class loadDataKriteria {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "DK00" + resultData.getInt("idKriteria"),
-                        resultData.getInt("idProduct"),
+                        "DK00" + resultData.getInt("idAlternatif"),
                         resultData.getInt("idTransaction"),
-                        resultData.getInt("idDetail"),
-                        resultData.getInt("idOutStock"),
+                        resultData.getInt("idDetailTransaction"),
+                        resultData.getInt("idProduct"),
                         resultData.getString("product"),
                         resultData.getInt("price"),
                         resultData.getInt("quantity"),
-                        String.format("%.2f", resultData.getDouble("outStock")),
-                        resultData.getString("unit"),
+                        resultData.getInt("totalRevenue"),
                         resultData.getInt("frekuensi"),
                         resultData.getString("periode"),
                         resultData.getTimestamp("lastUpdate")
@@ -89,9 +85,9 @@ public class loadDataKriteria {
         return tm;
     }
 
-    public static List<dataKriteria> getListKriteriaByPeriode(String periode) {
-        List<dataKriteria> list = new ArrayList<>();
-        String query = "SELECT * FROM tbl_data_kriteria WHERE periode = ?";
+    public static List<dataAlternatif> getListAlternatifByPeriode(String periode) {
+        List<dataAlternatif> list = new ArrayList<>();
+        String query = "SELECT * FROM tbl_data_Alternatif WHERE periode = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -99,12 +95,12 @@ public class loadDataKriteria {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                dataKriteria k = new dataKriteria(
-                        rs.getInt("idKriteria"),
+                dataAlternatif k = new dataAlternatif(
+                        rs.getInt("idAlternatif"),
                         rs.getString("product"),
                         rs.getInt("price"),
                         rs.getInt("quantity"),
-                        rs.getDouble("outStock"),
+                        rs.getInt("totalRevenue"),
                         rs.getInt("frekuensi"),
                         rs.getString("periode"));
                 list.add(k);
