@@ -25,7 +25,7 @@ public class loadDataBobotKriteria {
                 Object[] rowData = {
                         "BK00" + resultData.getInt("idKriteria"),
                         resultData.getString("Kriteria"),
-                        resultData.getDouble("weight"),
+                        resultData.getInt("weight"),
                         resultData.getString("type"),
                         resultData.getString("lastUpdate") };
                 tm.addRow(rowData);
@@ -48,7 +48,7 @@ public class loadDataBobotKriteria {
                 return new dataBobotKriteria(
                         resultData.getInt("idKriteria"),
                         resultData.getString("Kriteria"),
-                        resultData.getDouble("weight"),
+                        resultData.getInt("weight"),
                         resultData.getString("type"));
             }
         } catch (Exception e) {
@@ -57,57 +57,19 @@ public class loadDataBobotKriteria {
         return null;
     }
 
-    public double getWeightById(int idKriteria) {
-        double weight = 0.0;
+    public static String getTipeKriteria(String idKriteria) {
+        String query = "SELECT tipe FROM tbl_data_kriteria WHERE idKriteria = ?";
         try (Connection conn = connectionDatabase.getConnection();
-                PreparedStatement stmt = conn
-                        .prepareStatement("SELECT weight FROM tbl_data_kriteria WHERE idKriteria = ?")) {
-            stmt.setInt(1, idKriteria);
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, idKriteria);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                weight = rs.getDouble("weight");
+                return rs.getString("type");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return weight;
-    }
-
-    public static boolean isTotalWeightExceedingLimit(double newWeight, double oldWeight) {
-        double currentTotal = 0.0;
-
-        try (Connection conn = connectionDatabase.getConnection();
-                PreparedStatement stmt = conn
-                        .prepareStatement("SELECT SUM(weight) AS weight FROM tbl_data_kriteria");
-                ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                currentTotal = rs.getDouble("weight");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        double adjustedTotal = (currentTotal - oldWeight) + newWeight;
-
-        return adjustedTotal > 1.0;
-    }
-
-    public static double getTotalWeight() {
-        double total = 0.0;
-        try (Connection conn = connectionDatabase.getConnection();
-                PreparedStatement stmt = conn
-                        .prepareStatement("SELECT SUM(weight) AS weight FROM tbl_data_kriteria");
-                ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                total = rs.getDouble("weight");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return total;
+        return "benefit";
     }
 
 }

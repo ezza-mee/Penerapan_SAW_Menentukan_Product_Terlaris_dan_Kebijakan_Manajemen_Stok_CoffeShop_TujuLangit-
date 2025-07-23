@@ -23,11 +23,12 @@ public class popUpDataBobotKriteria extends popUpPanel {
 
     private scrollTable scrollDataBobotKriteria;
 
-    private buttonCustom buttonBack, buttonAdd;
+    private buttonCustom buttonBack, buttonAdd, buttonDetail;
 
     private appIcons appIcons = new appIcons();
-    private imageIcon backIcon = appIcons.getBackIconWhite(25, 25);
-    private imageIcon addIcon = appIcons.getAddIconWhite(25, 25);
+    private imageIcon backIcon = appIcons.getBackIconWhite(20, 20);
+    private imageIcon addIcon = appIcons.getAddIconWhite(20, 20);
+    private imageIcon detailIcon = appIcons.getDetailIconWhite(20, 20);
 
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, buttonType.DELETE);
 
@@ -36,7 +37,7 @@ public class popUpDataBobotKriteria extends popUpPanel {
         this.parentApp = parentApp;
         this.parentView = parentView;
 
-        setSize(1000, 500);
+        setSize(1000, 460);
         initComponent();
     }
 
@@ -50,24 +51,27 @@ public class popUpDataBobotKriteria extends popUpPanel {
 
         add(headerLabel);
         add(buttonBack);
+        add(buttonDetail);
         add(buttonAdd);
 
         setVisible(true);
     }
 
     private void setLayout() {
-        headerLabel = new textLabel("Data Nilai Bobot Kriteria", 50, 20, 400, 80);
-        buttonBack = new buttonCustom("", 50, 400, 50, 40, 10);
-        buttonAdd = new buttonCustom("", 880, 40, 50, 40, 10);
+        headerLabel = new textLabel("Data Kriteria", 50, 20, 400, 80);
+        buttonBack = new buttonCustom("Back", 50, 400, 130, 40, 10);
+        buttonAdd = new buttonCustom("", 920, 40, 40, 40, 10);
+        buttonDetail = new buttonCustom("", 860, 40, 40, 40, 10);
 
         buttonBack.setIcon(backIcon);
         buttonAdd.setIcon(addIcon);
+        buttonDetail.setIcon(detailIcon);
 
         actionButtonTable actionButton = new actionButtonTable() {
             @Override
             public void onEdit(int row) {
                 try {
-                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
+                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to update Data Kriteria?");
 
                     messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
                         @Override
@@ -83,11 +87,11 @@ public class popUpDataBobotKriteria extends popUpPanel {
 
                                 if (selectedDataSBobotKriteria != null) {
                                     parentApp.hideGlassNotificationPanel();
-                                    parentView.showFormDataKriteria();
                                     parentView.setDataBobotKriteriaToEdit(selectedDataSBobotKriteria);
+                                    parentView.showFormDataKriteria();
                                 } else {
                                     parentApp.hideGlassNotificationPanel();
-                                    parentView.showFailedPopUp("Data BobotKriteria not found!");
+                                    parentView.showFailedPopUp("Data Bobot Kriteria not found!");
                                 }
                             }
                         }
@@ -187,6 +191,13 @@ public class popUpDataBobotKriteria extends popUpPanel {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 parentApp.hideGlassDashboardPanel();
+            }
+        });
+
+        buttonDetail.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                parentView.showBobotKriteriaPopUp();
             }
         });
 

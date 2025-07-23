@@ -16,7 +16,7 @@ public class loadDataTransaction {
                 "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatatransactionwithstaff WHERE idStaff = ?";
+        String query = "SELECT * FROM vwalldatatransactionwithstaff WHERE idStaff = ? AND status = 'Process'";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 

@@ -102,5 +102,5 @@ public class tableNoActionButton extends JTable {
             getColumnModel().getColumn(i).setCellRenderer(stripedRenderer);
         }
     }
-    
+
 }

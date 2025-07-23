@@ -35,6 +35,7 @@ import com.main.views.popUp.popUpConfrim;
 import com.main.views.popUp.popUpFailed;
 import com.main.views.popUp.popUpLogout;
 import com.main.views.popUp.popUpSuccess;
+import com.main.views.popUp.popUpBobotKriteria.popUpBobotKriteria;
 import com.main.views.popUp.popUpBobotKriteria.popUpDataBobotKriteria;
 import com.main.views.popUp.popUpBobotKriteria.popUpInputBobotKriteria;
 import com.main.views.popUp.popUpStaff.popUpDetailDataStaff;
@@ -191,6 +192,12 @@ public class dashboardAdminView extends containerPanel {
 
         parentDashboard.setContent(restoreLastContent());
         parentApp.showFormPopUp(popUpBobotKriteria);
+    }
+
+    public void showBobotKriteriaPopUp() {
+        popUpBobotKriteria popUp = new popUpBobotKriteria(parentApp);
+        parentDashboard.setContent(restoreLastContent());
+        parentApp.showNotificationPopUp(popUp);
     }
 
     public void showDashboardStaff() {

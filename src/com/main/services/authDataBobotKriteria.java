@@ -8,24 +8,16 @@ import com.main.models.bobotKriteria.loadDataBobotKriteria;
 
 public class authDataBobotKriteria {
 
-    public static Boolean insertBobotKriteria(String kriteria, double weight, String type) {
+    public static Boolean insertBobotKriteria(String kriteria, int weight, String type) {
         return insertBobotKriteria.insertData(kriteria, weight, type);
     }
 
-    public static Boolean updateBobotKriteria(int idWeight, String kriteria, double weight, String type) {
+    public static Boolean updateBobotKriteria(int idWeight, String kriteria, int weight, String type) {
         return updateBobotKriteria.updateData(idWeight, kriteria, weight, type);
     }
 
     public static Boolean deleteBobotKriteria(int idWeight) {
         return deleteBobotKriteria.deleteData(idWeight);
-    }
-
-    public static Boolean isTotalWeightExceedingLimit(double newWeight, double oldWeight) {
-        return loadDataBobotKriteria.isTotalWeightExceedingLimit(newWeight, oldWeight);
-    }
-
-    public static double getCurrentTotalWeight() {
-        return loadDataBobotKriteria.getTotalWeight();
     }
 
     public static double getWeightById(int idWeight) {

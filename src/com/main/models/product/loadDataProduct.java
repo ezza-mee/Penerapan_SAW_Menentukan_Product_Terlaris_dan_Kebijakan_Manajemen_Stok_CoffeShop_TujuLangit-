@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
+
 import com.main.models.connectionDatabase;
 import com.main.models.entity.dataProduct;
 

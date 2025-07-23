@@ -4,215 +4,174 @@ import java.sql.*;
 import java.util.*;
 
 import com.main.models.connectionDatabase;
-import com.main.models.entity.dataBobotKriteria;
+import com.main.models.rangking.insertDataRangking;
+// Import class yang berisi method pengecekan
+import com.main.models.rangking.loadDataRangking;
+import com.main.models.rangking.updateDataRangking;
+import com.main.models.normalisation.insertDataNormalisation;
+import com.main.models.normalisation.loadDataNormalisation;
+import com.main.models.normalisation.updateDataNormalisation;
 
 public class processSAW {
-    public static void runSAW(String periode) {
+    public static void runSAW(String periode, List<Integer> idProductList) {
         try (Connection conn = connectionDatabase.getConnection()) {
 
-            // 1. Ambil data dari tbl_data_kriteria sesuai periode
-            String queryKriteria = "SELECT * FROM tbl_data_kriteria WHERE periode = ?";
-            PreparedStatement state = conn.prepareStatement(queryKriteria);
-            state.setString(1, periode);
-            ResultSet rs = state.executeQuery();
+            // STEP 1: Ambil data alternatif berdasarkan periode dan id produk
+            StringBuilder placeholders = new StringBuilder();
+            for (int i = 0; i < idProductList.size(); i++) {
+                placeholders.append("?");
+                if (i < idProductList.size() - 1) {
+                    placeholders.append(", ");
+                }
+            }
 
-            // Menyimpan nilai min & max setiap kriteria
-            double maxQty = 0, maxPrice = 0, maxTotalRevenue = 0, maxFrekuensi = 0;
-            double minQty = Double.MAX_VALUE, minPrice = Double.MAX_VALUE, minTotalRevenue = Double.MAX_VALUE,
-                    minFrekuensi = Double.MAX_VALUE;
+            String queryAlternatif = "SELECT idAlternatif, product, K1, K2, K3, K4 FROM tbl_data_alternatif WHERE DATE(periode) = ?";
+            PreparedStatement stmt = conn.prepareStatement(queryAlternatif);
+            stmt.setString(1, periode);
 
-            List<Map<String, Object>> rawData = new ArrayList<>();
+            ResultSet rs = stmt.executeQuery();
+            List<Map<String, Object>> alternatifList = new ArrayList<>();
+            double[] max = new double[4];
+            double[] min = new double[] { Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE };
 
             while (rs.next()) {
-                int quantity = rs.getInt("quantity");
-                int price = rs.getInt("price");
-                double totalRevenue = rs.getDouble("totalRevenue"); // Diganti dari outStock
-                int frekuensi = rs.getInt("frekuensi");
-
-                maxQty = Math.max(maxQty, quantity);
-                maxPrice = Math.max(maxPrice, price);
-                maxTotalRevenue = Math.max(maxTotalRevenue, totalRevenue);
-                maxFrekuensi = Math.max(maxFrekuensi, frekuensi);
-
-                minQty = Math.min(minQty, quantity);
-                minPrice = Math.min(minPrice, price);
-                minTotalRevenue = Math.min(minTotalRevenue, totalRevenue);
-                minFrekuensi = Math.min(minFrekuensi, frekuensi);
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("idKriteria", rs.getInt("idKriteria"));
-                data.put("product", rs.getString("product"));
-                data.put("quantity", quantity);
-                data.put("price", price);
-                data.put("totalRevenue", totalRevenue); // Diganti dari outStock
-                data.put("frekuensi", frekuensi);
-                data.put("periode", rs.getString("periode"));
-
-                rawData.add(data);
+                Map<String, Object> alt = new HashMap<>();
+                alt.put("idAlternatif", rs.getInt("idAlternatif"));
+                alt.put("product", rs.getString("product"));
+                for (int i = 0; i < 4; i++) {
+                    double value = rs.getDouble("K" + (i + 1));
+                    alt.put("K" + (i + 1), value);
+                    max[i] = Math.max(max[i], value);
+                    min[i] = Math.min(min[i], value);
+                }
+                alternatifList.add(alt);
             }
 
-            // 2. Ambil bobot dan tipe dari tbl_data_kriteria_weight berdasarkan idKriteria
-            Map<Integer, dataBobotKriteria> bobotMap = new HashMap<>();
-            String queryWeight = "SELECT * FROM tbl_data_kriteria";
-            Statement weightStmt = conn.createStatement();
-            ResultSet weightRs = weightStmt.executeQuery(queryWeight);
-
-            while (weightRs.next()) {
-                dataBobotKriteria bobot = new dataBobotKriteria(
-                        weightRs.getInt("idWeight"),
-                        weightRs.getString("kriteria"),
-                        weightRs.getDouble("weight"),
-                        weightRs.getString("type"));
-                bobotMap.put(bobot.getIdKriteria(), bobot); // Gunakan idKriteria sebagai key
+            // Debug alternatif
+            System.out.println("=== Data Alternatif ===");
+            for (Map<String, Object> a : alternatifList) {
+                System.out.println(a);
             }
 
-            // DEBUG: Print available criteria IDs
-            System.out.println("Available criteria IDs: " + bobotMap.keySet());
+            // STEP 2: Ambil data kriteria
+            String queryKriteria = "SELECT * FROM tbl_data_kriteria ORDER BY idKriteria ASC";
+            ResultSet rsKriteria = conn.createStatement().executeQuery(queryKriteria);
 
-            // 3. Validasi apakah semua kriteria ada berdasarkan idKriteria yang dibutuhkan
-            // Ambil semua idKriteria yang unik dari data
-            Set<Integer> requiredCriteriaIds = new HashSet<>();
-            for (Map<String, Object> item : rawData) {
-                requiredCriteriaIds.add((Integer) item.get("idKriteria"));
+            List<Integer> rawBobotList = new ArrayList<>();
+            List<Double> bobotList = new ArrayList<>(); // hasil normalisasi bobot
+            List<String> tipeList = new ArrayList<>();
+
+            double totalBobot = 0.0;
+
+            while (rsKriteria.next()) {
+                int rawBobot = rsKriteria.getInt("weight"); // bobot 1 sampai 5
+                totalBobot += rawBobot;
+                rawBobotList.add(rawBobot);
+                tipeList.add(rsKriteria.getString("type").trim().toLowerCase());
             }
 
-            // Validasi keberadaan semua kriteria yang diperlukan
-            for (Integer criteriaId : requiredCriteriaIds) {
-                if (!bobotMap.containsKey(criteriaId)) {
-                    System.err.println("CRITICAL ERROR: Kriteria dengan ID '" + criteriaId
-                            + "' tidak ditemukan dalam tbl_data_kriteria_weight!");
-                    System.err.println("Pastikan semua kriteria memiliki bobot yang terdefinisi.");
-                    return;
-                }
+            // Normalisasi bobot ke nilai pecahan
+            for (int raw : rawBobotList) {
+                double normalised = raw / totalBobot;
+                bobotList.add(normalised);
             }
 
-            // 4. Normalisasi dan hitung skor
-            List<Map<String, Object>> resultWithScore = new ArrayList<>();
+            // Debug kriteria
+            System.out.println("\n=== Bobot dan Tipe Kriteria ===");
+            for (int i = 0; i < bobotList.size(); i++) {
+                System.out.printf("K%d: %s, raw bobot = %d, bobot normalisasi = %.3f\n",
+                        (i + 1), tipeList.get(i), rawBobotList.get(i), bobotList.get(i));
+            }
 
-            for (Map<String, Object> item : rawData) {
-                double q = (int) item.get("quantity");
-                double p = (int) item.get("price");
-                double tr = (double) item.get("totalRevenue"); // Diganti dari outStock
-                double f = (int) item.get("frekuensi");
-
-                Integer idKriteria = (Integer) item.get("idKriteria");
-
-                // Ambil bobot kriteria berdasarkan idKriteria
-                dataBobotKriteria bobotQuantity = findBobotByType(bobotMap, "quantity");
-                dataBobotKriteria bobotPrice = findBobotByType(bobotMap, "price");
-                dataBobotKriteria bobotTotalRevenue = findBobotByType(bobotMap, "totalRevenue");
-                dataBobotKriteria bobotFrekuensi = findBobotByType(bobotMap, "frekuensi");
-
-                // Pastikan tidak ada pembagian dengan 0 - gunakan type untuk menentukan
-                // benefit/cost
-                double nq = 0, np = 0, ntr = 0, nf = 0;
-
-                if (maxQty > 0 && bobotQuantity != null) {
-                    nq = bobotQuantity.getType().equalsIgnoreCase("benefit") ? (q / maxQty) : (minQty / q);
-                }
-                if (maxPrice > 0 && bobotPrice != null) {
-                    np = bobotPrice.getType().equalsIgnoreCase("benefit") ? (p / maxPrice) : (minPrice / p);
-                }
-                if (maxTotalRevenue > 0 && bobotTotalRevenue != null) {
-                    ntr = bobotTotalRevenue.getType().equalsIgnoreCase("benefit") ? (tr / maxTotalRevenue)
-                            : (minTotalRevenue / tr);
-                }
-                if (maxFrekuensi > 0 && bobotFrekuensi != null) {
-                    nf = bobotFrekuensi.getType().equalsIgnoreCase("benefit") ? (f / maxFrekuensi) : (minFrekuensi / f);
-                }
-
-                // Hitung skor berdasarkan bobot yang tersedia
+            // STEP 3: Proses normalisasi dan hitung skor
+            System.out.println("\n=== Perhitungan Normalisasi dan Skor SAW ===");
+            for (Map<String, Object> alt : alternatifList) {
                 double score = 0;
-                if (bobotQuantity != null)
-                    score += (nq * bobotQuantity.getWeight());
-                if (bobotPrice != null)
-                    score += (np * bobotPrice.getWeight());
-                if (bobotTotalRevenue != null)
-                    score += (ntr * bobotTotalRevenue.getWeight());
-                if (bobotFrekuensi != null)
-                    score += (nf * bobotFrekuensi.getWeight());
+                System.out.println("\nProduk: " + alt.get("product"));
 
-                Map<String, Object> result = new HashMap<>();
-                result.put("idKriteria", item.get("idKriteria"));
-                result.put("product", item.get("product"));
-                result.put("quantity", nq);
-                result.put("price", np);
-                result.put("totalRevenue", ntr); // Diganti dari outStock
-                result.put("frekuensi", nf);
-                result.put("score", score);
-                result.put("periode", item.get("periode"));
+                for (int i = 0; i < 4; i++) {
+                    double nilai = (double) alt.get("K" + (i + 1));
+                    double normalisasi = 0;
 
-                resultWithScore.add(result);
-            }
+                    if (tipeList.get(i).equals("benefit")) {
+                        normalisasi = nilai / max[i];
+                    } else if (tipeList.get(i).equals("cost")) {
+                        normalisasi = min[i] / nilai;
+                    }
 
-            // 5. Hapus data lama sebelum insert (opsional, untuk menghindari duplikasi)
-            String deleteOldNorm = "DELETE FROM tbl_data_normalisation WHERE periode = ?";
-            PreparedStatement psDeleteNorm = conn.prepareStatement(deleteOldNorm);
-            psDeleteNorm.setString(1, periode);
-            psDeleteNorm.executeUpdate();
+                    double bobot = bobotList.get(i);
+                    double kontribusi = normalisasi * bobot;
+                    score += kontribusi;
 
-            String deleteOldRank = "DELETE FROM tbl_data_rangking WHERE periode = ?";
-            PreparedStatement psDeleteRank = conn.prepareStatement(deleteOldRank);
-            psDeleteRank.setString(1, periode);
-            psDeleteRank.executeUpdate();
-
-            // 6. Insert ke tbl_data_normalisation dan tbl_data_rangking
-            String insertNorm = "INSERT INTO tbl_data_normalisation (idWeight, idKriteria, product, quantity, price, totalRevenue, frekuensi, periode, lastUpdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-            PreparedStatement psNorm = conn.prepareStatement(insertNorm, Statement.RETURN_GENERATED_KEYS);
-
-            String insertRank = "INSERT INTO tbl_data_rangking (idNormalisation, product, score, `rank`, periode, createAt) VALUES (?, ?, ?, ?, ?, NOW())";
-            PreparedStatement psRank = conn.prepareStatement(insertRank);
-
-            // Urutkan berdasarkan skor tertinggi
-            resultWithScore.sort((a, b) -> Double.compare((double) b.get("score"), (double) a.get("score")));
-
-            int rank = 1;
-            // Ambil idWeight pertama (asumsi semua menggunakan set bobot yang sama)
-            int commonIdWeight = bobotMap.values().iterator().next().getIdKriteria();
-
-            for (Map<String, Object> r : resultWithScore) {
-                psNorm.setInt(1, commonIdWeight);
-                psNorm.setInt(2, (int) r.get("idKriteria"));
-                psNorm.setString(3, (String) r.get("product"));
-                psNorm.setDouble(4, (double) r.get("quantity"));
-                psNorm.setDouble(5, (double) r.get("price"));
-                psNorm.setDouble(6, (double) r.get("totalRevenue")); // Diganti dari outStock
-                psNorm.setDouble(7, (double) r.get("frekuensi"));
-                psNorm.setString(8, (String) r.get("periode"));
-                psNorm.executeUpdate();
-
-                // Ambil ID normalisasi yang baru saja di-insert
-                ResultSet rsKeys = psNorm.getGeneratedKeys();
-                int idNorm = 0;
-                if (rsKeys.next()) {
-                    idNorm = rsKeys.getInt(1);
+                    System.out.printf("K%d (%s): %.3f → norm: %.3f, bobot: %.2f, kontribusi: %.3f\n",
+                            (i + 1), tipeList.get(i), nilai, normalisasi, bobot, kontribusi);
                 }
 
-                psRank.setInt(1, idNorm);
-                psRank.setString(2, (String) r.get("product"));
-                psRank.setDouble(3, (double) r.get("score"));
-                psRank.setInt(4, rank++);
-                psRank.setString(5, (String) r.get("periode"));
-                psRank.executeUpdate();
+                alt.put("score", score);
+                System.out.printf("Total Skor SAW: %.4f\n", score);
             }
 
-            System.out.println("Proses SAW selesai untuk periode: " + periode);
-            System.out.println("Total data yang diproses: " + resultWithScore.size());
+            // STEP 4: Ranking
+            System.out.println("\n=== Hasil Ranking ===");
+            alternatifList.sort((a, b) -> Double.compare((double) b.get("score"), (double) a.get("score")));
+            for (int i = 0; i < alternatifList.size(); i++) {
+                Map<String, Object> alt = alternatifList.get(i);
+                System.out.printf("RANK %d: %s (Skor: %.4f)\n", i + 1, alt.get("product"), alt.get("score"));
+            }
+
+            // === STEP 4 & 6: Simpan ke tbl_data_normalisation dan tbl_data_rangking ===
+            for (int i = 0; i < alternatifList.size(); i++) {
+                Map<String, Object> alt = alternatifList.get(i);
+
+                int idAlternatif = (int) alt.get("idAlternatif");
+                String product = (String) alt.get("product");
+                double k1 = (double) alt.get("K1");
+                double k2 = (double) alt.get("K2");
+                double k3 = (double) alt.get("K3");
+                double k4 = (double) alt.get("K4");
+                double skor = (double) alt.get("score");
+                int rank = i + 1;
+
+                // Hitung normalisasi untuk masing-masing K1–K4 (ulang dari logika sebelumnya)
+                double normK1 = tipeList.get(0).equals("benefit") ? k1 / max[0] : min[0] / k1;
+                double normK2 = tipeList.get(1).equals("benefit") ? k2 / max[1] : min[1] / k2;
+                double normK3 = tipeList.get(2).equals("benefit") ? k3 / max[2] : min[2] / k3;
+                double normK4 = tipeList.get(3).equals("benefit") ? k4 / max[3] : min[3] / k4;
+
+                // === STEP 4: Simpan atau update data normalisasi ===
+                if (loadDataNormalisation.isDataNormalisationExistForAlternatif(periode, idAlternatif)) {
+                    updateDataNormalisation.updateNormalisation(idAlternatif, product, normK1, normK2, normK3, normK4,
+                            periode);
+                } else {
+                    insertDataNormalisation.insertNormalisation(idAlternatif, product, normK1, normK2, normK3, normK4,
+                            periode);
+                }
+
+                // Ambil idNormalisation untuk referensi ke tbl_data_rangking
+                int idNormalisation = -1;
+                String getIdQuery = "SELECT idNormalisation FROM tbl_data_normalisation WHERE periode = ? AND idAlternatif = ?";
+                try (PreparedStatement stmtGetId = conn.prepareStatement(getIdQuery)) {
+                    stmtGetId.setString(1, periode);
+                    stmtGetId.setInt(2, idAlternatif);
+                    ResultSet rsId = stmtGetId.executeQuery();
+                    if (rsId.next()) {
+                        idNormalisation = rsId.getInt("idNormalisation");
+                    }
+                }
+
+                if (idNormalisation != -1) {
+                    // === STEP 6: Simpan atau update data rangking ===
+                    if (loadDataRangking.isDataRankingExistForNormalisation(periode, idNormalisation)) {
+                        updateDataRangking.updateRangking(idNormalisation, product, skor, rank, periode);
+                    } else {
+                        insertDataRangking.insertRangking(idNormalisation, product, skor, rank, periode);
+                    }
+                }
+            }
 
         } catch (Exception e) {
-            System.err.println("Error dalam proses SAW: " + e.getMessage());
+            System.err.println("Terjadi error: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    // Helper method untuk mencari bobot berdasarkan type kriteria
-    private static dataBobotKriteria findBobotByType(Map<Integer, dataBobotKriteria> bobotMap, String type) {
-        for (dataBobotKriteria bobot : bobotMap.values()) {
-            String kriteria = bobot.getKriteria().toLowerCase();
-            if (kriteria.contains(type.toLowerCase())) {
-                return bobot;
-            }
-        }
-        return null;
     }
 }

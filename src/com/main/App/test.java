@@ -7,7 +7,6 @@ import com.main.auth.utils.Role;
 import com.main.components.color;
 import com.main.models.entity.accountDataStaff;
 import com.main.models.entity.dataStaff;
-import com.main.views.popUp.popUpBobotKriteria.popUpSelectDataAlternatif;
 
 public class test {
 
@@ -27,9 +26,9 @@ public class test {
             panel.setBackground(color.DARKGREEN);
             panel.setLayout(null);
 
-            popUpSelectDataAlternatif test = new popUpSelectDataAlternatif();
-            test.setBounds(0, 0, 1200, 600);
-            panel.add(test);
+            // popUpSelectDataAlternatif test = new popUpSelectDataAlternatif();
+            // test.setBounds(0, 0, 1200, 600);
+            // panel.add(test);
 
             add(panel);
         }

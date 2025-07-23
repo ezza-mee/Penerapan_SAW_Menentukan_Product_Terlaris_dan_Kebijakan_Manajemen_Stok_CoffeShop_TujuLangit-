@@ -59,7 +59,7 @@ public class dashboardStaffView extends containerPanel {
     }
 
     public void showDashboardTransaction() {
-        transactionDashboardView dashboardTransaction = new transactionDashboardView(this);
+        transactionDashboardView dashboardTransaction = new transactionDashboardView(parentApp, this);
         lastContent = dashboardTransaction;
         parentDashboard.setContent(dashboardTransaction);
     }
