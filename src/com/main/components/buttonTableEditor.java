@@ -43,18 +43,36 @@ public class buttonTableEditor extends AbstractCellEditor implements TableCellEd
         approveButton.setPreferredSize(new Dimension(40, 40));
         approveButton.setIcon(iconApps.getApproveIconWhite(20, 20));
 
-        // Action listeners
-        editButton.addActionListener((ActionEvent e) -> {
-            actionListener.onEdit(row);
-            fireEditingStopped();
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionListener.onEdit(row);
+                fireEditingStopped();
+            }
         });
-        deleteButton.addActionListener((ActionEvent e) -> {
-            actionListener.onDelete(row);
-            fireEditingStopped();
+
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionListener.onDelete(row);
+                fireEditingStopped();
+            }
         });
-        detailButton.addActionListener((ActionEvent e) -> {
-            actionListener.onDetail(row);
-            fireEditingStopped();
+
+        detailButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionListener.onDetail(row);
+                fireEditingStopped();
+            }
+        });
+
+        approveButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionListener.onApprove(row);
+                fireEditingStopped();
+            }
         });
 
         JPanel container = new JPanel(new GridLayout(1, 3, 10, 0));
@@ -67,7 +85,7 @@ public class buttonTableEditor extends AbstractCellEditor implements TableCellEd
         if (buttonTypes.contains(buttonType.DETAIL))
             container.add(detailButton);
         if (buttonTypes.contains(buttonType.APPROVE))
-            container.add(detailButton);
+            container.add(approveButton);
 
         panel.add(container);
     }

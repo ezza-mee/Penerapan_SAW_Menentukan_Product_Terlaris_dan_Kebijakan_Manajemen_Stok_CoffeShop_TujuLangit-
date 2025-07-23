@@ -6,12 +6,12 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class updateBobotKriteria {
-    public static boolean updateData(int idWeight, String kriteria, double weight, String type) {
+    public static boolean updateData(int idWeight, String kriteria, int weight, String type) {
         String query = "UPDATE tbl_data_kriteria SET kriteria = ?, weight = ?, type = ?,  lastUpdate = NOW() WHERE idKriteria = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, kriteria);
-            stmt.setDouble(2, weight);
+            stmt.setInt(2, weight);
             stmt.setString(3, type);
             stmt.setInt(4, idWeight);
 

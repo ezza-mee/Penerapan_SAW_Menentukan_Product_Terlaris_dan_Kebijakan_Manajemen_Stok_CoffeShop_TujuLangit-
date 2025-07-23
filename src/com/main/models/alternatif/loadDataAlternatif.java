@@ -3,6 +3,7 @@ package com.main.models.alternatif;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +15,13 @@ import com.main.models.entity.dataAlternatif;
 public class loadDataAlternatif {
     public static DefaultTableModel getAllDataAlternatif() {
         String[] dataHeader = {
-                "ID Alternatif",  "ID Transaction", "ID Detail",  "ID Produck", "Product", "Price Product", "quantity",
-                "subTotal", "Frekuensi", "Periode", "Last Update"
+                "ID", "ID", "Product", "Price Product", "Quantity",
+                "Sub Revenue", "Frekuensi", "Periode", "Last Update"
         };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
-        String query = "SELECT * FROM tbl_data_alternatif WHERE DATE(lastUpdate) = CURDATE() ORDER BY lastUpdate DESC";
+        String query = "SELECT * FROM tbl_data_alternatif WHERE DATE(periode) = CURDATE() ORDER BY periode DESC";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -28,17 +29,15 @@ public class loadDataAlternatif {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "DK00" + resultData.getInt("idAlternatif"),
-                        resultData.getInt("idTransaction"),
-                        resultData.getInt("idDetailTransaction"),
-                        resultData.getInt("idProduct"),
+                        "AL00" + resultData.getInt("idAlternatif"),
+                        "AL00" + resultData.getInt("idProduct"),
                         resultData.getString("product"),
-                        resultData.getInt("price"),
-                        resultData.getInt("quantity"),
-                        resultData.getInt("totalRevenue"),
-                        resultData.getInt("frekuensi"),
+                        "Rp. " + resultData.getInt("K1"),
+                        resultData.getInt("K2"),
+                        "Rp. " + resultData.getInt("K3"),
+                        resultData.getInt("K4"),
                         resultData.getString("periode"),
-                        resultData.getTimestamp("lastUpdate")
+                        resultData.getString("createAt")
                 };
                 tm.addRow(rowData);
             }
@@ -50,10 +49,9 @@ public class loadDataAlternatif {
 
     public static DefaultTableModel getAllDataAlternatifByPeriode(String periode) {
         String[] dataHeader = {
-                "ID Alternatif", "ID Produk", "ID Transaction", "ID Detail", "Product", "price", "quantity",
-                "total Revenue", "Frekuensi", "Periode", "Last Update"
+                "ID", "ID", "Product", "Price Product", "Quantity",
+                "Sub Revenue", "Frekuensi", "Periode", "Last Update"
         };
-
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
         String query = "SELECT * FROM tbl_data_alternatif WHERE periode = ?";
@@ -65,17 +63,15 @@ public class loadDataAlternatif {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "DK00" + resultData.getInt("idAlternatif"),
-                        resultData.getInt("idTransaction"),
-                        resultData.getInt("idDetailTransaction"),
-                        resultData.getInt("idProduct"),
+                        "AL00" + resultData.getInt("idAlternatif"),
+                        "AL00" + resultData.getInt("idProduct"),
                         resultData.getString("product"),
-                        resultData.getInt("price"),
-                        resultData.getInt("quantity"),
-                        resultData.getInt("totalRevenue"),
-                        resultData.getInt("frekuensi"),
+                        "Rp. " + resultData.getInt("K1"),
+                        resultData.getInt("K2"),
+                        "Rp. " + resultData.getInt("K3"),
+                        resultData.getInt("K4"),
                         resultData.getString("periode"),
-                        resultData.getTimestamp("lastUpdate")
+                        resultData.getString("createAt")
                 };
                 tm.addRow(rowData);
             }
@@ -87,7 +83,7 @@ public class loadDataAlternatif {
 
     public static List<dataAlternatif> getListAlternatifByPeriode(String periode) {
         List<dataAlternatif> list = new ArrayList<>();
-        String query = "SELECT * FROM tbl_data_Alternatif WHERE periode = ?";
+        String query = "SELECT * FROM tbl_data_alternatif WHERE periode = ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -96,12 +92,12 @@ public class loadDataAlternatif {
 
             while (rs.next()) {
                 dataAlternatif k = new dataAlternatif(
-                        rs.getInt("idAlternatif"),
+                        rs.getInt("idProduct"),
                         rs.getString("product"),
-                        rs.getInt("price"),
-                        rs.getInt("quantity"),
-                        rs.getInt("totalRevenue"),
-                        rs.getInt("frekuensi"),
+                        rs.getInt("K1"),
+                        rs.getInt("K2"),
+                        rs.getInt("K3"),
+                        rs.getInt("K4"),
                         rs.getString("periode"));
                 list.add(k);
             }

@@ -82,7 +82,6 @@ public class popUpInputBobotKriteria extends popUpPanel {
 
         kriteriaField = new textField(40, 120, 420, 10);
         weightField = new textField(40, 210, 420, 10);
-        ((AbstractDocument) weightField.getDocument()).setDocumentFilter(new doubleInputFilter());
 
         kriteriaField.setPlaceholder("Enter Kriteria");
         weightField.setPlaceholder("Enter Weight Bobot Kriteria");
@@ -126,8 +125,10 @@ public class popUpInputBobotKriteria extends popUpPanel {
 
     public void setFormBobotKriteria(dataBobotKriteria bobotKriteria) {
         kriteriaField.setText(bobotKriteria.getKriteria());
-        weightField.setText(String.valueOf(bobotKriteria.getIdKriteria()));
+        weightField.setText(String.valueOf(bobotKriteria.getWeight()));
         typeField.setSelectedItem(bobotKriteria.getType());
+
+        System.out.println("idKriteria : " + bobotKriteria.getIdKriteria());
 
         bobotKriteriaIdToEdit = bobotKriteria.getIdKriteria();
     }
@@ -148,10 +149,12 @@ public class popUpInputBobotKriteria extends popUpPanel {
                     String stringWeight = weightField.getText().trim();
                     String type = (String) typeField.getSelectedItem();
 
+                    // Bersihkan error label
                     remove(kriteriaEmptyLabel);
                     remove(weightEmptyLabel);
                     remove(typeEmptyLabel);
 
+                    // Validasi input kosong
                     String validation = authData.validateBobotKriteriaInput(kriteria, stringWeight, type);
                     switch (validation) {
                         case "ALL_FIELDS_EMPTY":
@@ -170,33 +173,34 @@ public class popUpInputBobotKriteria extends popUpPanel {
                             return;
                         case "VALID":
                             boolean success = false;
-                            double weight = Double.parseDouble(stringWeight);
 
-                            double oldWeight = 0.0;
-
-                            if (bobotKriteriaIdToEdit != -1) {
-                                oldWeight = authDataBobotKriteria.getWeightById(bobotKriteriaIdToEdit);
+                            // Coba parse ke int
+                            int weight;
+                            try {
+                                weight = Integer.parseInt(stringWeight);
+                            } catch (NumberFormatException ex) {
+                                parentView.showFailedPopUp("Weight must be a number between 1 and 5");
+                                return;
                             }
 
-                            if (authDataBobotKriteria.isTotalWeightExceedingLimit(weight, oldWeight)) {
-                                double recommended = 1.0 - (authDataBobotKriteria.getCurrentTotalWeight() - oldWeight);
-                                weightField.setText(String.format("%.2f", recommended));
-                                parentView.showFailedPopUp(
-                                        "Total weight exceeds 1.0. Recommended weight: " + recommended);
+                            // Validasi rentang bobot
+                            if (weight < 1 || weight > 5) {
+                                parentView.showFailedPopUp("Weight must be between 1 and 5 only");
                                 return;
                             }
 
                             if (bobotKriteriaIdToEdit == -1) {
+                                // Insert data baru
                                 success = authDataBobotKriteria.insertBobotKriteria(kriteria, weight, type);
                                 if (success) {
                                     parentApp.hideGlassFormPanel();
                                     parentView.showDashboardBobotKriteria();
                                     parentView.showSuccessPopUp("Data Bobot Kriteria Successfully Saved");
-
                                 } else {
                                     parentView.showFailedPopUp("Failed to Save Data Bobot Kriteria");
                                 }
                             } else {
+                                // Update data lama
                                 success = authDataBobotKriteria.updateBobotKriteria(bobotKriteriaIdToEdit, kriteria,
                                         weight, type);
                                 if (success) {
@@ -216,6 +220,7 @@ public class popUpInputBobotKriteria extends popUpPanel {
                 }
             }
         });
+
     }
 
 }

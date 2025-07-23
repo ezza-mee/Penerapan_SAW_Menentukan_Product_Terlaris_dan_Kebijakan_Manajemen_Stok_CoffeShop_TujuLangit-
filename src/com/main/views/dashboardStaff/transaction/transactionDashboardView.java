@@ -1,14 +1,22 @@
 package com.main.views.dashboardStaff.transaction;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
+import com.main.models.alternatif.getPeriodeTransaction;
+import com.main.models.alternatif.loadDataAlternatif;
 import com.main.models.transaction.loadDataTransaction;
 import com.main.routes.dashboardStaffView;
+import com.main.routes.mainFrame;
+import com.main.services.authDataSaw;
+import com.main.services.authDataTransaction;
 import com.main.controller.actionButtonTable;
 
 public class transactionDashboardView extends contentPanel {
+
+    private mainFrame parentApp;
 
     private dashboardStaffView parentView;
 
@@ -23,8 +31,9 @@ public class transactionDashboardView extends contentPanel {
 
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.DETAIL, buttonType.APPROVE);
 
-    public transactionDashboardView(dashboardStaffView parentView) {
+    public transactionDashboardView(mainFrame parentApp, dashboardStaffView parentView) {
         super();
+        this.parentApp = parentApp;
         this.parentView = parentView;
         initContent();
     }
@@ -75,8 +84,51 @@ public class transactionDashboardView extends contentPanel {
 
             @Override
             public void onApprove(int row) {
-                // Not implemented
-                System.out.println("Approve row: " + row);
+                int selectedRow = dataTransaction.getSelectedRow();
+                if (selectedRow != -1) {
+                    String stringIdTransaction = dataTransaction.getValueAt(selectedRow, 0).toString().trim();
+                    int idTransaction = Integer.parseInt(stringIdTransaction.replaceAll("[^0-9]", ""));
+
+                    boolean isSuccess = authDataTransaction.updateStatusTransaction(idTransaction);
+
+                    if (isSuccess) {
+                        try {
+
+                            String periode = null;
+                            int attempts = 0;
+
+                            while (periode == null && attempts < 5) {
+                                Thread.sleep(1500); // tunggu 0.5 detik
+
+                                periode = getPeriodeTransaction.getPeriodeByTransaction(idTransaction);
+                                attempts++;
+                            }
+
+                            if (periode != null) {
+                                List<Integer> idProductList = getPeriodeTransaction
+                                        .getIdProductsByTransaction(idTransaction);
+                                authDataSaw.executeSAW(periode, idProductList);
+
+                                System.out.println("Periode : " + periode);
+                            } else {
+                                System.out.println("Clicked Transaction ID: " + idTransaction);
+                                System.out.println("Periode hasil ambil: " + periode);
+
+                            }
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        parentApp.hideGlassNotificationPanel();
+                        parentView.showSuccessPopUp("Success Approve Data Transaction");
+                        parentView.showDashboardTransaction();
+                    } else {
+                        parentApp.hideGlassNotificationPanel();
+                        parentView.showFailedPopUp("Failed Approve Data Transaction");
+                        parentView.showDashboardTransaction();
+                    }
+                }
             }
         };
 
@@ -113,6 +165,10 @@ public class transactionDashboardView extends contentPanel {
         dataTransaction.getColumnModel().getColumn(7).setMinWidth(100);
         dataTransaction.getColumnModel().getColumn(7).setMaxWidth(100);
         dataTransaction.getColumnModel().getColumn(7).setWidth(100);
+
+        dataTransaction.getColumnModel().getColumn(8).setMinWidth(100);
+        dataTransaction.getColumnModel().getColumn(8).setMaxWidth(100);
+        dataTransaction.getColumnModel().getColumn(8).setWidth(100);
     }
 
     private void setColor() {

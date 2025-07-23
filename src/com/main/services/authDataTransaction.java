@@ -5,14 +5,17 @@ import java.util.List;
 import com.main.models.entity.listTransactionProduct;
 import com.main.models.transaction.insertDetailTransaction;
 import com.main.models.transaction.insertTransaction;
+import com.main.models.transaction.updateTransactionStatus;
 
 public class authDataTransaction {
 
     public static int insertDataTransaction(int idStaff, int idTable, String staff,
-            String numberTable, String customer, int qantity, int priceProduct,  int subPrice, String description, String payment,
+            String numberTable, String customer, int qantity, int priceProduct, int subPrice, String description,
+            String payment,
             List<listTransactionProduct> listProduct) {
 
-        int idTransaction = insertTransaction.insertData(idStaff, idTable, staff, numberTable, customer, qantity, subPrice,
+        int idTransaction = insertTransaction.insertData(idStaff, idTable, staff, numberTable, customer, qantity,
+                subPrice,
                 description, payment);
 
         if (idTransaction == -1) {
@@ -35,6 +38,10 @@ public class authDataTransaction {
         }
 
         return idTransaction;
+    }
+
+    public static boolean updateStatusTransaction(int idTransaction) {
+        return updateTransactionStatus.updateToDone(idTransaction);
     }
 
     public String validateDataTransactionInput(String numberTable, String customer, String description,
