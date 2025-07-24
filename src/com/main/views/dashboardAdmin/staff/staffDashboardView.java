@@ -20,28 +20,33 @@ import com.main.views.popUp.popUpConfrim;
 public class staffDashboardView extends contentPanel implements searchableView {
 
     private mainFrame parentApp;
-
     private dashboardAdminView parentView;
-
-    private textLabel headerLabel, totalStaffLabel;
-
-    private textLabel valueTotalStaffLabel;
-
-    private panelRounded headerPanel, contentPanel, lineQuantityStaff;
-
-    private textField searchField;
-
+    private textLabel headerLabel;
+    private panelRounded headerPanel, contentPanel;
     private buttonCustom buttonAdd;
-
     private tableActionButton dataStaffTable;
-
     private scrollTable scrollDataStaff;
-
-    private appIcons iconApps = new appIcons();
-
-    private imageIcon iconUser = iconApps.getUserIconGreen(35, 35);
-
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, buttonType.DELETE, buttonType.DETAIL);
+    private linkLabel allDataStaffLabel, dataStaffActiveLabel, dataStaffInActiveLabel, dataStaffResignLabel;
+
+    private int quantityAllDataStaff = loadDataStaff.getAllQuantityDataStaff();
+    private int quantityDataStaffActive = loadDataStaff.getAllQuantityDataStaffActive();
+    private int quantityDataStaffInActive = loadDataStaff.getAllQuantityDataStaffInActive();
+    private int quantityDataStaffResign = loadDataStaff.getAllQuantityDataStaffResign();
+
+    private void setColor() {
+        headerLabel.setForeground(color.BLACK);
+        headerPanel.setBackground(color.WHITE);
+        contentPanel.setBackground(color.WHITE);
+    }
+
+    private void setFont() {
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
+        allDataStaffLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        dataStaffActiveLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        dataStaffInActiveLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        dataStaffResignLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+    }
 
     public staffDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
@@ -52,17 +57,17 @@ public class staffDashboardView extends contentPanel implements searchableView {
 
     @Override
     public void initContent() {
-        setPosition();
+        setLayout();
         setColor();
         setFont();
-        handelButton();
+        setAction();
+        showAllDataStaff();
 
-        headerPanel.add(iconUser);
-        headerPanel.add(totalStaffLabel);
-        headerPanel.add(valueTotalStaffLabel);
-        headerPanel.add(searchField);
+        headerPanel.add(allDataStaffLabel);
+        headerPanel.add(dataStaffActiveLabel);
+        headerPanel.add(dataStaffInActiveLabel);
+        headerPanel.add(dataStaffResignLabel);
         headerPanel.add(buttonAdd);
-        headerPanel.add(lineQuantityStaff);
 
         contentPanel.add(scrollDataStaff);
 
@@ -73,21 +78,105 @@ public class staffDashboardView extends contentPanel implements searchableView {
         setVisible(true);
     }
 
-    private void setPosition() {
+    private void setLayout() {
         headerLabel = new textLabel("Data Staff", 40, 0, 200, 80);
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
-        lineQuantityStaff = new panelRounded(320, 35, 5, 50, 3, 3);
 
-        iconUser.setBounds(40, 40, 35, 35);
-
-        totalStaffLabel = new textLabel("Total Staff : ", 100, 45, 200, 30);
-        valueTotalStaffLabel = new textLabel("100", 210, 45, 200, 30);
-
-        searchField = new textField(380, 45, 350, 10);
-        searchField.setPlaceholder("Search Staff");
+        allDataStaffLabel = new linkLabel("ALL", 40, 40, 80, 30);
+        allDataStaffLabel.setQuantity(quantityAllDataStaff);
+        dataStaffActiveLabel = new linkLabel("Active", 155, 40, 90, 30);
+        dataStaffActiveLabel.setQuantity(quantityDataStaffActive);
+        dataStaffInActiveLabel = new linkLabel("In Active", 280, 40, 110, 30);
+        dataStaffInActiveLabel.setQuantity(quantityDataStaffInActive);
+        dataStaffResignLabel = new linkLabel("Resign", 430, 40, 110, 30);
+        dataStaffResignLabel.setQuantity(quantityDataStaffResign);
 
         buttonAdd = new buttonCustom("Add", 900, 40, 100, 40, 10);
+    }
+
+    private void setAction() {
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+
+                parentView.showFormStaff();
+            }
+        });
+
+        allDataStaffLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showAllDataStaff();
+            }
+        });
+
+        dataStaffActiveLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showDataStaffActive();
+            }
+        });
+
+        dataStaffInActiveLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showDataStaffInActive();
+            }
+        });
+
+        dataStaffResignLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showDataStaffResign();
+            }
+        });
+    }
+
+    private void resetLinkLabel() {
+        allDataStaffLabel.setForeground(color.DARKGREY);
+        allDataStaffLabel.setLabelInActive();
+
+        dataStaffActiveLabel.setForeground(color.DARKGREY);
+        dataStaffActiveLabel.setLabelInActive();
+
+        dataStaffInActiveLabel.setForeground(color.DARKGREY);
+        dataStaffInActiveLabel.setLabelInActive();
+
+        dataStaffResignLabel.setForeground(color.DARKGREEN);
+        dataStaffResignLabel.setLabelInActive();
+    }
+
+    private void showAllDataStaff() {
+        resetLinkLabel();
+        allDataStaffLabel.setForeground(color.DARKGREEN);
+        allDataStaffLabel.setLabelActive();
+        loadAllDataStaff();
+
+    }
+
+    private void showDataStaffActive() {
+        resetLinkLabel();
+        dataStaffActiveLabel.setForeground(color.DARKGREEN);
+        dataStaffActiveLabel.setLabelActive();
+        loadDataStaffActive();
+    }
+
+    private void showDataStaffInActive() {
+        resetLinkLabel();
+        dataStaffInActiveLabel.setForeground(color.DARKGREEN);
+        dataStaffInActiveLabel.setLabelActive();
+        loadDataStaffInActive();
+    }
+
+    private void showDataStaffResign() {
+        resetLinkLabel();
+        dataStaffResignLabel.setForeground(color.DARKGREEN);
+        dataStaffResignLabel.setLabelActive();
+        loadDataStaffResign();
+    }
+
+    private void loadAllDataStaff() {
 
         actionButtonTable actionButton = new actionButtonTable() {
             @Override
@@ -199,6 +288,371 @@ public class staffDashboardView extends contentPanel implements searchableView {
 
         scrollDataStaff = new scrollTable(dataStaffTable, 0, 0, 1050, 410);
 
+        setHeaderTableAllDataStaff();
+        contentPanel.removeAll(); // ini penting
+        contentPanel.add(scrollDataStaff);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void loadDataStaffActive() {
+        actionButtonTable actionButton = new actionButtonTable() {
+            @Override
+            public void onEdit(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to edit Data Staff?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+
+                                entityDataStaff selectedDataStaff = loadDataStaff.getDataStaffById(idStaff);
+
+                                if (selectedDataStaff != null) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.setDataStaffToEdit(selectedDataStaff);
+                                    parentView.showFormStaff();
+                                } else {
+                                    parentView.showFailedPopUp("Data Staff not found!");
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDelete(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to delete Data Staff?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                                boolean isSuccess = authDataStaff.resignStaffById(idStaff);
+
+                                if (isSuccess) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showSuccessPopUp("Success Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                } else {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showFailedPopUp("Failed Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDetail(int row) {
+                try {
+                    int selectedRow = dataStaffTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                        int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                        parentView.showDetailPopUpDataStaff(idStaff);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    parentView.showFailedPopUp("Data Staff not found!");
+                }
+            }
+
+            @Override
+            public void onApprove(int row) {
+                // Not implemented
+                System.out.println("Approve row: " + row);
+            }
+        };
+
+        dataStaffTable = new tableActionButton(loadDataStaff.getAllDataStaffActive(), actionButton);
+
+        int actionColumnIndex = 5;
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellRenderer(new buttonTableRenderer(buttonTypes));
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellEditor(new buttonTableEditor(actionButton, buttonTypes));
+
+        scrollDataStaff = new scrollTable(dataStaffTable, 0, 0, 1050, 410);
+
+        contentPanel.removeAll();
+        contentPanel.add(scrollDataStaff);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+
+        setHeaderTableAllDataStaff();
+    }
+
+    private void loadDataStaffInActive() {
+        actionButtonTable actionButton = new actionButtonTable() {
+            @Override
+            public void onEdit(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to edit Data Staff?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+
+                                entityDataStaff selectedDataStaff = loadDataStaff.getDataStaffById(idStaff);
+
+                                if (selectedDataStaff != null) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.setDataStaffToEdit(selectedDataStaff);
+                                    parentView.showFormStaff();
+                                } else {
+                                    parentView.showFailedPopUp("Data Staff not found!");
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDelete(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to delete Data Staff?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                                boolean isSuccess = authDataStaff.resignStaffById(idStaff);
+
+                                if (isSuccess) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showSuccessPopUp("Success Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                } else {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showFailedPopUp("Failed Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDetail(int row) {
+                try {
+                    int selectedRow = dataStaffTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                        int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                        parentView.showDetailPopUpDataStaff(idStaff);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    parentView.showFailedPopUp("Data Staff not found!");
+                }
+            }
+
+            @Override
+            public void onApprove(int row) {
+                // Not implemented
+                System.out.println("Approve row: " + row);
+            }
+        };
+
+        dataStaffTable = new tableActionButton(loadDataStaff.getAllDataStaffInActive(), actionButton);
+
+        int actionColumnIndex = 5;
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellRenderer(new buttonTableRenderer(buttonTypes));
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellEditor(new buttonTableEditor(actionButton, buttonTypes));
+
+        scrollDataStaff = new scrollTable(dataStaffTable, 0, 0, 1050, 410);
+
+        contentPanel.removeAll();
+        contentPanel.add(scrollDataStaff);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+
+        setHeaderTableAllDataStaff();
+    }
+
+    private void loadDataStaffResign() {
+        actionButtonTable actionButton = new actionButtonTable() {
+            @Override
+            public void onEdit(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to edit Data Staff?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+
+                                entityDataStaff selectedDataStaff = loadDataStaff.getDataStaffById(idStaff);
+
+                                if (selectedDataStaff != null) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.setDataStaffToEdit(selectedDataStaff);
+                                    parentView.showFormStaff();
+                                } else {
+                                    parentView.showFailedPopUp("Data Staff not found!");
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDelete(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView
+                            .showConfrimPopUp("Do you want to delete Data Staff?");
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataStaffTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                                int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                                boolean isSuccess = authDataStaff.resignStaffById(idStaff);
+
+                                if (isSuccess) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showSuccessPopUp("Success Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                } else {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showFailedPopUp("Failed Delete Data Staff");
+                                    parentView.showDashboardStaff();
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDetail(int row) {
+                try {
+                    int selectedRow = dataStaffTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String stringIdStaff = dataStaffTable.getValueAt(selectedRow, 0).toString();
+                        int idStaff = Integer.parseInt(stringIdStaff.replaceAll("[^0-9]", ""));
+                        parentView.showDetailPopUpDataStaff(idStaff);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    parentView.showFailedPopUp("Data Staff not found!");
+                }
+            }
+
+            @Override
+            public void onApprove(int row) {
+                // Not implemented
+                System.out.println("Approve row: " + row);
+            }
+        };
+
+        dataStaffTable = new tableActionButton(loadDataStaff.getAllDataStaffResign(), actionButton);
+
+        int actionColumnIndex = 5;
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellRenderer(new buttonTableRenderer(buttonTypes));
+        dataStaffTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellEditor(new buttonTableEditor(actionButton, buttonTypes));
+
+        scrollDataStaff = new scrollTable(dataStaffTable, 0, 0, 1050, 410);
+
+        contentPanel.removeAll();
+        contentPanel.add(scrollDataStaff);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+
+        setHeaderTableAllDataStaff();
+    }
+
+    private void setHeaderTableAllDataStaff() {
         dataStaffTable.getColumnModel().getColumn(0).setMinWidth(80);
         dataStaffTable.getColumnModel().getColumn(0).setMaxWidth(80);
         dataStaffTable.getColumnModel().getColumn(0).setWidth(80);
@@ -212,34 +666,9 @@ public class staffDashboardView extends contentPanel implements searchableView {
         dataStaffTable.getColumnModel().getColumn(4).setWidth(90);
     }
 
-    private void setColor() {
-        headerLabel.setForeground(color.BLACK);
-        headerPanel.setBackground(color.WHITE);
-        contentPanel.setBackground(color.WHITE);
-        lineQuantityStaff.setBackground(color.DARKGREY);
-
-        totalStaffLabel.setForeground(color.BLACK);
-        valueTotalStaffLabel.setForeground(color.BLACK);
-    }
-
-    private void setFont() {
-        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
-        totalStaffLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 18f));
-        valueTotalStaffLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 18f));
-    }
-
-    private void handelButton() {
-        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentView.showFormStaff();
-            }
-        });
-    }
-
     public void filterDataByKeyword(String keyword) {
         DefaultTableModel model = (DefaultTableModel) dataStaffTable.getModel();
-        model.setRowCount(0); // Clear table data
+        model.setRowCount(0);
 
         ArrayList<dataStaff> list;
 
@@ -251,11 +680,11 @@ public class staffDashboardView extends contentPanel implements searchableView {
 
         for (dataStaff dataStaff : list) {
             model.addRow(new Object[] {
-                    "NS00" + dataStaff.getIdStaff(), // ID
-                    dataStaff.getDate(), // Date
-                    dataStaff.getName(), // Name
-                    dataStaff.getJobdesk(), // Jobdesk
-                    dataStaff.getStatus(), // Status
+                    "NS00" + dataStaff.getIdStaff(),
+                    dataStaff.getDate(),
+                    dataStaff.getName(),
+                    dataStaff.getJobdesk(),
+                    dataStaff.getStatus(),
                     "Aksi"
             });
         }

@@ -13,7 +13,6 @@ public class panelRounded extends JPanel {
                 this.leftRadius = leftRadius;
                 this.rightRadius = rightRadius;
                 setBounds(x, y, width, height);
-                setPreferredSize(new Dimension(width, height));
                 setOpaque(false);
                 setLayout(null);
         }
@@ -36,4 +35,20 @@ public class panelRounded extends JPanel {
                 g2.fillRoundRect(getWidth() - rightRadius * 2, 0, rightRadius * 2, getHeight(), rightRadius * 2,
                                 rightRadius * 2);
         }
+
+        @Override
+        public Dimension getPreferredSize() {
+                int maxHeight = 0;
+                int maxWidth = 0;
+
+                for (Component comp : getComponents()) {
+                        Rectangle bounds = comp.getBounds();
+                        maxHeight = Math.max(maxHeight, bounds.y + bounds.height);
+                        maxWidth = Math.max(maxWidth, bounds.x + bounds.width);
+                }
+
+                // Tambahkan padding jika perlu
+                return new Dimension(Math.max(maxWidth, getWidth()), maxHeight);
+        }
+
 }

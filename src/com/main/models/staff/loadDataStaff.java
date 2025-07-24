@@ -18,7 +18,7 @@ public class loadDataStaff {
         String[] dataHeader = { "ID", "Date", "Name", "Jobdesk", "Status", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatastaff WHERE status IN ('Active', 'Inactive')";
+        String query = "SELECT * FROM vwalldatastaff";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -31,6 +31,84 @@ public class loadDataStaff {
                         resultData.getString("name"),
                         resultData.getString("jobdesk"),
                         resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataStaffActive() {
+        String[] dataHeader = { "ID", "Date", "Name", "Jobdesk", "Status", "Aksi" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        String query = "SELECT * FROM vwalldatastaff WHERE status = 'Active'";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery();
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "NS00" + resultData.getInt("idStaff"),
+                        resultData.getString("date"),
+                        resultData.getString("name"),
+                        resultData.getString("jobdesk"),
+                        resultData.getString("status")
+                };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataStaffInActive() {
+        String[] dataHeader = { "ID", "Date", "Name", "Jobdesk", "Status", "Aksi" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        String query = "SELECT * FROM vwalldatastaff WHERE status = 'Inactive'";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery();
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "NS00" + resultData.getInt("idStaff"),
+                        resultData.getString("date"),
+                        resultData.getString("name"),
+                        resultData.getString("jobdesk"),
+                        resultData.getString("status")
+                };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataStaffResign() {
+        String[] dataHeader = { "ID", "Date", "Name", "Jobdesk", "Status", "Aksi" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        String query = "SELECT * FROM vwalldatastaff WHERE status = 'Resign'";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery();
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "NS00" + resultData.getInt("idStaff"),
+                        resultData.getString("date"),
+                        resultData.getString("name"),
+                        resultData.getString("jobdesk"),
+                        resultData.getString("status")
+                };
                 tm.addRow(rowData);
             }
         } catch (Exception e) {
@@ -65,6 +143,78 @@ public class loadDataStaff {
         }
 
         return staffList;
+    }
+
+    public static int getAllQuantityDataStaff() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_staff";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataStaffActive() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_staff WHERE status = 'Active'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataStaffInActive() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_staff WHERE status = 'Inactive'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataStaffResign() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_staff WHERE status = 'Resign'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
     }
 
     public static entityDataStaff getDataStaffById(int idStaff) {

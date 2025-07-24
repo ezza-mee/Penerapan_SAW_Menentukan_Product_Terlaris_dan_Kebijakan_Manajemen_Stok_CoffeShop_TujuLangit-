@@ -1,10 +1,7 @@
 package com.main.views.popUp.popUpBobotKriteria;
 
-import javax.swing.text.AbstractDocument;
-
 import com.main.components.*;
 import com.main.components.panelApps.popUpPanel;
-import com.main.controller.doubleInputFilter;
 import com.main.routes.dashboardAdminView;
 import com.main.routes.mainFrame;
 import com.main.services.authDataBobotKriteria;
@@ -13,26 +10,16 @@ import com.main.models.entity.dataBobotKriteria;
 public class popUpInputBobotKriteria extends popUpPanel {
 
     private mainFrame parentApp;
-
     private dashboardAdminView parentView;
-
     private textLabel headerLabel;
-
     private textLabel kriteriaLabel, weightLabel, typeLabel;
-
     private textLabel kriteriaEmptyLabel, weightEmptyLabel, typeEmptyLabel;
-
     private textField kriteriaField, weightField;
-
     private comboBox<String> typeField;
-
     private buttonCustom buttonBack, buttonReset, buttonSave;
-
     private appIcons appIcons = new appIcons();
     private imageIcon backIcon = appIcons.getBackIconWhite(25, 25);
-
     private authDataBobotKriteria authData = new authDataBobotKriteria();
-
     private int bobotKriteriaIdToEdit = -1;
 
     public popUpInputBobotKriteria(mainFrame parentApp, dashboardAdminView parentView) {
@@ -90,7 +77,7 @@ public class popUpInputBobotKriteria extends popUpPanel {
         typeField = new comboBox<>(typeItems, 40, 310, 420, 30, 10);
         typeField.setPlaceholder("Select type Bobot ");
 
-        buttonBack = new buttonCustom("", 40, 380, 50, 40, 10);
+        buttonBack = new buttonCustom("Back", 40, 380, 130, 40, 10);
         buttonBack.setIcon(backIcon);
         buttonReset = new buttonCustom("Reset", 230, 380, 100, 40, 10);
         buttonSave = new buttonCustom("Save", 360, 380, 100, 40, 10);
@@ -120,7 +107,6 @@ public class popUpInputBobotKriteria extends popUpPanel {
         kriteriaEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         weightEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         typeEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
-
     }
 
     public void setFormBobotKriteria(dataBobotKriteria bobotKriteria) {
@@ -195,9 +181,9 @@ public class popUpInputBobotKriteria extends popUpPanel {
                                 if (success) {
                                     parentApp.hideGlassFormPanel();
                                     parentView.showDashboardBobotKriteria();
-                                    parentView.showSuccessPopUp("Data Bobot Kriteria Successfully Saved");
+                                    parentView.showSuccessPopUp("Data Weight Kriteria Successfully Saved");
                                 } else {
-                                    parentView.showFailedPopUp("Failed to Save Data Bobot Kriteria");
+                                    parentView.showFailedPopUp("Failed to Save Data Weight Kriteria");
                                 }
                             } else {
                                 // Update data lama
@@ -206,9 +192,9 @@ public class popUpInputBobotKriteria extends popUpPanel {
                                 if (success) {
                                     parentApp.hideGlassFormPanel();
                                     parentView.showDashboardBobotKriteria();
-                                    parentView.showSuccessPopUp("Data Bobot Kriteria Successfully Updated");
+                                    parentView.showSuccessPopUp("Data Weight Kriteria Successfully Updated");
                                 } else {
-                                    parentView.showFailedPopUp("Failed to Update Data Bobot Kriteria");
+                                    parentView.showFailedPopUp("Failed to Update Data Weight Kriteria");
                                 }
                             }
                             return;

@@ -5,9 +5,9 @@ import javax.swing.*;
 public class linkLabel extends JPanel {
 
     private JLabel label;
-    private JLabel quantityLabel; // label jumlah
+    private JLabel quantityLabel; 
 
-    public java.awt.event.MouseAdapter labelAktif = new java.awt.event.MouseAdapter() {
+    public java.awt.event.MouseAdapter labelActive = new java.awt.event.MouseAdapter() {
         @Override
         public void mouseEntered(java.awt.event.MouseEvent e) {
             setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREEN));
@@ -16,13 +16,13 @@ public class linkLabel extends JPanel {
         }
 
         public void mouseExited(java.awt.event.MouseEvent e) {
-            setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREY));
-            label.setForeground(color.DARKGREY);
-            quantityLabel.setBackground(color.DARKGREY);
+            setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREEN));
+            label.setForeground(color.DARKGREEN);
+            quantityLabel.setBackground(color.RED);
         }
     };
 
-    public java.awt.event.MouseAdapter labelInAktif = new java.awt.event.MouseAdapter() {
+    public java.awt.event.MouseAdapter labelInActive = new java.awt.event.MouseAdapter() {
         @Override
         public void mouseEntered(java.awt.event.MouseEvent e) {
             setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREEN));
@@ -66,30 +66,30 @@ public class linkLabel extends JPanel {
         });
 
         add(label);
-        setLabelAktif();
+        setLabelActive();
         revalidate();
         repaint();
     }
 
-    public void setLabelAktif() {
+    public void setLabelActive() {
         try {
-            removeMouseListener(labelInAktif);
+            removeMouseListener(labelInActive);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        addMouseListener(labelAktif);
+        addMouseListener(labelActive);
         setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREEN));
         label.setForeground(color.DARKGREEN);
         updateQuantityStyle(true);
     }
 
-    public void setLabelInAktif() {
+    public void setLabelInActive() {
         try {
-            removeMouseListener(labelAktif);
+            removeMouseListener(labelActive);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        addMouseListener(labelInAktif);
+        addMouseListener(labelInActive);
         setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, color.DARKGREY));
         label.setForeground(color.DARKGREY);
         updateQuantityStyle(false);

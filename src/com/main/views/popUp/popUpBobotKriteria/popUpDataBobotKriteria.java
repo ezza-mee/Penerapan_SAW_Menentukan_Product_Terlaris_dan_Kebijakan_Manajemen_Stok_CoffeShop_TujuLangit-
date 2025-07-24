@@ -182,7 +182,7 @@ public class popUpDataBobotKriteria extends popUpPanel {
     }
 
     private void setFont() {
-        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 20f));
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
 
     }
 
