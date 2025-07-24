@@ -170,7 +170,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showDashboardCalculation() {
-        calculationDashboardView dashboardCalculation = new calculationDashboardView(parentApp, this);
+        calculationDashboardView dashboardCalculation = new calculationDashboardView(this);
         lastContent = dashboardCalculation;
         parentDashboard.setContent(dashboardCalculation);
     }

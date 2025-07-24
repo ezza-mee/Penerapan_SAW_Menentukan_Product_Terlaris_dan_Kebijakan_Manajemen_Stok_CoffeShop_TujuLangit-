@@ -11,33 +11,38 @@ import com.main.models.alternatif.loadDataAlternatif;
 import com.main.models.normalisation.loadDataNormalisation;
 import com.main.models.rangking.loadDataRangking;
 import com.main.routes.dashboardAdminView;
-import com.main.routes.mainFrame;
 
 public class calculationDashboardView extends contentPanel {
 
-    private mainFrame parentApp;
-
     private dashboardAdminView parentView;
-
     private panelRounded headerPanel, containerPanel, contentPanel;
-
     private datePickerField dateField;
-
-    private textLabel dataAlternatifLabel;
-
+    private textLabel dataAlternatifLabel, dataNormalisationLabel, dataRangkingLabel;
     private tableNoActionButton dataAlternatif, dataNormalisation, dataRangking;
-
     private scrollTable scrollDataAlternatif, scrollDataNormalisation, scrollDataRangking;
-
     private scrollPane scrollDataCalculation;
-
     private buttonCustom buttonAddBobot;
-
     private String selectedPriode = null;
 
-    public calculationDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private String today = sdf.format(new Date());
+
+    private void setColor() {
+        headerPanel.setBackground(color.WHITE);
+        contentPanel.setBackground(color.WHITE);
+        dataAlternatifLabel.setForeground(color.BLACK);
+        dataNormalisationLabel.setForeground(color.BLACK);
+        dataRangkingLabel.setForeground(color.BLACK);
+    }
+
+    private void setFont() {
+        dataAlternatifLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+        dataNormalisationLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+        dataRangkingLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+    }
+
+    public calculationDashboardView(dashboardAdminView parentView) {
         super();
-        this.parentApp = parentApp;
         this.parentView = parentView;
 
         initContent();
@@ -54,6 +59,8 @@ public class calculationDashboardView extends contentPanel {
         headerPanel.add(buttonAddBobot);
 
         contentPanel.add(dataAlternatifLabel);
+        contentPanel.add(dataNormalisationLabel);
+        contentPanel.add(dataRangkingLabel);
 
         contentPanel.add(scrollDataAlternatif);
         contentPanel.add(scrollDataNormalisation);
@@ -70,15 +77,17 @@ public class calculationDashboardView extends contentPanel {
     private void setLayout() {
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         dataAlternatifLabel = new textLabel("Data Alternatif", 40, 20, 300, 40);
+        dataNormalisationLabel = new textLabel("Data Normalisation", 40, 400, 300, 40);
+        dataRangkingLabel = new textLabel("Data Rangking", 40, 820, 300, 40);
         buttonAddBobot = new buttonCustom("Add Bobot", 870, 35, 135, 40, 10);
 
-        containerPanel = new panelRounded(40, 220, 1050, 1200, 0, 0);
+        containerPanel = new panelRounded(40, 220, 1050, 410, 0, 0);
 
         scrollDataCalculation = new scrollPane(containerPanel, 40, 220, 1050, 410);
 
         contentPanel = new panelRounded(0, 0, 1050, 1200, 10, 10);
 
-        dateField = new datePickerField(40, 20, 300, 30, "Select Date");
+        dateField = new datePickerField(40, 40, 300, 40, today);
 
         dataAlternatif = new tableNoActionButton(loadDataAlternatif.getAllDataAlternatif());
         scrollDataAlternatif = new scrollTable(dataAlternatif, 0, 80, 1050, 300);
@@ -92,18 +101,6 @@ public class calculationDashboardView extends contentPanel {
         setHeaderTableAlternatif();
         setHeaderTableNormalisation();
         setHeaderTableRangking();
-    }
-
-    private void setColor() {
-        headerPanel.setBackground(color.WHITE);
-        contentPanel.setBackground(color.WHITE);
-
-        dataAlternatifLabel.setForeground(color.BLACK);
-
-    }
-
-    private void setFont() {
-        dataAlternatifLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
     }
 
     private void setAction() {
@@ -134,6 +131,7 @@ public class calculationDashboardView extends contentPanel {
                 }
             }
         });
+
     }
 
     private void loadTableAlternatif(String periode) {

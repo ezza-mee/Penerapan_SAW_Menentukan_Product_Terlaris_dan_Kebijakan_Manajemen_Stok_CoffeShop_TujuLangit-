@@ -177,4 +177,8 @@ public class appIcons {
     public imageIcon getBackIconWhite(int width, int height) {
         return loadIcon("src/com/main/resources/images/back(white).png", width, height);
     }
+
+    public imageIcon getCalenderWhite(int width, int height) {
+        return loadIcon("src/com/main/resources/images/calender(white).png", width, height);
+    }
 }
