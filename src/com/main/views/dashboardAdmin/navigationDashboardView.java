@@ -1,7 +1,5 @@
 package com.main.views.dashboardAdmin;
 
-import javax.swing.JLabel;
-
 import com.main.components.*;
 import com.main.components.panelApps.navigationPanel;
 import com.main.routes.dashboardAdminView;
