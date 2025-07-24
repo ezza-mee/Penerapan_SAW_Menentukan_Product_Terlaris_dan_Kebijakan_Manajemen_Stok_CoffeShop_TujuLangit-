@@ -112,7 +112,7 @@ public class productFormView extends contentPanel {
 
         buttonInputImage = new buttonInputImage("Selected Image", 580, 85, 300, 30, 10, imagePathField, pathImageLabel);
 
-        String[] catergoryItems = { null, "Food", "Coffe", "Drink", "Snack" };
+        String[] catergoryItems = { null, "Food", "Coffee", "Drink", "Snack" };
         categoryProductField = new comboBox<>(catergoryItems, 580, 185, 300, 30, 10);
         categoryProductField.setPlaceholder("Select Category Product");
 

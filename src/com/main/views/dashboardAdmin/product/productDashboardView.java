@@ -35,15 +35,31 @@ public class productDashboardView extends contentPanel implements searchableView
 
     private buttonCustom buttonAdd;
 
-    private linkLabel allLabel;
-    private linkLabel foodLabel;
-    private linkLabel coffeLabel;
-    private linkLabel drinkLabel;
+    private linkLabel allProductLabel, foodProductLabel, coffeProductLabel, drinkProductLabel;
+
+    private comboBox<String> statusProductField;
 
     private appIcons appIcon = new appIcons();
     private imageIcon iconDelete = appIcon.getDeleteIconWhite(20, 20);
     private imageIcon iconEdit = appIcon.getEditIconWhite(20, 20);
     private imageIcon iconDetail = appIcon.getDetailIconWhite(20, 20);
+
+    private String currentCategory = "ALL";
+
+    private void setColor() {
+        headerLabel.setForeground(color.BLACK);
+        headerPanel.setBackground(color.WHITE);
+        contentPanel.setBackground(color.DARKGREY);
+    }
+
+    private void setFont() {
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
+
+        allProductLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        foodProductLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        coffeProductLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        drinkProductLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+    }
 
     public productDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
@@ -54,15 +70,17 @@ public class productDashboardView extends contentPanel implements searchableView
 
     @Override
     public void initContent() {
-        setPosition();
+        setLayout();
         setColor();
         setFont();
-        handleAddCard();
+        setAction();
+        showAllProduct();
 
-        headerPanel.add(allLabel);
-        headerPanel.add(foodLabel);
-        headerPanel.add(coffeLabel);
-        headerPanel.add(drinkLabel);
+        headerPanel.add(allProductLabel);
+        headerPanel.add(foodProductLabel);
+        headerPanel.add(coffeProductLabel);
+        headerPanel.add(drinkProductLabel);
+        headerPanel.add(statusProductField);
         headerPanel.add(buttonAdd);
 
         add(headerLabel);
@@ -72,7 +90,7 @@ public class productDashboardView extends contentPanel implements searchableView
         setVisible(true);
     }
 
-    private void setPosition() {
+    private void setLayout() {
         headerLabel = new textLabel("Data Product", 40, 0, 400, 80);
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentPanel = new panelRounded(40, 140, 1050, 410, 0, 0);
@@ -83,30 +101,105 @@ public class productDashboardView extends contentPanel implements searchableView
 
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
-        allLabel = new linkLabel("ALL", 40, 40, 80, 30);
-        foodLabel = new linkLabel("Food", 150, 40, 80, 30);
-        coffeLabel = new linkLabel("Coffe", 260, 40, 80, 30);
-        drinkLabel = new linkLabel("Drink", 370, 40, 80, 30);
+        allProductLabel = new linkLabel("ALL", 40, 40, 80, 30);
+        foodProductLabel = new linkLabel("Food", 150, 40, 80, 30);
+        coffeProductLabel = new linkLabel("Coffe", 260, 40, 80, 30);
+        drinkProductLabel = new linkLabel("Drink", 370, 40, 80, 30);
+
+        String[] statusProductItems = { null, "Ready", "Out of Stock" };
+        statusProductField = new comboBox<>(statusProductItems, 480, 40, 200, 30, 10);
+        statusProductField.setPlaceholder("Select your Status");
 
     }
 
-    private void setColor() {
-        headerLabel.setForeground(color.BLACK);
-        headerPanel.setBackground(color.WHITE);
-        contentPanel.setBackground(color.DARKGREY);
-    }
-
-    private void setFont() {
-        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
-    }
-
-    private void handleAddCard() {
+    private void setAction() {
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 parentView.showFormProduct();
             }
         });
+
+        statusProductField.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                filterAndLoadProducts();
+            }
+        });
+
+        allProductLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                statusProductField.setSelectedItem(null);
+                currentCategory = "ALL";
+                showAllProduct();
+            }
+        });
+
+        foodProductLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                statusProductField.setSelectedItem(null);
+                currentCategory = "FOOD";
+                showFoodProduct();
+            }
+        });
+
+        coffeProductLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                statusProductField.setSelectedItem(null);
+                currentCategory = "COFFEE";
+                showCoffeProduct();
+            }
+        });
+
+        drinkProductLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                statusProductField.setSelectedItem(null);
+                currentCategory = "DRINK";
+                showDrinkProduct();
+            }
+        });
+
+    }
+
+    private void filterAndLoadProducts() {
+        contentPanel.removeAll();
+
+        String selectedStatus = (String) statusProductField.getSelectedItem();
+
+        ArrayList<dataProduct> productList = new ArrayList<>();
+
+        switch (currentCategory) {
+            case "ALL":
+                if (selectedStatus == null) {
+                    productList = loadDataProduct.getAllProducts();
+                } else {
+                    productList = loadDataProduct.getProductsByStatus(selectedStatus);
+                }
+                break;
+
+            case "FOOD":
+                productList = loadDataProduct.getProductsByCategoryAndStatus("Food", selectedStatus);
+                break;
+
+            case "COFFEE":
+                productList = loadDataProduct.getProductsByCategoryAndStatus("Coffee", selectedStatus);
+                break;
+
+            case "DRINK":
+                productList = loadDataProduct.getProductsByCategoryAndStatus("Drink", selectedStatus);
+                break;
+        }
+
+        for (dataProduct product : productList) {
+            loadDataProductInCard(product);
+        }
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     public void filterDataByKeyword(String keyword) {
@@ -130,10 +223,96 @@ public class productDashboardView extends contentPanel implements searchableView
         contentPanel.repaint();
     }
 
+    private void resetLinkLabel() {
+        allProductLabel.setForeground(color.DARKGREY);
+        allProductLabel.setLabelInActive();
+
+        foodProductLabel.setForeground(color.DARKGREY);
+        foodProductLabel.setLabelInActive();
+
+        coffeProductLabel.setForeground(color.DARKGREY);
+        coffeProductLabel.setLabelInActive();
+
+        drinkProductLabel.setForeground(color.DARKGREY);
+        drinkProductLabel.setLabelInActive();
+    }
+
+    private void showAllProduct() {
+        resetLinkLabel();
+        allProductLabel.setForeground(color.DARKGREEN);
+        allProductLabel.setLabelActive();
+
+        loadAllProductCards();
+
+    }
+
+    private void showFoodProduct() {
+        resetLinkLabel();
+        foodProductLabel.setForeground(color.DARKGREEN);
+        foodProductLabel.setLabelActive();
+
+        loadAllFoodProductCards();
+
+    }
+
+    private void showCoffeProduct() {
+        resetLinkLabel();
+        coffeProductLabel.setForeground(color.DARKGREEN);
+        coffeProductLabel.setLabelActive();
+
+        loadAllCoffeProductCards();
+
+    }
+
+    private void showDrinkProduct() {
+        resetLinkLabel();
+        drinkProductLabel.setForeground(color.DARKGREEN);
+        drinkProductLabel.setLabelActive();
+
+        loadAllDrinkProductCards();
+
+    }
+
     public void loadAllProductCards() {
         contentPanel.removeAll();
 
         ArrayList<dataProduct> list = loadDataProduct.getAllProducts();
+        for (dataProduct product : list) {
+            loadDataProductInCard(product);
+        }
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void loadAllFoodProductCards() {
+        contentPanel.removeAll();
+
+        ArrayList<dataProduct> list = loadDataProduct.getAllFoodProducts();
+        for (dataProduct product : list) {
+            loadDataProductInCard(product);
+        }
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void loadAllCoffeProductCards() {
+        contentPanel.removeAll();
+
+        ArrayList<dataProduct> list = loadDataProduct.getAllCoffeProducts();
+        for (dataProduct product : list) {
+            loadDataProductInCard(product);
+        }
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    public void loadAllDrinkProductCards() {
+        contentPanel.removeAll();
+
+        ArrayList<dataProduct> list = loadDataProduct.getAllDrinkProducts();
         for (dataProduct product : list) {
             loadDataProductInCard(product);
         }
