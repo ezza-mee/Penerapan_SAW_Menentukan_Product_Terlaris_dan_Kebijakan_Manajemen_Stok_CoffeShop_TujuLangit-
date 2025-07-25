@@ -1,10 +1,15 @@
 package com.main.views.dashboardAdmin.table;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+
+import javax.swing.table.DefaultTableModel;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.actionButtonTable;
+import com.main.controller.searchableView;
+import com.main.models.entity.dataSearchTable;
 import com.main.models.entity.dataTable;
 import com.main.models.table.loadDataTable;
 import com.main.routes.dashboardAdminView;
@@ -12,7 +17,7 @@ import com.main.routes.mainFrame;
 import com.main.services.authDataTable;
 import com.main.views.popUp.popUpConfrim;
 
-public class tableDashboardView extends contentPanel {
+public class tableDashboardView extends contentPanel implements searchableView {
 
     private mainFrame parentApp;
     private dashboardAdminView parentView;
@@ -30,6 +35,8 @@ public class tableDashboardView extends contentPanel {
     private int quantityAllDataOutOfOrderTable = loadDataTable.getAllQuantityDataOutOfOrderTable();
 
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT, buttonType.DELETE);
+
+    private String currentStatus = "ALL";
 
     private void setColor() {
         headerPanel.setBackground(color.WHITE);
@@ -774,5 +781,46 @@ public class tableDashboardView extends contentPanel {
         dataTable.getColumnModel().getColumn(6).setMinWidth(180);
         dataTable.getColumnModel().getColumn(6).setMaxWidth(180);
         dataTable.getColumnModel().getColumn(6).setWidth(180);
+    }
+
+    public void filterDataByKeyword(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        model.setRowCount(0);
+
+        ArrayList<dataSearchTable> SearchList = new ArrayList<>();
+
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+        boolean filterByStatus = currentStatus != null &&
+                (currentStatus.equalsIgnoreCase("Active") ||
+                        currentStatus.equalsIgnoreCase("Inactive") ||
+                        currentStatus.equalsIgnoreCase("Resign"));
+
+        if (hasKeyword) {
+            // Ada keyword dan status
+            if (filterByStatus) {
+                SearchList = authDataTable.searchTableByKeywordAndStatus(keyword, currentStatus);
+            } else {
+                SearchList = authDataTable.searchTableByKeyword(keyword);
+            }
+        } else {
+            // Tidak ada keyword
+            if (filterByStatus) {
+                SearchList = loadDataTable.getAllTableByStatus(currentStatus);
+            } else {
+                SearchList = loadDataTable.getAllTable();
+            }
+        }
+
+        for (dataSearchTable dataTable : SearchList) {
+            model.addRow(new Object[] {
+                    "THB00" + dataTable.getIdtable(),
+                    dataTable.getNumber(),
+                    dataTable.getCapacity(),
+                    dataTable.getDescription(),
+                    dataTable.getDescription(),
+                    dataTable.getStatus(),
+                    "Aksi"
+            });
+        }
     }
 }

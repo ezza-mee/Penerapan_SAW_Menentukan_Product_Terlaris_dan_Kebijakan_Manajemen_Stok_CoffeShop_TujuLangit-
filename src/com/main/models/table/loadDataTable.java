@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
 import com.main.models.entity.dataTable;
+import com.main.models.entity.dataSearchTable;
 
 public class loadDataTable {
     public static DefaultTableModel getAllDataTable() {
@@ -38,6 +39,55 @@ public class loadDataTable {
             e.printStackTrace();
         }
         return tm;
+    }
+
+    public static ArrayList<dataSearchTable> getAllTable() {
+        ArrayList<dataSearchTable> TableList = new ArrayList<>();
+        String query = "SELECT * FROM vwalldatatable";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery();
+            while (resultData.next()) {
+                dataSearchTable Table = new dataSearchTable(
+                        resultData.getInt("idTable"),
+                        resultData.getString("number"),
+                        resultData.getString("capacity"),
+                        resultData.getString("description"),
+                        resultData.getString("status"));
+                TableList.add(Table);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return TableList;
+    }
+
+    public static ArrayList<dataSearchTable> getAllTableByStatus(String status) {
+        ArrayList<dataSearchTable> TableList = new ArrayList<>();
+        String query = "SELECT * FROM vwalldatatable";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setString(1, status);
+            ResultSet resultData = state.executeQuery();
+            while (resultData.next()) {
+                dataSearchTable Table = new dataSearchTable(
+                        resultData.getInt("idTable"),
+                        resultData.getString("number"),
+                        resultData.getString("capacity"),
+                        resultData.getString("description"),
+                        resultData.getString("status"));
+                TableList.add(Table);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return TableList;
     }
 
     public static DefaultTableModel getAllDataAvailableTable() {
@@ -280,4 +330,5 @@ public class loadDataTable {
 
         return total;
     }
+
 }

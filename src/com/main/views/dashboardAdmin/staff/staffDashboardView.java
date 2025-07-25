@@ -9,7 +9,6 @@ import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.searchableView;
 import com.main.controller.actionButtonTable;
-import com.main.models.entity.dataSearchSupplier;
 import com.main.models.entity.dataStaff;
 import com.main.models.entity.entityDataStaff;
 import com.main.models.staff.loadDataStaff;
