@@ -1,13 +1,14 @@
 package com.main.models.entity;
 
-public class dataConvertion {
+public class dataSearchConvertion {
     private int idConvertion;
-    private String formUnit, toUnit, description;
+    private String date, formUnit, toUnit, description;
     private double multiplier;
 
-    public dataConvertion(int idConvertion, String formUnit, String toUnit, double multiplier,
+    public dataSearchConvertion(int idConvertion, String date, String formUnit, String toUnit, double multiplier,
             String description) {
         this.idConvertion = idConvertion;
+        this.date = date;
         this.formUnit = formUnit;
         this.toUnit = toUnit;
         this.multiplier = multiplier;
@@ -16,6 +17,10 @@ public class dataConvertion {
 
     public int getIdConvertion() {
         return idConvertion;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getFormUnit() {

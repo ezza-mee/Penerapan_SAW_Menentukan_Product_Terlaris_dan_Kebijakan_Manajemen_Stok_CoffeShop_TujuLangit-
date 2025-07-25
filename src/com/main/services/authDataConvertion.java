@@ -1,12 +1,24 @@
 package com.main.services;
 
+import java.util.ArrayList;
+
 import com.main.models.convertion.deleteConvertion;
 import com.main.models.convertion.insertConvertion;
 import com.main.models.convertion.updateConvertion;
+import com.main.models.entity.dataSearchConvertion;
+import com.main.models.convertion.searchDataConvertion;
 
 public class authDataConvertion {
 
-    public static boolean insertDataConvertion(int idComposition, String formUnit, String toUnit, double multiplier, String description) {
+    public static ArrayList<dataSearchConvertion> searchConverstionByKeyword(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataConvertion.searchConvertion(keyword.trim());
+    }
+
+    public static boolean insertDataConvertion(int idComposition, String formUnit, String toUnit, double multiplier,
+            String description) {
         return insertConvertion.insertData(idComposition, formUnit, toUnit, multiplier, description);
     }
 

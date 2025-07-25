@@ -1,18 +1,23 @@
 package com.main.views.dashboardAdmin.convertion;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+
+import javax.swing.table.DefaultTableModel;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.actionButtonTable;
+import com.main.controller.searchableView;
 import com.main.models.convertion.loadDataConvertion;
+import com.main.models.entity.dataSearchConvertion;
 import com.main.models.entity.dataConvertion;
 import com.main.routes.dashboardAdminView;
 import com.main.routes.mainFrame;
 import com.main.services.authDataConvertion;
 import com.main.views.popUp.popUpConfrim;
 
-public class convertionDashboardView extends contentPanel {
+public class convertionDashboardView extends contentPanel implements searchableView {
 
     private mainFrame parentApp;
 
@@ -39,10 +44,10 @@ public class convertionDashboardView extends contentPanel {
 
     @Override
     public void initContent() {
-        setComponent();
+        setLayout();
         setColor();
         setFont();
-        handleButton();
+        setAction();
 
         headerPanel.add(buttonAdd);
         contentPanel.add(scrollDataConvertion);
@@ -53,7 +58,7 @@ public class convertionDashboardView extends contentPanel {
         setVisible(true);
     }
 
-    private void setComponent() {
+    private void setLayout() {
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
 
@@ -198,13 +203,41 @@ public class convertionDashboardView extends contentPanel {
 
     }
 
-    private void handleButton() {
+    private void setAction() {
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 parentView.showFormConvertion();
             }
         });
+    }
+
+    public void filterDataByKeyword(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) dataConvertion.getModel();
+        model.setRowCount(0);
+
+        ArrayList<dataSearchConvertion> list;
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            // Jika keyword kosong, tampilkan semua data
+            list = loadDataConvertion.getAllConvertion(); // Pastikan method ini ada
+        } else {
+            // Jika keyword ada, lakukan pencarian
+            list = authDataConvertion.searchConverstionByKeyword(keyword);
+        }
+
+        for (dataSearchConvertion dataConvertion : list) {
+            model.addRow(new Object[] {
+                    "CD00" + dataConvertion.getIdConvertion(),
+                    dataConvertion.getDate(),
+                    dataConvertion.getFormUnit(),
+                    dataConvertion.getToUnit(),
+                    dataConvertion.getMultiplier(),
+                    dataConvertion.getDescription(),
+                    "Aksi"
+            });
+        }
+
     }
 
 }
