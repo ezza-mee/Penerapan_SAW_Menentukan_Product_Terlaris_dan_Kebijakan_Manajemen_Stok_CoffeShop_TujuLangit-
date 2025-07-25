@@ -22,6 +22,13 @@ public class authDataProduct {
         return searchDataProduct.searchProducts(keyword.trim());
     }
 
+    public static ArrayList<dataProduct> searchProductsByKeywordAndCategory(String keyword, String category) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataProduct.searchProducts(keyword.trim());
+    }
+
     public static boolean updateDataProduct(int idProduct, String imageProduct, String nameProduct, int price,
             String category,
             String description) {

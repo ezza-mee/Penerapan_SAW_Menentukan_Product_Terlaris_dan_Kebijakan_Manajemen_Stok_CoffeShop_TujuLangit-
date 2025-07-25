@@ -4,7 +4,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JScrollBar;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -43,6 +42,11 @@ public class productDashboardView extends contentPanel implements searchableView
     private imageIcon iconDelete = appIcon.getDeleteIconWhite(20, 20);
     private imageIcon iconEdit = appIcon.getEditIconWhite(20, 20);
     private imageIcon iconDetail = appIcon.getDetailIconWhite(20, 20);
+
+    private int quantityAllDataProduct = loadDataProduct.getAllQuantityDataProduct();
+    private int quantityAllDataFoodProduct = loadDataProduct.getAllQuantityDataFoodProduct();
+    private int quantityAllDataCoffeeProduct = loadDataProduct.getAllQuantityDataCoffeeProduct();
+    private int quantityAllDataDrinkProduct = loadDataProduct.getAllQuantityDataDrinkProduct();
 
     private String currentCategory = "ALL";
 
@@ -102,9 +106,13 @@ public class productDashboardView extends contentPanel implements searchableView
         buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
 
         allProductLabel = new linkLabel("ALL", 40, 40, 80, 30);
+        allProductLabel.setQuantity(quantityAllDataProduct);
         foodProductLabel = new linkLabel("Food", 150, 40, 80, 30);
+        foodProductLabel.setQuantity(quantityAllDataFoodProduct);
         coffeProductLabel = new linkLabel("Coffe", 260, 40, 80, 30);
+        coffeProductLabel.setQuantity(quantityAllDataCoffeeProduct);
         drinkProductLabel = new linkLabel("Drink", 370, 40, 80, 30);
+        drinkProductLabel.setQuantity(quantityAllDataDrinkProduct);
 
         String[] statusProductItems = { null, "Ready", "Out of Stock" };
         statusProductField = new comboBox<>(statusProductItems, 480, 40, 200, 30, 10);
@@ -208,11 +216,27 @@ public class productDashboardView extends contentPanel implements searchableView
         ArrayList<dataProduct> list;
 
         if (keyword == null || keyword.trim().isEmpty()) {
-            // Jika keyword kosong, tampilkan semua data
-            list = loadDataProduct.getAllProducts(); // Pastikan method ini ada
+            // Jika keyword kosong, tampilkan data sesuai dengan kategori saat ini
+            switch (currentCategory) {
+                case "FOOD":
+                    list = loadDataProduct.getAllFoodProducts();
+                    break;
+                case "COFFEE":
+                    list = loadDataProduct.getAllCoffeProducts();
+                    break;
+                case "DRINK":
+                    list = loadDataProduct.getAllDrinkProducts();
+                    break;
+                default: // ALL atau tidak dikenal
+                    list = loadDataProduct.getAllProducts();
+                    break;
+            }
         } else {
-            // Jika keyword ada, lakukan pencarian
-            list = authDataProduct.searchProductByKeyword(keyword);
+            if (currentCategory != null) {
+                list = authDataProduct.searchProductsByKeywordAndCategory(keyword, currentCategory);
+            } else {
+                list = authDataProduct.searchProductByKeyword(keyword);
+            }
         }
 
         for (dataProduct product : list) {

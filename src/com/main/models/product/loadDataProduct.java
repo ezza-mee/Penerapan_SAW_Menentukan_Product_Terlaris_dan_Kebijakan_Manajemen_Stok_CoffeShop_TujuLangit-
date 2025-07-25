@@ -225,4 +225,76 @@ public class loadDataProduct {
 
         return null;
     }
+
+    public static int getAllQuantityDataProduct() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_Product";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataFoodProduct() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_Product WHERE category = 'Food' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataCoffeeProduct() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_Product WHERE category = 'Coffee' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataDrinkProduct() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_Product WHERE category = 'Drink' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
 }

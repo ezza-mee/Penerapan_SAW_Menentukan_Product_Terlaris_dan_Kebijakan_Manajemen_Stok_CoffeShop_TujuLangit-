@@ -221,7 +221,7 @@ public class loadDataSupplier {
 
     public static int getAllQuantityOutStockDataSupplier() {
         int total = 0;
-        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE status ='Out of Stock' ";
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE LOWER(status) = 'Out of Stock' ";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query);
