@@ -18,7 +18,88 @@ public class loadDataSupplier {
         String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Ready'";
+        String query = "SELECT * FROM vwalldatasupplier";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "SU00" + resultData.getInt("idSupplier"),
+                        resultData.getString("date"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllStockDataSupplier() {
+
+        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Ready' ";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "SU00" + resultData.getInt("idSupplier"),
+                        resultData.getString("date"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllOutStockDataSupplier() {
+
+        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Out of Stock' ";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "SU00" + resultData.getInt("idSupplier"),
+                        resultData.getString("date"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllPendingDataSupplier() {
+
+        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Process' ";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -42,7 +123,7 @@ public class loadDataSupplier {
 
     public static List<dataSupplier> getAllReadySupplierNames() {
         List<dataSupplier> supplierNames = new ArrayList<>();
-        String query = "SELECT DISTINCT idSupplier, nameSupplier FROM vwalldatasupplier WHERE status = 'Ready'";
+        String query = "SELECT DISTINCT idSupplier, nameSupplier FROM vwalldatasupplier WHERE status = 'Ready' ";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);
@@ -87,6 +168,60 @@ public class loadDataSupplier {
     public static int getAllQuantityDataSupplier() {
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityPendingDataSupplier() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE status = 'Process' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityStockDataSupplier() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE status = 'Ready' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityOutStockDataSupplier() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE status ='Out of Stock' ";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query);
