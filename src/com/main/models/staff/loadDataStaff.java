@@ -119,7 +119,7 @@ public class loadDataStaff {
 
     public static ArrayList<dataStaff> getAllStaff() {
         ArrayList<dataStaff> staffList = new ArrayList<>();
-        String query = "SELECT * FROM vwalldatastaff WHERE status IN ('Active', 'Inactive')";
+        String query = "SELECT * FROM vwalldatastaff";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {

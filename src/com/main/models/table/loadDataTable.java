@@ -18,7 +18,115 @@ public class loadDataTable {
         String[] dataHeader = { "ID", "Date", "Number", "Capacity", "description", "Status", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatatable";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "TB00" + resultData.getInt("idTable"),
+                        resultData.getString("date"),
+                        resultData.getString("number"),
+                        resultData.getString("capacity"),
+                        resultData.getString("description"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataAvailableTable() {
+
+        String[] dataHeader = { "ID", "Date", "Number", "Capacity", "description", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
         String query = "SELECT * FROM vwalldatatable WHERE status = 'Available'";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "TB00" + resultData.getInt("idTable"),
+                        resultData.getString("date"),
+                        resultData.getString("number"),
+                        resultData.getString("capacity"),
+                        resultData.getString("description"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataCleaningTable() {
+
+        String[] dataHeader = { "ID", "Date", "Number", "Capacity", "description", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatatable WHERE status = 'Cleaning' ";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "TB00" + resultData.getInt("idTable"),
+                        resultData.getString("date"),
+                        resultData.getString("number"),
+                        resultData.getString("capacity"),
+                        resultData.getString("description"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataReservedTable() {
+
+        String[] dataHeader = { "ID", "Date", "Number", "Capacity", "description", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatatable WHERE status = 'Reserved'";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "TB00" + resultData.getInt("idTable"),
+                        resultData.getString("date"),
+                        resultData.getString("number"),
+                        resultData.getString("capacity"),
+                        resultData.getString("description"),
+                        resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static DefaultTableModel getAllDataOutOfOrderTable() {
+
+        String[] dataHeader = { "ID", "Date", "Number", "Capacity", "description", "Status", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatatable WHERE LOWER(status) = 'Out Of Order'";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -63,7 +171,7 @@ public class loadDataTable {
 
     public static List<dataTable> getAllAvailableNumberTable() {
         List<dataTable> numberTable = new ArrayList<>();
-        String query = "SELECT DISTINCT idTable, number FROM vwalldataTable WHERE status = 'Available'";
+        String query = "SELECT DISTINCT idTable, number FROM vwalldataTable WHERE status = 'Available' ";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);
@@ -81,5 +189,95 @@ public class loadDataTable {
         }
 
         return numberTable;
+    }
+
+    public static int getAllQuantityDataTable() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_table";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataCleaningTable() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_table  WHERE status = 'Cleaning' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataReservedTable() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_table WHERE status = 'Reserved' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataAvailableTable() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_table WHERE status = 'Available' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataOutOfOrderTable() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_table WHERE LOWER(status) = 'Out Of Order' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
     }
 }

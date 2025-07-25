@@ -299,7 +299,7 @@ public class datePickerField extends JPanel {
         selectedDate = (Calendar) currentViewDate.clone();
         selectedDate.set(Calendar.DAY_OF_MONTH, day);
 
-        SimpleDateFormat displayFormat = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
         dateField.setText(displayFormat.format(selectedDate.getTime()));
         dateField.setForeground(color.BLACK);
 
