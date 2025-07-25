@@ -42,17 +42,19 @@ public class searchDataProduct {
         return products;
     }
 
-    public static ArrayList<dataProduct> searchProductsByKeywordAndCategory(String keyword, String category) {
+    public static ArrayList<dataProduct> searchProductsByKeywordAndCategoryAndStatus(String keyword, String category,
+            String status) {
         ArrayList<dataProduct> products = new ArrayList<>();
 
         try {
             Connection conn = connectionDatabase.getConnection();
-            String query = "SELECT * FROM tbl_data_product WHERE category = ? AND (nameProduct LIKE ? OR description LIKE ?)";
+            String query = "SELECT * FROM tbl_data_product WHERE category = ? AND status = ? AND (nameProduct LIKE ? OR description LIKE ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             String pattern = "%" + keyword + "%";
             stmt.setString(1, category);
             stmt.setString(2, pattern);
             stmt.setString(3, pattern);
+            stmt.setString(4, pattern);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -75,6 +77,70 @@ public class searchDataProduct {
             e.printStackTrace();
         }
 
+        return products;
+    }
+
+    public static ArrayList<dataProduct> searchProductsByKeywordAndStatus(String keyword, String status) {
+        ArrayList<dataProduct> products = new ArrayList<>();
+        try {
+            Connection conn = connectionDatabase.getConnection();
+            String query = "SELECT * FROM tbl_data_product WHERE status = ? AND (nameProduct LIKE ? OR description LIKE ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            String pattern = "%" + keyword + "%";
+            stmt.setString(1, status);
+            stmt.setString(2, pattern);
+            stmt.setString(3, pattern);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                dataProduct product = new dataProduct(
+                        rs.getInt("idProduct"),
+                        rs.getBytes("imageProduct"),
+                        rs.getString("nameProduct"),
+                        rs.getInt("price"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"));
+                products.add(product);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public static ArrayList<dataProduct> searchProductsByKeywordAndCategory(String keyword, String category) {
+        ArrayList<dataProduct> products = new ArrayList<>();
+        try {
+            Connection conn = connectionDatabase.getConnection();
+            String query = "SELECT * FROM tbl_data_product WHERE category = ? AND (nameProduct LIKE ? OR description LIKE ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            String pattern = "%" + keyword + "%";
+            stmt.setString(1, category);
+            stmt.setString(2, pattern);
+            stmt.setString(3, pattern);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                dataProduct product = new dataProduct(
+                        rs.getInt("idProduct"),
+                        rs.getBytes("imageProduct"),
+                        rs.getString("nameProduct"),
+                        rs.getInt("price"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"));
+                products.add(product);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return products;
     }
 

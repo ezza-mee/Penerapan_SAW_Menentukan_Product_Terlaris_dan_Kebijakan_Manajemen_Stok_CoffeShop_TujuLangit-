@@ -1,10 +1,16 @@
 package com.main.views.dashboardAdmin.supplier;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+
+import javax.swing.table.DefaultTableModel;
 
 import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.actionButtonTable;
+import com.main.controller.searchableView;
+import com.main.models.entity.dataSearchSupplier;
+import com.main.models.entity.dataStaff;
 import com.main.models.entity.dataSupplier;
 import com.main.models.supplier.loadDataSupplier;
 import com.main.routes.dashboardAdminView;
@@ -12,7 +18,7 @@ import com.main.routes.mainFrame;
 import com.main.services.authDataSupplier;
 import com.main.views.popUp.popUpConfrim;
 
-public class supplierDashboardView extends contentPanel {
+public class supplierDashboardView extends contentPanel implements searchableView {
 
     private mainFrame parentApp;
     private dashboardAdminView parentView;
@@ -28,6 +34,8 @@ public class supplierDashboardView extends contentPanel {
     private int quantityAllOutStockDataSupplier = loadDataSupplier.getAllQuantityOutStockDataSupplier();
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT,
             buttonType.DELETE, buttonType.DETAIL);
+
+    private String currentStatus = "ALL";
 
     private void setColor() {
         headerLabel.setForeground(color.BLACK);
@@ -105,6 +113,7 @@ public class supplierDashboardView extends contentPanel {
         allSupplierLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "ALL";
                 showAllSupplier();
             }
         });
@@ -112,6 +121,7 @@ public class supplierDashboardView extends contentPanel {
         pendingSupplierLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Pending";
                 showPendingSupplier();
             }
         });
@@ -119,6 +129,7 @@ public class supplierDashboardView extends contentPanel {
         stockSupplierLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Ready";
                 showStockSupplier();
             }
         });
@@ -126,6 +137,7 @@ public class supplierDashboardView extends contentPanel {
         outStockSupplierLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Out of Stock";
                 showOutStockSupplier();
             }
         });
@@ -638,6 +650,47 @@ public class supplierDashboardView extends contentPanel {
         dataSupplierTable.getColumnModel().getColumn(4).setMinWidth(90);
         dataSupplierTable.getColumnModel().getColumn(4).setMaxWidth(90);
         dataSupplierTable.getColumnModel().getColumn(4).setWidth(90);
+    }
+
+    public void filterDataByKeyword(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) dataSupplierTable.getModel();
+        model.setRowCount(0);
+
+        ArrayList<dataSearchSupplier> supplierList = new ArrayList<>();
+
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+        boolean filterByStatus = currentStatus != null &&
+                (currentStatus.equalsIgnoreCase("Pending") ||
+                        currentStatus.equalsIgnoreCase("Ready") ||
+                        currentStatus.equalsIgnoreCase("Out of Stock"));
+
+        if (hasKeyword) {
+            // Ada keyword dan status
+            if (filterByStatus) {
+                supplierList = authDataSupplier.searchSupplierByKeywordAndStatus(keyword, currentStatus);
+            } else {
+                supplierList = authDataSupplier.searchSupplierByKeyword(keyword);
+            }
+        } else {
+            // Tidak ada keyword
+            if (filterByStatus) {
+                supplierList = loadDataSupplier.getAllSupplierByStatus(currentStatus);
+            } else {
+                supplierList = loadDataSupplier.getAllSupplier();
+            }
+        }
+
+        for (dataSearchSupplier dataSupplier : supplierList) {
+            model.addRow(new Object[] {
+                    "NS00" + dataSupplier.getIdSupplier(),
+                    dataSupplier.getDate(),
+                    dataSupplier.getNameSupplier(),
+                    dataSupplier.getQuantity(),
+                    dataSupplier.getUnit(),
+                    dataSupplier.getStatus(),
+                    "Aksi"
+            });
+        }
     }
 
 }

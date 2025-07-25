@@ -213,33 +213,54 @@ public class productDashboardView extends contentPanel implements searchableView
     public void filterDataByKeyword(String keyword) {
         contentPanel.removeAll();
 
-        ArrayList<dataProduct> list;
+        ArrayList<dataProduct> productList = new ArrayList<>();
+        String selectedStatus = (String) statusProductField.getSelectedItem();
 
         if (keyword == null || keyword.trim().isEmpty()) {
-            // Jika keyword kosong, tampilkan data sesuai dengan kategori saat ini
             switch (currentCategory) {
+                case "ALL":
+                    if (selectedStatus == null) {
+                        productList = loadDataProduct.getAllProducts();
+                    } else {
+                        productList = loadDataProduct.getProductsByStatus(selectedStatus);
+                    }
+                    break;
+
                 case "FOOD":
-                    list = loadDataProduct.getAllFoodProducts();
+                    productList = loadDataProduct.getProductsByCategoryAndStatus("Food", selectedStatus);
                     break;
+
                 case "COFFEE":
-                    list = loadDataProduct.getAllCoffeProducts();
+                    productList = loadDataProduct.getProductsByCategoryAndStatus("Coffee", selectedStatus);
                     break;
+
                 case "DRINK":
-                    list = loadDataProduct.getAllDrinkProducts();
-                    break;
-                default: // ALL atau tidak dikenal
-                    list = loadDataProduct.getAllProducts();
+                    productList = loadDataProduct.getProductsByCategoryAndStatus("Drink", selectedStatus);
                     break;
             }
         } else {
-            if (currentCategory != null) {
-                list = authDataProduct.searchProductsByKeywordAndCategory(keyword, currentCategory);
+            // Jika user memilih ALL status, kita anggap tidak perlu filter status
+            boolean filterByStatus = selectedStatus != null && !selectedStatus.equalsIgnoreCase("All");
+
+            if (currentCategory != null && !currentCategory.equalsIgnoreCase("ALL")) {
+                if (filterByStatus) {
+                    productList = authDataProduct.searchProductsByKeywordAndCategoryAndStatus(keyword, currentCategory,
+                            selectedStatus);
+                } else {
+                    // Buat method baru tanpa status filter
+                    productList = authDataProduct.searchProductsByKeywordAndCategory(keyword, currentCategory);
+                }
             } else {
-                list = authDataProduct.searchProductByKeyword(keyword);
+                // Kategori ALL
+                if (filterByStatus) {
+                    productList = authDataProduct.searchProductsByKeywordAndStatus(keyword, selectedStatus);
+                } else {
+                    productList = authDataProduct.searchProductByKeyword(keyword);
+                }
             }
         }
 
-        for (dataProduct product : list) {
+        for (dataProduct product : productList) {
             loadDataProductInCard(product);
         }
 
