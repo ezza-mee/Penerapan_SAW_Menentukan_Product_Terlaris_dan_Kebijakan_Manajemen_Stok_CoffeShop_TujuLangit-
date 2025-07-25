@@ -9,6 +9,7 @@ import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.controller.searchableView;
 import com.main.controller.actionButtonTable;
+import com.main.models.entity.dataSearchSupplier;
 import com.main.models.entity.dataStaff;
 import com.main.models.entity.entityDataStaff;
 import com.main.models.staff.loadDataStaff;
@@ -33,6 +34,8 @@ public class staffDashboardView extends contentPanel implements searchableView {
     private int quantityDataStaffActive = loadDataStaff.getAllQuantityDataStaffActive();
     private int quantityDataStaffInActive = loadDataStaff.getAllQuantityDataStaffInActive();
     private int quantityDataStaffResign = loadDataStaff.getAllQuantityDataStaffResign();
+
+    private String currentStatus = "ALL";
 
     private void setColor() {
         headerLabel.setForeground(color.BLACK);
@@ -107,6 +110,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
         allDataStaffLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "ALL";
                 showAllDataStaff();
             }
         });
@@ -114,6 +118,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
         dataStaffActiveLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Active";
                 showDataStaffActive();
             }
         });
@@ -121,6 +126,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
         dataStaffInActiveLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Inctive";
                 showDataStaffInActive();
             }
         });
@@ -128,6 +134,7 @@ public class staffDashboardView extends contentPanel implements searchableView {
         dataStaffResignLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Resign";
                 showDataStaffResign();
             }
         });
@@ -670,15 +677,31 @@ public class staffDashboardView extends contentPanel implements searchableView {
         DefaultTableModel model = (DefaultTableModel) dataStaffTable.getModel();
         model.setRowCount(0);
 
-        ArrayList<dataStaff> list;
+        ArrayList<dataStaff> StaffList = new ArrayList<>();
 
-        if (keyword.trim().isEmpty()) {
-            list = loadDataStaff.getAllStaff();
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+        boolean filterByStatus = currentStatus != null &&
+                (currentStatus.equalsIgnoreCase("Active") ||
+                        currentStatus.equalsIgnoreCase("Inactive") ||
+                        currentStatus.equalsIgnoreCase("Resign"));
+
+        if (hasKeyword) {
+            // Ada keyword dan status
+            if (filterByStatus) {
+                StaffList = authDataStaff.searchStaffByKeywordAndStatus(keyword, currentStatus);
+            } else {
+                StaffList = authDataStaff.searchStaffByKeyword(keyword);
+            }
         } else {
-            list = authDataStaff.searchStaffByKeyword(keyword);
+            // Tidak ada keyword
+            if (filterByStatus) {
+                StaffList = loadDataStaff.getAllStaffByStatus(currentStatus);
+            } else {
+                StaffList = loadDataStaff.getAllStaff();
+            }
         }
 
-        for (dataStaff dataStaff : list) {
+        for (dataStaff dataStaff : StaffList) {
             model.addRow(new Object[] {
                     "NS00" + dataStaff.getIdStaff(),
                     dataStaff.getDate(),

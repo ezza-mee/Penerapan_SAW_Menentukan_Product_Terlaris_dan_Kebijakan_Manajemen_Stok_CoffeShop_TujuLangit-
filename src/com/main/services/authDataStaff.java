@@ -14,6 +14,13 @@ import com.main.models.staff.updateStaff;
 
 public class authDataStaff {
 
+    public static ArrayList<dataStaff> searchStaffByKeywordAndStatus(String keyword, String status) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataStaff.searchStaffByStatus(keyword.trim(), status);
+    }
+
     public static ArrayList<dataStaff> searchStaffByKeyword(String keyword) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return new ArrayList<>();

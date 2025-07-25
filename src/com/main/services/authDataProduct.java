@@ -22,11 +22,26 @@ public class authDataProduct {
         return searchDataProduct.searchProducts(keyword.trim());
     }
 
+    public static ArrayList<dataProduct> searchProductsByKeywordAndCategoryAndStatus(String keyword, String category,
+            String status) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataProduct.searchProductsByKeywordAndCategoryAndStatus(keyword.trim(), category, status);
+    }
+
+    public static ArrayList<dataProduct> searchProductsByKeywordAndStatus(String keyword, String status) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataProduct.searchProductsByKeywordAndStatus(keyword.trim(), status);
+    }
+
     public static ArrayList<dataProduct> searchProductsByKeywordAndCategory(String keyword, String category) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return new ArrayList<>();
         }
-        return searchDataProduct.searchProducts(keyword.trim());
+        return searchDataProduct.searchProductsByKeywordAndCategory(keyword.trim(), category);
     }
 
     public static boolean updateDataProduct(int idProduct, String imageProduct, String nameProduct, int price,

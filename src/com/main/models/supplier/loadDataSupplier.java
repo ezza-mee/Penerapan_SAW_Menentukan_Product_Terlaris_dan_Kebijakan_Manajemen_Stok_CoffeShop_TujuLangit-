@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import com.main.models.connectionDatabase;
+import com.main.models.entity.dataSearchSupplier;
 import com.main.models.entity.dataSupplier;
 
 public class loadDataSupplier {
@@ -163,6 +164,60 @@ public class loadDataSupplier {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static ArrayList<dataSearchSupplier> getAllSupplier() {
+        ArrayList<dataSearchSupplier> supplierList = new ArrayList<>();
+        String query = "SELECT * FROM vwalldatasupplier";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery();
+            while (resultData.next()) {
+                dataSearchSupplier dataSupplier = new dataSearchSupplier(
+                        resultData.getInt("idSupplier"),
+                        resultData.getString("date"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status"));
+                supplierList.add(dataSupplier);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return supplierList;
+
+    }
+
+    public static ArrayList<dataSearchSupplier> getAllSupplierByStatus(String status) {
+        ArrayList<dataSearchSupplier> supplierList = new ArrayList<>();
+        String query = "SELECT * FROM vwalldatasupplier";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setString(1, status);
+            ResultSet resultData = state.executeQuery();
+
+            while (resultData.next()) {
+                dataSearchSupplier dataSupplier = new dataSearchSupplier(
+                        resultData.getInt("idSupplier"),
+                        resultData.getString("date"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status"));
+                supplierList.add(dataSupplier);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return supplierList;
+
     }
 
     public static int getAllQuantityDataSupplier() {

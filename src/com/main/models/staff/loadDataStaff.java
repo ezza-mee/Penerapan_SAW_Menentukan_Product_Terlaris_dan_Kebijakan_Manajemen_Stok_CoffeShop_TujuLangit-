@@ -145,6 +145,35 @@ public class loadDataStaff {
         return staffList;
     }
 
+    public static ArrayList<dataStaff> getAllStaffByStatus(String status) {
+        ArrayList<dataStaff> staffList = new ArrayList<>();
+        String query = "SELECT * FROM vwalldatastaff";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+                    state.setString(1, status);
+            ResultSet resultData = state.executeQuery();
+            while (resultData.next()) {
+                dataStaff staff = new dataStaff(
+                        resultData.getInt("idStaff"),
+                        resultData.getString("date"),
+                        resultData.getString("name"),
+                        resultData.getString("Email"),
+                        resultData.getString("phoneNumber"),
+                        resultData.getString("gender"),
+                        resultData.getString("jobdesk"),
+                        resultData.getString("address"),
+                        resultData.getString("status"));
+                staffList.add(staff);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return staffList;
+    }
+
     public static int getAllQuantityDataStaff() {
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM tbl_data_staff";
