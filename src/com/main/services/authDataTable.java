@@ -1,14 +1,32 @@
 package com.main.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.main.models.table.deleteTable;
 import com.main.models.table.insertTable;
 import com.main.models.table.updateTable;
 import com.main.models.table.loadDataTable;
+import com.main.models.table.searchDataTable;
+import com.main.models.entity.dataSearchTable;
 import com.main.models.entity.dataTable;
 
 public class authDataTable {
+
+    public static ArrayList<dataSearchTable> searchTableByKeywordAndStatus(String keyword, String status) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataTable.searchTableByKeywordAndStatus(keyword.trim(), status);
+    }
+
+    public static ArrayList<dataSearchTable> searchTableByKeyword(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return searchDataTable.searchTable(keyword.trim());
+    }
+
     public static boolean insertDataTable(String number, String capacity, String description) {
         return insertTable.insertData(number, capacity, description);
     }
