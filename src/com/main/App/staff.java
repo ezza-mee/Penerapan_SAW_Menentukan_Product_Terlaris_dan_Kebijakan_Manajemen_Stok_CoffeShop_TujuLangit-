@@ -34,6 +34,7 @@ public class staff {
                 "Cashier",
                 "malaysia",
                 "Active");
+                
         sessionManager.setRole(Role.CASHIER);
         sessionManager.setStaffData(dummyStaff);
 

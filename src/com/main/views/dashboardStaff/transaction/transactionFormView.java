@@ -10,10 +10,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JTextField;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,8 +21,10 @@ import com.main.models.entity.dataProduct;
 import com.main.models.entity.listTransactionProduct;
 import com.main.models.product.loadDataProduct;
 import com.main.routes.dashboardStaffView;
+import com.main.services.authDataProduct;
+import com.main.services.authDataTransaction;
 
-public class transactionFormView extends contentPanel {
+public class transactionFormView extends contentPanel implements searchableView {
 
     private dashboardStaffView parentView;
 
@@ -55,10 +53,10 @@ public class transactionFormView extends contentPanel {
 
     @Override
     public void initContent() {
-        setPosition();
+        setLayout();
         setColor();
         setFont();
-        handleButton();
+        setAction();
 
         headerPanel.add(listProductLabel);
         bottomPanel.add(buttonBack);
@@ -78,7 +76,7 @@ public class transactionFormView extends contentPanel {
         setVisible(true);
     }
 
-    private void setPosition() {
+    private void setLayout() {
         headerLabel = new textLabel("Input Transaction", 40, 0, 400, 80);
         headerPanel = new panelRounded(40, 80, 600, 80, 10, 10);
 
@@ -156,6 +154,25 @@ public class transactionFormView extends contentPanel {
         listProductPanel.repaint();
     }
 
+    public void filterDataByKeyword(String keyword) {
+        listProductPanel.removeAll();
+
+        ArrayList<dataProduct> productList = new ArrayList<>();
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            productList = loadDataProduct.getAllProducts();
+        } else {
+            productList = authDataProduct.searchProductByKeyword(keyword);
+        }
+
+        for (dataProduct product : productList) {
+            loadDataProductInCard(product);
+        }
+
+        listProductPanel.revalidate();
+        listProductPanel.repaint();
+    }
+
     private void loadDataProductInCard(dataProduct product) {
         panelRounded cardPanel = new panelRounded();
         Dimension cardSize = new Dimension(600, 100);
@@ -209,6 +226,12 @@ public class transactionFormView extends contentPanel {
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
+
+                if (product.getStatus().equalsIgnoreCase("Out Of Stock")) {
+                    parentView.showFailedPopUp("Product is sold out.");
+                    return;
+                }
+
                 int productId = product.getIdProduct();
 
                 if (addedProductCards.containsKey(productId)) {
@@ -331,7 +354,14 @@ public class transactionFormView extends contentPanel {
         listProductPanel.repaint();
     }
 
-    private void handleButton() {
+    private void setAction() {
+        buttonBack.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent ae) {
+                parentView.showDashboardTransaction();
+            }
+        });
+
         buttonPayment.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {

@@ -31,8 +31,21 @@ public class convertionDashboardView extends contentPanel implements searchableV
 
     private scrollTable scrollDataConvertion;
 
+    private textLabel headerLabel;
+
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT,
             buttonType.DELETE);
+
+    private void setColor() {
+        headerLabel.setForeground(color.BLACK);
+        headerPanel.setBackground(color.WHITE);
+        contentPanel.setBackground(color.WHITE);
+
+    }
+
+    private void setFont() {
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
+    }
 
     public convertionDashboardView(mainFrame parentApp, dashboardAdminView parentView) {
         super();
@@ -52,6 +65,7 @@ public class convertionDashboardView extends contentPanel implements searchableV
         headerPanel.add(buttonAdd);
         contentPanel.add(scrollDataConvertion);
 
+        add(headerLabel);
         add(headerPanel);
         add(contentPanel);
 
@@ -59,6 +73,7 @@ public class convertionDashboardView extends contentPanel implements searchableV
     }
 
     private void setLayout() {
+        headerLabel = new textLabel("Data Convertion", 40, 0, 300, 80);
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
 
@@ -190,16 +205,6 @@ public class convertionDashboardView extends contentPanel implements searchableV
         dataConvertion.getColumnModel().getColumn(6).setMinWidth(120);
         dataConvertion.getColumnModel().getColumn(6).setMaxWidth(120);
         dataConvertion.getColumnModel().getColumn(6).setWidth(120);
-
-    }
-
-    private void setColor() {
-        headerPanel.setBackground(color.WHITE);
-        contentPanel.setBackground(color.WHITE);
-
-    }
-
-    private void setFont() {
 
     }
 

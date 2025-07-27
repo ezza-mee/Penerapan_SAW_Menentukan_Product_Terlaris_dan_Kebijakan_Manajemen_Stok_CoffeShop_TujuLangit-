@@ -17,7 +17,7 @@ public class calculationDashboardView extends contentPanel {
     private dashboardAdminView parentView;
     private panelRounded headerPanel, containerPanel, contentPanel;
     private datePickerField dateField;
-    private textLabel dataAlternatifLabel, dataNormalisationLabel, dataRangkingLabel;
+    private textLabel headerLabel, dataAlternatifLabel, dataNormalisationLabel, dataRangkingLabel;
     private tableNoActionButton dataAlternatif, dataNormalisation, dataRangking;
     private scrollTable scrollDataAlternatif, scrollDataNormalisation, scrollDataRangking;
     private scrollPane scrollDataCalculation;
@@ -28,6 +28,7 @@ public class calculationDashboardView extends contentPanel {
     private String today = sdf.format(new Date());
 
     private void setColor() {
+        headerLabel.setForeground(color.BLACK);
         headerPanel.setBackground(color.WHITE);
         contentPanel.setBackground(color.WHITE);
         dataAlternatifLabel.setForeground(color.BLACK);
@@ -36,6 +37,7 @@ public class calculationDashboardView extends contentPanel {
     }
 
     private void setFont() {
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
         dataAlternatifLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
         dataNormalisationLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
         dataRangkingLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
@@ -68,6 +70,7 @@ public class calculationDashboardView extends contentPanel {
 
         containerPanel.add(contentPanel);
 
+        add(headerLabel);
         add(headerPanel);
         add(scrollDataCalculation);
 
@@ -75,6 +78,7 @@ public class calculationDashboardView extends contentPanel {
     }
 
     private void setLayout() {
+        headerLabel = new textLabel("Data Calculation", 40, 0, 300, 80);
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         dataAlternatifLabel = new textLabel("Data Alternatif", 40, 20, 300, 40);
         dataNormalisationLabel = new textLabel("Data Normalisation", 40, 400, 300, 40);

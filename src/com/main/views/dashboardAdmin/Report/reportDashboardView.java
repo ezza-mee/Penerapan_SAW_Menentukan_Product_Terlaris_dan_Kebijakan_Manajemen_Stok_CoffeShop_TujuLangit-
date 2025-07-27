@@ -31,13 +31,13 @@ public class reportDashboardView extends contentPanel {
     }
 
     private void setColor() {
-        headerLabel.setForeground(color.DARKGREEN);
+        headerLabel.setForeground(color.BLACK);
 
         contentReport.setBackground(color.WHITE);
     }
 
     private void setFont() {
-        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 30f));
+        headerLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 30f));
 
     }
 }

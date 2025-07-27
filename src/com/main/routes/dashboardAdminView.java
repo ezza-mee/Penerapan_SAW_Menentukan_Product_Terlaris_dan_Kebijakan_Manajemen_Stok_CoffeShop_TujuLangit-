@@ -72,7 +72,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public void showDashboardHome() {
-        homeDashboardView dashboardHome = new homeDashboardView();
+        homeDashboardView dashboardHome = new homeDashboardView(this);
         lastContent = dashboardHome;
         parentDashboard.setContent(dashboardHome);
     }
@@ -284,7 +284,7 @@ public class dashboardAdminView extends containerPanel {
     }
 
     public contentPanel restoreLastContent() {
-        return lastContent != null ? lastContent : new homeDashboardView();
+        return lastContent != null ? lastContent : new homeDashboardView(this);
     }
 
     public void resetLastContent() {

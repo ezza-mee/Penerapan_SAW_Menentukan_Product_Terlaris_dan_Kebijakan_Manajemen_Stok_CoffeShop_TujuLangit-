@@ -22,4 +22,19 @@ public class updateTable {
         }
         return false;
     }
+
+    public static boolean updateStatusOnly(int idTable, String status) {
+        String query = "UPDATE tbl_data_table SET status = ? WHERE idTable = ?";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, status);
+            stmt.setInt(2, idTable);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
