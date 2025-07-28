@@ -202,10 +202,10 @@ public class transactionFormView extends contentPanel implements searchableView 
         statusLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 14f));
         cardPanel.add(statusLabel);
 
-        if (!product.getStatus().equals("Out Of Stock")) {
-            statusLabel.setForeground(color.GREEN);
-        } else {
+        if (product.getStatus().equalsIgnoreCase("Out Of Stock")) {
             statusLabel.setForeground(color.RED);
+        } else {
+            statusLabel.setForeground(color.GREEN);
         }
 
         textLabel descriptionLabel = new textLabel(product.getDescription(), 130, 65, 300, 20);

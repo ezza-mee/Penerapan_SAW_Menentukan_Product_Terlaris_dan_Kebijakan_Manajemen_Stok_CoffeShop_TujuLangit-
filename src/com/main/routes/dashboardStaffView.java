@@ -41,7 +41,7 @@ public class dashboardStaffView extends containerPanel {
     }
 
     public void showDashboardHome() {
-        homeDashboardView dashboardHome = new homeDashboardView(this);
+        homeDashboardView dashboardHome = new homeDashboardView(this, role);
         lastContent = dashboardHome;
         parentDashboard.setContent(dashboardHome);
     }
@@ -120,7 +120,7 @@ public class dashboardStaffView extends containerPanel {
     }
 
     public contentPanel restoreLastContent() {
-        return lastContent != null ? lastContent : new homeDashboardView(this);
+        return lastContent != null ? lastContent : new homeDashboardView(this, role);
     }
 
     public void resetLastContent() {

@@ -120,4 +120,47 @@ public class loadDataTransaction {
 
         return total;
     }
+
+    public static int getAllQuantityDataTransactionByStatusDone(int idStaff) {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_transaction WHERE idStaff = ? AND status = 'Done'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, idStaff);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt("total");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityDataTransactionByStatusProcess(int idStaff) {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_transaction WHERE idStaff = ? AND status = 'Process'";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, idStaff);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt("total");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
 }

@@ -33,7 +33,7 @@ public class historyTransactionDashboardView extends contentPanel {
     }
 
     private void setLayout() {
-        headerLabel = new textLabel("History Data Transaction", 40, 0, 300, 80);
+        headerLabel = new textLabel("History Data Transaction", 40, 0, 600, 80);
         headerPanel = new panelRounded(40, 80, 1050, 110, 10, 10);
         contentPanel = new panelRounded(40, 220, 1050, 410, 10, 10);
 

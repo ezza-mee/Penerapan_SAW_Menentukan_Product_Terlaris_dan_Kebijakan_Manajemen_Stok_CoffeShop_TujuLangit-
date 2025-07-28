@@ -386,7 +386,7 @@ public class productDashboardView extends contentPanel implements searchableView
         // Deskripsi produk
         JLabel descLabel = new JLabel(product.getDescription());
         descLabel.setBounds(130, 65, 600, 20);
-        descLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 14f));
+        descLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.REGULAR, 14f));
         cardPanel.add(descLabel);
 
         // status produk
@@ -394,6 +394,12 @@ public class productDashboardView extends contentPanel implements searchableView
         statusLabel.setBounds(850, 40, 200, 20);
         statusLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
         cardPanel.add(statusLabel);
+
+        if (product.getStatus().equalsIgnoreCase("Out Of Stock")) {
+            statusLabel.setForeground(color.RED);
+        } else {
+            statusLabel.setForeground(color.GREEN);
+        }
 
         // Padding antar card
         Component padding = Box.createRigidArea(new Dimension(0, 20));

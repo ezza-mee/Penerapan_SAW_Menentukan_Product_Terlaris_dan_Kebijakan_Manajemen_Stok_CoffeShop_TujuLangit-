@@ -113,6 +113,8 @@ public class navigationDashboardView extends navigationPanel {
             add(navHistoryTransaction);
             add(navLogout);
         } else if (role == Role.SUPPLIER) {
+            add(navHome);
+            navLogout.setBounds(0, 150 + 50 + 50, 240, 50);
             add(navLogout);
         }
 
