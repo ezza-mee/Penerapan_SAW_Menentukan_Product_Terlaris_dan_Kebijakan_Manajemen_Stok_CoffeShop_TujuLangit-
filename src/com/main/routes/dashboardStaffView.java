@@ -9,7 +9,7 @@ import com.main.components.panelApps.contentPanel;
 import com.main.models.entity.listTransactionProduct;
 import com.main.views.dashboardStaff.homeDashboardView;
 import com.main.views.dashboardStaff.parentDashboardStaff;
-import com.main.views.dashboardStaff.historyTransaction.historyTransactionDashboarView;
+import com.main.views.dashboardStaff.historyTransaction.historyTransactionDashboardView;
 import com.main.views.dashboardStaff.product.productDashboardView;
 import com.main.views.dashboardStaff.table.tableDashboardView;
 import com.main.views.dashboardStaff.transaction.transactionDashboardView;
@@ -18,6 +18,7 @@ import com.main.views.popUp.popUpConfrim;
 import com.main.views.popUp.popUpFailed;
 import com.main.views.popUp.popUpLogout;
 import com.main.views.popUp.popUpSuccess;
+import com.main.views.popUp.popUpEditStatusTable.popUpEditStatusTable;
 import com.main.views.popUp.popUpTransaction.popUpTransaction;
 
 public class dashboardStaffView extends containerPanel {
@@ -40,13 +41,13 @@ public class dashboardStaffView extends containerPanel {
     }
 
     public void showDashboardHome() {
-        homeDashboardView dashboardHome = new homeDashboardView();
+        homeDashboardView dashboardHome = new homeDashboardView(this, role);
         lastContent = dashboardHome;
         parentDashboard.setContent(dashboardHome);
     }
 
     public void showDashboardProduct() {
-        productDashboardView dashboardProduct = new productDashboardView(parentApp, this);
+        productDashboardView dashboardProduct = new productDashboardView(this);
         dashboardProduct.loadAllProductCards();
         lastContent = dashboardProduct;
         parentDashboard.setContent(dashboardProduct);
@@ -72,7 +73,7 @@ public class dashboardStaffView extends containerPanel {
     }
 
     public void showDashboardHistoryTransaction() {
-        historyTransactionDashboarView historyTransaction = new historyTransactionDashboarView(this);
+        historyTransactionDashboardView historyTransaction = new historyTransactionDashboardView();
         lastContent = historyTransaction;
         parentDashboard.setContent(historyTransaction);
     }
@@ -99,8 +100,16 @@ public class dashboardStaffView extends containerPanel {
         return popUp;
     }
 
-    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int priceProduct, int subPrice) {
-        popUpTransaction popUp = new popUpTransaction(parentApp, this, listProduct, subQuantity, priceProduct, subPrice);
+    public void showPopUpTransaction(List<listTransactionProduct> listProduct, int subQuantity, int priceProduct,
+            int subPrice) {
+        popUpTransaction popUp = new popUpTransaction(parentApp, this, listProduct, subQuantity, priceProduct,
+                subPrice);
+        parentApp.showFormPopUp(popUp);
+        parentDashboard.setContent(restoreLastContent());
+    }
+
+    public void showPopUpEditStatusTable(int idTable) {
+        popUpEditStatusTable popUp = new popUpEditStatusTable(parentApp, this, idTable);
         parentApp.showFormPopUp(popUp);
         parentDashboard.setContent(restoreLastContent());
     }
@@ -111,7 +120,7 @@ public class dashboardStaffView extends containerPanel {
     }
 
     public contentPanel restoreLastContent() {
-        return lastContent != null ? lastContent : new homeDashboardView();
+        return lastContent != null ? lastContent : new homeDashboardView(this, role);
     }
 
     public void resetLastContent() {

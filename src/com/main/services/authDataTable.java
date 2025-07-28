@@ -39,6 +39,10 @@ public class authDataTable {
         return deleteTable.deleteData(idTable);
     }
 
+    public static boolean updateStatusTable(int idTable, String status) {
+        return updateTable.updateStatusOnly(idTable, status);
+    }
+
     public static List<dataTable> loadDataTable() {
         return loadDataTable.getAllAvailableNumberTable();
     }

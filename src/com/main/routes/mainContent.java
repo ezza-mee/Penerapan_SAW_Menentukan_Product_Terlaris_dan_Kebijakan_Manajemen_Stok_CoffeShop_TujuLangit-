@@ -59,7 +59,9 @@ public class mainContent extends wrapperPanel {
                 dashboardStaffView.showDashboardHome();
                 dashboardStaffView.resetLastContent();
             } else if (role == Role.SUPPLIER) {
-                parentDashboardStaff.getNavbar().showProductView();
+                parentDashboardStaff.getNavbar().showHomeView();
+                dashboardStaffView.showDashboardHome();
+                dashboardStaffView.resetLastContent();
             }
             add(dashboardStaffView);
             System.out.println("Role Staff : " + role);

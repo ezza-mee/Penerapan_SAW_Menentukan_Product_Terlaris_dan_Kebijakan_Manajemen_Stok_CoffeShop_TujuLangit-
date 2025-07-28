@@ -173,7 +173,7 @@ public class popUpTransaction extends popUpPanel {
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent ae) {
-                parentApp.hideGlassNotificationPanel();
+                parentApp.hideGlassFormPanel();
             }
         });
 
@@ -243,9 +243,11 @@ public class popUpTransaction extends popUpPanel {
                                     int idProduct = product.getIdProduct();
                                     authDataProcessStokManager.processManagerStok(idProduct, idTransaction);
                                 }
+                                authDataTable.updateStatusTable(idTable, "Reserved");
                                 parentView.showDashboardTransaction();
+                                parentApp.hideGlassFormPanel();
                                 parentView.showSuccessPopUp("Transaction successful");
-                                parentApp.hideGlassNotificationPanel();
+
                             } else {
                                 parentView.showFailedPopUp("Transaction failed");
                             }

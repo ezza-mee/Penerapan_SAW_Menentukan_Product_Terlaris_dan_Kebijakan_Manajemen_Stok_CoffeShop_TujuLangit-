@@ -100,6 +100,8 @@ public class productDashboardView extends contentPanel implements searchableView
         contentPanel = new panelRounded(40, 140, 1050, 410, 0, 0);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
+        
+
         scrollPane = new scrollPane(contentPanel, 0, 0, getWidth(), getHeight());
         scrollPane.setBounds(40, 220, 1050, 410);
 
@@ -393,12 +395,20 @@ public class productDashboardView extends contentPanel implements searchableView
         // Harga produk
         JLabel priceLabel = new JLabel("Rp " + product.getPrice());
         priceLabel.setBounds(130, 40, 200, 20);
+        priceLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 14f));
         cardPanel.add(priceLabel);
 
         // Deskripsi produk
         JLabel descLabel = new JLabel(product.getDescription());
         descLabel.setBounds(130, 65, 600, 20);
+        descLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 14f));
         cardPanel.add(descLabel);
+
+        // status produk
+        JLabel statusLabel = new JLabel(product.getStatus());
+        statusLabel.setBounds(670, 40, 200, 20);
+        statusLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 16f));
+        cardPanel.add(statusLabel);
 
         // Tombol Hapus
         buttonCustom buttonEdit = new buttonCustom("", 810, 35, 40, 40, 10);
