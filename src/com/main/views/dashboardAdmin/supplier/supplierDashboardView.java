@@ -10,7 +10,6 @@ import com.main.components.panelApps.contentPanel;
 import com.main.controller.actionButtonTable;
 import com.main.controller.searchableView;
 import com.main.models.entity.dataSearchSupplier;
-import com.main.models.entity.dataStaff;
 import com.main.models.entity.dataSupplier;
 import com.main.models.supplier.loadDataSupplier;
 import com.main.routes.dashboardAdminView;
@@ -24,16 +23,17 @@ public class supplierDashboardView extends contentPanel implements searchableVie
     private dashboardAdminView parentView;
     private textLabel headerLabel;
     private panelRounded headerPanel, contentPanel;
-    private linkLabel allSupplierLabel, pendingSupplierLabel, stockSupplierLabel, outStockSupplierLabel;
-    private buttonCustom buttonAdd;
+    private linkLabel allSupplierLabel, pendingSupplierLabel, stockSupplierLabel, outStockSupplierLabel,
+            rejectedSupplierLabel;
     private tableActionButton dataSupplierTable;
     private scrollTable scrollDataSupplier;
     private int quantityAllDataSupplier = loadDataSupplier.getAllQuantityDataSupplier();
     private int quantityAllPendingDataSupplier = loadDataSupplier.getAllQuantityPendingDataSupplier();
     private int quantityAllStockDataSupplier = loadDataSupplier.getAllQuantityStockDataSupplier();
     private int quantityAllOutStockDataSupplier = loadDataSupplier.getAllQuantityOutStockDataSupplier();
+    private int quantityAllRejectedDataSupplier = loadDataSupplier.getAllQuantityRejectedDataSupplier();
     private EnumSet<buttonType> buttonTypes = EnumSet.of(buttonType.EDIT,
-            buttonType.DELETE, buttonType.DETAIL);
+            buttonType.DETAIL, buttonType.APPROVE);
 
     private String currentStatus = "ALL";
 
@@ -51,6 +51,7 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         pendingSupplierLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
         stockSupplierLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
         outStockSupplierLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
+        rejectedSupplierLabel.setLinkLabelFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 14f));
 
     }
 
@@ -73,7 +74,7 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         headerPanel.add(pendingSupplierLabel);
         headerPanel.add(stockSupplierLabel);
         headerPanel.add(outStockSupplierLabel);
-        headerPanel.add(buttonAdd);
+        headerPanel.add(rejectedSupplierLabel);
 
         contentPanel.add(scrollDataSupplier);
 
@@ -97,18 +98,12 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         stockSupplierLabel.setQuantity(quantityAllStockDataSupplier);
         outStockSupplierLabel = new linkLabel("Out Stock", 470, 40, 120, 30);
         outStockSupplierLabel.setQuantity(quantityAllOutStockDataSupplier);
-
-        buttonAdd = new buttonCustom("Add", 900, 35, 100, 40, 10);
+        rejectedSupplierLabel = new linkLabel("Rejected", 630, 40, 120, 30);
+        rejectedSupplierLabel.setQuantity(quantityAllRejectedDataSupplier);
 
     }
 
     private void setAction() {
-        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                parentView.showFormSupplier();
-            }
-        });
 
         allSupplierLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -142,6 +137,14 @@ public class supplierDashboardView extends contentPanel implements searchableVie
             }
         });
 
+        rejectedSupplierLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                currentStatus = "Rejected";
+                showRejectedSupplier();
+            }
+        });
+
     }
 
     private void resetLinkLabel() {
@@ -156,6 +159,10 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
         outStockSupplierLabel.setForeground(color.DARKGREEN);
         outStockSupplierLabel.setLabelInActive();
+
+        rejectedSupplierLabel.setForeground(color.DARKGREY);
+        rejectedSupplierLabel.setLabelInActive();
+
     }
 
     private void showAllSupplier() {
@@ -185,6 +192,13 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         outStockSupplierLabel.setForeground(color.DARKGREEN);
         outStockSupplierLabel.setLabelActive();
         loadOutStockSupplier();
+    }
+
+    private void showRejectedSupplier() {
+        resetLinkLabel();
+        rejectedSupplierLabel.setForeground(color.DARKGREEN);
+        rejectedSupplierLabel.setLabelActive();
+        loadRejectedSupplier();
     }
 
     private void loadAllSupplier() {
@@ -229,44 +243,8 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
             @Override
             public void onDelete(int row) {
-                try {
-
-                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
-
-                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            int selectedRow = dataSupplierTable.getSelectedRow();
-                            if (selectedRow != -1) {
-                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
-                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
-                                int quantity = 0;
-                                boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
-
-                                if (isSuccess) {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showSuccessPopUp("Success Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                } else {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showFailedPopUp("Failed Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                }
-
-                            }
-                        }
-                    });
-
-                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassNotificationPanel();
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                // Not implemented
+                System.out.println("Detail row: " + row);
             }
 
             @Override
@@ -277,14 +255,19 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
             @Override
             public void onApprove(int row) {
-                // Not implemented
-                System.out.println("Approve row: " + row);
+                int selectedRow = dataSupplierTable.getSelectedRow();
+                String stringId = dataSupplierTable.getValueAt(selectedRow, 0).toString();
+                int id = Integer.parseInt(stringId.replaceAll("[^0-9]", ""));
+
+                System.out.println("ID Supplier : " + id);
+
+                parentView.showPopUpEditStatusSupplier(id);
             }
         };
 
         dataSupplierTable = new tableActionButton(loadDataSupplier.getAllDataSupplier(), actionButton);
 
-        int actionColumnIndex = 6;
+        int actionColumnIndex = 8;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
                 .setCellRenderer(new buttonTableRenderer(buttonTypes));
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
@@ -343,44 +326,8 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
             @Override
             public void onDelete(int row) {
-                try {
-
-                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
-
-                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            int selectedRow = dataSupplierTable.getSelectedRow();
-                            if (selectedRow != -1) {
-                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
-                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
-                                int quantity = 0;
-                                boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
-
-                                if (isSuccess) {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showSuccessPopUp("Success Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                } else {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showFailedPopUp("Failed Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                }
-
-                            }
-                        }
-                    });
-
-                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassNotificationPanel();
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                // Not implemented
+                System.out.println("Detail row: " + row);
             }
 
             @Override
@@ -398,7 +345,7 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
         dataSupplierTable = new tableActionButton(loadDataSupplier.getAllPendingDataSupplier(), actionButton);
 
-        int actionColumnIndex = 6;
+        int actionColumnIndex = 8;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
                 .setCellRenderer(new buttonTableRenderer(buttonTypes));
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
@@ -456,44 +403,8 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
             @Override
             public void onDelete(int row) {
-                try {
-
-                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
-
-                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            int selectedRow = dataSupplierTable.getSelectedRow();
-                            if (selectedRow != -1) {
-                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
-                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
-                                int quantity = 0;
-                                boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
-
-                                if (isSuccess) {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showSuccessPopUp("Success Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                } else {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showFailedPopUp("Failed Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                }
-
-                            }
-                        }
-                    });
-
-                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassNotificationPanel();
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                // Not implemented
+                System.out.println("Detail row: " + row);
             }
 
             @Override
@@ -511,7 +422,7 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
         dataSupplierTable = new tableActionButton(loadDataSupplier.getAllStockDataSupplier(), actionButton);
 
-        int actionColumnIndex = 6;
+        int actionColumnIndex = 8;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
                 .setCellRenderer(new buttonTableRenderer(buttonTypes));
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
@@ -570,44 +481,8 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
             @Override
             public void onDelete(int row) {
-                try {
-
-                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
-
-                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            int selectedRow = dataSupplierTable.getSelectedRow();
-                            if (selectedRow != -1) {
-                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
-                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
-                                int quantity = 0;
-                                boolean isSuccess = authDataSupplier.deleteDataSupplier(idSupplier, quantity);
-
-                                if (isSuccess) {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showSuccessPopUp("Success Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                } else {
-                                    parentApp.hideGlassNotificationPanel();
-                                    parentView.showFailedPopUp("Failed Delete Data Delete");
-                                    parentView.showDashboardSupplier();
-                                }
-
-                            }
-                        }
-                    });
-
-                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent ae) {
-                            parentApp.hideGlassNotificationPanel();
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                // Not implemented
+                System.out.println("Detail row: " + row);
             }
 
             @Override
@@ -625,7 +500,85 @@ public class supplierDashboardView extends contentPanel implements searchableVie
 
         dataSupplierTable = new tableActionButton(loadDataSupplier.getAllOutStockDataSupplier(), actionButton);
 
-        int actionColumnIndex = 6;
+        int actionColumnIndex = 8;
+        dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellRenderer(new buttonTableRenderer(buttonTypes));
+        dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
+                .setCellEditor(new buttonTableEditor(actionButton, buttonTypes));
+
+        scrollDataSupplier = new scrollTable(dataSupplierTable, 0, 0, 1050, 410);
+
+        contentPanel.removeAll();
+        contentPanel.add(scrollDataSupplier);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+
+        setHeaderTableAllDataSupplier();
+
+    }
+
+    private void loadRejectedSupplier() {
+        actionButtonTable actionButton = new actionButtonTable() {
+            @Override
+            public void onEdit(int row) {
+                try {
+                    popUpConfrim messagePopUp = parentView.showConfrimPopUp("do you want to delete product data?");
+
+                    messagePopUp.getButtonConfrim().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            int selectedRow = dataSupplierTable.getSelectedRow();
+                            if (selectedRow != -1) {
+                                String stringIdSupplier = dataSupplierTable.getValueAt(selectedRow, 0).toString();
+                                int idSupplier = Integer.parseInt(stringIdSupplier.replaceAll("[^0-9]", ""));
+
+                                dataSupplier selectedDataSupplier = loadDataSupplier.getDataById(idSupplier);
+
+                                if (selectedDataSupplier != null) {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.setDataSupplierToEdit(selectedDataSupplier);
+                                    parentView.showFormSupplier();
+                                } else {
+                                    parentApp.hideGlassNotificationPanel();
+                                    parentView.showFailedPopUp("Data Supplier not found!");
+                                }
+                            }
+                        }
+                    });
+
+                    messagePopUp.getButtonCancel().addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent ae) {
+                            parentApp.hideGlassNotificationPanel();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDelete(int row) {
+                // Not implemented
+                System.out.println("Detail row: " + row);
+            }
+
+            @Override
+            public void onDetail(int row) {
+                // Not implemented
+                System.out.println("Detail row: " + row);
+            }
+
+            @Override
+            public void onApprove(int row) {
+                // Not implemented
+                System.out.println("Approve row: " + row);
+            }
+        };
+
+        dataSupplierTable = new tableActionButton(loadDataSupplier.getAllRejectedDataSupplier(), actionButton);
+
+        int actionColumnIndex = 8;
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
                 .setCellRenderer(new buttonTableRenderer(buttonTypes));
         dataSupplierTable.getColumnModel().getColumn(actionColumnIndex)
@@ -647,9 +600,17 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         dataSupplierTable.getColumnModel().getColumn(0).setMaxWidth(80);
         dataSupplierTable.getColumnModel().getColumn(0).setWidth(80);
 
+        dataSupplierTable.getColumnModel().getColumn(3).setMinWidth(100);
+        dataSupplierTable.getColumnModel().getColumn(3).setMaxWidth(100);
+        dataSupplierTable.getColumnModel().getColumn(3).setWidth(100);
+
         dataSupplierTable.getColumnModel().getColumn(4).setMinWidth(90);
         dataSupplierTable.getColumnModel().getColumn(4).setMaxWidth(90);
         dataSupplierTable.getColumnModel().getColumn(4).setWidth(90);
+
+        dataSupplierTable.getColumnModel().getColumn(7).setMinWidth(0);
+        dataSupplierTable.getColumnModel().getColumn(7).setMaxWidth(0);
+        dataSupplierTable.getColumnModel().getColumn(7).setWidth(0);
     }
 
     public void filterDataByKeyword(String keyword) {
@@ -662,7 +623,8 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         boolean filterByStatus = currentStatus != null &&
                 (currentStatus.equalsIgnoreCase("Pending") ||
                         currentStatus.equalsIgnoreCase("Ready") ||
-                        currentStatus.equalsIgnoreCase("Out of Stock"));
+                        currentStatus.equalsIgnoreCase("Out of Stock") ||
+                        currentStatus.equalsIgnoreCase("Rejected"));
 
         if (hasKeyword) {
             // Ada keyword dan status
@@ -683,11 +645,12 @@ public class supplierDashboardView extends contentPanel implements searchableVie
         for (dataSearchSupplier dataSupplier : supplierList) {
             model.addRow(new Object[] {
                     "NS00" + dataSupplier.getIdSupplier(),
-                    dataSupplier.getDate(),
+                    dataSupplier.getNameStaff(),
                     dataSupplier.getNameSupplier(),
                     dataSupplier.getQuantity(),
                     dataSupplier.getUnit(),
                     dataSupplier.getStatus(),
+                    dataSupplier.getDate(),
                     "Aksi"
             });
         }

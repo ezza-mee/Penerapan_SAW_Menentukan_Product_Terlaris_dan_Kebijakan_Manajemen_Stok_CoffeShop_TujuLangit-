@@ -67,6 +67,35 @@ public class loadDataStaff {
         return staffList;
     }
 
+    public static dataStaff getStaffById(int idStaff) {
+        dataStaff staff = null;
+        String query = "SELECT * FROM vwalldatastaff WHERE idStaff = ?";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idStaff);
+            ResultSet resultData = state.executeQuery();
+
+            if (resultData.next()) {
+                staff = new dataStaff(
+                        resultData.getInt("idStaff"),
+                        resultData.getString("date"),
+                        resultData.getString("name"),
+                        resultData.getString("Email"),
+                        resultData.getString("phoneNumber"),
+                        resultData.getString("gender"),
+                        resultData.getString("jobdesk"),
+                        resultData.getString("address"),
+                        resultData.getString("status"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return staff;
+    }
+
     public static ArrayList<dataStaff> getAllStaffByStatus(String status) {
         ArrayList<dataStaff> staffList = new ArrayList<>();
         String query = "SELECT * FROM vwalldatastaff";

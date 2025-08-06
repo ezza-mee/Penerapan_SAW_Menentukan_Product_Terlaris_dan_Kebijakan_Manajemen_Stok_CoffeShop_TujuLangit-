@@ -12,6 +12,7 @@ import com.main.components.*;
 import com.main.components.panelApps.contentPanel;
 import com.main.models.product.loadDataProduct;
 import com.main.models.rangking.loadDataRangking;
+import com.main.models.supplier.loadDataSupplier;
 import com.main.models.transaction.loadDataTransaction;
 import com.main.models.table.loadDataTable;
 import com.main.routes.dashboardStaffView;
@@ -28,7 +29,7 @@ public class homeDashboardView extends contentPanel {
     private panelRounded panelTransaction;
     private panelRounded panelDiagramTransaction;
 
-    private panelRounded panelSupplier;
+    private panelRounded panelSupplierRejected;
     private panelRounded panelSupplierPending;
     private panelRounded panelSupplierStock;
     private panelRounded panelSupplierOutOfStock;
@@ -44,20 +45,39 @@ public class homeDashboardView extends contentPanel {
     private textLabel valueHistoryTransaction;
     private textLabel valueTransaction;
 
+    private textLabel valueStock;
+    private textLabel valueOutStock;
+    private textLabel valuePending;
+    private textLabel valueRejected;
+
+    private textLabel labelSupplierStock;
+    private textLabel labelSupplierOutStock;
+    private textLabel labelSupplierPending;
+    private textLabel labelSupplierRejected;
+
     private appIcons appIcons = new appIcons();
 
     private imageIcon iconProduct = appIcons.getProductIconHover(55, 55);
     private imageIcon iconTable = appIcons.getTableIconHover(55, 55);
     private imageIcon iconHistoryTransaction = appIcons.getHistoryTransactionIconHover(55, 55);
     private imageIcon iconTransaction = appIcons.getTransactionIconHover(55, 55);
+    private imageIcon iconSupplierStock = appIcons.getSupplierIconHover(55, 55);
+    private imageIcon iconSupplierOutStock = appIcons.getSupplierIconHover(55, 55);
+    private imageIcon iconSupplierPending = appIcons.getSupplierIconHover(55, 55);
+    private imageIcon iconSupplierRejected = appIcons.getSupplierIconHover(55, 55);
 
     int idStaff = sessionLogin.get().getIdStaff();
 
-    private int quantyAllDataProduct = loadDataProduct.getAllQuantityDataProduct();
-    private int quantyAllDataTable = loadDataTable.getAllQuantityDataTable();
-    private int quantyAllDataHistoryTransaction = loadDataTransaction
+    private int quantityAllDataProduct = loadDataProduct.getAllQuantityDataProduct();
+    private int quantityAllDataTable = loadDataTable.getAllQuantityDataTable();
+    private int quantityAllDataHistoryTransaction = loadDataTransaction
             .getAllQuantityDataTransactionByStatusDone(idStaff);
-    private int quantyAllDataTransaction = loadDataTransaction.getAllQuantityDataTransactionByStatusProcess(idStaff);
+    private int quantityAllDataTransaction = loadDataTransaction.getAllQuantityDataTransactionByStatusProcess(idStaff);
+
+    private int quantityAllSupplierInStock = loadDataSupplier.getAllQuantityStockDataSupplier();
+    private int quantityAllSupplierOutStock = loadDataSupplier.getAllQuantityOutStockDataSupplier();
+    private int quantityAllSupplierPending = loadDataSupplier.getAllQuantityPendingDataSupplier();
+    private int quantityAllSupplierRejected = loadDataSupplier.getAllQuantityRejectedDataSupplier();
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private String today = sdf.format(new Date());
@@ -68,6 +88,11 @@ public class homeDashboardView extends contentPanel {
 
     private tableNoActionButton dataRangking;
     private scrollTable scrollDataRangking;
+
+    private tableNoActionButton dataSupplier;
+    private scrollTable scrollDataSupplier;
+
+    int idStaffSupplier = sessionLogin.get().getIdStaff();
 
     public homeDashboardView(dashboardStaffView parentView, Role role) {
         super();
@@ -110,7 +135,24 @@ public class homeDashboardView extends contentPanel {
             add(panelTransaction);
             add(panelDiagramTransaction);
         } else if (role == Role.SUPPLIER) {
-            add(panelSupplier);
+            panelSupplierStock.add(valueStock);
+            panelSupplierOutOfStock.add(valueOutStock);
+            panelSupplierPending.add(valuePending);
+            panelSupplierRejected.add(valueRejected);
+
+            panelSupplierStock.add(labelSupplierStock);
+            panelSupplierOutOfStock.add(labelSupplierOutStock);
+            panelSupplierPending.add(labelSupplierPending);
+            panelSupplierRejected.add(labelSupplierRejected);
+
+            panelSupplierStock.add(iconSupplierStock);
+            panelSupplierOutOfStock.add(iconSupplierOutStock);
+            panelSupplierPending.add(iconSupplierPending);
+            panelSupplierRejected.add(iconSupplierRejected);
+
+            panelDataSupplier.add(scrollDataSupplier);
+
+            add(panelSupplierRejected);
             add(panelSupplierPending);
             add(panelSupplierStock);
             add(panelSupplierOutOfStock);
@@ -133,10 +175,10 @@ public class homeDashboardView extends contentPanel {
         labelHistoryTransaction = new textLabel("History Transaction", 0, 10, 230, 40);
         labelTransaction = new textLabel("Data Transaction", 0, 10, 230, 40);
 
-        String stringDataProduct = String.valueOf(quantyAllDataProduct);
-        String stringDataTable = String.valueOf(quantyAllDataTable);
-        String stringDataHistoryTransaction = String.valueOf(quantyAllDataHistoryTransaction);
-        String stringDataTransaction = String.valueOf(quantyAllDataTransaction);
+        String stringDataProduct = String.valueOf(quantityAllDataProduct);
+        String stringDataTable = String.valueOf(quantityAllDataTable);
+        String stringDataHistoryTransaction = String.valueOf(quantityAllDataHistoryTransaction);
+        String stringDataTransaction = String.valueOf(quantityAllDataTransaction);
 
         valueProduct = new textLabel(stringDataProduct, 100, 45, 100, 80);
         valueTable = new textLabel(stringDataTable, 100, 45, 100, 80);
@@ -154,11 +196,37 @@ public class homeDashboardView extends contentPanel {
         scrollDataRangking = new scrollTable(dataRangking, 0, 80, 1050, 300);
 
         // content home for staff supplier
-        panelSupplier = new panelRounded(40, 40, 230, 150, 10, 10);
-        panelSupplierPending = new panelRounded(310, 40, 230, 150, 10, 10);
-        panelSupplierStock = new panelRounded(580, 40, 230, 150, 10, 10);
-        panelSupplierOutOfStock = new panelRounded(850, 40, 230, 150, 10, 10);
+        panelSupplierStock = new panelRounded(40, 40, 230, 150, 10, 10);
+        panelSupplierOutOfStock = new panelRounded(310, 40, 230, 150, 10, 10);
+        panelSupplierPending = new panelRounded(580, 40, 230, 150, 10, 10);
+        panelSupplierRejected = new panelRounded(850, 40, 230, 150, 10, 10);
         panelDataSupplier = new panelRounded(40, 230, 1040, 400, 10, 10);
+
+        iconSupplierStock.setBounds(20, 55, 55, 55);
+        iconSupplierOutStock.setBounds(20, 55, 55, 55);
+        iconSupplierPending.setBounds(20, 55, 55, 55);
+        iconSupplierRejected.setBounds(20, 55, 55, 55);
+
+        String stringDataStock = String.valueOf(quantityAllSupplierInStock);
+        String stringDataOutStock = String.valueOf(quantityAllSupplierOutStock);
+        String stringDataPending = String.valueOf(quantityAllSupplierPending);
+        String stringDataRejected = String.valueOf(quantityAllSupplierRejected);
+
+        labelSupplierStock = new textLabel("Supplier Stock", 0, 10, 230, 40);
+        labelSupplierOutStock = new textLabel("Supplier Out Of Stock", 0, 10, 230, 40);
+        labelSupplierPending = new textLabel("Supplier Pending", 0, 10, 230, 40);
+        labelSupplierRejected = new textLabel("Supplier Rejected", 0, 10, 230, 40);
+
+        valueStock = new textLabel(stringDataStock, 100, 45, 100, 80);
+        valueOutStock = new textLabel(stringDataOutStock, 100, 45, 100, 80);
+        valuePending = new textLabel(stringDataPending, 100, 45, 100, 80);
+        valueRejected = new textLabel(stringDataRejected, 100, 45, 100, 80);
+
+        dataSupplier = new tableNoActionButton(loadDataSupplier.getAllSupplierWithStaff(idStaffSupplier));
+        scrollDataSupplier = new scrollTable(dataSupplier, 0, 0, 1050, 400);
+
+        setHeaderTableRangking();
+        setHeaderTableSupplier();
 
     }
 
@@ -169,7 +237,7 @@ public class homeDashboardView extends contentPanel {
         panelTransaction.setBackground(color.WHITE);
         panelDiagramTransaction.setBackground(color.WHITE);
 
-        panelSupplier.setBackground(color.WHITE);
+        panelSupplierRejected.setBackground(color.WHITE);
         panelSupplierPending.setBackground(color.WHITE);
         panelSupplierStock.setBackground(color.WHITE);
         panelSupplierOutOfStock.setBackground(color.WHITE);
@@ -184,6 +252,16 @@ public class homeDashboardView extends contentPanel {
         valueTable.setForeground(color.DARKGREEN);
         valueHistoryTransaction.setForeground(color.DARKGREEN);
         valueTransaction.setForeground(color.DARKGREEN);
+
+        valueStock.setForeground(color.DARKGREEN);
+        valueOutStock.setForeground(color.DARKGREEN);
+        valuePending.setForeground(color.DARKGREEN);
+        valueRejected.setForeground(color.DARKGREEN);
+
+        labelSupplierStock.setForeground(color.DARKGREEN);
+        labelSupplierOutStock.setForeground(color.DARKGREEN);
+        labelSupplierPending.setForeground(color.DARKGREEN);
+        labelSupplierRejected.setForeground(color.DARKGREEN);
 
     }
 
@@ -207,6 +285,27 @@ public class homeDashboardView extends contentPanel {
         valueTable.setHorizontalAlignment(JLabel.CENTER);
         valueHistoryTransaction.setHorizontalAlignment(JLabel.CENTER);
         valueTransaction.setHorizontalAlignment(JLabel.CENTER);
+
+        valueStock.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 22f));
+        valueOutStock.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 22f));
+        valuePending.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 22f));
+        valueRejected.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 22f));
+
+        valueStock.setHorizontalAlignment(JLabel.CENTER);
+        valueOutStock.setHorizontalAlignment(JLabel.CENTER);
+        valuePending.setHorizontalAlignment(JLabel.CENTER);
+        valueRejected.setHorizontalAlignment(JLabel.CENTER);
+
+        labelSupplierStock.setHorizontalAlignment(JLabel.CENTER);
+        labelSupplierOutStock.setHorizontalAlignment(JLabel.CENTER);
+        labelSupplierPending.setHorizontalAlignment(JLabel.CENTER);
+        labelSupplierRejected.setHorizontalAlignment(JLabel.CENTER);
+
+        labelSupplierStock.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+        labelSupplierOutStock.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+        labelSupplierPending.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+        labelSupplierRejected.setFont(fontStyle.getFont(fontStyle.FontStyle.BOLD, 20f));
+
     }
 
     private void setAction() {
@@ -263,6 +362,26 @@ public class homeDashboardView extends contentPanel {
         dataRangking.getColumnModel().getColumn(4).setMinWidth(150);
         dataRangking.getColumnModel().getColumn(4).setMaxWidth(150);
         dataRangking.getColumnModel().getColumn(4).setWidth(150);
+    }
+
+    private void setHeaderTableSupplier() {
+
+        dataSupplier.getColumnModel().getColumn(0).setMinWidth(80);
+        dataSupplier.getColumnModel().getColumn(0).setMaxWidth(80);
+        dataSupplier.getColumnModel().getColumn(0).setWidth(80);
+
+        dataSupplier.getColumnModel().getColumn(1).setMinWidth(0);
+        dataSupplier.getColumnModel().getColumn(1).setMaxWidth(0);
+        dataSupplier.getColumnModel().getColumn(1).setWidth(0);
+
+        dataSupplier.getColumnModel().getColumn(2).setMinWidth(0);
+        dataSupplier.getColumnModel().getColumn(2).setMaxWidth(0);
+        dataSupplier.getColumnModel().getColumn(2).setWidth(0);
+
+        dataSupplier.getColumnModel().getColumn(8).setMinWidth(0);
+        dataSupplier.getColumnModel().getColumn(8).setMaxWidth(0);
+        dataSupplier.getColumnModel().getColumn(8).setWidth(0);
+
     }
 
 }

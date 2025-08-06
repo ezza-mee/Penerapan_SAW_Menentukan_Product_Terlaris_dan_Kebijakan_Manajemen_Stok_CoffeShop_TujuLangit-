@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import com.main.components.panelApps.contentPanel;
 import com.main.components.panelApps.headerPanel;
 import com.main.controller.searchableView;
+import com.main.auth.sessionLogin;
+import com.main.auth.sessionManager;
 import com.main.components.*;
 
 public class headerDashboardView extends headerPanel {
@@ -16,9 +18,19 @@ public class headerDashboardView extends headerPanel {
 
     private textField searchField;
 
+    private String nameStaff;
+
     public headerDashboardView(parentDashboardStaff parentDashboard) {
         super();
         this.parentDashboard = parentDashboard;
+
+        // ✅ Hindari error jika session belum di-set
+        if (sessionManager.getStaffData() != null) {
+            nameStaff = sessionManager.getStaffData().getName();
+        } else {
+            nameStaff = "User";
+            System.err.println("⚠️ sessionManager.getStaffData() null saat inisialisasi headerDashboardView");
+        }
         initContent();
     }
 
@@ -34,9 +46,9 @@ public class headerDashboardView extends headerPanel {
     }
 
     private void setPosition() {
-        welcomeLabel = new textLabel("Welcome", 40, 0, 100, 80);
+        welcomeLabel = new textLabel("Welcome" + "  , " + nameStaff, 40, 0, 400, 80);
 
-        searchField = new textField(400, 25, 400, 10);
+        searchField = new textField(600, 25, 400, 10);
         searchField.setPlaceholder("Search");
 
         searchField.addKeyListener(new KeyAdapter() {

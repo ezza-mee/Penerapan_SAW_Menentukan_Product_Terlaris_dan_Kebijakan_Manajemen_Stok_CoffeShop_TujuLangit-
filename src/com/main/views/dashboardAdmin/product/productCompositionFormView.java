@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.main.components.panelApps.contentPanel;
-import com.main.models.entity.dataSupplier;
+import com.main.models.entity.dataSupplierReady;
 import com.main.models.entity.listCompositionData;
 import com.main.routes.dashboardAdminView;
 import com.main.services.authDataProduct;
@@ -33,7 +33,7 @@ public class productCompositionFormView extends contentPanel {
     private textField quantityIngredientField;
 
     private comboBox<String> unitIngredientField;
-    private comboBox<dataSupplier> ingredientField;
+    private comboBox<dataSupplierReady> ingredientField;
 
     private buttonCustom buttonBack, buttonReset, buttonAdd, buttonSave;
 
@@ -118,14 +118,14 @@ public class productCompositionFormView extends contentPanel {
         quantityEmptyLabel = new textLabel("quantity is Empty", 100, 185, 300, 80);
         unitEmptyLabel = new textLabel("Ingredient is Empty", 100, 290, 300, 80);
 
-        List<dataSupplier> supplierList = authDataSupplier.loadDataSupplier();
+        List<dataSupplierReady> supplierList = authDataSupplier.loadDataSupplier();
 
         if (supplierList.isEmpty()) {
-            supplierList.add(new dataSupplier(0, "Tidak ada data supplier", 0, "", ""));
+            supplierList.add(new dataSupplierReady(0, "Tidak ada data supplier", 0, "", ""));
         }
 
         ingredientField = new comboBox<>(
-                supplierList.toArray(new dataSupplier[0]),
+                supplierList.toArray(new dataSupplierReady[0]),
                 100, 80, 400, 30, 10);
 
         String ingredientPlaceholder = "Select Ingredient";
@@ -137,7 +137,7 @@ public class productCompositionFormView extends contentPanel {
                 if (index == -1 && value == null) {
                     setText(ingredientPlaceholder);
                     setForeground(color.DARKGREY);
-                } else if (value instanceof dataSupplier supplier) {
+                } else if (value instanceof dataSupplierReady supplier) {
                     setText(supplier.getNameSupplier());
                     setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
                     setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
@@ -241,7 +241,7 @@ public class productCompositionFormView extends contentPanel {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
                         for (int i = 0; i < ingredientField.getItemCount(); i++) {
-                            dataSupplier supplierItem = (dataSupplier) ingredientField.getItemAt(i);
+                            dataSupplierReady supplierItem = (dataSupplierReady) ingredientField.getItemAt(i);
                             if (supplierItem.getIdSupplier() == data.getIdSupplier()) {
                                 ingredientField.setSelectedIndex(i);
                                 break;
@@ -310,7 +310,7 @@ public class productCompositionFormView extends contentPanel {
             public void actionPerformed(java.awt.event.ActionEvent ae) {
                 try {
                     // Ambil input
-                    dataSupplier selectedSupplier = (dataSupplier) ingredientField.getSelectedItem();
+                    dataSupplierReady selectedSupplier = (dataSupplierReady) ingredientField.getSelectedItem();
                     String stringQuantity = quantityIngredientField.getText().trim();
                     String unit = (String) unitIngredientField.getSelectedItem();
 
@@ -451,7 +451,7 @@ public class productCompositionFormView extends contentPanel {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
                         for (int i = 0; i < ingredientField.getItemCount(); i++) {
-                            dataSupplier supplierItem = (dataSupplier) ingredientField.getItemAt(i);
+                            dataSupplierReady supplierItem = (dataSupplierReady) ingredientField.getItemAt(i);
                             if (supplierItem.getIdSupplier() == data.getIdSupplier()) {
                                 ingredientField.setSelectedIndex(i);
                                 break;

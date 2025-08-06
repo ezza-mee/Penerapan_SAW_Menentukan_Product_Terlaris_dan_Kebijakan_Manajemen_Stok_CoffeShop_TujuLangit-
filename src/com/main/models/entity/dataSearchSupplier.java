@@ -3,24 +3,26 @@ package com.main.models.entity;
 public class dataSearchSupplier {
     private int idSupplier;
     private double quantity;
-    private String date, nameSupplier, unit, status;
+    private String nameStaff, nameSupplier, unit, status, date, dateApprove;
 
-    public dataSearchSupplier(int idSupplier, String date, String nameSupplier, double quantity, String unit,
-            String status) {
+    public dataSearchSupplier(int idSupplier, String nameStaff, String nameSupplier, double quantity, String unit,
+            String status, String date, String dateApprove) {
         this.idSupplier = idSupplier;
-        this.date = date;
+        this.nameStaff = nameStaff;
         this.nameSupplier = nameSupplier;
         this.quantity = quantity;
         this.unit = unit;
         this.status = status;
+        this.date = date;
+        this.dateApprove = dateApprove;
     }
 
     public int getIdSupplier() {
         return idSupplier;
     }
 
-    public String getDate() {
-        return date;
+    public String getNameStaff() {
+        return nameStaff;
     }
 
     public String getNameSupplier() {
@@ -37,6 +39,14 @@ public class dataSearchSupplier {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getDateApprove() {
+        return dateApprove;
     }
 
     @Override

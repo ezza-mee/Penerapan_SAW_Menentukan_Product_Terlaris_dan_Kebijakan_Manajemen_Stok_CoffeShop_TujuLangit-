@@ -6,9 +6,14 @@ import com.main.auth.utils.Role;
 import com.main.components.color;
 import com.main.components.panelApps.containerPanel;
 import com.main.components.panelApps.contentPanel;
+import com.main.models.entity.dataSupplier;
 import com.main.models.entity.listTransactionProduct;
+import com.main.views.dashboardStaff.supplier.supplierDashboardView;
+import com.main.views.dashboardStaff.supplier.supplierFormView;
 import com.main.views.dashboardStaff.homeDashboardView;
 import com.main.views.dashboardStaff.parentDashboardStaff;
+import com.main.views.dashboardStaff.Report.reportCashierDashboardView;
+import com.main.views.dashboardStaff.Report.reportSupplierDashboardView;
 import com.main.views.dashboardStaff.historyTransaction.historyTransactionDashboardView;
 import com.main.views.dashboardStaff.product.productDashboardView;
 import com.main.views.dashboardStaff.table.tableDashboardView;
@@ -27,6 +32,8 @@ public class dashboardStaffView extends containerPanel {
     private parentDashboardStaff parentDashboard;
     private mainFrame parentApp;
     private contentPanel lastContent;
+
+    private dataSupplier dataSupplierToEdit = null;
 
     public dashboardStaffView(mainFrame parentApp, Role role) {
         super();
@@ -78,6 +85,42 @@ public class dashboardStaffView extends containerPanel {
         parentDashboard.setContent(historyTransaction);
     }
 
+    public void showPopUpEditStatusTable(int idTable) {
+        popUpEditStatusTable popUp = new popUpEditStatusTable(parentApp, this, idTable);
+        parentApp.showFormPopUp(popUp);
+        parentDashboard.setContent(restoreLastContent());
+    }
+
+    public void showDashboardSupplier() {
+        supplierDashboardView dashboardSupplier = new supplierDashboardView(parentApp, this);
+        lastContent = dashboardSupplier;
+        parentDashboard.setContent(dashboardSupplier);
+    }
+
+    public void showFormSupplier() {
+        supplierFormView formSupplier = new supplierFormView(this);
+
+        if (dataSupplierToEdit != null) {
+            formSupplier.setFormSupplier(dataSupplierToEdit);
+            dataSupplierToEdit = null;
+        }
+
+        lastContent = formSupplier;
+        parentDashboard.setContent(formSupplier);
+    }
+
+    public void showDashboardReportCashier() {
+        reportSupplierDashboardView dashboardReport = new reportSupplierDashboardView();
+        lastContent = dashboardReport;
+        parentDashboard.setContent(dashboardReport);
+    }
+
+    public void showDashboardReportSupplier() {
+        reportCashierDashboardView dashboardReport = new reportCashierDashboardView();
+        lastContent = dashboardReport;
+        parentDashboard.setContent(dashboardReport);
+    }
+
     public void showSuccessPopUp(String message) {
         popUpSuccess popUp = new popUpSuccess(parentApp);
         popUp.setNotificationMessage(message);
@@ -108,12 +151,6 @@ public class dashboardStaffView extends containerPanel {
         parentDashboard.setContent(restoreLastContent());
     }
 
-    public void showPopUpEditStatusTable(int idTable) {
-        popUpEditStatusTable popUp = new popUpEditStatusTable(parentApp, this, idTable);
-        parentApp.showFormPopUp(popUp);
-        parentDashboard.setContent(restoreLastContent());
-    }
-
     public void showLogoutApp() {
         parentDashboard.setContent(restoreLastContent());
         parentApp.showNotificationPopUp(new popUpLogout(parentApp, role));
@@ -127,4 +164,9 @@ public class dashboardStaffView extends containerPanel {
         parentDashboard.getNavbar().showHomeView();
         lastContent = null;
     }
+
+    public void setDataSupplierToEdit(dataSupplier dataSupplier) {
+        this.dataSupplierToEdit = dataSupplier;
+    }
+
 }

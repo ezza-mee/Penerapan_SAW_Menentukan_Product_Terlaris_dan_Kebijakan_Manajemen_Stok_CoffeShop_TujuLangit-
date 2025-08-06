@@ -12,14 +12,16 @@ import javax.swing.table.DefaultTableModel;
 import com.main.models.connectionDatabase;
 import com.main.models.entity.dataSearchSupplier;
 import com.main.models.entity.dataSupplier;
+import com.main.models.entity.dataSupplierReady;
 
 public class loadDataSupplier {
     public static DefaultTableModel getAllDataSupplier() {
 
-        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+        String[] dataHeader = { "ID", "Staff", "Supplier", "Quantity", "Unit", "Status", "Date",
+                "Date Approve", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatasupplier";
+        String query = "SELECT * FROM vwalldatasupplierwithstaff";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -27,12 +29,14 @@ public class loadDataSupplier {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "SU00" + resultData.getInt("idSupplier"),
-                        resultData.getString("date"),
+                        "NS00" + resultData.getInt("idSupplier"),
+                        resultData.getString("nameStaff"),
                         resultData.getString("nameSupplier"),
                         resultData.getDouble("quantity"),
                         resultData.getString("unit"),
-                        resultData.getString("status") };
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove") };
                 tm.addRow(rowData);
             }
         } catch (Exception e) {
@@ -41,12 +45,49 @@ public class loadDataSupplier {
         return tm;
     }
 
+    public static DefaultTableModel getAllSupplierWithStaff(int idStaff) {
+
+        String[] dataHeader = { "ID", "ID Staff", "Staff", "Supplier", "Quantity", "Unit", "Status", "Date",
+                "Date Approve" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        String query = "SELECT * FROM vwalldatasupplierwithstaff WHERE idStaff = ?";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            state.setInt(1, idStaff);
+
+            ResultSet resultData = state.executeQuery();
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "NS00" + resultData.getInt("idSupplier"),
+                        resultData.getInt("idStaff"),
+                        resultData.getString("nameStaff"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove")
+                };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+    }
+
     public static DefaultTableModel getAllStockDataSupplier() {
 
-        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+        String[] dataHeader = { "ID", "Staff", "Supplier", "Quantity", "Unit", "Status", "Date",
+                "Date Approve", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Ready' ";
+        String query = "SELECT * FROM vwalldatasupplierwithstaff WHERE status = 'Ready' ";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -54,12 +95,14 @@ public class loadDataSupplier {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "SU00" + resultData.getInt("idSupplier"),
-                        resultData.getString("date"),
+                        "NS00" + resultData.getInt("idSupplier"),
+                        resultData.getString("nameStaff"),
                         resultData.getString("nameSupplier"),
                         resultData.getDouble("quantity"),
                         resultData.getString("unit"),
-                        resultData.getString("status") };
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove") };
                 tm.addRow(rowData);
             }
         } catch (Exception e) {
@@ -70,10 +113,11 @@ public class loadDataSupplier {
 
     public static DefaultTableModel getAllOutStockDataSupplier() {
 
-        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+        String[] dataHeader = { "ID", "Staff", "Supplier", "Quantity", "Unit", "Status", "Date",
+                "Date Approve", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Out of Stock' ";
+        String query = "SELECT * FROM vwalldatasupplierwithstaff WHERE status = 'Out of Stock' ";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -81,12 +125,14 @@ public class loadDataSupplier {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "SU00" + resultData.getInt("idSupplier"),
-                        resultData.getString("date"),
+                        "NS00" + resultData.getInt("idSupplier"),
+                        resultData.getString("nameStaff"),
                         resultData.getString("nameSupplier"),
                         resultData.getDouble("quantity"),
                         resultData.getString("unit"),
-                        resultData.getString("status") };
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove") };
                 tm.addRow(rowData);
             }
         } catch (Exception e) {
@@ -97,10 +143,11 @@ public class loadDataSupplier {
 
     public static DefaultTableModel getAllPendingDataSupplier() {
 
-        String[] dataHeader = { "ID", "Date", "Supplier", "Quantity", "Unit", "Status", "Aksi" };
+        String[] dataHeader = { "ID", "Staff", "Supplier", "Quantity", "Unit", "Status", "Date",
+                "Date Approve", "Aksi" };
 
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-        String query = "SELECT * FROM vwalldatasupplier WHERE status = 'Process' ";
+        String query = "SELECT * FROM vwalldatasupplierwithstaff WHERE status = 'Processing' ";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
 
@@ -108,12 +155,14 @@ public class loadDataSupplier {
 
             while (resultData.next()) {
                 Object[] rowData = {
-                        "SU00" + resultData.getInt("idSupplier"),
-                        resultData.getString("date"),
+                        "NS00" + resultData.getInt("idSupplier"),
+                        resultData.getString("nameStaff"),
                         resultData.getString("nameSupplier"),
                         resultData.getDouble("quantity"),
                         resultData.getString("unit"),
-                        resultData.getString("status") };
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove") };
                 tm.addRow(rowData);
             }
         } catch (Exception e) {
@@ -122,8 +171,38 @@ public class loadDataSupplier {
         return tm;
     }
 
-    public static List<dataSupplier> getAllReadySupplierNames() {
-        List<dataSupplier> supplierNames = new ArrayList<>();
+    public static DefaultTableModel getAllRejectedDataSupplier() {
+
+        String[] dataHeader = { "ID", "Staff", "Supplier", "Quantity", "Unit", "Status", "Date",
+                "Date Approve", "Aksi" };
+
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+        String query = "SELECT * FROM vwalldatasupplierwithstaff WHERE status = 'Processsing' ";
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement state = conn.prepareStatement(query)) {
+
+            ResultSet resultData = state.executeQuery(query);
+
+            while (resultData.next()) {
+                Object[] rowData = {
+                        "NS00" + resultData.getInt("idSupplier"),
+                        resultData.getString("nameStaff"),
+                        resultData.getString("nameSupplier"),
+                        resultData.getDouble("quantity"),
+                        resultData.getString("unit"),
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove") };
+                tm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tm;
+    }
+
+    public static List<dataSupplierReady> getAllReadySupplierNames() {
+        List<dataSupplierReady> supplierNames = new ArrayList<>();
         String query = "SELECT DISTINCT idSupplier, nameSupplier FROM vwalldatasupplier WHERE status = 'Ready' ";
 
         try (Connection conn = connectionDatabase.getConnection();
@@ -134,7 +213,7 @@ public class loadDataSupplier {
                 int idSupplier = rs.getInt("idSupplier");
                 String nameSupplier = rs.getString("nameSupplier");
 
-                supplierNames.add(new dataSupplier(idSupplier, nameSupplier, 0, "", ""));
+                supplierNames.add(new dataSupplierReady(idSupplier, nameSupplier, 0, "", ""));
             }
 
         } catch (SQLException e) {
@@ -155,6 +234,7 @@ public class loadDataSupplier {
             if (rs.next()) {
                 return new dataSupplier(
                         rs.getInt("idSupplier"),
+                        rs.getInt("idStaff"),
                         rs.getString("nameSupplier"),
                         rs.getDouble("quantity"),
                         rs.getString("unit"),
@@ -168,7 +248,7 @@ public class loadDataSupplier {
 
     public static ArrayList<dataSearchSupplier> getAllSupplier() {
         ArrayList<dataSearchSupplier> supplierList = new ArrayList<>();
-        String query = "SELECT * FROM vwalldatasupplier";
+        String query = "SELECT * FROM vwalldatasupplierwithstaff";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
@@ -177,11 +257,13 @@ public class loadDataSupplier {
             while (resultData.next()) {
                 dataSearchSupplier dataSupplier = new dataSearchSupplier(
                         resultData.getInt("idSupplier"),
-                        resultData.getString("date"),
+                        resultData.getString("nameStaff"),
                         resultData.getString("nameSupplier"),
                         resultData.getDouble("quantity"),
                         resultData.getString("unit"),
-                        resultData.getString("status"));
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove"));
                 supplierList.add(dataSupplier);
             }
         } catch (Exception e) {
@@ -194,7 +276,7 @@ public class loadDataSupplier {
 
     public static ArrayList<dataSearchSupplier> getAllSupplierByStatus(String status) {
         ArrayList<dataSearchSupplier> supplierList = new ArrayList<>();
-        String query = "SELECT * FROM vwalldatasupplier";
+        String query = "SELECT * FROM vwalldatasupplierwithstaff";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query)) {
@@ -205,11 +287,13 @@ public class loadDataSupplier {
             while (resultData.next()) {
                 dataSearchSupplier dataSupplier = new dataSearchSupplier(
                         resultData.getInt("idSupplier"),
-                        resultData.getString("date"),
+                        resultData.getString("nameStaff"),
                         resultData.getString("nameSupplier"),
                         resultData.getDouble("quantity"),
                         resultData.getString("unit"),
-                        resultData.getString("status"));
+                        resultData.getString("status"),
+                        resultData.getString("date"),
+                        resultData.getString("dateApprove"));
                 supplierList.add(dataSupplier);
             }
         } catch (Exception e) {
@@ -240,7 +324,7 @@ public class loadDataSupplier {
 
     public static int getAllQuantityPendingDataSupplier() {
         int total = 0;
-        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE status = 'Process' ";
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE status = 'Processing' ";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query);
@@ -277,6 +361,24 @@ public class loadDataSupplier {
     public static int getAllQuantityOutStockDataSupplier() {
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE LOWER(status) = 'Out of Stock' ";
+
+        try (Connection conn = connectionDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public static int getAllQuantityRejectedDataSupplier() {
+        int total = 0;
+        String query = "SELECT COUNT(*) AS total FROM tbl_data_supplier WHERE LOWER(status) = 'Rejected' ";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query);

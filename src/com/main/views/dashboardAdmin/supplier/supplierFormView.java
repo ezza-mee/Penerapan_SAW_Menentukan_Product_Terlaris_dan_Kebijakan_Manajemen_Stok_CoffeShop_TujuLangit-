@@ -32,6 +32,8 @@ public class supplierFormView extends contentPanel {
 
     private int supplierIdToEdit = -1;
 
+    private int staffIdToEdit = -1;
+
     public supplierFormView(dashboardAdminView parentView) {
         super();
         this.parentView = parentView;
@@ -137,6 +139,7 @@ public class supplierFormView extends contentPanel {
         descriptionField.setText(dataSupplier.getDescription());
 
         supplierIdToEdit = dataSupplier.getIdSupplier();
+        staffIdToEdit = dataSupplier.getIdStaff();
     }
 
     private void handleButton() {
@@ -190,26 +193,19 @@ public class supplierFormView extends contentPanel {
                             break;
 
                         case "VALID":
-                            boolean success = false;
-                            double quantity = Double.parseDouble(stringQuantity);
-                            if (supplierIdToEdit == -1) {
-                                success = authDataSupplier.insertDataSupplier(nameSupplier, quantity, unit,
-                                        description);
+                            if (supplierIdToEdit != -1) {
+                                double quantity = Double.parseDouble(stringQuantity);
+                                boolean success = authDataSupplier.updateDataSupplier(
+                                        supplierIdToEdit, staffIdToEdit,
+                                        nameSupplier, quantity, unit, description);
                                 if (success) {
                                     parentView.showDashboardSupplier();
-                                    parentView.showSuccessPopUp("Data Supplier Successfully Saved");
-                                } else {
-                                    parentView.showFailedPopUp("Failed to Save Data Supplier");
-                                }
-                            } else {
-                                success = authDataSupplier.updateDataSupplier(supplierIdToEdit, nameSupplier, quantity,
-                                        unit, description);
-                                if (success) {
-                                    parentView.showDashboardSupplier();
-                                    parentView.showSuccessPopUp("Data Supplier Successfully Update");
+                                    parentView.showSuccessPopUp("Data Supplier Successfully Updated");
                                 } else {
                                     parentView.showFailedPopUp("Failed to Update Data Supplier");
                                 }
+                            } else {
+                                parentView.showFailedPopUp("No Supplier selected to update");
                             }
                             break;
                     }

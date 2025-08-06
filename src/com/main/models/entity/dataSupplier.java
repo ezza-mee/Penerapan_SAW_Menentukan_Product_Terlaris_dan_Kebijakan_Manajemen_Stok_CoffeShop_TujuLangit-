@@ -2,11 +2,13 @@ package com.main.models.entity;
 
 public class dataSupplier {
     private int idSupplier;
+    private int idStaff;
     private double quantity;
     private String nameSupplier, unit, description;
 
-    public dataSupplier(int idSupplier, String nameSupplier, double quantity, String unit, String description) {
+    public dataSupplier(int idSupplier, int idStaff, String nameSupplier, double quantity, String unit, String description) {
         this.idSupplier = idSupplier;
+        this.idStaff = idStaff;
         this.nameSupplier = nameSupplier;
         this.quantity = quantity;
         this.unit = unit;
@@ -15,6 +17,10 @@ public class dataSupplier {
 
     public int getIdSupplier() {
         return idSupplier;
+    }
+
+    public int getIdStaff() {
+        return idStaff;
     }
 
     public String getNameSupplier() {
