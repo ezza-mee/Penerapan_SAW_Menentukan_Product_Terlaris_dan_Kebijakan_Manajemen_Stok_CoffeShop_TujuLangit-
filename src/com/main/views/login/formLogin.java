@@ -7,10 +7,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 
 import com.main.auth.sessionLogin;
+import com.main.auth.sessionManager;
 import com.main.auth.utils.Role;
 import com.main.components.*;
 import com.main.components.panelApps.containerPanel;
 import com.main.models.entity.accountDataStaff;
+import com.main.models.entity.dataStaff;
+import com.main.models.staff.loadDataStaff;
 import com.main.routes.loginView;
 import com.main.routes.mainFrame;
 import com.main.services.authLogin;
@@ -133,7 +136,8 @@ public class formLogin extends containerPanel {
     }
 
     private void setColor() {
-        cardPanel.setOpaque(false);
+        wrapperPanel.setBackground(color.WHITE);
+        cardPanel.setBackground(color.WHITE);
         shapeOne.setBackground(color.DARKGREEN);
         shapeTwo.setBackground(color.GREEN);
         shapeThree.setBackground(color.GREENLIGHT);
@@ -260,6 +264,9 @@ public class formLogin extends containerPanel {
                         // System.out.println("Jobdesk: " + sessionLogin.get().getJobdesk()); // Harus
                         // tampil!
 
+                        int idStaff = sessionLogin.get().getIdStaff();
+                        dataStaff staffData = loadDataStaff.getStaffById(idStaff);
+                        sessionManager.setStaffData(staffData);
                         Role role = sessionLogin.getRole();
                         parentView.loginSuccess(role);
                         break;

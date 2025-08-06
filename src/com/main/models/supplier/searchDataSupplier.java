@@ -16,9 +16,9 @@ public class searchDataSupplier {
         ArrayList<dataSearchSupplier> listSupplier = new ArrayList<>();
         try {
             Connection conn = connectionDatabase.getConnection();
-            String query = "SELECT * FROM vwalldatasupplier " +
+            String query = "SELECT * FROM vwalldatasupplierwithstaff " +
                     "WHERE idSupplier LIKE ? OR date LIKE ? OR LOWER(nameSupplier) LIKE ? " +
-                    "OR quantity LIKE ? OR unit LIKE ? OR LOWER(status) = ? " ;
+                    "OR quantity LIKE ? OR unit LIKE ? OR LOWER(status) = ? ";
             PreparedStatement stmt = conn.prepareStatement(query);
             String pattern = "%" + keyword + "%";
 
@@ -32,11 +32,13 @@ public class searchDataSupplier {
             while (rs.next()) {
                 dataSearchSupplier supplier = new dataSearchSupplier(
                         rs.getInt("idSupplier"),
-                        rs.getString("date"),
+                        rs.getString("nameStaff"),
                         rs.getString("nameSupplier"),
                         rs.getDouble("quantity"),
                         rs.getString("unit"),
-                        rs.getString("status"));
+                        rs.getString("status"),
+                        rs.getString("date"),
+                        rs.getString("dateApprove"));
                 listSupplier.add(supplier);
             }
 
@@ -54,7 +56,7 @@ public class searchDataSupplier {
         ArrayList<dataSearchSupplier> listSupplier = new ArrayList<>();
         try {
             Connection conn = connectionDatabase.getConnection();
-            String query = "SELECT * FROM vwalldatasupplier " +
+            String query = "SELECT * FROM vwalldatasupplierwithstaff " +
                     "WHERE (CAST(idSupplier AS CHAR) LIKE ? OR date LIKE ? OR LOWER(nameSupplier) LIKE ? " +
                     "OR CAST(quantity AS CHAR) LIKE ? OR unit LIKE ?) " +
                     "AND LOWER(status) = ?";
@@ -76,11 +78,13 @@ public class searchDataSupplier {
             while (rs.next()) {
                 dataSearchSupplier supplier = new dataSearchSupplier(
                         rs.getInt("idSupplier"),
-                        rs.getString("date"),
+                        rs.getString("nameStaff"),
                         rs.getString("nameSupplier"),
                         rs.getDouble("quantity"),
                         rs.getString("unit"),
-                        rs.getString("status"));
+                        rs.getString("status"),
+                        rs.getString("date"),
+                        rs.getString("dateApprove"));
                 listSupplier.add(supplier);
             }
 

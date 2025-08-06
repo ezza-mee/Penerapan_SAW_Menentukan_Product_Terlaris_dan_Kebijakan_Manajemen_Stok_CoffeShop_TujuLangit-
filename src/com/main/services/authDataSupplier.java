@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.main.models.entity.dataSearchSupplier;
 import com.main.models.entity.dataSupplier;
+import com.main.models.entity.dataSupplierReady;
 import com.main.models.supplier.deleteSupplier;
 import com.main.models.supplier.insertSupplier;
 import com.main.models.supplier.loadDataSupplier;
@@ -28,30 +29,36 @@ public class authDataSupplier {
     }
 
     public static boolean insertDataSupplier(
+            int idStaff,
             String nameSupplier,
             double quantity,
             String unitSupplier,
             String description) {
 
-        return insertSupplier.insertData(nameSupplier, quantity, unitSupplier, description);
+        return insertSupplier.insertData(idStaff, nameSupplier, quantity, unitSupplier, description);
     }
 
     public static boolean updateDataSupplier(
             int supplierId,
+            int idStaff,
             String nameSupplier,
             double quantity,
             String unitSupplier,
             String description) {
 
-        return updateSupplier.updateData(supplierId, nameSupplier, quantity, unitSupplier, description);
+        return updateSupplier.updateData(supplierId, idStaff, nameSupplier, quantity, unitSupplier, description);
     }
 
     public static boolean deleteDataSupplier(int supplierId, double quantity) {
         return deleteSupplier.deleteData(supplierId, quantity);
     }
 
-    public static List<dataSupplier> loadDataSupplier() {
+    public static List<dataSupplierReady> loadDataSupplier() {
         return loadDataSupplier.getAllReadySupplierNames();
+    }
+
+    public static boolean updateStatusSupplier(int idSupplier, String status) {
+        return updateSupplier.approveSupplier(idSupplier, status);
     }
 
     public String validateSupplierInput(String nameSupplier, String quantity, String unitSupplier, String description) {

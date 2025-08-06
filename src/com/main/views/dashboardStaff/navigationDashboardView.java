@@ -36,6 +36,14 @@ public class navigationDashboardView extends navigationPanel {
 
     );
 
+    private navigation navSupplier = new navigation(
+            appIcons.getSupplierIconDefault(30, 30),
+            appIcons.getSupplierIconHover(30, 30),
+            "Supplier",
+            150 + 50
+
+    );
+
     private navigation navTable = new navigation(
             appIcons.getTableIconDefault(30, 30),
             appIcons.getTableIconHover(30, 30),
@@ -60,11 +68,27 @@ public class navigationDashboardView extends navigationPanel {
 
     );
 
+    private navigation navReportSupplier = new navigation(
+            appIcons.getReportIconDefault(30, 30),
+            appIcons.getReportIconHover(30, 30),
+            "Report",
+            150 + 50 + 50 
+
+    );
+
+    private navigation navReportCashier = new navigation(
+            appIcons.getReportIconDefault(30, 30),
+            appIcons.getReportIconHover(30, 30),
+            "Report",
+            150 + 50 + 50 + 50 + 50 + 50
+
+    );
+
     private navigation navLogout = new navigation(
             appIcons.getLogoutIconDefault(30, 30),
             appIcons.getLogoutIconHover(30, 30),
             "Logout",
-            150 + 50 + 50 + 50 + 50 + 50
+            150 + 50 + 50 + 50 + 50 + 50 + 50
 
     );
 
@@ -89,6 +113,18 @@ public class navigationDashboardView extends navigationPanel {
         navHistoryTransaction.setBackground(color.DARKGREEN);
         navHistoryTransaction.setNavigationInAktif();
 
+        navSupplier.setForeground(color.WHITE);
+        navSupplier.setBackground(color.DARKGREEN);
+        navSupplier.setNavigationInAktif();
+
+        navReportCashier.setForeground(color.WHITE);
+        navReportCashier.setBackground(color.DARKGREEN);
+        navReportCashier.setNavigationInAktif();
+
+        navReportSupplier.setForeground(color.WHITE);
+        navReportSupplier.setBackground(color.DARKGREEN);
+        navReportSupplier.setNavigationInAktif();
+
         navLogout.setForeground(color.WHITE);
         navLogout.setBackground(color.DARKGREEN);
         navLogout.setNavigationInAktif();
@@ -111,10 +147,13 @@ public class navigationDashboardView extends navigationPanel {
             add(navTable);
             add(navTransaction);
             add(navHistoryTransaction);
+            add(navReportCashier);
             add(navLogout);
         } else if (role == Role.SUPPLIER) {
             add(navHome);
-            navLogout.setBounds(0, 150 + 50 + 50, 240, 50);
+            add(navSupplier);
+            add(navReportSupplier);
+            navLogout.setBounds(0, 150 + 50 + 50 + 50, 240, 50);
             add(navLogout);
         }
 
@@ -145,6 +184,13 @@ public class navigationDashboardView extends navigationPanel {
             }
         });
 
+        navSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showSupplierView();
+            }
+        });
+
         navTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
@@ -163,6 +209,20 @@ public class navigationDashboardView extends navigationPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent me) {
                 showHistoryTransactionView();
+            }
+        });
+
+        navReportCashier.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showReportCashierView();
+            }
+        });
+
+        navReportSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent me) {
+                showReportSupplierView();
             }
         });
 
@@ -231,6 +291,42 @@ public class navigationDashboardView extends navigationPanel {
         navHistoryTransaction.setNavigationAktif();
 
         contentView.showDashboardHistoryTransaction();
+
+        setVisible(true);
+    }
+
+    public void showSupplierView() {
+        resetNavigation();
+
+        navSupplier.setForeground(color.DARKGREEN);
+        navSupplier.setBackground(color.WHITE);
+        navSupplier.setNavigationAktif();
+
+        contentView.showDashboardSupplier();
+
+        setVisible(true);
+    }
+
+    public void showReportCashierView() {
+        resetNavigation();
+
+        navReportCashier.setForeground(color.DARKGREEN);
+        navReportCashier.setBackground(color.WHITE);
+        navReportCashier.setNavigationAktif();
+
+        contentView.showDashboardReportCashier();
+
+        setVisible(true);
+    }
+
+    public void showReportSupplierView() {
+        resetNavigation();
+
+        navReportSupplier.setForeground(color.DARKGREEN);
+        navReportSupplier.setBackground(color.WHITE);
+        navReportSupplier.setNavigationAktif();
+
+        contentView.showDashboardReportSupplier();
 
         setVisible(true);
     }

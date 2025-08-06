@@ -7,18 +7,20 @@ import java.sql.SQLException;
 import com.main.models.connectionDatabase;
 
 public class insertSupplier {
-    public static boolean insertData(String nameSupplier, double quantity, String unitSupplier, String description) {
+    public static boolean insertData(int idStaff, String nameSupplier, double quantity, String unitSupplier,
+            String description) {
         boolean data = false;
 
-        String query = "INSERT INTO tbl_data_supplier (date, nameSupplier, quantity, unit, description, status) VALUES (now(), ?, ?, ?, ?, 'Ready')";
+        String query = "INSERT INTO tbl_data_supplier (idstaff, nameSupplier, quantity, unit, description, status, date) VALUES (?, ?, ?, ?, ?, 'Processing', now())";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement state = conn.prepareStatement(query);) {
 
-            state.setString(1, nameSupplier);
-            state.setDouble(2, quantity);
-            state.setString(3, unitSupplier);
-            state.setString(4, description);
+            state.setInt(1, idStaff);
+            state.setString(2, nameSupplier);
+            state.setDouble(3, quantity);
+            state.setString(4, unitSupplier);
+            state.setString(5, description);
 
             if (state.executeUpdate() > 0) {
                 data = true;
