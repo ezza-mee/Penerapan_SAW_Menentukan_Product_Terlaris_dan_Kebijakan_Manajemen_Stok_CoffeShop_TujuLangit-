@@ -2,12 +2,14 @@ package com.main.models.staff;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.main.models.connectionDatabase;
 
 public class insertStaff {
-    public static boolean insertData(String nameStaff, String email, String phoneNumber, String gender, String jobdesk, String address) {
+    public static boolean insertData(String nameStaff, String email, String phoneNumber, String gender, String jobdesk,
+            String address) {
         boolean data = false;
 
         String query = "INSERT INTO tbl_data_staff (date, name, email, phoneNumber, gender, jobdesk, address, status) VALUES (now(), ?, ?, ?, ?, ?, ?, 'Inactive')";
@@ -50,7 +52,7 @@ public class insertStaff {
             int affectedRows = state.executeUpdate();
 
             if (affectedRows > 0) {
-                try (var rs = state.getGeneratedKeys()) {
+                try (ResultSet rs = state.getGeneratedKeys()) {
                     if (rs.next()) {
                         return rs.getInt(1);
                     }
@@ -68,12 +70,15 @@ public class insertStaff {
         String query = "SELECT COUNT(*) FROM tbl_data_staff WHERE email = ? and idStaff != ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
+
             stmt.setString(1, email);
             stmt.setInt(2, idStaff);
-            var rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,12 +89,15 @@ public class insertStaff {
         String query = "SELECT COUNT(*) FROM tbl_data_staff WHERE phoneNumber = ? and idStaff != ?";
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
+
             stmt.setString(1, phone);
             stmt.setInt(2, idStaff);
-            var rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

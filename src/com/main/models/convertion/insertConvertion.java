@@ -2,12 +2,14 @@ package com.main.models.convertion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.main.models.connectionDatabase;
 
 public class insertConvertion {
-    public static boolean insertData(int idComposition, String formUnit, String toUnit, double multiplier, String description) {
+    public static boolean insertData(int idComposition, String formUnit, String toUnit, double multiplier,
+            String description) {
         boolean success = false;
 
         String query = "INSERT INTO tbl_unit_convertion (idConvertion, date, formUnit, toUnit, multiplier, description) VALUES (?, NOW(), ?, ?, ?, ?)";
@@ -48,7 +50,7 @@ public class insertConvertion {
     private static int getNextId(Connection conn) throws SQLException {
         String sql = "SELECT MAX(idConvertion) AS maxId FROM tbl_unit_convertion";
         try (PreparedStatement stmt = conn.prepareStatement(sql);
-                var rs = stmt.executeQuery()) {
+                ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt("maxId") + 1;
             }

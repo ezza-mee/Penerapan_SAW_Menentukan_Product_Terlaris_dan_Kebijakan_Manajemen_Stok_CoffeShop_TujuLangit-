@@ -22,14 +22,13 @@ public class processStokUsage {
             }
 
             // Step 1: Ambil data komposisi bahan
-            String compositionQuery = """
-                        SELECT c.idComposition, c.idSupplier, c.nameProduct, c.supplier,
-                               c.quantity AS compositionQuantity, c.unit AS compositionUnit,
-                               s.quantity AS supplierStock, s.unit AS supplierUnit, s.nameSupplier
-                        FROM tbl_data_composition_product c
-                        JOIN tbl_data_supplier s ON s.idSupplier = c.idSupplier
-                        WHERE c.idProduct = ?
-                    """;
+            String compositionQuery = "SELECT c.idComposition, c.idSupplier, c.nameProduct, c.supplier,\n" +
+                    "       c.quantity AS compositionQuantity, c.unit AS compositionUnit,\n" +
+                    "       s.quantity AS supplierStock, s.unit AS supplierUnit, s.nameSupplier\n" +
+                    "FROM tbl_data_composition_product c\n" +
+                    "JOIN tbl_data_supplier s ON s.idSupplier = c.idSupplier\n" +
+                    "WHERE c.idProduct = ?";
+
             PreparedStatement ps = conn.prepareStatement(compositionQuery);
             ps.setInt(1, idProduct);
             ResultSet rs = ps.executeQuery();
@@ -78,11 +77,11 @@ public class processStokUsage {
                 updateStmt.executeUpdate();
 
                 // Insert usage log
-                String insertLogQuery = """
-                            INSERT INTO tbl_supplier_usage_log
-                            (idSupplier, idProduct, idComposition, idTransaction, date, ingredient, amountUsed, unit, product)
-                            VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?)
-                        """;
+                String insertLogQuery = "INSERT INTO tbl_supplier_u\n" +
+                        "(idSupplier, idProduct, idComposition, idTransaction, date, ingredient, amountUsed, unit, product)\n"
+                        +
+                        "VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?)";
+
                 PreparedStatement logStmt = conn.prepareStatement(insertLogQuery);
                 logStmt.setInt(1, idSupplier);
                 logStmt.setInt(2, idProduct);

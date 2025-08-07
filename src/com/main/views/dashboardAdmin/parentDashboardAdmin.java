@@ -18,11 +18,12 @@ public class parentDashboardAdmin extends containerPanel {
     private contentPanel currentContent;
 
     private headerPanel headerPanel = new headerPanel();
-    private headerDashboardView contentHeader;
+ 
     private navigationPanel navigationPanel = new navigationPanel();
     private contentContainer contentContainer = new contentContainer();
 
     private navigationDashboardView navBar;
+    private headerDashboardView contentHeader;
 
     private textLabel copyRight;
 
@@ -51,7 +52,7 @@ public class parentDashboardAdmin extends containerPanel {
         setPosition();
         setColor();
         setFont();
-        handleAction();
+        setAction();
 
         headerPanel.add(contentHeader);
 
@@ -83,7 +84,7 @@ public class parentDashboardAdmin extends containerPanel {
         copyRight.setHorizontalAlignment(JLabel.CENTER);
     }
 
-    private void handleAction() {
+    private void setAction() {
         headerPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

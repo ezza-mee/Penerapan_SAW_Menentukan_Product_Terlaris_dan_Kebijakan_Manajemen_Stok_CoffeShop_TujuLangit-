@@ -148,7 +148,8 @@ public class calculationDashboardView extends contentPanel {
 
         dataAlternatif.setModel(modelAlternatif);
 
-        if (dataAlternatif instanceof tableNoActionButton customTable) {
+        if (dataAlternatif instanceof tableNoActionButton) {
+            tableNoActionButton customTable = (tableNoActionButton) dataAlternatif;
             customTable.applyCustomStyle();
         }
 
@@ -165,7 +166,8 @@ public class calculationDashboardView extends contentPanel {
 
         dataNormalisation.setModel(modelNormalisation);
 
-        if (dataNormalisation instanceof tableNoActionButton customTable) {
+        if (dataNormalisation instanceof tableNoActionButton) {
+            tableNoActionButton customTable = (tableNoActionButton) dataNormalisation;
             customTable.applyCustomStyle();
         }
 
@@ -182,7 +184,8 @@ public class calculationDashboardView extends contentPanel {
 
         dataRangking.setModel(modelRangking);
 
-        if (dataRangking instanceof tableNoActionButton customTable) {
+        if (dataRangking instanceof tableNoActionButton) {
+            tableNoActionButton customTable = (tableNoActionButton) dataRangking;
             customTable.applyCustomStyle();
         }
 
