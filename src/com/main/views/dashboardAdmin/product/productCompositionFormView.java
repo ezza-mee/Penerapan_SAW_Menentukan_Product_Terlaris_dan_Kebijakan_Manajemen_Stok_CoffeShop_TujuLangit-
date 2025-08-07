@@ -137,7 +137,8 @@ public class productCompositionFormView extends contentPanel {
                 if (index == -1 && value == null) {
                     setText(ingredientPlaceholder);
                     setForeground(color.DARKGREY);
-                } else if (value instanceof dataSupplierReady supplier) {
+                } else if (value instanceof dataSupplierReady) {
+                    dataSupplierReady supplier = (dataSupplierReady) value;
                     setText(supplier.getNameSupplier());
                     setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
                     setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());

@@ -203,7 +203,8 @@ public class homeDashboardView extends contentPanel {
 
         dataRangking.setModel(modelRangking);
 
-        if (dataRangking instanceof tableNoActionButton customTable) {
+        if (dataRangking instanceof tableNoActionButton) {
+            tableNoActionButton customTable = (tableNoActionButton) dataRangking;
             customTable.applyCustomStyle();
         }
 

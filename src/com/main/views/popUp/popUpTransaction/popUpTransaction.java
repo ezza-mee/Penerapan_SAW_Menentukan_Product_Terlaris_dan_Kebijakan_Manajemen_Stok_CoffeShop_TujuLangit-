@@ -117,8 +117,9 @@ public class popUpTransaction extends popUpPanel {
                 if (index == -1 && value == null) {
                     setText(numbertablePlaceHolder);
                     setForeground(color.DARKGREY);
-                } else if (value instanceof dataTable dataTable) {
-                    setText(dataTable.getNumber());
+                } else if (value instanceof dataTable) {
+                    dataTable dt = (dataTable) value;
+                    setText(dt.getNumber());
                     setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
                     setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
                 } else {

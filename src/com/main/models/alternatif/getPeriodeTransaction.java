@@ -13,18 +13,16 @@ public class getPeriodeTransaction {
     public static String getPeriodeByTransaction(int idTransaction) {
         String periode = null;
 
-        String query = """
-                SELECT DISTINCT
-                    DATE(dt.date) AS periode,
-                    dt.idTransaction,
-                    ddt.idProduct,
-                    da.idAlternatif
-                FROM tbl_data_transaction dt
-                JOIN tbl_detail_transaction ddt ON dt.idTransaction = ddt.idTransaction
-                JOIN tbl_data_alternatif da ON ddt.idProduct = da.idProduct
-                WHERE dt.idTransaction = ?
-                LIMIT 1
-                """;
+        String query = "SELECT DISTINCT\n" +
+                "    DATE(dt.date) AS periode,\n" +
+                "    dt.idTransaction,\n" +
+                "    ddt.idProduct,\n" +
+                "    da.idAlternatif\n" +
+                "FROM tbl_data_transaction dt\n" +
+                "JOIN tbl_detail_transaction ddt ON dt.idTransaction = ddt.idTransaction\n" +
+                "JOIN tbl_data_alternatif da ON ddt.idProduct = da.idProduct\n" +
+                "WHERE dt.idTransaction = ?\n" +
+                "LIMIT 1";
 
         try (Connection conn = connectionDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
