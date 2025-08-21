@@ -123,7 +123,9 @@ public class popUpInputAccountStaff extends popUpPanel {
 
         emailLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
         passwordLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
+        passwordField.setPlaceholder("Enter Your Password");
         confirmPasswordLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 15f));
+        confirmPasswordField.setPlaceholder("Confirm Your Password");
 
         emailEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
         passwordEmptyLabel.setFont(fontStyle.getFont(fontStyle.FontStyle.SEMIBOLD, 10f));
@@ -222,7 +224,8 @@ public class popUpInputAccountStaff extends popUpPanel {
                 boolean result;
                 if (isEditMode) {
                     // UPDATE
-                    result = authDataStaff.updateStaffWithAccount(idStaff, name, email, phoneNumber, gender, jobdesk, address, emailAccount, password);
+                    result = authDataStaff.updateStaffWithAccount(idStaff, name, email, phoneNumber, gender, jobdesk,
+                            address, emailAccount, password);
                 } else {
                     // INSERT
                     result = authDataStaff.insertStaffWithAccount(
